@@ -1,0 +1,343 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS — Izzat Design System
+   Base: Linear · Stripe · Airbnb · Arc
+   ═══════════════════════════════════════════ */
+:root {
+  /* Core palette */
+  --bg:          #0b1624;
+  --card:        #122039;
+  --card-hover:  #162843;
+  --border:      #1e3356;
+  --border-bright: #2a4a7a;
+  --gold:        #c9a84c;
+  --gold-dim:    #c9a84c22;
+  --gray:        #64748b;
+  --text:        #e8edf5;
+  --text-dim:    #94a3b8;
+
+  /* Shadows & glow */
+  --shadow-card:       0 2px 12px rgba(0, 0, 0, 0.35);
+  --shadow-card-hover: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --glow-gold:         0 0 24px rgba(201, 168, 76, 0.25);
+  --glow-green:        0 0 24px rgba(16, 185, 129, 0.2);
+  --glow-blue:         0 0 24px rgba(59, 130, 246, 0.2);
+
+  /* Radius — regra estrita: card=16px, ui=12px, badge=999px */
+  --r-card:  16px;
+  --r-ui:    12px;
+  --r-sm:    8px;
+  --r-badge: 999px;
+
+  /* Transitions */
+  --t-fast:   150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --t-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --t-slow:   400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ═══════════════════════════════════════════
+   BASE
+   ═══════════════════════════════════════════ */
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-inter, "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  min-height: 100vh;
+  transition: background 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* { box-sizing: border-box; }
+
+/* Transição global em elementos interativos */
+button, a, input, select, textarea {
+  transition: all var(--t-fast);
+}
+button:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+/* ═══════════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════════ */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--card); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+/* ═══════════════════════════════════════════
+   UTILITY CLASSES — Cards
+   ═══════════════════════════════════════════ */
+.card-base {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-card);
+  transition: background var(--t-fast), border-color var(--t-fast), box-shadow var(--t-fast), transform var(--t-fast);
+}
+.card-base:hover {
+  background: var(--card-hover);
+  border-color: var(--border-bright);
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-1px);
+}
+.card-inner {
+  background: #0a1a2e;
+  border: 1px solid var(--border);
+  border-radius: var(--r-ui);
+}
+
+/* ═══════════════════════════════════════════
+   UTILITY CLASSES — Buttons
+   ═══════════════════════════════════════════ */
+.btn-primary {
+  background: var(--gold);
+  color: #0b1624;
+  border-radius: var(--r-ui);
+  font-weight: 700;
+  font-size: 13px;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-primary:hover {
+  box-shadow: var(--glow-gold);
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: var(--r-ui);
+  font-size: 13px;
+  padding: 7px 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-ghost:hover {
+  background: var(--card-hover);
+  border-color: var(--border-bright);
+  color: var(--text);
+}
+
+.btn-danger {
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: var(--r-ui);
+  font-size: 12px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.btn-danger:hover {
+  background: rgba(239, 68, 68, 0.22);
+}
+
+/* ═══════════════════════════════════════════
+   UTILITY CLASSES — Typography
+   ═══════════════════════════════════════════ */
+.text-page-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+}
+
+.text-kpi {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: var(--text);
+  line-height: 1;
+}
+.text-kpi-gold {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.text-section-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gray);
+}
+
+.text-value {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+/* ═══════════════════════════════════════════
+   UTILITY CLASSES — Gradientes (Stripe-inspired)
+   ═══════════════════════════════════════════ */
+.gradient-hero-gold {
+  position: relative;
+}
+.gradient-hero-gold::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(201, 168, 76, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.gradient-hero-green {
+  position: relative;
+}
+.gradient-hero-green::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.gradient-accent-top {
+  border-top: 1px solid;
+  border-image: linear-gradient(90deg, transparent, var(--gold), transparent) 1;
+}
+
+/* ═══════════════════════════════════════════
+   UTILITY CLASSES — Input/Select
+   ═══════════════════════════════════════════ */
+.input-base {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r-ui);
+  color: var(--text);
+  font-size: 13px;
+  padding: 8px 12px;
+  outline: none;
+  font-family: inherit;
+}
+.input-base:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-dim);
+}
+.input-base::placeholder {
+  color: var(--gray);
+}
+
+/* ═══════════════════════════════════════════
+   ANIMAÇÕES
+   ═══════════════════════════════════════════ */
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes cloudFloat {
+  0%, 100% { transform: translateX(0px); }
+  50%       { transform: translateX(3px); }
+}
+@keyframes rainDrop {
+  0%        { opacity: 0; transform: translateY(-4px); }
+  20%, 80%  { opacity: 0.9; }
+  100%      { opacity: 0; transform: translateY(10px); }
+}
+@keyframes snowFlake {
+  0%   { opacity: 0; transform: translateY(-4px) rotate(0deg); }
+  20%, 80% { opacity: 0.85; }
+  100% { opacity: 0; transform: translateY(10px) rotate(180deg); }
+}
+@keyframes lightningFlash {
+  0%, 89%, 100% { opacity: 0; }
+  91%, 95%      { opacity: 1; }
+}
+@keyframes fogDrift {
+  0%, 100% { transform: translateX(0px); opacity: 0.6; }
+  50%      { transform: translateX(4px); opacity: 1; }
+}
+@keyframes onboardingPulse {
+  0%, 100% { box-shadow: 0 0 0 0 #c9a84c60, 0 0 0 4px #c9a84c30; }
+  50%       { box-shadow: 0 0 0 6px #c9a84c20, 0 0 0 12px #c9a84c08; }
+}
+@keyframes shimmer {
+  from { background-position: -200% center; }
+  to   { background-position: 200% center; }
+}
+
+.animate-fade-in     { animation: fadeIn 0.15s ease-out; }
+.animate-fade-in-up  { animation: fadeInUp 0.2s ease-out; }
+.animate-scale-in    { animation: scaleIn 0.18s ease-out; }
+.onboarding-pulse    { animation: onboardingPulse 1.8s ease-in-out infinite; }
+
+/* Shimmer no texto (KPI hero) */
+.text-shimmer {
+  background: linear-gradient(
+    105deg,
+    var(--gold) 0%,
+    #f0d070 40%,
+    var(--gold) 60%,
+    #e8c060 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.6);
+  cursor: pointer;
+}
+
+/* ═══════════════════════════════════════════
+   TYPOGRAPHY OVERRIDES — eleva todos os h1 de página
+   Sem tocar cada arquivo individualmente
+   ═══════════════════════════════════════════ */
+h1.text-2xl {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  line-height: 1.15;
+}
+h1.text-2xl.font-bold {
+  font-weight: 800;
+}
+
+/* Todos os headers de seção (p com uppercase tracking) */
+p.text-xs.font-semibold.uppercase,
+p.text-xs.font-bold.uppercase {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+}
+
+/* Cards hover padrão — aplica em qualquer div com rounded-2xl que tenha cursor pointer ou seja Link */
+a.rounded-2xl,
+a.rounded-xl {
+  transition: transform 150ms cubic-bezier(0.4,0,0.2,1), box-shadow 150ms cubic-bezier(0.4,0,0.2,1), opacity 150ms cubic-bezier(0.4,0,0.2,1);
+}
+a.rounded-2xl:hover,
+a.rounded-xl:hover {
+  transform: translateY(-1px);
+}

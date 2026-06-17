@@ -1,0 +1,167 @@
+export interface Tema {
+  id: string;
+  nome: string;
+  descricao: string;
+  bg: string;
+  card: string;
+  elevated: string;
+  border: string;
+  gold: string;
+  goldDim: string;
+  text: string;
+  textMuted: string;
+  gray: string;
+  dark: boolean;
+  preview: [string, string, string];
+}
+
+export const TEMAS: Tema[] = [
+  {
+    id: "izzat",
+    nome: "Izzat Dark",
+    descricao: "O original. Azul profundo com ouro.",
+    bg: "#0b1624",
+    card: "#122039",
+    elevated: "#1e3356",
+    border: "#1e3356",
+    gold: "#c9a84c",
+    goldDim: "#c9a84c22",
+    text: "#e8edf5",
+    textMuted: "#94a3b8",
+    gray: "#64748b",
+    dark: true,
+    preview: ["#0b1624", "#122039", "#c9a84c"],
+  },
+  {
+    id: "amethyst",
+    nome: "Amatista",
+    descricao: "Roxo profundo com violeta.",
+    bg: "#0d0618",
+    card: "#1a0b2e",
+    elevated: "#2d1a4a",
+    border: "#3b2060",
+    gold: "#8b5cf6",
+    goldDim: "#8b5cf622",
+    text: "#e8edf5",
+    textMuted: "#c4b5fd",
+    gray: "#7c6fa0",
+    dark: true,
+    preview: ["#0d0618", "#1a0b2e", "#8b5cf6"],
+  },
+  {
+    id: "ocean",
+    nome: "Oceano",
+    descricao: "Azul profundo com ciano.",
+    bg: "#04101e",
+    card: "#0a1c30",
+    elevated: "#122840",
+    border: "#1a3550",
+    gold: "#0ea5e9",
+    goldDim: "#0ea5e922",
+    text: "#e0f2fe",
+    textMuted: "#7dd3fc",
+    gray: "#4a7fa0",
+    dark: true,
+    preview: ["#04101e", "#0a1c30", "#0ea5e9"],
+  },
+  {
+    id: "forest",
+    nome: "Floresta",
+    descricao: "Verde escuro com esmeralda.",
+    bg: "#061712",
+    card: "#0c2819",
+    elevated: "#163d26",
+    border: "#1e5235",
+    gold: "#10b981",
+    goldDim: "#10b98122",
+    text: "#d1fae5",
+    textMuted: "#6ee7b7",
+    gray: "#4a8a6a",
+    dark: true,
+    preview: ["#061712", "#0c2819", "#10b981"],
+  },
+  {
+    id: "crimson",
+    nome: "Carmesim",
+    descricao: "Vermelho escuro com laranja.",
+    bg: "#1a0808",
+    card: "#2e1212",
+    elevated: "#421a1a",
+    border: "#5a2020",
+    gold: "#f97316",
+    goldDim: "#f9731622",
+    text: "#fee2e2",
+    textMuted: "#fca5a5",
+    gray: "#8a5050",
+    dark: true,
+    preview: ["#1a0808", "#2e1212", "#f97316"],
+  },
+  {
+    id: "quente",
+    nome: "Quente",
+    descricao: "Ambar profundo. Confortavel para longas sessoes.",
+    bg: "#160d00",
+    card: "#261600",
+    elevated: "#3d2400",
+    border: "#5c3a00",
+    gold: "#f59e0b",
+    goldDim: "#f59e0b22",
+    text: "#fef3c7",
+    textMuted: "#fcd34d",
+    gray: "#92680a",
+    dark: true,
+    preview: ["#160d00", "#261600", "#f59e0b"],
+  },
+  {
+    id: "sepia",
+    nome: "Sepia",
+    descricao: "Tom papel antigo. Minimo de luz azul.",
+    bg: "#1c1610",
+    card: "#2a1f15",
+    elevated: "#3d2e1e",
+    border: "#56412c",
+    gold: "#c49a45",
+    goldDim: "#c49a4522",
+    text: "#f5e6c8",
+    textMuted: "#c9b48a",
+    gray: "#8a7050",
+    dark: true,
+    preview: ["#1c1610", "#2a1f15", "#c49a45"],
+  },
+  {
+    id: "rosa",
+    nome: "Rosa",
+    descricao: "Rosa escuro com magenta vibrante.",
+    bg: "#140810",
+    card: "#22102a",
+    elevated: "#341840",
+    border: "#4a2058",
+    gold: "#ec4899",
+    goldDim: "#ec489922",
+    text: "#fce7f3",
+    textMuted: "#f9a8d4",
+    gray: "#90508a",
+    dark: true,
+    preview: ["#140810", "#22102a", "#ec4899"],
+  },
+  {
+    id: "light",
+    nome: "Claro",
+    descricao: "Modo branco. Limpo e minimalista.",
+    bg: "#f0f4f8",
+    card: "#ffffff",
+    elevated: "#e8edf5",
+    border: "#d1dce8",
+    gold: "#c9a84c",
+    goldDim: "#c9a84c18",
+    text: "#0f172a",
+    textMuted: "#475569",
+    gray: "#94a3b8",
+    dark: false,
+    preview: ["#f0f4f8", "#ffffff", "#c9a84c"],
+  },
+];
+
+export function getTema(id: string): Tema {
+  return TEMAS.find((t) => t.id === id) ?? TEMAS[0];
+}
