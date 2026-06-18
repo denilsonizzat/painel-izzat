@@ -36,7 +36,6 @@ const NAV_SECTIONS = [
     adminItems: [
       { href: "/equipe", label: "Equipe", icon: Users, desc: "Perfis do time: rotinas, nível, contato, salário e Google Chat de cada pessoa" },
       { href: "/rotinas", label: "Rotinas", icon: RefreshCw, desc: "Gerenciar todas as rotinas do time: criar, editar e delegar por frequência" },
-      { href: "/vagas", label: "Vagas & Pendências", icon: Briefcase, desc: "Rotinas sem responsável e necessidades de contratação" },
       { href: "/semana", label: "Semana do Time", icon: CalendarDays, desc: "Visão semanal: entregas, status e quem está em dia ou travado" },
     ],
   },
@@ -51,13 +50,14 @@ const NAV_SECTIONS = [
     ],
   },
   {
-    label: "Financeiro",
-    emoji: "💰",
+    label: "Controle Geral",
+    emoji: "🎛️",
     items: [],
     adminItems: [
       { href: "/gastos", label: "Custos da Equipe", icon: DollarSign, desc: "Salários e custos relacionados à mão de obra do time" },
       { href: "/gastos-operacoes", label: "Custos Operacionais", icon: Receipt, desc: "Custos de operação por loja: ads, ferramentas, IA e plataforma" },
       { href: "/custo-total", label: "Custo Total", icon: Wallet, desc: "Soma dos custos da equipe + operações = quanto custa manter o grupo Izzat" },
+      { href: "/vagas", label: "Vagas & Pendências", icon: Briefcase, desc: "Rotinas sem responsável e necessidades de contratação do grupo" },
     ],
   },
   {
