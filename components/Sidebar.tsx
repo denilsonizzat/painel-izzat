@@ -20,33 +20,33 @@ const NAV_SECTIONS = [
     label: "Principal",
     emoji: "🏠",
     items: [
-      { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-      { href: "/tarefas", label: "Tarefas", icon: ListTodo },
+      { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, desc: "Visão geral: progresso do time, KPIs, acesso rápido às ferramentas e stories da equipe" },
+      { href: "/tarefas", label: "Tarefas", icon: ListTodo, desc: "Tudo que você precisa fazer: Hoje, Rotinas (por frequência) e Avulsas" },
     ],
   },
   {
     label: "Equipe",
     emoji: "👥",
     items: [
-      { href: "/atividade", label: "Atividade", icon: Activity },
-      { href: "/regras", label: "Regras", icon: BookMarked },
-      { href: "/formulario", label: "Formulário", icon: ClipboardList },
+      { href: "/atividade", label: "Atividade", icon: Activity, desc: "Histórico do que o time fez: conclusões, check-ins e XP ganho ao longo do tempo" },
+      { href: "/regras", label: "Regras", icon: BookMarked, desc: "Regras da empresa em 3 níveis: inegociável, recomendado e maleável" },
+      { href: "/formulario", label: "Formulário", icon: ClipboardList, desc: "Formulário de acompanhamento que cada colaborador preenche" },
     ],
     adminItems: [
-      { href: "/equipe", label: "Equipe", icon: Users },
-      { href: "/rotinas", label: "Rotinas", icon: RefreshCw },
-      { href: "/vagas", label: "Vagas & Pendências", icon: Briefcase },
-      { href: "/semana", label: "Semana do Time", icon: CalendarDays },
+      { href: "/equipe", label: "Equipe", icon: Users, desc: "Perfis do time: rotinas, nível, contato, salário e Google Chat de cada pessoa" },
+      { href: "/rotinas", label: "Rotinas", icon: RefreshCw, desc: "Gerenciar todas as rotinas do time: criar, editar e delegar por frequência" },
+      { href: "/vagas", label: "Vagas & Pendências", icon: Briefcase, desc: "Rotinas sem responsável e necessidades de contratação" },
+      { href: "/semana", label: "Semana do Time", icon: CalendarDays, desc: "Visão semanal: entregas, status e quem está em dia ou travado" },
     ],
   },
   {
     label: "Lojas",
     emoji: "🏪",
     items: [
-      { href: "/lojas", label: "Lojas", icon: Store },
+      { href: "/lojas", label: "Lojas", icon: Store, desc: "Todas as lojas do grupo e parceiras: dados, Drive, rotinas e risco operacional" },
     ],
     adminItems: [
-      { href: "/catalogo", label: "Produtos", icon: PackageSearch },
+      { href: "/catalogo", label: "Produtos", icon: PackageSearch, desc: "Kanban de produtos: pipeline de validação do cadastro até a distribuição" },
     ],
   },
   {
@@ -54,17 +54,17 @@ const NAV_SECTIONS = [
     emoji: "💰",
     items: [],
     adminItems: [
-      { href: "/gastos", label: "Custos da Equipe", icon: DollarSign },
-      { href: "/gastos-operacoes", label: "Custos Operacionais", icon: Receipt },
-      { href: "/custo-total", label: "Custo Total", icon: Wallet },
+      { href: "/gastos", label: "Custos da Equipe", icon: DollarSign, desc: "Salários e custos relacionados à mão de obra do time" },
+      { href: "/gastos-operacoes", label: "Custos Operacionais", icon: Receipt, desc: "Custos de operação por loja: ads, ferramentas, IA e plataforma" },
+      { href: "/custo-total", label: "Custo Total", icon: Wallet, desc: "Soma dos custos da equipe + operações = quanto custa manter o grupo Izzat" },
     ],
   },
   {
     label: "Pessoal",
     emoji: "🌙",
     items: [
-      { href: "/sono", label: "Sono", icon: Moon },
-      { href: "/desafios", label: "Desafios", icon: Trophy },
+      { href: "/sono", label: "Sono", icon: Moon, desc: "Registre seu sono e acompanhe consistência e horas dormidas (privado, só você vê)" },
+      { href: "/desafios", label: "Desafios", icon: Trophy, desc: "Seu progresso (XP, nível, streak) e os desafios do time com check-in diário" },
     ],
   },
 ];
@@ -376,7 +376,7 @@ export default function Sidebar() {
                     if (href === "/formulario") return !isAdmin && !usuarioAtual?.formulario;
                     return true;
                   })
-                  .map(({ href, label, icon: Icon }) => {
+                  .map(({ href, label, icon: Icon, desc }: { href: string; label: string; icon: typeof LayoutDashboard; desc?: string }) => {
                   const ativo = pathname === href || pathname.startsWith(href + "/");
                   const badge = href === "/tarefas" && isAdmin ? tarefasParaRevisar : 0;
                   const sidebarBadge = href === "/tarefas" && !isAdmin ? minhasTarefasAbertas
@@ -399,7 +399,7 @@ export default function Sidebar() {
                         transition: "all 150ms cubic-bezier(0.4,0,0.2,1)",
                         boxShadow: ativo ? "0 0 0 1px #c9a84c20 inset" : "none",
                       }}
-                      title={isCollapsed ? label : undefined}
+                      title={isCollapsed ? `${label} — ${desc ?? ""}` : desc}
                       onMouseEnter={(e) => {
                         if (!ativo) {
                           (e.currentTarget as HTMLElement).style.background = "#1e334560";

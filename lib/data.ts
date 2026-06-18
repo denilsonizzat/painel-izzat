@@ -242,6 +242,7 @@ export interface Subtarefa {
   titulo: string;
   concluida: boolean;
   colaboradorId?: string; // sub-responsável (rotina que envolve várias pessoas)
+  descricao?: string;     // observação / passo a passo da subtarefa
 }
 
 export interface RegistroSono {

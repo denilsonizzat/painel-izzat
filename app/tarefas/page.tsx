@@ -2,16 +2,16 @@
 import { useState, useEffect } from "react";
 import { useAppStore } from "@/lib/store";
 import { LOJAS, Prioridade, Tarefa, MembroTarefa } from "@/lib/data";
-import { Plus, X, CheckCircle2, Clock, Circle, MessageSquare, Send, AlertTriangle, Zap, ChevronDown, ChevronUp, Users, MessageCircle, Phone, Eye, Trash2, RefreshCw, ListTodo, CalendarCheck } from "lucide-react";
+import { Plus, X, CheckCircle2, Clock, Circle, MessageSquare, Send, AlertTriangle, Zap, ChevronDown, ChevronUp, Users, MessageCircle, Phone, Eye, Trash2, RefreshCw, ListTodo, Sparkles } from "lucide-react";
 import Avatar from "@/components/Avatar";
 import Tooltip from "@/components/Tooltip";
 import BackButton from "@/components/BackButton";
 import Image from "next/image";
 import { useNotifications } from "@/hooks/useNotifications";
+import AbaHoje from "@/components/tarefas/AbaHoje";
 import AbaRotinas from "@/components/tarefas/AbaRotinas";
-import AbaEntregas from "@/components/tarefas/AbaEntregas";
 
-type AbaTarefas = "rotinas" | "avulsas" | "entregas";
+type AbaTarefas = "hoje" | "rotinas" | "avulsas";
 
 const PRIORIDADE_COR: Record<string, string> = { alta: "#ef4444", media: "#f59e0b", baixa: "#64748b" };
 const PRIORIDADE_BG: Record<string, string> = { alta: "#ef444415", media: "#f59e0b15", baixa: "#64748b15" };
@@ -46,7 +46,7 @@ export default function TarefasPage() {
   const isAdmin = usuarioAtual?.nivelAcesso === "admin";
 
   // Aba ativa — rotinas é o "mínimo do dia", abre primeiro
-  const [aba, setAba] = useState<AbaTarefas>("rotinas");
+  const [aba, setAba] = useState<AbaTarefas>("hoje");
 
   // Modal state
   const [rapidaAberto, setRapidaAberto] = useState(false);
@@ -232,9 +232,9 @@ export default function TarefasPage() {
       {/* Abas */}
       <div className="flex gap-2 p-1 rounded-2xl" style={{ background: "#0f1c30", border: "1px solid #1e3356" }}>
         {([
-          { id: "rotinas" as const, label: "Rotinas", icon: RefreshCw, desc: "O mínimo do dia" },
-          { id: "avulsas" as const, label: "Avulsas", icon: ListTodo, desc: "Delegadas e pessoais" },
-          { id: "entregas" as const, label: "Entregas da Semana", icon: CalendarCheck, desc: "Compromissos até sexta" },
+          { id: "hoje" as const, label: "Hoje", icon: Sparkles, desc: "Tudo que você tem para fazer hoje (rotinas do dia + avulsas)" },
+          { id: "rotinas" as const, label: "Rotinas", icon: RefreshCw, desc: "Suas rotinas por frequência (diária, semanal, mensal...)" },
+          { id: "avulsas" as const, label: "Avulsas", icon: ListTodo, desc: "Tarefas avulsas — delegadas pelo gestor ou criadas por você" },
         ]).map((t) => {
           const ativo = aba === t.id;
           const Icon = t.icon;
@@ -256,11 +256,11 @@ export default function TarefasPage() {
         })}
       </div>
 
+      {/* Aba Hoje */}
+      {aba === "hoje" && <AbaHoje />}
+
       {/* Aba Rotinas */}
       {aba === "rotinas" && <AbaRotinas />}
-
-      {/* Aba Entregas da Semana */}
-      {aba === "entregas" && <AbaEntregas />}
 
       {/* ── Aba Avulsas (conteúdo original preservado) ── */}
       {aba === "avulsas" && (<>
