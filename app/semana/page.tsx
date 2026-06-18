@@ -1,6 +1,7 @@
 "use client";
 import { useAppStore } from "@/lib/store";
 import { semanaAtualKey, labelSemana, calcNivel } from "@/lib/data";
+import { rotinasDoColaborador } from "@/lib/recorrencia";
 import { Flame, Zap, AlertTriangle, CheckCircle2, Circle, Clock, Users } from "lucide-react";
 import Avatar from "@/components/Avatar";
 import Link from "next/link";
@@ -35,7 +36,7 @@ function statusGeral(
 
 export default function SemanaPage() {
   const router = useRouter();
-  const { colaboradores, tarefas, entregasSemanais, usuarioAtual } = useAppStore();
+  const { colaboradores, rotinas, tarefas, entregasSemanais, usuarioAtual } = useAppStore();
   const semana = semanaAtualKey();
 
   useEffect(() => {
@@ -54,9 +55,10 @@ export default function SemanaPage() {
   const totalEmDia = colaboradores.filter((c) => {
     const entregas = entregasSemanais.filter((e) => e.colaboradorId === c.id && e.semana === semana);
     const tarefasTravadas = tarefas.filter((t) => t.atribuidoPara === c.id && t.status === "travado").length;
-    const totalSubs = c.rotinas.reduce((a, r) => a + r.subtarefas.length, 0);
-    const feitas = c.rotinas.reduce((a, r) => a + r.subtarefas.filter((s) => s.concluida).length, 0);
-    const pct = totalSubs === 0 ? (c.rotinas.every((r) => r.concluida) ? 100 : 0) : Math.round((feitas / totalSubs) * 100);
+    const rotC = rotinasDoColaborador(rotinas, c.id);
+    const totalSubs = rotC.reduce((a, r) => a + r.subtarefas.length, 0);
+    const feitas = rotC.reduce((a, r) => a + r.subtarefas.filter((s) => s.concluida).length, 0);
+    const pct = totalSubs === 0 ? (rotC.every((r) => r.concluida) ? 100 : 0) : Math.round((feitas / totalSubs) * 100);
     const st = statusGeral(pct, entregas, tarefasTravadas);
     return st.label === "Em dia";
   }).length;
@@ -110,10 +112,11 @@ export default function SemanaPage() {
           const entregas = entregasSemanais.filter((e) => e.colaboradorId === colab.id && e.semana === semana);
           const tarefasTravadas = tarefas.filter((t) => t.atribuidoPara === colab.id && t.status === "travado").length;
 
-          const totalSubs = colab.rotinas.reduce((a, r) => a + r.subtarefas.length, 0);
-          const feitas = colab.rotinas.reduce((a, r) => a + r.subtarefas.filter((s) => s.concluida).length, 0);
+          const rotColab = rotinasDoColaborador(rotinas, colab.id);
+          const totalSubs = rotColab.reduce((a, r) => a + r.subtarefas.length, 0);
+          const feitas = rotColab.reduce((a, r) => a + r.subtarefas.filter((s) => s.concluida).length, 0);
           const rotinasPct = totalSubs === 0
-            ? (colab.rotinas.every((r) => r.concluida) ? 100 : 0)
+            ? (rotColab.every((r) => r.concluida) ? 100 : 0)
             : Math.round((feitas / totalSubs) * 100);
 
           const st = statusGeral(rotinasPct, entregas, tarefasTravadas);

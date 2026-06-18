@@ -5,6 +5,7 @@ import { CategoriaDesafio, Desafio, CheckInDesafio, Colaborador } from "@/lib/da
 import { Plus, X, Check, CheckCircle2, Flame, Trophy, Calendar, Target, Pencil, Trash2, ChevronDown, ChevronUp, Users } from "lucide-react";
 import Avatar from "@/components/Avatar";
 import BackButton from "@/components/BackButton";
+import MeuProgresso from "@/components/MeuProgresso";
 
 // ─── CONFIG ────────────────────────────────────────────────────────────────────
 
@@ -600,6 +601,9 @@ export default function DesafiosPage() {
           </button>
         )}
       </div>
+
+      {/* Meu progresso — gamificação (movido do Meu Dia) */}
+      <MeuProgresso />
 
       {/* Stats banner */}
       <div className="grid grid-cols-3 gap-3">

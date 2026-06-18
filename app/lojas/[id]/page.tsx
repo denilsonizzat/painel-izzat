@@ -1,6 +1,7 @@
 "use client";
 import { useAppStore } from "@/lib/store";
-import { LOJAS, CAMPOS_PRODUTO, Produto, LinkRapido } from "@/lib/data";
+import { LOJAS, CAMPOS_PRODUTO, Produto, LinkRapido, Frequencia } from "@/lib/data";
+import { LABEL_FREQUENCIA, ORDEM_FREQUENCIA } from "@/lib/recorrencia";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import {
@@ -41,7 +42,7 @@ interface TarefaForm {
   tipo: "rapida" | "elaborada"; titulo: string; contexto: string;
   atribuidoPara: string; prioridade: Prioridade; dataLimite: string; membros: MembroForm[];
 }
-interface RotinaForm { titulo: string; colaboradorId: string; subtarefas: SubForm[]; }
+interface RotinaForm { titulo: string; colaboradorId: string; frequencia: Frequencia; subtarefas: SubForm[]; }
 
 function amanha() {
   const d = new Date(); d.setDate(d.getDate() + 1); return d.toISOString().split("T")[0];
@@ -58,9 +59,9 @@ export default function LojaPerfilPage() {
   const params = useParams();
   const router = useRouter();
   const {
-    usuarioAtual, colaboradores, tarefas, lojasCustom,
+    usuarioAtual, colaboradores, rotinas, tarefas, lojasCustom,
     criarTarefa, adicionarNotificacaoInApp,
-    criarRotina, marcarSubtarefa, marcarRotina,
+    criarRotina, marcarSubtarefa, concluirRotina, reabrirRotina,
     produtos, validarProduto, reprovarProduto, toggleProdutoNoAr,
     distribuirProduto,
     gastosOperacionais, criarGastoOp, editarGastoOp, deletarGastoOp, toggleGastoOp,
@@ -107,7 +108,7 @@ export default function LojaPerfilPage() {
   // rotina modal
   const [modalRotina, setModalRotina] = useState(false);
   const [sucessoRotina, setSucessoRotina] = useState(false);
-  const [formRotina, setFormRotina] = useState<RotinaForm>({ titulo: "", colaboradorId: "", subtarefas: [] });
+  const [formRotina, setFormRotina] = useState<RotinaForm>({ titulo: "", colaboradorId: "", frequencia: "diaria", subtarefas: [] });
 
   useEffect(() => {
     if (!usuarioAtual) { router.push("/"); return; }
@@ -250,13 +251,8 @@ export default function LojaPerfilPage() {
     setTimeout(() => setDistribuirModal(null), 1500);
   }
 
-  // Rotinas da loja: buscar em todos os colaboradores
-  const rotinasLoja: { colab: (typeof colaboradores)[0]; rotinaIdx: number; rotina: (typeof colaboradores)[0]["rotinas"][0] }[] = [];
-  for (const c of colaboradores) {
-    c.rotinas.forEach((r, rIdx) => {
-      if (r.lojaId === loja.id) rotinasLoja.push({ colab: c, rotinaIdx: rIdx, rotina: r });
-    });
-  }
+  // Rotinas da loja: lista própria filtrada por lojaId (sobrevive à saída da pessoa)
+  const rotinasLoja = rotinas.filter((r) => r.lojaId === loja.id && r.ativa !== false);
 
   const tarefasPorStatus = [
     { label: "Pendentes", status: "pendente", cor: "#64748b" },
@@ -314,7 +310,7 @@ export default function LojaPerfilPage() {
 
   // ── Rotina helpers ──
   function abrirModalRotina() {
-    setFormRotina({ titulo: "", colaboradorId: loja!.responsavel || "", subtarefas: [] });
+    setFormRotina({ titulo: "", colaboradorId: loja!.responsavel || "", frequencia: "diaria", subtarefas: [] });
     setSucessoRotina(false); setModalRotina(true);
   }
   function addSubRotina() { setFormRotina((f) => ({ ...f, subtarefas: [...f.subtarefas, { titulo: "" }] })); }
@@ -323,12 +319,15 @@ export default function LojaPerfilPage() {
   }
   function rmSubRotina(i: number) { setFormRotina((f) => ({ ...f, subtarefas: f.subtarefas.filter((_, idx) => idx !== i) })); }
   function handleCriarRotina() {
-    if (!formRotina.titulo.trim() || !formRotina.colaboradorId) return;
-    criarRotina(formRotina.colaboradorId, {
+    if (!formRotina.titulo.trim()) return;
+    criarRotina({
       titulo: formRotina.titulo.trim(),
       lojaId: loja!.id,
-      frequencia: "diaria",
+      colaboradorId: formRotina.colaboradorId || undefined,
+      frequencia: formRotina.frequencia,
       concluida: false,
+      ativa: true,
+      criadoPor: usuarioAtual?.id ?? "",
       subtarefas: formRotina.subtarefas.filter((s) => s.titulo.trim()).map((s, i) => ({
         id: `rsub-${Date.now()}-${i}`,
         titulo: s.titulo.trim(),
@@ -1231,10 +1230,10 @@ export default function LojaPerfilPage() {
             </span>
             {rotinasLoja.length > 0 && (
               <span className="text-xs px-2 py-0.5 rounded-full" style={{
-                background: rotinasLoja.filter((r) => r.rotina.concluida).length === rotinasLoja.length ? "#10b98120" : "#1e3356",
-                color: rotinasLoja.filter((r) => r.rotina.concluida).length === rotinasLoja.length ? "#10b981" : "#64748b",
+                background: rotinasLoja.filter((r) => r.concluida).length === rotinasLoja.length ? "#10b98120" : "#1e3356",
+                color: rotinasLoja.filter((r) => r.concluida).length === rotinasLoja.length ? "#10b981" : "#64748b",
               }}>
-                {rotinasLoja.filter((r) => r.rotina.concluida).length}/{rotinasLoja.length} hoje
+                {rotinasLoja.filter((r) => r.concluida).length}/{rotinasLoja.length} hoje
               </span>
             )}
           </div>
@@ -1264,8 +1263,9 @@ export default function LojaPerfilPage() {
           </div>
         ) : (
           <div>
-            {rotinasLoja.map(({ colab, rotina }, idx) => {
-              const podeCumprir = isAdmin || usuarioAtual.id === colab.id;
+            {rotinasLoja.map((rotina, idx) => {
+              const colab = colaboradores.find((c) => c.id === rotina.colaboradorId);
+              const podeCumprir = isAdmin || usuarioAtual.id === colab?.id;
               const subFeitas = rotina.subtarefas.filter((s) => s.concluida).length;
               const totalSub = rotina.subtarefas.length;
               const pctRotina = totalSub === 0
@@ -1274,13 +1274,13 @@ export default function LojaPerfilPage() {
               const cor = rotina.concluida ? "#10b981" : pctRotina > 0 ? "#f59e0b" : "#475569";
 
               return (
-                <div key={`${colab.id}-${rotina.id}`}
+                <div key={rotina.id}
                   className="p-4"
                   style={{ borderTop: idx > 0 ? "1px solid #1e3356" : "none", background: rotina.concluida ? "#10b98108" : "transparent" }}>
                   {/* Header da rotina */}
                   <div className="flex items-start gap-3">
                     <button
-                      onClick={() => podeCumprir && marcarRotina(colab.id, rotina.id, !rotina.concluida)}
+                      onClick={() => podeCumprir && (rotina.concluida ? reabrirRotina(rotina.id) : concluirRotina(rotina.id))}
                       disabled={!podeCumprir}
                       className="mt-0.5 flex-shrink-0"
                       style={{ cursor: podeCumprir ? "pointer" : "default" }}
@@ -1299,10 +1299,16 @@ export default function LojaPerfilPage() {
                           {totalSub > 0 && (
                             <span className="text-xs font-semibold" style={{ color: cor }}>{subFeitas}/{totalSub}</span>
                           )}
-                          <Link href={`/equipe/${colab.id}`} className="flex items-center gap-1.5 hover:opacity-80">
-                            <Avatar nome={colab.nome} avatar={colab.avatar} foto={colab.foto} cor={colab.cor} size={22} />
-                            <span className="text-xs" style={{ color: "#94a3b8" }}>{colab.nome.split(" ")[0]}</span>
-                          </Link>
+                          {colab ? (
+                            <Link href={`/equipe/${colab.id}`} className="flex items-center gap-1.5 hover:opacity-80">
+                              <Avatar nome={colab.nome} avatar={colab.avatar} foto={colab.foto} cor={colab.cor} size={22} />
+                              <span className="text-xs" style={{ color: "#94a3b8" }}>{colab.nome.split(" ")[0]}</span>
+                            </Link>
+                          ) : (
+                            <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ background: "#f59e0b20", color: "#f59e0b" }}>
+                              Sem responsável
+                            </span>
+                          )}
                         </div>
                       </div>
 
@@ -1319,7 +1325,7 @@ export default function LojaPerfilPage() {
                           {rotina.subtarefas.map((sub) => (
                             <button
                               key={sub.id}
-                              onClick={() => podeCumprir && marcarSubtarefa(colab.id, rotina.id, sub.id, !sub.concluida)}
+                              onClick={() => podeCumprir && marcarSubtarefa(rotina.id, sub.id, !sub.concluida)}
                               disabled={!podeCumprir}
                               className="flex items-center gap-2 w-full text-left"
                               style={{ cursor: podeCumprir ? "pointer" : "default" }}>
@@ -1652,14 +1658,29 @@ export default function LojaPerfilPage() {
                       style={{ background: "#122039", border: "1px solid #1e3356" }} autoFocus />
                   </div>
 
+                  {/* Frequencia */}
+                  <div>
+                    <label className="text-xs font-semibold block mb-1.5" style={{ color: "#94a3b8" }}>Frequencia *</label>
+                    <div className="relative">
+                      <select value={formRotina.frequencia} onChange={(e) => setFormRotina((f) => ({ ...f, frequencia: e.target.value as Frequencia }))}
+                        className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none appearance-none"
+                        style={{ background: "#122039", border: "1px solid #1e3356" }}>
+                        {ORDEM_FREQUENCIA.map((f) => (
+                          <option key={f} value={f} style={{ background: "#122039" }}>{LABEL_FREQUENCIA[f]}</option>
+                        ))}
+                      </select>
+                      <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "#64748b" }} />
+                    </div>
+                  </div>
+
                   {/* Responsavel */}
                   <div>
-                    <label className="text-xs font-semibold block mb-1.5" style={{ color: "#94a3b8" }}>Responsavel *</label>
+                    <label className="text-xs font-semibold block mb-1.5" style={{ color: "#94a3b8" }}>Responsavel <span style={{ color: "#475569" }}>(opcional)</span></label>
                     <div className="relative">
                       <select value={formRotina.colaboradorId} onChange={(e) => setFormRotina((f) => ({ ...f, colaboradorId: e.target.value }))}
                         className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none appearance-none"
                         style={{ background: "#122039", border: "1px solid #1e3356" }}>
-                        <option value="" style={{ background: "#122039" }}>Selecionar responsavel...</option>
+                        <option value="" style={{ background: "#122039" }}>Sem responsavel (vai para Vagas)</option>
                         {colaboradores.map((c) => (
                           <option key={c.id} value={c.id} style={{ background: "#122039" }}>
                             {c.nome}{c.id === loja.responsavel ? " (responsavel da loja)" : ""}
@@ -1668,11 +1689,12 @@ export default function LojaPerfilPage() {
                       </select>
                       <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "#64748b" }} />
                     </div>
-                    {formRotina.colaboradorId && (
-                      <p className="text-xs mt-1.5 flex items-center gap-1" style={{ color: "#475569" }}>
-                        <RefreshCw size={10} /> Vai aparecer no Meu Dia de {colaboradores.find((c) => c.id === formRotina.colaboradorId)?.nome.split(" ")[0]}
-                      </p>
-                    )}
+                    <p className="text-xs mt-1.5 flex items-center gap-1" style={{ color: "#475569" }}>
+                      <RefreshCw size={10} />
+                      {formRotina.colaboradorId
+                        ? `Aparece em Tarefas › Rotinas de ${colaboradores.find((c) => c.id === formRotina.colaboradorId)?.nome.split(" ")[0]}`
+                        : "Sem responsável → fica no painel Vagas & Pendências"}
+                    </p>
                   </div>
 
                   {/* Subtarefas */}
@@ -1705,7 +1727,7 @@ export default function LojaPerfilPage() {
 
                 <div className="px-5 pb-5">
                   <button onClick={handleCriarRotina}
-                    disabled={!formRotina.titulo.trim() || !formRotina.colaboradorId}
+                    disabled={!formRotina.titulo.trim()}
                     className="w-full py-3 rounded-2xl font-bold text-sm transition-all hover:opacity-90 disabled:opacity-40 flex items-center justify-center gap-2"
                     style={{ background: corGrupo, color: corGrupo === "#c9a84c" ? "#000" : "#fff" }}>
                     <RefreshCw size={15} /> Criar Rotina

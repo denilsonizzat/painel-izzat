@@ -10,6 +10,7 @@ import Onboarding from "@/components/Onboarding";
 import CheckInDiario from "@/components/CheckInDiario";
 import SnapshotSync from "@/components/SnapshotSync";
 import PWARegister from "@/components/PWARegister";
+import NotificadorDiario from "@/components/NotificadorDiario";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -50,6 +51,7 @@ export default function RootLayout({
         <ToastContainer />
         <SnapshotSync />
         <PWARegister />
+        <NotificadorDiario />
       </body>
     </html>
   );

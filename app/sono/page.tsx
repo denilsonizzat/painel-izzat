@@ -167,7 +167,7 @@ export default function SonoPage() {
 
   return (
     <div className="max-w-2xl mx-auto space-y-6 pb-10">
-      <BackButton href="/meu-dia" />
+      <BackButton href="/dashboard" />
 
       {/* Header */}
       <div className="flex items-start justify-between">

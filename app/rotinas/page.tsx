@@ -12,14 +12,20 @@ type Frequencia = Rotina["frequencia"];
 const FREQ_LABELS: Record<Frequencia, string> = {
   diaria: "Diária",
   semanal: "Semanal",
+  quinzenal: "Quinzenal",
   mensal: "Mensal",
+  trimestral: "Trimestral",
+  semestral: "Semestral",
   anual: "Anual",
 };
 
 const FREQ_CORES: Record<Frequencia, string> = {
   diaria: "#10b981",
   semanal: "#3b82f6",
+  quinzenal: "#0ea5e9",
   mensal: "#f59e0b",
+  trimestral: "#8b5cf6",
+  semestral: "#ec4899",
   anual: "#ef4444",
 };
 
@@ -43,7 +49,7 @@ const FORM_INICIAL: FormState = {
 
 export default function RotinasPage() {
   const router = useRouter();
-  const { usuarioAtual, colaboradores, criarRotina, editarRotina, deletarRotina } = useAppStore();
+  const { usuarioAtual, colaboradores, rotinas, criarRotina, editarRotina, deletarRotina } = useAppStore();
 
   const [filtroColab, setFiltroColab] = useState("todos");
   const [filtroFreq, setFiltroFreq] = useState<"todas" | Frequencia>("todas");
@@ -67,12 +73,16 @@ export default function RotinasPage() {
     return null;
   }
 
-  // Montar lista plana de rotinas com referencia ao colaborador
+  // Montar lista plana de rotinas com referencia ao colaborador (só as com responsável;
+  // rotinas sem responsável vivem no painel Vagas & Pendências).
   const todasRotinas = useMemo(() => {
-    return colaboradores.flatMap((c) =>
-      c.rotinas.map((r) => ({ ...r, colaboradorId: c.id, colaboradorNome: c.nome, colaboradorCor: c.cor }))
-    );
-  }, [colaboradores]);
+    return rotinas
+      .filter((r) => r.colaboradorId)
+      .map((r) => {
+        const c = colaboradores.find((x) => x.id === r.colaboradorId);
+        return { ...r, colaboradorId: r.colaboradorId as string, colaboradorNome: c?.nome ?? "—", colaboradorCor: c?.cor ?? "#64748b" };
+      });
+  }, [rotinas, colaboradores]);
 
   // Aplicar filtros
   const rotinasFiltradas = useMemo(() => {
@@ -149,6 +159,7 @@ export default function RotinasPage() {
       descricao: form.descricao.trim() || undefined,
       frequencia: form.frequencia,
       lojaId: form.lojaId || undefined,
+      colaboradorId: form.colaboradorId || undefined,
       concluida: false,
       ativa: true,
       criadoPor: usuarioAtual?.id ?? "",
@@ -160,9 +171,9 @@ export default function RotinasPage() {
     };
 
     if (editando) {
-      editarRotina(editando.colaboradorId, editando.rotinaId, payload);
+      editarRotina(editando.rotinaId, payload);
     } else {
-      criarRotina(form.colaboradorId, payload);
+      criarRotina(payload);
     }
 
     fecharModal();
@@ -173,7 +184,7 @@ export default function RotinasPage() {
   }
 
   function toggleAtiva(colaboradorId: string, rotinaId: string, ativaAtual: boolean | undefined) {
-    editarRotina(colaboradorId, rotinaId, { ativa: !ativaAtual });
+    editarRotina(rotinaId, { ativa: !ativaAtual });
   }
 
   const inputStyle = {
@@ -260,7 +271,7 @@ export default function RotinasPage() {
 
           {/* Filtro frequencia — pills */}
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-            {(["todas", "diaria", "semanal", "mensal", "anual"] as const).map((f) => {
+            {(["todas", "diaria", "semanal", "quinzenal", "mensal", "trimestral", "semestral", "anual"] as const).map((f) => {
               const ativo = filtroFreq === f;
               const cor = f === "todas" ? "#c9a84c" : FREQ_CORES[f];
               return (
@@ -642,7 +653,10 @@ export default function RotinasPage() {
                   >
                     <option value="diaria">Diária</option>
                     <option value="semanal">Semanal</option>
+                    <option value="quinzenal">Quinzenal</option>
                     <option value="mensal">Mensal</option>
+                    <option value="trimestral">Trimestral</option>
+                    <option value="semestral">Semestral</option>
                     <option value="anual">Anual</option>
                   </select>
                 </div>
@@ -909,7 +923,7 @@ export default function RotinasPage() {
               </button>
               <button
                 onClick={() => {
-                  deletarRotina(confirmarDel.colaboradorId, confirmarDel.rotinaId);
+                  deletarRotina(confirmarDel.rotinaId);
                   setConfirmarDel(null);
                 }}
                 className="flex-1 py-2.5 rounded-xl text-sm font-bold"

@@ -6,60 +6,46 @@ import {
   LayoutDashboard, CheckSquare, Users, Store, ListTodo, LogOut, Menu, X,
   ClipboardList, Plus, Zap, Flame, Bell, Search, Activity, Power, RefreshCw,
   CalendarDays, ChevronLeft, ChevronRight, PanelLeftClose, DollarSign, Moon,
-  PackageSearch, BookMarked, Trophy, Receipt, Wallet,
+  PackageSearch, BookMarked, Trophy, Receipt, Wallet, Briefcase,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import Avatar from "./Avatar";
 import Image from "next/image";
 import { LOJAS, Prioridade, calcNivel } from "@/lib/data";
 import OnlineStatusModal from "./OnlineStatusModal";
+import BotaoAtivarPush from "./BotaoAtivarPush";
 
 const NAV_SECTIONS = [
   {
-    label: "Pessoal",
-    emoji: "📊",
+    label: "Principal",
+    emoji: "🏠",
     items: [
       { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-      { href: "/meu-dia", label: "Meu Dia", icon: CheckSquare },
-    ],
-  },
-  {
-    label: "Gamificação",
-    emoji: "⚡",
-    items: [
-      { href: "/sono", label: "Sono", icon: Moon },
-      { href: "/desafios", label: "Desafios", icon: Trophy },
-    ],
-  },
-  {
-    label: "Trabalho",
-    emoji: "💼",
-    items: [
-      { href: "/atividade", label: "Atividade", icon: Activity },
       { href: "/tarefas", label: "Tarefas", icon: ListTodo },
-      { href: "/regras", label: "Regras", icon: BookMarked },
-    ],
-    adminItems: [
-      { href: "/rotinas", label: "Rotinas", icon: RefreshCw },
     ],
   },
   {
-    label: "Time",
+    label: "Equipe",
     emoji: "👥",
     items: [
+      { href: "/atividade", label: "Atividade", icon: Activity },
+      { href: "/regras", label: "Regras", icon: BookMarked },
       { href: "/formulario", label: "Formulário", icon: ClipboardList },
     ],
     adminItems: [
       { href: "/equipe", label: "Equipe", icon: Users },
+      { href: "/rotinas", label: "Rotinas", icon: RefreshCw },
+      { href: "/vagas", label: "Vagas & Pendências", icon: Briefcase },
       { href: "/semana", label: "Semana do Time", icon: CalendarDays },
     ],
   },
   {
     label: "Lojas",
     emoji: "🏪",
-    items: [],
-    adminItems: [
+    items: [
       { href: "/lojas", label: "Lojas", icon: Store },
+    ],
+    adminItems: [
       { href: "/catalogo", label: "Produtos", icon: PackageSearch },
     ],
   },
@@ -68,9 +54,17 @@ const NAV_SECTIONS = [
     emoji: "💰",
     items: [],
     adminItems: [
-      { href: "/gastos", label: "Gastos Equipe", icon: DollarSign },
-      { href: "/gastos-operacoes", label: "Custos Op.", icon: Receipt },
+      { href: "/gastos", label: "Custos da Equipe", icon: DollarSign },
+      { href: "/gastos-operacoes", label: "Custos Operacionais", icon: Receipt },
       { href: "/custo-total", label: "Custo Total", icon: Wallet },
+    ],
+  },
+  {
+    label: "Pessoal",
+    emoji: "🌙",
+    items: [
+      { href: "/sono", label: "Sono", icon: Moon },
+      { href: "/desafios", label: "Desafios", icon: Trophy },
     ],
   },
 ];
@@ -228,18 +222,19 @@ export default function Sidebar() {
         {/* Collapse toggle button — always visible */}
         <button
           onClick={() => { setSidebarColapsada(!sidebarColapsada); setHoverExpand(false); }}
-          className="mt-3 w-full flex items-center rounded-xl py-1.5 px-2 transition-all hover:opacity-80"
+          className="mt-3 w-full flex items-center rounded-xl py-2 px-2 transition-all hover:opacity-90"
           style={{
-            background: "#1e335640",
-            color: "#475569",
-            justifyContent: isCollapsed ? "center" : "flex-end",
+            background: sidebarColapsada ? "var(--gold-dim)" : "#1e335640",
+            color: sidebarColapsada ? "var(--gold)" : "#94a3b8",
+            justifyContent: "center",
+            border: sidebarColapsada ? "1px solid #c9a84c40" : "1px solid transparent",
           }}
-          title={sidebarColapsada ? "Expandir menu" : "Recolher menu"}
+          title={sidebarColapsada ? "Fixar menu aberto" : "Recolher menu (passa o mouse para abrir)"}
         >
-          {sidebarColapsada ? <ChevronRight size={14} /> : (
-            <span className="flex items-center gap-1.5 text-xs">
-              <PanelLeftClose size={13} />
-              Recolher
+          {sidebarColapsada ? <ChevronRight size={16} /> : (
+            <span className="flex items-center gap-1.5 text-xs font-medium">
+              <PanelLeftClose size={14} />
+              Recolher menu
             </span>
           )}
         </button>
@@ -259,7 +254,8 @@ export default function Sidebar() {
                 </button>
               )}
             </div>
-            <div className="max-h-56 overflow-y-auto">
+            <BotaoAtivarPush />
+            <div className="max-h-56 overflow-y-auto" style={{ borderTop: "1px solid var(--border)" }}>
               {minhasNotifs.length === 0 ? (
                 <p className="px-3 py-4 text-xs text-center" style={{ color: "#475569" }}>
                   Nenhuma notificacao

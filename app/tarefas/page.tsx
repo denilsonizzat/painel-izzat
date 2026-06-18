@@ -2,12 +2,16 @@
 import { useState, useEffect } from "react";
 import { useAppStore } from "@/lib/store";
 import { LOJAS, Prioridade, Tarefa, MembroTarefa } from "@/lib/data";
-import { Plus, X, CheckCircle2, Clock, Circle, MessageSquare, Send, AlertTriangle, Zap, ChevronDown, ChevronUp, Users, MessageCircle, Phone, Eye, Trash2 } from "lucide-react";
+import { Plus, X, CheckCircle2, Clock, Circle, MessageSquare, Send, AlertTriangle, Zap, ChevronDown, ChevronUp, Users, MessageCircle, Phone, Eye, Trash2, RefreshCw, ListTodo, CalendarCheck } from "lucide-react";
 import Avatar from "@/components/Avatar";
 import Tooltip from "@/components/Tooltip";
 import BackButton from "@/components/BackButton";
 import Image from "next/image";
 import { useNotifications } from "@/hooks/useNotifications";
+import AbaRotinas from "@/components/tarefas/AbaRotinas";
+import AbaEntregas from "@/components/tarefas/AbaEntregas";
+
+type AbaTarefas = "rotinas" | "avulsas" | "entregas";
 
 const PRIORIDADE_COR: Record<string, string> = { alta: "#ef4444", media: "#f59e0b", baixa: "#64748b" };
 const PRIORIDADE_BG: Record<string, string> = { alta: "#ef444415", media: "#f59e0b15", baixa: "#64748b15" };
@@ -40,6 +44,9 @@ export default function TarefasPage() {
   const { colaboradores, tarefas, usuarioAtual, criarTarefa, atualizarStatusTarefa, adicionarComentario, verificarAtrasadas, marcarSubtarefaTarefa, aprovarTarefa, rejeitarTarefa, marcarVisualizacaoTarefa, adicionarMiniTarefa, toggleMiniTarefa, deletarMiniTarefa } = useAppStore();
   const { notificarTarefaAtrasada } = useNotifications();
   const isAdmin = usuarioAtual?.nivelAcesso === "admin";
+
+  // Aba ativa — rotinas é o "mínimo do dia", abre primeiro
+  const [aba, setAba] = useState<AbaTarefas>("rotinas");
 
   // Modal state
   const [rapidaAberto, setRapidaAberto] = useState(false);
@@ -189,31 +196,74 @@ export default function TarefasPage() {
         <div>
           <h1 className="text-2xl font-bold text-white">Tarefas</h1>
           <p className="text-sm mt-0.5" style={{ color: "#64748b" }}>
-            {isAdmin
-              ? "Crie, delegue e acompanhe o progresso das tarefas do time"
-              : "Tarefas que foram atribuidas a voce pelo gestor"}
+            Tudo que você precisa fazer, organizado num lugar só
           </p>
         </div>
-        {isAdmin && (
-          <div className="flex items-center gap-2">
+        {aba === "avulsas" && (
+          isAdmin ? (
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setRapidaAberto(true)}
+                className="flex items-center gap-2 px-3 py-2 rounded-xl font-bold text-sm transition-opacity hover:opacity-90 active:scale-95"
+                style={{ background: "#c9a84c", color: "#0b1624" }}
+              >
+                <Zap size={14} /> {"Rápida"}
+              </button>
+              <button
+                onClick={() => setElaboradaAberto(true)}
+                className="flex items-center gap-2 px-3 py-2 rounded-xl font-bold text-sm transition-opacity hover:opacity-90 active:scale-95"
+                style={{ background: "#3b82f620", color: "#3b82f6", border: "1px solid #3b82f640" }}
+              >
+                <Users size={14} /> Elaborada
+              </button>
+            </div>
+          ) : (
             <button
-              onClick={() => setRapidaAberto(true)}
+              onClick={() => { setFormRapida({ ...emptyRapida, atribuidoPara: usuarioAtual?.id || "" }); setRapidaAberto(true); }}
               className="flex items-center gap-2 px-3 py-2 rounded-xl font-bold text-sm transition-opacity hover:opacity-90 active:scale-95"
               style={{ background: "#c9a84c", color: "#0b1624" }}
             >
-              <Zap size={14} /> {"Rápida"}
+              <Plus size={14} /> Nova tarefa
             </button>
-            <button
-              onClick={() => setElaboradaAberto(true)}
-              className="flex items-center gap-2 px-3 py-2 rounded-xl font-bold text-sm transition-opacity hover:opacity-90 active:scale-95"
-              style={{ background: "#3b82f620", color: "#3b82f6", border: "1px solid #3b82f640" }}
-            >
-              <Users size={14} /> Elaborada
-            </button>
-          </div>
+          )
         )}
       </div>
 
+      {/* Abas */}
+      <div className="flex gap-2 p-1 rounded-2xl" style={{ background: "#0f1c30", border: "1px solid #1e3356" }}>
+        {([
+          { id: "rotinas" as const, label: "Rotinas", icon: RefreshCw, desc: "O mínimo do dia" },
+          { id: "avulsas" as const, label: "Avulsas", icon: ListTodo, desc: "Delegadas e pessoais" },
+          { id: "entregas" as const, label: "Entregas da Semana", icon: CalendarCheck, desc: "Compromissos até sexta" },
+        ]).map((t) => {
+          const ativo = aba === t.id;
+          const Icon = t.icon;
+          return (
+            <button
+              key={t.id}
+              onClick={() => setAba(t.id)}
+              className="flex-1 flex items-center justify-center gap-2 py-2.5 px-2 rounded-xl text-sm font-semibold transition-all"
+              style={{
+                background: ativo ? "#c9a84c" : "transparent",
+                color: ativo ? "#0b1624" : "#94a3b8",
+              }}
+              title={t.desc}
+            >
+              <Icon size={15} />
+              <span className="hidden sm:inline">{t.label}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Aba Rotinas */}
+      {aba === "rotinas" && <AbaRotinas />}
+
+      {/* Aba Entregas da Semana */}
+      {aba === "entregas" && <AbaEntregas />}
+
+      {/* ── Aba Avulsas (conteúdo original preservado) ── */}
+      {aba === "avulsas" && (<>
       {/* KPIs — clicaveis para filtrar */}
       <div>
         <p className="text-xs mb-2" style={{ color: "#475569" }}>
@@ -698,6 +748,7 @@ export default function TarefasPage() {
           })
         )}
       </div>
+      </>)}
 
       {/* ── Modal: Tarefa Rápida ── */}
       {rapidaAberto && (
@@ -748,13 +799,21 @@ export default function TarefasPage() {
               </div>
 
               <div>
-                <label className="text-xs font-medium mb-1 block" style={labelStyle}>Atribuir para *</label>
-                <select value={formRapida.atribuidoPara} onChange={(e) => setFormRapida({ ...formRapida, atribuidoPara: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl text-sm text-white outline-none" style={inputStyle}>
-                  <option value="">Selecione...</option>
-                  {colaboradores.map((c) => <option key={c.id} value={c.id}>{c.nome.split(" ")[0]} — {c.cargo || "Sem cargo"}</option>)}
-                </select>
-                {(() => {
+                {isAdmin ? (
+                  <>
+                    <label className="text-xs font-medium mb-1 block" style={labelStyle}>Atribuir para *</label>
+                    <select value={formRapida.atribuidoPara} onChange={(e) => setFormRapida({ ...formRapida, atribuidoPara: e.target.value })}
+                      className="w-full px-3 py-2 rounded-xl text-sm text-white outline-none" style={inputStyle}>
+                      <option value="">Selecione...</option>
+                      {colaboradores.map((c) => <option key={c.id} value={c.id}>{c.nome.split(" ")[0]} — {c.cargo || "Sem cargo"}</option>)}
+                    </select>
+                  </>
+                ) : (
+                  <div className="px-3 py-2 rounded-xl text-sm" style={{ background: "#0f2a1a", border: "1px solid #10b98140", color: "#10b981" }}>
+                    Tarefa pessoal — só você vê
+                  </div>
+                )}
+                {isAdmin && (() => {
                   const assignee = colaboradores.find((c) => c.id === formRapida.atribuidoPara);
                   if (!assignee?.horarioFim) return null;
                   const horaAtual = new Date().toTimeString().slice(0, 5);
@@ -772,7 +831,7 @@ export default function TarefasPage() {
 
             <div className="flex gap-3 pt-2">
               <button onClick={() => setRapidaAberto(false)} className="flex-1 py-2 rounded-xl text-sm font-medium" style={{ background: "#1e3356", color: "#94a3b8" }}>Cancelar</button>
-              <button onClick={handleCriarRapida} disabled={!formRapida.titulo || !formRapida.atribuidoPara} className="flex-1 py-2 rounded-xl text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-40" style={{ background: "#c9a84c", color: "#0b1624" }}>Delegar</button>
+              <button onClick={handleCriarRapida} disabled={!formRapida.titulo || !formRapida.atribuidoPara} className="flex-1 py-2 rounded-xl text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-40" style={{ background: "#c9a84c", color: "#0b1624" }}>{isAdmin ? "Delegar" : "Criar tarefa"}</button>
             </div>
           </div>
         </div>

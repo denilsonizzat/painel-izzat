@@ -29,7 +29,7 @@ const FORM_INICIAL = {
 export default function LojasPage() {
   const router = useRouter();
   const {
-    colaboradores, tarefas, usuarioAtual,
+    colaboradores, rotinas, tarefas, usuarioAtual,
     lojasCustom, lojasArquivadas,
     criarLoja, editarLoja, arquivarLoja, restaurarLoja,
   } = useAppStore();
@@ -60,8 +60,7 @@ export default function LojasPage() {
     const vencidas = tLoja.filter(
       (t) => t.status !== "concluida" && t.status !== "atrasada" && t.dataLimite && t.dataLimite < hoje
     ).length;
-    const rotinasAtrasadas = colaboradores
-      .flatMap((c) => c.rotinas || [])
+    const rotinasAtrasadas = rotinas
       .filter((r) => r.lojaId === lojaId && r.ativa !== false && !r.concluida).length;
     const score = atrasadas * 3 + vencidas * 2 + rotinasAtrasadas;
     if (atrasadas > 0 || score >= 5) return "alto";

@@ -1,6 +1,7 @@
 "use client";
 import { useAppStore } from "@/lib/store";
 import { LOJAS } from "@/lib/data";
+import { rotinasDoColaborador } from "@/lib/recorrencia";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ArrowLeft, Clock, MapPin, CheckCircle2, Circle, Target, Award, X, Phone, MessageCircle, Edit2, Check, Mail, Wrench, DollarSign, ChevronDown, ChevronUp } from "lucide-react";
@@ -77,7 +78,7 @@ const EMOJIS_RECONH = ["🏆", "⭐", "🚀", "💪", "🎯", "🔥", "✨", "�
 export default function ColaboradorPerfilPage() {
   const params = useParams();
   const router = useRouter();
-  const { usuarioAtual, colaboradores, tarefas, marcarSubtarefa, marcarExpectativa, darReconhecimento, fichasReconhecimento, usarFichaReconhecimento, setTelefone, setSalario, setGoogleChatLink, ferramentas, abrirPomodoro } = useAppStore();
+  const { usuarioAtual, colaboradores, rotinas, tarefas, marcarSubtarefa, concluirRotina, reabrirRotina, marcarExpectativa, darReconhecimento, fichasReconhecimento, usarFichaReconhecimento, setTelefone, setSalario, setGoogleChatLink, ferramentas, abrirPomodoro } = useAppStore();
   const [reconhModal, setReconhModal] = useState(false);
   const [reconhForm, setReconhForm] = useState({ mensagem: "", emoji: "🏆" });
   const [editandoTelefone, setEditandoTelefone] = useState(false);
@@ -114,7 +115,8 @@ export default function ColaboradorPerfilPage() {
     );
   }
 
-  const pct = calcProgresso(pessoa.rotinas);
+  const rotinasPessoa = rotinasDoColaborador(rotinas, pessoa.id);
+  const pct = calcProgresso(rotinasPessoa);
   const progressoCor = pct === 100 ? "#10b981" : pct >= 50 ? "#f59e0b" : "#ef4444";
   const pctExp = calcExpectativas(pessoa.expectativas);
   const expCor = pctExp === 100 ? "#10b981" : pctExp >= 50 ? "#f59e0b" : "#ef4444";
@@ -621,18 +623,18 @@ export default function ColaboradorPerfilPage() {
       )}
 
       {/* Rotinas */}
-      {pessoa.rotinas.length > 0 && (
+      {rotinasPessoa.length > 0 && (
         <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
           <div className="flex items-center justify-between mb-4">
             <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#64748b" }}>
-              Rotinas Diárias
+              Rotinas
             </p>
             <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#1e3356", color: "#64748b" }}>
-              {pessoa.rotinas.filter((r) => r.concluida).length}/{pessoa.rotinas.length} hoje
+              {rotinasPessoa.filter((r) => r.concluida).length}/{rotinasPessoa.length} hoje
             </span>
           </div>
           <div className="space-y-2">
-            {pessoa.rotinas.map((rotina) => {
+            {rotinasPessoa.map((rotina) => {
               const subFeitas = rotina.subtarefas.filter((s) => s.concluida).length;
               const lojaRotina = LOJAS.find((l) => l.id === rotina.lojaId);
               const podeCumprir = isAdmin || usuarioAtual.id === pessoa.id;
@@ -651,12 +653,12 @@ export default function ColaboradorPerfilPage() {
                       onClick={(e) => {
                         if (!podeCumprir) return;
                         e.stopPropagation();
-                        marcarSubtarefa(pessoa.id, rotina.id, rotina.id, !rotina.concluida);
+                        rotina.concluida ? reabrirRotina(rotina.id) : concluirRotina(rotina.id);
                       }}
                       onKeyDown={(e) => {
                         if ((e.key === " " || e.key === "Enter") && podeCumprir) {
                           e.stopPropagation();
-                          marcarSubtarefa(pessoa.id, rotina.id, rotina.id, !rotina.concluida);
+                          rotina.concluida ? reabrirRotina(rotina.id) : concluirRotina(rotina.id);
                         }
                       }}
                     >
@@ -691,7 +693,7 @@ export default function ColaboradorPerfilPage() {
                         {rotina.subtarefas.map((sub) => (
                           <div key={sub.id} className="flex items-center gap-2 p-2.5 rounded-xl" style={{ background: "#122039" }}>
                             <button
-                              onClick={() => podeCumprir && marcarSubtarefa(pessoa.id, rotina.id, sub.id, !sub.concluida)}
+                              onClick={() => podeCumprir && marcarSubtarefa(rotina.id, sub.id, !sub.concluida)}
                               disabled={!podeCumprir}
                               className="flex-shrink-0"
                               style={{ cursor: podeCumprir ? "pointer" : "default" }}

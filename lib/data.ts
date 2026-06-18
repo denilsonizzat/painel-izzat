@@ -241,6 +241,7 @@ export interface Subtarefa {
   id: string;
   titulo: string;
   concluida: boolean;
+  colaboradorId?: string; // sub-responsável (rotina que envolve várias pessoas)
 }
 
 export interface RegistroSono {
@@ -251,16 +252,33 @@ export interface RegistroSono {
   horasDormidas: number;
 }
 
+export type Frequencia =
+  | "diaria"
+  | "semanal"
+  | "quinzenal"
+  | "mensal"
+  | "trimestral"
+  | "semestral"
+  | "anual";
+
 export interface Rotina {
   id: string;
   titulo: string;
   descricao?: string;
   subtarefas: Subtarefa[];
   concluida: boolean;
-  lojaId?: string;
-  frequencia: "diaria" | "semanal" | "mensal" | "anual";
+  lojaId?: string;              // loja dona da rotina (vazio = grupo/sem loja)
+  colaboradorId?: string;       // responsável principal (vazio = sem responsável → Vagas)
+  frequencia: Frequencia;
   criadoPor?: string;
   ativa?: boolean;
+  // Recorrência automática (adicionado v21)
+  dataInicio?: string;          // "YYYY-MM-DD" — âncora da recorrência
+  proximaOcorrencia?: string;   // "YYYY-MM-DD" — quando vence o próximo ciclo
+  ultimaConclusao?: string;     // "YYYY-MM-DD" — última vez concluída
+  // Vaga temporária (adicionado v22): rotina sem pessoa, lembrete para contratar/delegar
+  vagaTemporaria?: boolean;     // true = é uma necessidade de contratação/delegação
+  motivoVaga?: string;          // ex: "Preciso de editor de vídeo"
 }
 
 export interface SubtarefaTarefa {
@@ -1350,6 +1368,24 @@ export const COLABORADORES: Colaborador[] = [
     expectativas: [],
   },
 ];
+
+// ─── ROTINAS (lista independente — v22) ───────────────────────────────────────
+// Achata as rotinas que vinham embutidas em cada colaborador para uma lista
+// própria, ligando cada uma ao seu colaborador (colaboradorId) e à loja (lojaId).
+// Assim a rotina sobrevive à exclusão da pessoa e pode ser gerida pela loja.
+const _hojeSeed = (() => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+})();
+
+export const ROTINAS_MOCK: Rotina[] = COLABORADORES.flatMap((c) =>
+  (c.rotinas || []).map((r) => ({
+    ...r,
+    colaboradorId: c.id,
+    dataInicio: r.dataInicio || _hojeSeed,
+    proximaOcorrencia: r.proximaOcorrencia || _hojeSeed,
+  }))
+);
 
 // ─── TAREFAS MOCK ─────────────────────────────────────────────────────────────
 

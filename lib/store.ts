@@ -24,11 +24,14 @@ import {
   COLABORADORES,
   TAREFAS_MOCK,
   HISTORICO_MOCK,
+  ROTINAS_MOCK,
   REGRAS_INICIAIS,
   Prioridade,
   PERGUNTAS_PULSO,
   semanaAtualKey,
+  Frequencia,
 } from "./data";
+import { calcularProximaOcorrencia, hojeStr } from "./recorrencia";
 
 function semanaAtual(): string {
   const d = new Date();
@@ -78,8 +81,11 @@ interface AppState {
 
   login: (id: string) => void;
   logout: () => void;
-  marcarSubtarefa: (colaboradorId: string, rotinaId: string, subtarefaId: string, valor: boolean) => void;
-  marcarRotina: (colaboradorId: string, rotinaId: string, valor: boolean) => void;
+  rotinas: Rotina[];
+  marcarSubtarefa: (rotinaId: string, subtarefaId: string, valor: boolean) => void;
+  concluirRotina: (rotinaId: string) => void;
+  reabrirRotina: (rotinaId: string) => void;
+  delegarRotina: (rotinaId: string, colaboradorId: string | undefined) => void;
   marcarExpectativa: (colaboradorId: string, expectativaId: string, valor: boolean) => void;
   ganharXP: (colaboradorId: string, quantidade: number) => void;
   adicionarComentario: (tarefaId: string, texto: string) => void;
@@ -99,9 +105,9 @@ interface AppState {
   limparNotificacoesLidas: () => void;
   addToast: (message: string, type: ToastMsg["type"], xp?: number) => void;
   removeToast: (id: string) => void;
-  criarRotina: (colaboradorId: string, rotina: Omit<Rotina, "id">) => void;
-  editarRotina: (colaboradorId: string, rotinaId: string, updates: Partial<Rotina>) => void;
-  deletarRotina: (colaboradorId: string, rotinaId: string) => void;
+  criarRotina: (rotina: Omit<Rotina, "id">) => void;
+  editarRotina: (rotinaId: string, updates: Partial<Rotina>) => void;
+  deletarRotina: (rotinaId: string) => void;
   usarFichaReconhecimento: (doId: string) => boolean;
   setTrabalhando: (colaboradorId: string, trabalhando: string, foco: boolean) => void;
   registrarPulso: (userId: string, nota: number) => void;
@@ -183,6 +189,7 @@ export const useAppStore = create<AppState>()(
     (set, get) => ({
       usuarioAtual: null,
       colaboradores: COLABORADORES,
+      rotinas: ROTINAS_MOCK,
       tarefas: TAREFAS_MOCK,
       historico: HISTORICO_MOCK,
       atividadesHoje: [],
@@ -230,78 +237,98 @@ export const useAppStore = create<AppState>()(
         if (updated && get().usuarioAtual?.id === colaboradorId) set({ usuarioAtual: updated });
       },
 
-      marcarSubtarefa: (colaboradorId, rotinaId, subtarefaId, valor) => {
-        const colab = get().colaboradores.find((c) => c.id === colaboradorId);
-        const rotina = colab?.rotinas.find((r) => r.id === rotinaId);
+      // Marca subtarefa de uma rotina (lista top-level). Quem ganha XP é o
+      // dono da subtarefa (se houver) ou o usuário logado.
+      marcarSubtarefa: (rotinaId, subtarefaId, valor) => {
+        const rotina = get().rotinas.find((r) => r.id === rotinaId);
         const sub = rotina?.subtarefas.find((s) => s.id === subtarefaId);
+        const quem = sub?.colaboradorId || rotina?.colaboradorId || get().usuarioAtual?.id;
 
         set((state) => ({
-          colaboradores: state.colaboradores.map((c) => {
-            if (c.id !== colaboradorId) return c;
-            return {
-              ...c,
-              rotinas: c.rotinas.map((r) => {
-                if (r.id !== rotinaId) return r;
-                const novasSub = r.subtarefas.map((s) =>
-                  s.id === subtarefaId ? { ...s, concluida: valor } : s
-                );
-                return { ...r, subtarefas: novasSub, concluida: novasSub.every((s) => s.concluida) };
-              }),
-            };
+          rotinas: state.rotinas.map((r) => {
+            if (r.id !== rotinaId) return r;
+            const novasSub = r.subtarefas.map((s) =>
+              s.id === subtarefaId ? { ...s, concluida: valor } : s
+            );
+            return { ...r, subtarefas: novasSub, concluida: novasSub.every((s) => s.concluida) };
           }),
         }));
 
-        if (valor) {
-          get().ganharXP(colaboradorId, 10);
+        if (valor && quem) {
+          get().ganharXP(quem, 10);
           get().addToast("+10 XP · subtarefa concluida!", "success", 10);
           if (sub && rotina) {
             get().adicionarAtividadeEntry({
-              colaboradorId,
+              colaboradorId: quem,
               tipo: "rotina_concluida",
               descricao: sub.titulo + " — " + rotina.titulo,
               hora: new Date().toTimeString().slice(0, 5),
-              data: new Date().toISOString().split("T")[0],
+              data: hojeStr(),
               xp: 10,
             });
           }
         }
-        const updated = get().colaboradores.find((c) => c.id === colaboradorId);
-        if (updated && get().usuarioAtual?.id === colaboradorId) set({ usuarioAtual: updated });
       },
 
-      marcarRotina: (colaboradorId, rotinaId, valor) => {
+      // Conclui rotina (lista top-level) e avança a recorrência para o próximo
+      // ciclo automaticamente. XP vai para o responsável (ou quem concluiu).
+      concluirRotina: (rotinaId) => {
+        const rotina = get().rotinas.find((r) => r.id === rotinaId);
+        if (!rotina) return;
+        const jaConcluidaHoje = rotina.ultimaConclusao === hojeStr();
+        const quem = rotina.colaboradorId || get().usuarioAtual?.id;
+
         set((state) => ({
-          colaboradores: state.colaboradores.map((c) => {
-            if (c.id !== colaboradorId) return c;
-            return {
-              ...c,
-              rotinas: c.rotinas.map((r) =>
-                r.id !== rotinaId ? r : {
-                  ...r,
-                  concluida: valor,
-                  subtarefas: r.subtarefas.map((s) => ({ ...s, concluida: valor })),
-                }
-              ),
-            };
-          }),
+          rotinas: state.rotinas.map((r) =>
+            r.id !== rotinaId ? r : {
+              ...r,
+              concluida: true,
+              ultimaConclusao: hojeStr(),
+              proximaOcorrencia: calcularProximaOcorrencia(r.frequencia, hojeStr()),
+              subtarefas: r.subtarefas.map((s) => ({ ...s, concluida: true })),
+            }
+          ),
         }));
-        if (valor) {
+
+        if (!jaConcluidaHoje && quem) {
           const bonus = Math.random() < 0.10;
           const xp = bonus ? 50 : 25;
-          get().ganharXP(colaboradorId, xp);
+          get().ganharXP(quem, xp);
           const msg = bonus ? "+50 XP · BONUS 2x! Rotina concluida!" : "+25 XP · rotina concluida!";
           get().addToast(msg, "success", xp);
           get().adicionarAtividadeEntry({
-            colaboradorId,
+            colaboradorId: quem,
             tipo: "rotina_concluida",
-            descricao: "Rotina concluida",
+            descricao: "Rotina concluida: " + rotina.titulo,
             hora: new Date().toTimeString().slice(0, 5),
-            data: new Date().toISOString().split("T")[0],
+            data: hojeStr(),
             xp,
           });
         }
-        const updated = get().colaboradores.find((c) => c.id === colaboradorId);
-        if (updated && get().usuarioAtual?.id === colaboradorId) set({ usuarioAtual: updated });
+      },
+
+      // Reabre rotina concluída: volta a próxima ocorrência para hoje (vence de novo).
+      reabrirRotina: (rotinaId) => {
+        set((state) => ({
+          rotinas: state.rotinas.map((r) =>
+            r.id !== rotinaId ? r : {
+              ...r,
+              concluida: false,
+              ultimaConclusao: undefined,
+              proximaOcorrencia: hojeStr(),
+              subtarefas: r.subtarefas.map((s) => ({ ...s, concluida: false })),
+            }
+          ),
+        }));
+      },
+
+      // Define (ou remove) o responsável de uma rotina. undefined = vai para Vagas.
+      delegarRotina: (rotinaId, colaboradorId) => {
+        set((state) => ({
+          rotinas: state.rotinas.map((r) =>
+            r.id !== rotinaId ? r : { ...r, colaboradorId, vagaTemporaria: colaboradorId ? false : r.vagaTemporaria }
+          ),
+        }));
       },
 
       marcarExpectativa: (colaboradorId, expectativaId, valor) => {
@@ -400,9 +427,10 @@ export const useAppStore = create<AppState>()(
         const colab = get().colaboradores.find((c) => c.id === colaboradorId);
         if (!colab || colab.ultimoCheckIn === hoje) return;
 
-        const totalSubs = colab.rotinas.reduce((a, r) => a + r.subtarefas.length, 0);
-        const feitas = colab.rotinas.reduce((a, r) => a + r.subtarefas.filter((s) => s.concluida).length, 0);
-        const pctRotinas = totalSubs === 0 ? (colab.rotinas.every((r) => r.concluida) ? 100 : 0) : Math.round((feitas / totalSubs) * 100);
+        const minhasRotinas = get().rotinas.filter((r) => r.colaboradorId === colaboradorId && r.ativa !== false);
+        const totalSubs = minhasRotinas.reduce((a, r) => a + r.subtarefas.length, 0);
+        const feitas = minhasRotinas.reduce((a, r) => a + r.subtarefas.filter((s) => s.concluida).length, 0);
+        const pctRotinas = totalSubs === 0 ? (minhasRotinas.every((r) => r.concluida) ? 100 : 0) : Math.round((feitas / totalSubs) * 100);
         const totalExp = colab.expectativas.reduce((a, e) => a + e.peso, 0);
         const cumprido = colab.expectativas.filter((e) => e.cumprida).reduce((a, e) => a + e.peso, 0);
         const pctExpectativas = totalExp === 0 ? 100 : Math.round((cumprido / totalExp) * 100);
@@ -579,7 +607,7 @@ export const useAppStore = create<AppState>()(
         }
       },
 
-      resetarRotinas: () => set({ colaboradores: COLABORADORES }),
+      resetarRotinas: () => set({ rotinas: ROTINAS_MOCK }),
 
       setStatusOnline: (colaboradorId, ativo, ate, proximoDia) => {
         const desde = ativo ? new Date().toTimeString().slice(0, 5) : undefined;
@@ -671,41 +699,26 @@ export const useAppStore = create<AppState>()(
         set((state) => ({ toasts: state.toasts.filter((t) => t.id !== id) }));
       },
 
-      criarRotina: (colaboradorId, rotina) => {
-        const novaRotina = { ...rotina, id: `rot-${Date.now()}` };
-        set((state) => ({
-          colaboradores: state.colaboradores.map((c) =>
-            c.id !== colaboradorId ? c : { ...c, rotinas: [...c.rotinas, novaRotina] }
-          ),
-        }));
-        const updated = get().colaboradores.find((c) => c.id === colaboradorId);
-        if (updated && get().usuarioAtual?.id === colaboradorId) set({ usuarioAtual: updated });
+      criarRotina: (rotina) => {
+        // Nasce com recorrência: começa devida na data de início (default hoje).
+        const inicio = rotina.dataInicio || hojeStr();
+        const novaRotina: Rotina = {
+          ...rotina,
+          id: `rot-${Date.now()}`,
+          dataInicio: inicio,
+          proximaOcorrencia: rotina.proximaOcorrencia || inicio,
+        };
+        set((state) => ({ rotinas: [...state.rotinas, novaRotina] }));
       },
 
-      editarRotina: (colaboradorId, rotinaId, updates) => {
+      editarRotina: (rotinaId, updates) => {
         set((state) => ({
-          colaboradores: state.colaboradores.map((c) =>
-            c.id !== colaboradorId ? c : {
-              ...c,
-              rotinas: c.rotinas.map((r) => r.id !== rotinaId ? r : { ...r, ...updates }),
-            }
-          ),
+          rotinas: state.rotinas.map((r) => r.id !== rotinaId ? r : { ...r, ...updates }),
         }));
-        const updated = get().colaboradores.find((c) => c.id === colaboradorId);
-        if (updated && get().usuarioAtual?.id === colaboradorId) set({ usuarioAtual: updated });
       },
 
-      deletarRotina: (colaboradorId, rotinaId) => {
-        set((state) => ({
-          colaboradores: state.colaboradores.map((c) =>
-            c.id !== colaboradorId ? c : {
-              ...c,
-              rotinas: c.rotinas.filter((r) => r.id !== rotinaId),
-            }
-          ),
-        }));
-        const updated = get().colaboradores.find((c) => c.id === colaboradorId);
-        if (updated && get().usuarioAtual?.id === colaboradorId) set({ usuarioAtual: updated });
+      deletarRotina: (rotinaId) => {
+        set((state) => ({ rotinas: state.rotinas.filter((r) => r.id !== rotinaId) }));
       },
 
       usarFichaReconhecimento: (doId) => {
@@ -1104,7 +1117,7 @@ export const useAppStore = create<AppState>()(
     }),
     {
       name: "painel-izzat-store",
-      version: 20,
+      version: 22,
       migrate: (persisted: unknown, version: number) => {
         const s = persisted as Record<string, unknown>;
         if (version < 8) return { ...s, sidebarColapsada: false, onboardingConcluido: false };
@@ -1164,6 +1177,45 @@ export const useAppStore = create<AppState>()(
         }
         if (version < 20) {
           return { ...s, linksRapidos: [] };
+        }
+        if (version < 21) {
+          // Recorrência automática: dá data inicial às rotinas existentes.
+          // Todas começam "devidas hoje" → aparecem na sub-aba Diária.
+          const hoje = hojeStr();
+          const cols = (s.colaboradores as Colaborador[] | undefined) || [];
+          return {
+            ...s,
+            colaboradores: cols.map((c) => ({
+              ...c,
+              rotinas: (c.rotinas || []).map((r) => ({
+                ...r,
+                dataInicio: r.dataInicio || hoje,
+                proximaOcorrencia: r.proximaOcorrencia || hoje,
+              })),
+            })),
+          };
+        }
+        if (version < 22) {
+          // Rotinas saem de dentro do colaborador e viram lista própria (top-level),
+          // ligadas por colaboradorId. Assim sobrevivem à exclusão da pessoa.
+          const hoje = hojeStr();
+          const cols = (s.colaboradores as Colaborador[] | undefined) || [];
+          const jaTemTopLevel = Array.isArray(s.rotinas) && (s.rotinas as Rotina[]).length > 0;
+          const achatadas: Rotina[] = jaTemTopLevel
+            ? (s.rotinas as Rotina[])
+            : cols.flatMap((c) =>
+                (c.rotinas || []).map((r) => ({
+                  ...r,
+                  colaboradorId: r.colaboradorId || c.id,
+                  dataInicio: r.dataInicio || hoje,
+                  proximaOcorrencia: r.proximaOcorrencia || hoje,
+                }))
+              );
+          return {
+            ...s,
+            rotinas: achatadas,
+            colaboradores: cols.map((c) => ({ ...c, rotinas: [] })),
+          };
         }
         return s;
       },

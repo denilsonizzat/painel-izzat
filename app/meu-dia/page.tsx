@@ -1,6 +1,7 @@
 "use client";
 import { useAppStore } from "@/lib/store";
 import { LOJAS, calcNivel, semanaAtualKey } from "@/lib/data";
+import { rotinasDoColaborador } from "@/lib/recorrencia";
 import { CheckCircle2, Circle, ChevronDown, ChevronUp, Flame, Zap, Star, Plus, AlertTriangle, Clock, Trash2, X, Moon, Sun } from "lucide-react";
 import BackButton from "@/components/BackButton";
 import { useState, useEffect } from "react";
@@ -10,7 +11,7 @@ function Particle({ style }: { style: React.CSSProperties }) {
 }
 
 export default function MeuDiaPage() {
-  const { usuarioAtual, tarefas, entregasSemanais, marcarSubtarefa, marcarRotina, atualizarStatusTarefa, adicionarComentario, registrarCheckIn, criarEntregaSemanal, atualizarStatusEntrega, deletarEntregaSemanal, abrirPomodoro, registrarSono } = useAppStore();
+  const { usuarioAtual, rotinas: rotinasStore, tarefas, entregasSemanais, marcarSubtarefa, concluirRotina, reabrirRotina, atualizarStatusTarefa, adicionarComentario, registrarCheckIn, criarEntregaSemanal, atualizarStatusEntrega, deletarEntregaSemanal, abrirPomodoro, registrarSono } = useAppStore();
   const [expandidas, setExpandidas] = useState<string[]>([]);
   const [comentandoId, setComentandoId] = useState<string | null>(null);
   const [textoComentario, setTextoComentario] = useState("");
@@ -32,7 +33,7 @@ export default function MeuDiaPage() {
   const hoje_ = new Date().toISOString().split("T")[0];
   const temSonoHoje = (usuarioAtual.registrosSono || []).some((r) => r.data === hoje_);
 
-  const rotinas = usuarioAtual.rotinas;
+  const rotinas = rotinasDoColaborador(rotinasStore, usuarioAtual.id);
   const minhasTarefas = tarefas.filter((t) => t.atribuidoPara === usuarioAtual.id && t.status !== "concluida");
   const minhasEntregas = entregasSemanais.filter((e) => e.colaboradorId === usuarioAtual.id && e.semana === semanaAtualKey());
 
@@ -49,7 +50,7 @@ export default function MeuDiaPage() {
     setExpandidas((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]);
 
   const handleSubtarefa = (rotinaId: string, subId: string, concluida: boolean, valor: boolean) => {
-    marcarSubtarefa(usuarioAtual.id, rotinaId, subId, valor);
+    marcarSubtarefa(rotinaId, subId, valor);
     if (valor && !concluida) {
       setXpFlash(10);
       setTimeout(() => setXpFlash(null), 1500);
@@ -460,8 +461,8 @@ export default function MeuDiaPage() {
                     role="button"
                     tabIndex={0}
                     className="flex-shrink-0"
-                    onClick={(e) => { e.stopPropagation(); marcarRotina(usuarioAtual.id, rotina.id, !rotina.concluida); }}
-                    onKeyDown={(e) => { if (e.key === " " || e.key === "Enter") { e.stopPropagation(); marcarRotina(usuarioAtual.id, rotina.id, !rotina.concluida); } }}
+                    onClick={(e) => { e.stopPropagation(); rotina.concluida ? reabrirRotina(rotina.id) : concluirRotina(rotina.id); }}
+                    onKeyDown={(e) => { if (e.key === " " || e.key === "Enter") { e.stopPropagation(); rotina.concluida ? reabrirRotina(rotina.id) : concluirRotina(rotina.id); } }}
                   >
                     {rotina.concluida ? <CheckCircle2 size={22} style={{ color: "#10b981" }} /> : <Circle size={22} style={{ color: "#475569" }} />}
                   </span>

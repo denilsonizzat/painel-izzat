@@ -3,6 +3,7 @@ import { useAppStore } from "@/lib/store";
 import Avatar from "@/components/Avatar";
 import Link from "next/link";
 import { calcNivel } from "@/lib/data";
+import { rotinasDoColaborador } from "@/lib/recorrencia";
 import { Zap, Flame, UserPlus, X } from "lucide-react";
 import BackButton from "@/components/BackButton";
 import { useState } from "react";
@@ -29,7 +30,7 @@ const CORES_PALETTE = [
 ];
 
 export default function EquipePage() {
-  const { colaboradores, usuarioAtual, criarColaborador } = useAppStore();
+  const { colaboradores, rotinas, usuarioAtual, criarColaborador } = useAppStore();
 
   const [novoMembro, setNovoMembro] = useState(false);
   const [form, setForm] = useState({
@@ -86,7 +87,7 @@ export default function EquipePage() {
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {colaboradores.map((c) => {
-          const pctRotina = calcProgresso(c.rotinas);
+          const pctRotina = calcProgresso(rotinasDoColaborador(rotinas, c.id));
           const pctExp = calcExpectativas(c.expectativas);
           const corRotina = pctRotina === 100 ? "#10b981" : pctRotina >= 50 ? "#f59e0b" : "#ef4444";
           const corExp = pctExp === 100 ? "#10b981" : pctExp >= 50 ? "#f59e0b" : "#ef4444";

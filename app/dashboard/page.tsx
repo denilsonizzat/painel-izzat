@@ -6,6 +6,7 @@ import Avatar from "@/components/Avatar";
 import Link from "next/link";
 import Image from "next/image";
 import { calcNivel } from "@/lib/data";
+import { rotinasDoColaborador } from "@/lib/recorrencia";
 import { useEffect, useState } from "react";
 import { useNotifications } from "@/hooks/useNotifications";
 import StoriesBar from "@/components/StoriesBar";
@@ -38,7 +39,7 @@ function VerticalBarChart({ items }: { items: { id: string; nome: string; avatar
 }
 
 export default function DashboardPage() {
-  const { colaboradores, tarefas, usuarioAtual, verificarAtrasadas, missoesSemana, concluirMissao, pulsoAtual, registrarPulso, atividadesHoje } = useAppStore();
+  const { colaboradores, rotinas, tarefas, usuarioAtual, verificarAtrasadas, missoesSemana, concluirMissao, pulsoAtual, registrarPulso, atividadesHoje } = useAppStore();
   const { notificarStreakRisco } = useNotifications();
   const [isLoading, setIsLoading] = useState(true);
   const [notaPulso, setNotaPulso] = useState<number | null>(null);
@@ -63,11 +64,11 @@ export default function DashboardPage() {
   const tarefasUrgentes = tarefas.filter((t) => t.prioridade === "alta" && t.status !== "concluida").length;
   const tarefasAtrasadas = tarefas.filter((t) => t.status === "atrasada").length;
   const mediaProgresso = colaboradoresAtivos.length
-    ? Math.round(colaboradoresAtivos.reduce((acc, c) => acc + calcProgresso(c.rotinas), 0) / colaboradoresAtivos.length)
+    ? Math.round(colaboradoresAtivos.reduce((acc, c) => acc + calcProgresso(rotinasDoColaborador(rotinas, c.id)), 0) / colaboradoresAtivos.length)
     : 0;
 
   const chartItems = colaboradoresAtivos.map((c) => ({
-    id: c.id, nome: c.nome, avatar: c.avatar, foto: c.foto, cor: c.cor, pct: calcProgresso(c.rotinas),
+    id: c.id, nome: c.nome, avatar: c.avatar, foto: c.foto, cor: c.cor, pct: calcProgresso(rotinasDoColaborador(rotinas, c.id)),
   }));
 
   // Resumo semanal
@@ -78,7 +79,7 @@ export default function DashboardPage() {
   const inicioSemanaStr = inicioSemana.toISOString().split("T")[0];
   const tarefasSemana = tarefas.filter((t) => t.dataCriacao >= inicioSemanaStr);
   const concluidasSemana = tarefasSemana.filter((t) => t.status === "concluida").length;
-  const emDia = colaboradores.filter((c) => calcProgresso(c.rotinas) === 100);
+  const emDia = colaboradores.filter((c) => calcProgresso(rotinasDoColaborador(rotinas, c.id)) === 100);
 
   // Destaques recentes (ultimos 7 dias)
   const seteDiasAtras = new Date();
@@ -340,7 +341,7 @@ export default function DashboardPage() {
             const minhasTarefas = tarefas.filter((t) => t.atribuidoPara === usuarioAtual?.id && t.status !== "concluida");
             const minhasConcluidas = tarefas.filter((t) => t.atribuidoPara === usuarioAtual?.id && t.status === "concluida");
             const meuPct = usuarioAtual ? (() => {
-              const rot = usuarioAtual.rotinas;
+              const rot = rotinasDoColaborador(rotinas, usuarioAtual.id);
               if (!rot.length) return 100;
               const total = rot.reduce((a, r) => a + r.subtarefas.length, 0);
               if (total === 0) return rot.every((r) => r.concluida) ? 100 : 0;
@@ -709,7 +710,7 @@ export default function DashboardPage() {
             </div>
             <div className="space-y-4">
               {colaboradoresAtivos.map((c) => {
-                const pct = calcProgresso(c.rotinas);
+                const pct = calcProgresso(rotinasDoColaborador(rotinas, c.id));
                 const cor = pct === 100 ? "#10b981" : pct >= 50 ? "#f59e0b" : "#ef4444";
                 const atividadesCount = atividadesHoje.filter((a) => a.colaboradorId === c.id).length;
                 return (
