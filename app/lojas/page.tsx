@@ -202,6 +202,7 @@ export default function LojasPage() {
             <button
               key={f}
               onClick={() => setGrupo(f)}
+              title={f === "todos" ? "Mostrar todas as lojas" : f === "izzat" ? "Lojas próprias do grupo Izzat" : "Lojas de clientes parceiros"}
               className="px-4 py-1.5 rounded-full text-sm font-medium transition-all"
               style={{
                 background: grupo === f ? "#c9a84c" : "#122039",
@@ -217,6 +218,7 @@ export default function LojasPage() {
             <button
               key={f}
               onClick={() => setMercado(f)}
+              title={f === "todos" ? "Todos os mercados" : f === "global" ? "Lojas que vendem para o mundo (global)" : "Lojas focadas no mercado brasileiro"}
               className="px-4 py-1.5 rounded-full text-sm font-medium transition-all"
               style={{
                 background: mercado === f ? "#3b82f6" : "#122039",

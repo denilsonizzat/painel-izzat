@@ -119,7 +119,7 @@ function KanbanCol({
       }}
     >
       {/* Cabeçalho da coluna */}
-      <div className="flex items-center gap-2 px-1 pb-1">
+      <div className="flex items-center gap-2 px-1 pb-1" title={`Etapa do pipeline: ${col.label} — ${col.desc}. Arraste cards para cá para mover o produto.`}>
         <col.icon size={13} style={{ color: col.cor, flexShrink: 0 }} />
         <div className="flex-1 min-w-0">
           <p className="text-xs font-bold leading-tight" style={{ color: col.cor }}>{col.label}</p>
@@ -569,7 +569,7 @@ export default function CatalogoPage() {
       >
         {/* Tipo */}
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1 flex-shrink-0">
+          <div className="flex items-center gap-1 flex-shrink-0" title="Filtra por origem do produto: Originais (testados na loja matriz) ou Cópias (distribuídos para lojas nichadas)">
             <GitBranch size={10} style={{ color: "#475569" }} />
             <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "#475569" }}>Tipo</span>
           </div>
@@ -597,7 +597,7 @@ export default function CatalogoPage() {
 
         {/* Loja */}
         <div className="flex items-center gap-2 flex-wrap">
-          <div className="flex items-center gap-1 flex-shrink-0">
+          <div className="flex items-center gap-1 flex-shrink-0" title="Filtra os produtos por loja">
             <Store size={10} style={{ color: "#475569" }} />
             <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "#475569" }}>Loja</span>
           </div>

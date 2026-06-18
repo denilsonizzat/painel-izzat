@@ -161,13 +161,14 @@ export default function GastosOperacoesPage() {
       {/* Cards resumo geral */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
-          { label: "Fixo Izzat/mês", valor: lojasGrupo.reduce((s, l) => s + totalFixoLoja(l.id), 0), cor: "#c9a84c" },
-          { label: "Variável Izzat", valor: lojasGrupo.reduce((s, l) => s + totalVariavelLoja(l.id), 0), cor: "#f59e0b" },
-          { label: "Fixo Partners/mês", valor: lojasPartner.reduce((s, l) => s + totalFixoLoja(l.id), 0), cor: "#3b82f6" },
-          { label: "Variável Partners", valor: lojasPartner.reduce((s, l) => s + totalVariavelLoja(l.id), 0), cor: "#8b5cf6" },
+          { label: "Fixo Izzat/mês", valor: lojasGrupo.reduce((s, l) => s + totalFixoLoja(l.id), 0), cor: "#c9a84c", dica: "Soma dos custos fixos mensais das lojas do grupo Izzat (pagos pela empresa)" },
+          { label: "Variável Izzat", valor: lojasGrupo.reduce((s, l) => s + totalVariavelLoja(l.id), 0), cor: "#f59e0b", dica: "Custos variáveis das lojas do grupo Izzat (ex: ads, que mudam mês a mês)" },
+          { label: "Fixo Partners/mês", valor: lojasPartner.reduce((s, l) => s + totalFixoLoja(l.id), 0), cor: "#3b82f6", dica: "Custos fixos mensais das lojas parceiras (pagos pelo parceiro, não pela Izzat)" },
+          { label: "Variável Partners", valor: lojasPartner.reduce((s, l) => s + totalVariavelLoja(l.id), 0), cor: "#8b5cf6", dica: "Custos variáveis das lojas parceiras (pagos pelo parceiro)" },
         ].map((card) => (
           <div
             key={card.label}
+            title={card.dica}
             className="rounded-2xl p-4"
             style={{
               background: "#122039",
@@ -194,12 +195,13 @@ export default function GastosOperacoesPage() {
       {/* Tabs Grupo */}
       <div className="flex gap-1 p-1 rounded-xl w-fit" style={{ background: "#122039", border: "1px solid #1e3356" }}>
         {([
-          { v: "izzat" as GrupoTab, label: "Grupo Izzat", icon: Building2, cor: "#c9a84c" },
-          { v: "partner" as GrupoTab, label: "Partners", icon: Users2, cor: "#3b82f6" },
+          { v: "izzat" as GrupoTab, label: "Grupo Izzat", icon: Building2, cor: "#c9a84c", dica: "Lojas próprias da Izzat. Estes custos são pagos pela empresa." },
+          { v: "partner" as GrupoTab, label: "Partners", icon: Users2, cor: "#3b82f6", dica: "Lojas de parceiros. Os custos são pagos pelo parceiro — registramos para acompanhar o investimento dele." },
         ]).map((tab) => (
           <button
             key={tab.v}
             onClick={() => setGrupoTab(tab.v)}
+            title={tab.dica}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all"
             style={{
               background: grupoTab === tab.v ? tab.cor + "22" : "transparent",

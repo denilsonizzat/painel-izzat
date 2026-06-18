@@ -231,13 +231,14 @@ export default function SonoPage() {
       {/* Selector de periodo + Grafico */}
       <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
         <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: "1px solid #1e3356" }}>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2" title="Gráfico das horas dormidas ao longo do tempo">
             <TrendingUp size={15} style={{ color: "#8b5cf6" }} />
             <p className="text-sm font-semibold text-white">Evolucao do Sono</p>
           </div>
           <div className="flex gap-1">
             {([7, 14, 21, 30] as const).map((p) => (
               <button key={p} onClick={() => setPeriodo(p)}
+                title={`Mostrar os últimos ${p} dias`}
                 className="px-2.5 py-1 rounded-lg text-xs font-bold transition-all"
                 style={{ background: periodo === p ? "#8b5cf6" : "#1e3356", color: periodo === p ? "white" : "#64748b" }}>
                 {p}d

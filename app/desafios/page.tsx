@@ -573,11 +573,11 @@ export default function DesafiosPage() {
     setForm(EMPTY_FORM);
   }
 
-  const FILTROS: { key: typeof filtro; label: string; cor: string }[] = [
-    { key: "andamento", label: "Em andamento", cor: "#10b981" },
-    { key: "proximo", label: "Próximos", cor: "#3b82f6" },
-    { key: "encerrado", label: "Encerrados", cor: "#64748b" },
-    { key: "todos", label: "Todos", cor: "#c9a84c" },
+  const FILTROS: { key: typeof filtro; label: string; cor: string; dica: string }[] = [
+    { key: "andamento", label: "Em andamento", cor: "#10b981", dica: "Desafios acontecendo agora (entre a data de início e fim)" },
+    { key: "proximo", label: "Próximos", cor: "#3b82f6", dica: "Desafios que ainda vão começar" },
+    { key: "encerrado", label: "Encerrados", cor: "#64748b", dica: "Desafios que já terminaram" },
+    { key: "todos", label: "Todos", cor: "#c9a84c", dica: "Mostrar todos os desafios" },
   ];
 
   return (
@@ -607,19 +607,19 @@ export default function DesafiosPage() {
 
       {/* Stats banner */}
       <div className="grid grid-cols-3 gap-3">
-        <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }} title="Quantos check-ins você fez nos desafios esta semana">
           <p className="text-xs mb-1" style={{ color: "#64748b" }}>Minha semana</p>
           <p className="text-2xl font-black text-white">{meusCheckInsSemana}</p>
           <p className="text-xs mt-0.5" style={{ color: "#475569" }}>check-ins</p>
         </div>
-        <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }} title="Sua maior sequência de dias seguidos fazendo check-in num desafio">
           <p className="text-xs mb-1" style={{ color: "#64748b" }}>Streak ativo</p>
           <p className="text-2xl font-black" style={{ color: meuMelhorStreak > 0 ? "#f59e0b" : "#334155" }}>
             {meuMelhorStreak > 0 ? "🔥" : "💤"} {meuMelhorStreak}
           </p>
           <p className="text-xs mt-0.5" style={{ color: "#475569" }}>dias seguidos</p>
         </div>
-        <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }} title="Quantos membros do time já fizeram check-in hoje">
           <p className="text-xs mb-1" style={{ color: "#64748b" }}>Time hoje</p>
           <p className="text-2xl font-black text-white">{membrosComCheckInHoje}</p>
           <p className="text-xs mt-0.5" style={{ color: "#475569" }}>/ {colaboradores.length} membros</p>
@@ -638,6 +638,7 @@ export default function DesafiosPage() {
             <button
               key={f.key}
               onClick={() => setFiltro(f.key)}
+              title={f.dica}
               className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all"
               style={{
                 background: filtro === f.key ? `${f.cor}20` : "#122039",

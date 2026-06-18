@@ -109,7 +109,7 @@ export default function CustoTotalPage() {
       </div>
 
       {/* Hero — total */}
-      <div className="rounded-2xl p-8 text-center gradient-hero-gold" style={{ background: "#122039", border: "1px solid #c9a84c25" }}>
+      <div className="rounded-2xl p-8 text-center gradient-hero-gold" style={{ background: "#122039", border: "1px solid #c9a84c25" }} title="Quanto custa manter o grupo Izzat por mês. Fórmula: Folha Salarial + Ferramentas do Time + Custos Operacionais das lojas Izzat. Não inclui lojas Partners.">
         <p className="text-section-label mb-3">CUSTO TOTAL MENSAL</p>
         <p className="text-shimmer font-black mb-1" style={{ fontSize: 52, letterSpacing: "-2px", lineHeight: 1 }}>
           R$ {fmt(totalGeral)}
@@ -148,11 +148,11 @@ export default function CustoTotalPage() {
       {/* Cards resumo */}
       <div className="grid grid-cols-3 gap-3">
         {[
-          { label: "Folha Salarial", valor: totalFolha, sub: `${colaboradores.filter(c => c.salario).length}/${colaboradores.length} cadastrados`, cor: "#10b981", icon: Users },
-          { label: "Ferramentas Time", valor: totalFerramentas, sub: `${ferramentas.length} ferramentas`, cor: "#8b5cf6", icon: Wrench },
-          { label: "Custos Op. Izzat", valor: totalOperacoes, sub: `${gastosIzzat.length} lançamentos`, cor: "#3b82f6", icon: Building2 },
+          { label: "Folha Salarial", valor: totalFolha, sub: `${colaboradores.filter(c => c.salario).length}/${colaboradores.length} cadastrados`, cor: "#10b981", icon: Users, dica: "Soma dos salários cadastrados de todo o time" },
+          { label: "Ferramentas Time", valor: totalFerramentas, sub: `${ferramentas.length} ferramentas`, cor: "#8b5cf6", icon: Wrench, dica: "Custo mensal das ferramentas e assinaturas do time" },
+          { label: "Custos Op. Izzat", valor: totalOperacoes, sub: `${gastosIzzat.length} lançamentos`, cor: "#3b82f6", icon: Building2, dica: "Custos operacionais das lojas do grupo Izzat (não inclui Partners)" },
         ].map((card) => (
-          <div key={card.label} className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+          <div key={card.label} title={card.dica} className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
             <div className="flex items-center gap-2 mb-1">
               <card.icon size={13} style={{ color: card.cor }} />
               <p className="text-xs" style={{ color: "#64748b" }}>{card.label}</p>

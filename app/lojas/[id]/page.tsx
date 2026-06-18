@@ -858,12 +858,13 @@ export default function LojaPerfilPage() {
       {/* Tabs */}
       <div className="flex gap-1 p-1 rounded-xl" style={{ background: "#122039", border: "1px solid #1e3356", width: "fit-content" }}>
         {([
-          { v: "visao-geral", label: "Visao Geral" },
-          { v: "produtos", label: `Produtos (${produtosLoja.length})` },
+          { v: "visao-geral", label: "Visao Geral", desc: "Resumo da loja: tarefas, rotinas, links, gastos e métricas" },
+          { v: "produtos", label: `Produtos (${produtosLoja.length})`, desc: "Catálogo de produtos desta loja no pipeline de validação" },
         ] as const).map((tab) => (
           <button
             key={tab.v}
             onClick={() => setAbaAtiva(tab.v)}
+            title={tab.desc}
             className="px-4 py-2 rounded-lg text-sm font-semibold transition-all"
             style={{
               background: abaAtiva === tab.v ? corGrupo : "transparent",
@@ -1222,7 +1223,7 @@ export default function LojaPerfilPage() {
       {/* ─── ROTINAS DA LOJA ─── */}
       <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
         <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: "1px solid #1e3356" }}>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2" title="Rotinas vinculadas a esta loja. Cada uma pode ser delegada a um colaborador e aparece em Tarefas › Rotinas da pessoa. Sobrevivem se a pessoa sair.">
             <RefreshCw size={15} style={{ color: corGrupo }} />
             <p className="text-sm font-semibold text-white">Rotinas desta Loja</p>
             <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#1e3356", color: "#64748b" }}>

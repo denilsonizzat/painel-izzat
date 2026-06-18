@@ -114,6 +114,7 @@ export default function RegrasPage() {
           <button
             key={r.value}
             onClick={() => setFiltroRigidez(filtroRigidez === r.value ? "todos" : r.value)}
+            title={`${r.label}: ${r.desc} Clique para filtrar só estas regras.`}
             className="rounded-2xl p-4 text-left transition-all hover:scale-[1.02]"
             style={{
               background: filtroRigidez === r.value ? r.bg : "#122039",
