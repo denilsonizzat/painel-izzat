@@ -239,10 +239,10 @@ export default function FloatingPomodoro() {
           )}
         </div>
         <div className="flex items-center gap-1">
-          <button onClick={() => setAberto(false)} className="p-1.5 rounded-xl hover:bg-slate-800 transition-colors" style={{ color: "#64748b" }} title="Minimizar">
+          <button onClick={() => setAberto(false)} className="p-1.5 rounded-xl hover:bg-slate-800 transition-colors" style={{ color: "#64748b" }} data-tip="Minimizar">
             <ChevronDown size={14} />
           </button>
-          <button onClick={fechar} className="p-1.5 rounded-xl hover:bg-slate-800 transition-colors" style={{ color: "#64748b" }} title="Fechar">
+          <button onClick={fechar} className="p-1.5 rounded-xl hover:bg-slate-800 transition-colors" style={{ color: "#64748b" }} data-tip="Fechar">
             <X size={14} />
           </button>
         </div>

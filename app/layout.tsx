@@ -11,6 +11,7 @@ import CheckInDiario from "@/components/CheckInDiario";
 import SnapshotSync from "@/components/SnapshotSync";
 import PWARegister from "@/components/PWARegister";
 import NotificadorDiario from "@/components/NotificadorDiario";
+import TipLayer from "@/components/TipLayer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -52,6 +53,7 @@ export default function RootLayout({
         <SnapshotSync />
         <PWARegister />
         <NotificadorDiario />
+        <TipLayer />
       </body>
     </html>
   );

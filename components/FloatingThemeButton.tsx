@@ -14,7 +14,7 @@ export default function FloatingThemeButton() {
     <>
       <button
         onClick={() => setAberto(true)}
-        title="Aparência e tema"
+        data-tip="Aparência e tema"
         className="hidden md:flex fixed top-14 right-4 z-40 items-center justify-center w-10 h-10 rounded-xl shadow-xl transition-all hover:scale-110 active:scale-95"
         style={{
           background: "var(--card)",

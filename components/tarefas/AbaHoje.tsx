@@ -56,10 +56,10 @@ export default function AbaHoje() {
                 <span role="button" tabIndex={0} className="flex-shrink-0 cursor-pointer"
                   onClick={() => concluirRotina(rotina.id)}
                   onKeyDown={(e) => { if (e.key === " " || e.key === "Enter") concluirRotina(rotina.id); }}
-                  title="Concluir rotina inteira">
+                  data-tip="Concluir rotina inteira">
                   <Circle size={22} style={{ color: "#475569" }} />
                 </span>
-                <button className="flex-1 min-w-0 text-left" onClick={() => setDetalheId(rotina.id)} title="Abrir detalhes, subtarefas e descrição">
+                <button className="flex-1 min-w-0 text-left" onClick={() => setDetalheId(rotina.id)} data-tip="Abrir detalhes, subtarefas e descrição">
                   <div className="flex items-center gap-2 flex-wrap mb-0.5">
                     <span className="text-xs px-1.5 py-0.5 rounded-full font-medium" style={{ background: "#0ea5e920", color: "#0ea5e9" }}>{LABEL_FREQUENCIA[rotina.frequencia]}</span>
                     {atrasada && <span className="text-xs px-1.5 py-0.5 rounded-full font-bold" style={{ background: "#ef444420", color: "#ef4444" }}>Atrasada</span>}
@@ -68,11 +68,11 @@ export default function AbaHoje() {
                   {loja && <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>{loja.nome}</p>}
                 </button>
                 <div className="flex items-center gap-2 flex-shrink-0">
-                  <button onClick={() => abrirPomodoro(rotina.id, rotina.titulo)} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold" style={{ background: "#3b82f615", color: "#3b82f6" }} title="Iniciar um foco cronometrado de 25 min">
+                  <button onClick={() => abrirPomodoro(rotina.id, rotina.titulo)} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold" style={{ background: "#3b82f615", color: "#3b82f6" }} data-tip="Iniciar um foco cronometrado de 25 min">
                     <Play size={13} /> Iniciar
                   </button>
                   {rotina.subtarefas.length > 0 && <span className="text-xs" style={{ color: "#64748b" }}>{subFeitas}/{rotina.subtarefas.length}</span>}
-                  <button onClick={() => setDetalheId(rotina.id)} title="Abrir detalhes"><ChevronRight size={16} style={{ color: "#64748b" }} /></button>
+                  <button onClick={() => setDetalheId(rotina.id)} data-tip="Abrir detalhes"><ChevronRight size={16} style={{ color: "#64748b" }} /></button>
                 </div>
               </div>
             );
@@ -91,7 +91,7 @@ export default function AbaHoje() {
             const atrasada = t.status === "atrasada" || (t.dataLimite ? t.dataLimite < hoje : false);
             return (
               <div key={t.id} className="rounded-2xl p-4 flex items-center gap-3" style={{ background: "#122039", border: `1px solid ${atrasada ? "#ef444450" : "#1e3356"}` }}>
-                <button onClick={() => atualizarStatusTarefa(t.id, "concluida")} className="flex-shrink-0" title="Concluir tarefa">
+                <button onClick={() => atualizarStatusTarefa(t.id, "concluida")} className="flex-shrink-0" data-tip="Concluir tarefa">
                   <Circle size={22} style={{ color: "#475569" }} />
                 </button>
                 <div className="flex-1 min-w-0">
@@ -105,7 +105,7 @@ export default function AbaHoje() {
                   {t.descricao && <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>{t.descricao}</p>}
                   {loja && <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>{loja.nome}</p>}
                 </div>
-                <button onClick={() => abrirPomodoro(t.id, t.titulo)} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold flex-shrink-0" style={{ background: "#3b82f615", color: "#3b82f6" }} title="Iniciar foco cronometrado de 25 min">
+                <button onClick={() => abrirPomodoro(t.id, t.titulo)} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold flex-shrink-0" style={{ background: "#3b82f615", color: "#3b82f6" }} data-tip="Iniciar foco cronometrado de 25 min">
                   <Play size={13} /> Iniciar
                 </button>
               </div>

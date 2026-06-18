@@ -236,7 +236,7 @@ export default function GastosPage() {
           <button
             key={id}
             onClick={() => setAba(id)}
-            title={dica}
+            data-tip={dica}
             className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-all"
             style={{
               background: aba === id ? "#c9a84c" : "transparent",
@@ -436,7 +436,7 @@ export default function GastosPage() {
                             ? <span className="text-sm font-bold" style={{ color: "#e8edf5" }}>R$ {fmt(c.salario)}</span>
                             : <span className="text-xs italic" style={{ color: "#334155" }}>nao cadastrado</span>}
                           <button onClick={() => { setEditandoSalId(c.id); setSalInput(c.salario ? String(c.salario) : ""); }}
-                            className="p-1 rounded-lg hover:opacity-80" style={{ color: "#475569" }} title="Editar salario">
+                            className="p-1 rounded-lg hover:opacity-80" style={{ color: "#475569" }} data-tip="Editar salario">
                             <Edit2 size={12} />
                           </button>
                         </>
@@ -547,7 +547,7 @@ export default function GastosPage() {
                             : "custo fixo"}
                         </p>
                       </div>
-                      <button onClick={() => abrirEditFerr(f)} className="p-2 rounded-xl hover:opacity-80 transition-opacity" style={{ color: "#64748b" }} title="Editar">
+                      <button onClick={() => abrirEditFerr(f)} className="p-2 rounded-xl hover:opacity-80 transition-opacity" style={{ color: "#64748b" }} data-tip="Editar">
                         <Edit2 size={14} />
                       </button>
                       {confirmarDelete === f.id ? (
@@ -561,7 +561,7 @@ export default function GastosPage() {
                           </button>
                         </div>
                       ) : (
-                        <button onClick={() => setConfirmarDelete(f.id)} className="p-2 rounded-xl hover:opacity-80" style={{ color: "#475569" }} title="Excluir">
+                        <button onClick={() => setConfirmarDelete(f.id)} className="p-2 rounded-xl hover:opacity-80" style={{ color: "#475569" }} data-tip="Excluir">
                           <Trash2 size={14} />
                         </button>
                       )}
@@ -578,7 +578,7 @@ export default function GastosPage() {
                           <Avatar nome={c.nome} avatar={c.avatar} foto={c.foto} cor={c.cor} size={20} />
                           <span className="text-xs text-white">{c.nome.split(" ")[0]}</span>
                           <button onClick={() => desvincularFerramenta(f.id, c.id)} className="ml-0.5 p-0.5 rounded hover:opacity-70 transition-opacity"
-                            style={{ color: "#475569" }} title="Desvincular">
+                            style={{ color: "#475569" }} data-tip="Desvincular">
                             <X size={11} />
                           </button>
                         </div>

@@ -202,7 +202,7 @@ export default function LojasPage() {
             <button
               key={f}
               onClick={() => setGrupo(f)}
-              title={f === "todos" ? "Mostrar todas as lojas" : f === "izzat" ? "Lojas próprias do grupo Izzat" : "Lojas de clientes parceiros"}
+              data-tip={f === "todos" ? "Mostrar todas as lojas" : f === "izzat" ? "Lojas próprias do grupo Izzat" : "Lojas de clientes parceiros"}
               className="px-4 py-1.5 rounded-full text-sm font-medium transition-all"
               style={{
                 background: grupo === f ? "#c9a84c" : "#122039",
@@ -218,7 +218,7 @@ export default function LojasPage() {
             <button
               key={f}
               onClick={() => setMercado(f)}
-              title={f === "todos" ? "Todos os mercados" : f === "global" ? "Lojas que vendem para o mundo (global)" : "Lojas focadas no mercado brasileiro"}
+              data-tip={f === "todos" ? "Todos os mercados" : f === "global" ? "Lojas que vendem para o mundo (global)" : "Lojas focadas no mercado brasileiro"}
               className="px-4 py-1.5 rounded-full text-sm font-medium transition-all"
               style={{
                 background: mercado === f ? "#3b82f6" : "#122039",
@@ -234,7 +234,7 @@ export default function LojasPage() {
         {/* Risco */}
         <div className="flex gap-2 flex-wrap items-center">
           <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#475569" }}>Risco:</span>
-          <span className="text-xs" title="Risco e calculado com base em tarefas atrasadas e rotinas nao cumpridas da loja" style={{ color: "#334155", cursor: "help" }}>ⓘ</span>
+          <span className="text-xs" data-tip="Risco e calculado com base em tarefas atrasadas e rotinas nao cumpridas da loja" style={{ color: "#334155", cursor: "help" }}>ⓘ</span>
           {([
             { v: "todos", label: "Todos", cor: "#64748b", bg: "#122039" },
             { v: "alto", label: "Alto Risco", cor: "#ef4444", bg: "#ef444420" },
@@ -331,7 +331,7 @@ export default function LojasPage() {
                     <span
                       className="absolute bottom-2.5 right-2.5 flex items-center gap-1 text-xs px-2 py-0.5 rounded-full font-bold"
                       style={{ background: "rgba(0,0,0,0.7)", color: corRisco, border: `1px solid ${corRisco}60` }}
-                      title={nivelRisco === "alto" ? "Alto Risco: 2+ tarefas atrasadas ou >=30% das tarefas atrasadas" : "Atenção: 1 tarefa atrasada ou >=10% das tarefas atrasadas"}
+                      data-tip={nivelRisco === "alto" ? "Alto Risco: 2+ tarefas atrasadas ou >=30% das tarefas atrasadas" : "Atenção: 1 tarefa atrasada ou >=10% das tarefas atrasadas"}
                     >
                       <AlertTriangle size={10} />
                       {nivelRisco === "alto" ? "Alto Risco" : "Atencao"}
@@ -359,7 +359,7 @@ export default function LojasPage() {
                       <button
                         onClick={() => abrirEditar(loja)}
                         className="p-1.5 rounded-lg transition-colors hover:bg-slate-800"
-                        title="Editar loja"
+                        data-tip="Editar loja"
                         style={{ color: "#64748b" }}
                       >
                         <Pencil size={13} />
@@ -368,7 +368,7 @@ export default function LojasPage() {
                     <button
                       onClick={() => setArquivarConfirm(isArquivando ? null : loja.id)}
                       className="p-1.5 rounded-lg transition-colors hover:bg-slate-800"
-                      title="Arquivar loja"
+                      data-tip="Arquivar loja"
                       style={{ color: isArquivando ? "#ef4444" : "#64748b" }}
                     >
                       <Archive size={13} />

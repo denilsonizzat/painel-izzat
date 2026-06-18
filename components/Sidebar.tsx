@@ -14,6 +14,7 @@ import Image from "next/image";
 import { LOJAS, Prioridade, calcNivel } from "@/lib/data";
 import OnlineStatusModal from "./OnlineStatusModal";
 import BotaoAtivarPush from "./BotaoAtivarPush";
+import Tip from "./Tip";
 
 const NAV_SECTIONS = [
   {
@@ -229,7 +230,7 @@ export default function Sidebar() {
             justifyContent: "center",
             border: sidebarColapsada ? "1px solid #c9a84c40" : "1px solid transparent",
           }}
-          title={sidebarColapsada ? "Fixar menu aberto" : "Recolher menu (passa o mouse para abrir)"}
+          data-tip={sidebarColapsada ? "Fixar menu aberto" : "Recolher menu (passa o mouse para abrir)"}
         >
           {sidebarColapsada ? <ChevronRight size={16} /> : (
             <span className="flex items-center gap-1.5 text-xs font-medium">
@@ -346,7 +347,7 @@ export default function Sidebar() {
                 <button
                   onClick={() => setSecoesColapsadas((prev) => ({ ...prev, [section.label]: !prev[section.label] }))}
                   className="w-full flex items-center justify-between px-2 mb-1 hover:opacity-70 transition-opacity"
-                  title={secoesColapsadas[section.label] ? "Expandir " + section.label : "Recolher " + section.label}
+                  data-tip={secoesColapsadas[section.label] ? "Expandir " + section.label : "Recolher " + section.label}
                 >
                   <div className="flex items-center gap-1.5">
                     {(section as { emoji?: string }).emoji && (
@@ -384,8 +385,8 @@ export default function Sidebar() {
                     : 0;
                   const meuDiaBadge = href === "/meu-dia" && meuPctRotinas !== null;
                   return (
+                    <Tip key={href} titulo={label} texto={desc ?? ""} place="right">
                     <Link
-                      key={href}
                       href={href}
                       onClick={() => setMenuAberto(false)}
                       data-tour={href === "/meu-dia" ? "meu-dia" : undefined}
@@ -399,7 +400,6 @@ export default function Sidebar() {
                         transition: "all 150ms cubic-bezier(0.4,0,0.2,1)",
                         boxShadow: ativo ? "0 0 0 1px #c9a84c20 inset" : "none",
                       }}
-                      title={isCollapsed ? `${label} — ${desc ?? ""}` : desc}
                       onMouseEnter={(e) => {
                         if (!ativo) {
                           (e.currentTarget as HTMLElement).style.background = "#1e334560";
@@ -457,6 +457,7 @@ export default function Sidebar() {
                         </span>
                       )}
                     </Link>
+                    </Tip>
                   );
                   })}
               </div>}
@@ -470,7 +471,7 @@ export default function Sidebar() {
         {usuarioAtual && (
           isCollapsed ? (
             <div className="flex justify-center mb-2">
-              <Link href={`/equipe/${usuarioAtual.id}`} onClick={() => setMenuAberto(false)} title={usuarioAtual.nome}>
+              <Link href={`/equipe/${usuarioAtual.id}`} onClick={() => setMenuAberto(false)} data-tip={usuarioAtual.nome}>
                 <div className="relative">
                   <Avatar nome={usuarioAtual.nome} avatar={usuarioAtual.avatar} foto={usuarioAtual.foto} cor={usuarioAtual.cor} size={32} />
                   {isOnline && (
@@ -501,11 +502,11 @@ export default function Sidebar() {
                   {nivelInfo && (
                     <div className="flex items-center gap-1 mt-0.5">
                       <Zap size={10} style={{ color: nivelInfo.cor }} />
-                      <span className="text-xs" style={{ color: nivelInfo.cor }} title={"Nivel: " + nivelInfo.nome + " · " + (usuarioAtual.xp || 0) + " XP acumulado"}>{nivelInfo.nome}</span>
+                      <span className="text-xs" style={{ color: nivelInfo.cor }} data-tip={"Nivel: " + nivelInfo.nome + " · " + (usuarioAtual.xp || 0) + " XP acumulado"}>{nivelInfo.nome}</span>
                       {(usuarioAtual.streak || 0) > 0 && (
                         <>
                           <Flame size={10} style={{ color: "#f59e0b" }} />
-                          <span className="text-xs" style={{ color: "#f59e0b" }} title={"Streak: " + usuarioAtual.streak + " dias seguidos de check-in"}>{usuarioAtual.streak}d</span>
+                          <span className="text-xs" style={{ color: "#f59e0b" }} data-tip={"Streak: " + usuarioAtual.streak + " dias seguidos de check-in"}>{usuarioAtual.streak}d</span>
                         </>
                       )}
                     </div>
@@ -513,7 +514,7 @@ export default function Sidebar() {
                 </div>
               </div>
               {nivelInfo?.proximo && (
-                <div className="mt-2 h-1 rounded-full overflow-hidden" style={{ background: "#1e3356" }} title={"Progresso para " + nivelInfo.proximo + ": " + nivelInfo.progresso + "%"}>
+                <div className="mt-2 h-1 rounded-full overflow-hidden" style={{ background: "#1e3356" }} data-tip={"Progresso para " + nivelInfo.proximo + ": " + nivelInfo.progresso + "%"}>
                   <div className="h-full rounded-full transition-all" style={{ width: `${nivelInfo.progresso}%`, background: nivelInfo.cor }} />
                 </div>
               )}
@@ -526,7 +527,7 @@ export default function Sidebar() {
             onClick={handleLogout}
             className="w-full flex items-center justify-center py-2 rounded-xl transition-all hover:opacity-80"
             style={{ color: "#64748b" }}
-            title="Sair"
+            data-tip="Sair"
           >
             <LogOut size={15} />
           </button>
@@ -613,7 +614,7 @@ export default function Sidebar() {
           onClick={() => setModalAberto(true)}
           className="fixed bottom-6 right-6 z-30 w-14 h-14 rounded-full shadow-2xl flex items-center justify-center transition-transform hover:scale-110 active:scale-95"
           style={{ background: "#c9a84c", color: "#0b1624" }}
-          title="Nova Tarefa Rapida"
+          data-tip="Nova Tarefa Rapida"
         >
           <Plus size={26} strokeWidth={2.5} />
         </button>

@@ -177,12 +177,12 @@ export default function MeuDiaPage() {
         {/* Streak + XP */}
         <div className="flex items-center gap-3">
           {streak > 0 && (
-            <div className="flex items-center gap-1 px-3 py-1.5 rounded-full" style={{ background: "#f59e0b15", border: "1px solid #f59e0b30" }} title={"Streak: " + streak + " dias seguidos de check-in. Mantenha a sequencia!"}>
+            <div className="flex items-center gap-1 px-3 py-1.5 rounded-full" style={{ background: "#f59e0b15", border: "1px solid #f59e0b30" }} data-tip={"Streak: " + streak + " dias seguidos de check-in. Mantenha a sequencia!"}>
               <Flame size={14} style={{ color: "#f59e0b" }} />
               <span className="text-sm font-bold" style={{ color: "#f59e0b" }}>{streak}d</span>
             </div>
           )}
-          <div className="flex items-center gap-1 px-3 py-1.5 rounded-full" style={{ background: `${nivelInfo.cor}15`, border: `1px solid ${nivelInfo.cor}30` }} title={"Nivel atual: " + nivelInfo.nome + " · " + (usuarioAtual.xp || 0) + " XP"}>
+          <div className="flex items-center gap-1 px-3 py-1.5 rounded-full" style={{ background: `${nivelInfo.cor}15`, border: `1px solid ${nivelInfo.cor}30` }} data-tip={"Nivel atual: " + nivelInfo.nome + " · " + (usuarioAtual.xp || 0) + " XP"}>
             <Zap size={14} style={{ color: nivelInfo.cor }} />
             <span className="text-sm font-bold" style={{ color: nivelInfo.cor }}>{nivelInfo.nome}</span>
           </div>
@@ -213,7 +213,7 @@ export default function MeuDiaPage() {
       {/* XP e nivel */}
       <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
         <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-2" title="XP = pontos de experiencia ganhos ao concluir rotinas, tarefas e check-ins diarios">
+          <div className="flex items-center gap-2" data-tip="XP = pontos de experiencia ganhos ao concluir rotinas, tarefas e check-ins diarios">
             <Zap size={16} style={{ color: nivelInfo.cor }} />
             <span className="text-sm font-semibold text-white">{nivelInfo.xp} XP</span>
             <span className="text-xs px-1.5 py-0.5 rounded-full font-medium" style={{ background: nivelInfo.cor + "20", color: nivelInfo.cor }}>{nivelInfo.nome}</span>
@@ -477,7 +477,7 @@ export default function MeuDiaPage() {
                       onClick={(e) => { e.stopPropagation(); abrirPomodoro(rotina.id, rotina.titulo); }}
                       className="text-xs px-2 py-1 rounded-lg flex items-center gap-1"
                       style={{ background: "#ef444415", color: "#ef4444" }}
-                      title="Iniciar Pomodoro — sessao de foco cronometrada"
+                      data-tip="Iniciar Pomodoro — sessao de foco cronometrada"
                     >
                       🍅 <span>Foco</span>
                     </button>
@@ -592,7 +592,7 @@ export default function MeuDiaPage() {
                       onClick={() => abrirPomodoro(t.id, t.titulo)}
                       className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium"
                       style={{ background: "#ef444415", color: "#ef4444" }}
-                      title="Iniciar Pomodoro"
+                      data-tip="Iniciar Pomodoro"
                     >
                       🍅 Iniciar
                     </button>

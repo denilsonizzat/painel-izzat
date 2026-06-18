@@ -141,7 +141,7 @@ export default function ThemePicker({ aberto, onFechar }: Props) {
                   border: `2px solid ${ativo ? tema.gold : "transparent"}`,
                   outline: ativo ? `1px solid ${tema.gold}40` : "none",
                 }}
-                title={tema.nome}
+                data-tip={tema.nome}
               >
                 <div className="h-14 flex">
                   <div className="w-1/3 h-full" style={{ background: tema.preview[0] }} />

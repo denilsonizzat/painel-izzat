@@ -78,12 +78,12 @@ export default function SemanaPage() {
         </div>
         <div className="flex items-center gap-2">
           {totalTravados > 0 && (
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl" style={{ background: "#ef444418", border: "1px solid #ef444430" }} title="Pessoas com alguma entrega ou tarefa travada (bloqueada por impedimento) esta semana">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl" style={{ background: "#ef444418", border: "1px solid #ef444430" }} data-tip="Pessoas com alguma entrega ou tarefa travada (bloqueada por impedimento) esta semana">
               <AlertTriangle size={14} style={{ color: "#ef4444" }} />
               <span className="text-sm font-bold" style={{ color: "#ef4444" }}>{totalTravados} travado{totalTravados > 1 ? "s" : ""}</span>
             </div>
           )}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl" style={{ background: "#10b98118", border: "1px solid #10b98130" }} title="Pessoas com rotinas em dia e sem nada travado">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl" style={{ background: "#10b98118", border: "1px solid #10b98130" }} data-tip="Pessoas com rotinas em dia e sem nada travado">
             <Users size={14} style={{ color: "#10b981" }} />
             <span className="text-sm font-bold" style={{ color: "#10b981" }}>{totalEmDia} em dia</span>
           </div>

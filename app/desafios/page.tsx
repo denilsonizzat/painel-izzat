@@ -158,7 +158,7 @@ function Heatmap({ datas, dataInicio, dataFim, h }: { datas: Set<string>; dataIn
                 return (
                   <div
                     key={di}
-                    title={d}
+                    data-tip={d}
                     style={{
                       width: 14, height: 14,
                       borderRadius: 3,
@@ -607,19 +607,19 @@ export default function DesafiosPage() {
 
       {/* Stats banner */}
       <div className="grid grid-cols-3 gap-3">
-        <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }} title="Quantos check-ins você fez nos desafios esta semana">
+        <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }} data-tip="Quantos check-ins você fez nos desafios esta semana">
           <p className="text-xs mb-1" style={{ color: "#64748b" }}>Minha semana</p>
           <p className="text-2xl font-black text-white">{meusCheckInsSemana}</p>
           <p className="text-xs mt-0.5" style={{ color: "#475569" }}>check-ins</p>
         </div>
-        <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }} title="Sua maior sequência de dias seguidos fazendo check-in num desafio">
+        <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }} data-tip="Sua maior sequência de dias seguidos fazendo check-in num desafio">
           <p className="text-xs mb-1" style={{ color: "#64748b" }}>Streak ativo</p>
           <p className="text-2xl font-black" style={{ color: meuMelhorStreak > 0 ? "#f59e0b" : "#334155" }}>
             {meuMelhorStreak > 0 ? "🔥" : "💤"} {meuMelhorStreak}
           </p>
           <p className="text-xs mt-0.5" style={{ color: "#475569" }}>dias seguidos</p>
         </div>
-        <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }} title="Quantos membros do time já fizeram check-in hoje">
+        <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }} data-tip="Quantos membros do time já fizeram check-in hoje">
           <p className="text-xs mb-1" style={{ color: "#64748b" }}>Time hoje</p>
           <p className="text-2xl font-black text-white">{membrosComCheckInHoje}</p>
           <p className="text-xs mt-0.5" style={{ color: "#475569" }}>/ {colaboradores.length} membros</p>
@@ -638,7 +638,7 @@ export default function DesafiosPage() {
             <button
               key={f.key}
               onClick={() => setFiltro(f.key)}
-              title={f.dica}
+              data-tip={f.dica}
               className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all"
               style={{
                 background: filtro === f.key ? `${f.cor}20` : "#122039",
@@ -777,7 +777,7 @@ export default function DesafiosPage() {
                       {membrosHoje.length > 0 && (
                         <div className="flex items-center gap-1 mt-2 flex-wrap">
                           {membrosHoje.slice(0, 8).map((c) => c && (
-                            <div key={c.id} title={c.nome} style={{ opacity: 0.9 }}>
+                            <div key={c.id} data-tip={c.nome} style={{ opacity: 0.9 }}>
                               <Avatar nome={c.nome} avatar={c.avatar} foto={c.foto} cor={c.cor} size={20} />
                             </div>
                           ))}

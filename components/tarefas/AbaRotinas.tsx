@@ -43,7 +43,7 @@ export default function AbaRotinas() {
             <button
               key={f}
               onClick={() => setSubAba(f)}
-              title={`Rotinas de frequência ${LABEL_FREQUENCIA[f].toLowerCase()}`}
+              data-tip={`Rotinas de frequência ${LABEL_FREQUENCIA[f].toLowerCase()}`}
               className="px-3 py-1.5 rounded-xl text-sm font-medium transition-all"
               style={{
                 background: ativo ? FREQ_COR[f] + "20" : "#122039",
@@ -93,27 +93,27 @@ export default function AbaRotinas() {
               <span role="button" tabIndex={0} className="flex-shrink-0 cursor-pointer"
                 onClick={() => concluirRotina(rotina.id)}
                 onKeyDown={(e) => { if (e.key === " " || e.key === "Enter") concluirRotina(rotina.id); }}
-                title="Concluir rotina inteira">
+                data-tip="Concluir rotina inteira">
                 <Circle size={22} style={{ color: "#475569" }} />
               </span>
-              <button className="flex-1 min-w-0 text-left" onClick={() => setDetalheId(rotina.id)} title="Abrir detalhes, subtarefas e descrição">
+              <button className="flex-1 min-w-0 text-left" onClick={() => setDetalheId(rotina.id)} data-tip="Abrir detalhes, subtarefas e descrição">
                 <div className="flex items-center gap-2 flex-wrap mb-0.5">
                   <span className="text-xs px-1.5 py-0.5 rounded-full font-medium" style={{ background: cor + "20", color: cor }}>{LABEL_FREQUENCIA[rotina.frequencia]}</span>
                   {atrasada && <span className="text-xs px-1.5 py-0.5 rounded-full font-bold" style={{ background: "#ef444420", color: "#ef4444" }}>Atrasada</span>}
                   {devida && !atrasada && <span className="text-xs px-1.5 py-0.5 rounded-full font-bold" style={{ background: "#f59e0b20", color: "#f59e0b" }}>Vence hoje</span>}
                   {!devida && rotina.proximaOcorrencia && (
-                    <span className="flex items-center gap-1 text-xs" style={{ color: "#64748b" }} title="Próxima vez que precisa ser feita"><CalendarClock size={11} /> {fmtDataCurta(rotina.proximaOcorrencia)}</span>
+                    <span className="flex items-center gap-1 text-xs" style={{ color: "#64748b" }} data-tip="Próxima vez que precisa ser feita"><CalendarClock size={11} /> {fmtDataCurta(rotina.proximaOcorrencia)}</span>
                   )}
                 </div>
                 <p className="text-white font-medium text-sm">{rotina.titulo}</p>
                 {loja && <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>{loja.nome}</p>}
               </button>
               <div className="flex items-center gap-2 flex-shrink-0">
-                <button onClick={() => abrirPomodoro(rotina.id, rotina.titulo)} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold" style={{ background: "#3b82f615", color: "#3b82f6" }} title="Iniciar um foco cronometrado de 25 min nesta tarefa">
+                <button onClick={() => abrirPomodoro(rotina.id, rotina.titulo)} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold" style={{ background: "#3b82f615", color: "#3b82f6" }} data-tip="Iniciar um foco cronometrado de 25 min nesta tarefa">
                   <Play size={13} /> Iniciar
                 </button>
                 {rotina.subtarefas.length > 0 && <span className="text-xs" style={{ color: "#64748b" }}>{subFeitas}/{rotina.subtarefas.length}</span>}
-                <button onClick={() => setDetalheId(rotina.id)} title="Abrir detalhes"><ChevronRight size={16} style={{ color: "#64748b" }} /></button>
+                <button onClick={() => setDetalheId(rotina.id)} data-tip="Abrir detalhes"><ChevronRight size={16} style={{ color: "#64748b" }} /></button>
               </div>
             </div>
           );
@@ -126,14 +126,14 @@ export default function AbaRotinas() {
           <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#475569" }}>Concluídas hoje ({concluidas.length})</p>
           {concluidas.map((rotina) => (
             <div key={rotina.id} className="rounded-2xl flex items-center gap-3 p-3" style={{ background: "#0f1c30", border: "1px solid #10b98130" }}>
-              <button onClick={() => reabrirRotina(rotina.id)} title="Reabrir (marcar como não feita)" className="flex-shrink-0">
+              <button onClick={() => reabrirRotina(rotina.id)} data-tip="Reabrir (marcar como não feita)" className="flex-shrink-0">
                 <CheckCircle2 size={20} style={{ color: "#10b981" }} />
               </button>
               <button className="flex-1 min-w-0 text-left" onClick={() => setDetalheId(rotina.id)}>
                 <p className="text-sm" style={{ color: "#64748b", textDecoration: "line-through" }}>{rotina.titulo}</p>
               </button>
               {rotina.proximaOcorrencia && (
-                <span className="flex items-center gap-1 text-xs flex-shrink-0" style={{ color: "#475569" }} title="Próxima ocorrência"><CalendarClock size={11} /> {fmtDataCurta(rotina.proximaOcorrencia)}</span>
+                <span className="flex items-center gap-1 text-xs flex-shrink-0" style={{ color: "#475569" }} data-tip="Próxima ocorrência"><CalendarClock size={11} /> {fmtDataCurta(rotina.proximaOcorrencia)}</span>
               )}
             </div>
           ))}

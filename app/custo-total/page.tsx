@@ -109,7 +109,7 @@ export default function CustoTotalPage() {
       </div>
 
       {/* Hero — total */}
-      <div className="rounded-2xl p-8 text-center gradient-hero-gold" style={{ background: "#122039", border: "1px solid #c9a84c25" }} title="Quanto custa manter o grupo Izzat por mês. Fórmula: Folha Salarial + Ferramentas do Time + Custos Operacionais das lojas Izzat. Não inclui lojas Partners.">
+      <div className="rounded-2xl p-8 text-center gradient-hero-gold" style={{ background: "#122039", border: "1px solid #c9a84c25" }} data-tip="Quanto custa manter o grupo Izzat por mês. Fórmula: Folha Salarial + Ferramentas do Time + Custos Operacionais das lojas Izzat. Não inclui lojas Partners.">
         <p className="text-section-label mb-3">CUSTO TOTAL MENSAL</p>
         <p className="text-shimmer font-black mb-1" style={{ fontSize: 52, letterSpacing: "-2px", lineHeight: 1 }}>
           R$ {fmt(totalGeral)}
@@ -152,7 +152,7 @@ export default function CustoTotalPage() {
           { label: "Ferramentas Time", valor: totalFerramentas, sub: `${ferramentas.length} ferramentas`, cor: "#8b5cf6", icon: Wrench, dica: "Custo mensal das ferramentas e assinaturas do time" },
           { label: "Custos Op. Izzat", valor: totalOperacoes, sub: `${gastosIzzat.length} lançamentos`, cor: "#3b82f6", icon: Building2, dica: "Custos operacionais das lojas do grupo Izzat (não inclui Partners)" },
         ].map((card) => (
-          <div key={card.label} title={card.dica} className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+          <div key={card.label} data-tip={card.dica} className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
             <div className="flex items-center gap-2 mb-1">
               <card.icon size={13} style={{ color: card.cor }} />
               <p className="text-xs" style={{ color: "#64748b" }}>{card.label}</p>
@@ -203,7 +203,7 @@ export default function CustoTotalPage() {
                       <AlertCircle size={11} /> Sem salário
                     </span>
                   )}
-                  <Link href={`/equipe/${c.id}`} className="p-1.5 rounded-lg hover:bg-white/10 transition-all" style={{ color: "#475569" }} title="Editar no perfil">
+                  <Link href={`/equipe/${c.id}`} className="p-1.5 rounded-lg hover:bg-white/10 transition-all" style={{ color: "#475569" }} data-tip="Editar no perfil">
                     <ExternalLink size={12} />
                   </Link>
                 </div>
@@ -382,7 +382,7 @@ export default function CustoTotalPage() {
                                 <button onClick={() => iniciarEditGasto(g)} className="p-0.5 rounded hover:bg-white/10" style={{ color: "#475569" }}>
                                   <Pencil size={10} />
                                 </button>
-                                <button onClick={() => toggleGastoOp(g.id)} className="p-0.5 rounded hover:bg-white/10" style={{ color: "#475569" }} title="Desativar">
+                                <button onClick={() => toggleGastoOp(g.id)} className="p-0.5 rounded hover:bg-white/10" style={{ color: "#475569" }} data-tip="Desativar">
                                   <X size={10} />
                                 </button>
                               </div>

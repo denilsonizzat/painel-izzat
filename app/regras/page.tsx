@@ -114,7 +114,7 @@ export default function RegrasPage() {
           <button
             key={r.value}
             onClick={() => setFiltroRigidez(filtroRigidez === r.value ? "todos" : r.value)}
-            title={`${r.label}: ${r.desc} Clique para filtrar só estas regras.`}
+            data-tip={`${r.label}: ${r.desc} Clique para filtrar só estas regras.`}
             className="rounded-2xl p-4 text-left transition-all hover:scale-[1.02]"
             style={{
               background: filtroRigidez === r.value ? r.bg : "#122039",
@@ -251,7 +251,7 @@ export default function RegrasPage() {
                           onClick={() => toggleRegra(regra.id)}
                           className="p-1.5 rounded-lg transition-all hover:opacity-80"
                           style={{ background: regra.ativa ? "#10b98115" : "#1e3356", color: regra.ativa ? "#10b981" : "#475569" }}
-                          title={regra.ativa ? "Desativar regra" : "Ativar regra"}
+                          data-tip={regra.ativa ? "Desativar regra" : "Ativar regra"}
                         >
                           <Check size={13} />
                         </button>
@@ -259,7 +259,7 @@ export default function RegrasPage() {
                           onClick={() => abrirEditar(regra)}
                           className="p-1.5 rounded-lg hover:opacity-80"
                           style={{ background: "#1e3356", color: "#64748b" }}
-                          title="Editar regra"
+                          data-tip="Editar regra"
                         >
                           <Pencil size={13} />
                         </button>
@@ -285,7 +285,7 @@ export default function RegrasPage() {
                             onClick={() => setConfirmDeleteId(regra.id)}
                             className="p-1.5 rounded-lg hover:opacity-80"
                             style={{ background: "#1e3356", color: "#64748b" }}
-                            title="Deletar regra"
+                            data-tip="Deletar regra"
                           >
                             <Trash2 size={13} />
                           </button>

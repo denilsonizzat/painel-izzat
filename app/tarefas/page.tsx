@@ -247,7 +247,7 @@ export default function TarefasPage() {
                 background: ativo ? "#c9a84c" : "transparent",
                 color: ativo ? "#0b1624" : "#94a3b8",
               }}
-              title={t.desc}
+              data-tip={t.desc}
             >
               <Icon size={15} />
               <span className="hidden sm:inline">{t.label}</span>
@@ -274,7 +274,7 @@ export default function TarefasPage() {
             <button
               key={s}
               onClick={() => setFiltroStatus(filtroStatus === s ? "todos" : s)}
-              title={STATUS_DESC[s]}
+              data-tip={STATUS_DESC[s]}
               className="rounded-xl p-3 text-left transition-all"
               style={{
                 background: filtroStatus === s ? `${STATUS_COR[s]}25` : "#122039",
@@ -571,7 +571,7 @@ export default function TarefasPage() {
                                     rel="noopener noreferrer"
                                     className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-lg transition-all hover:opacity-80"
                                     style={{ background: "#10b98115", color: "#10b981", border: "1px solid #10b98125" }}
-                                    title={`WhatsApp — ${colab.nome}`}
+                                    data-tip={`WhatsApp — ${colab.nome}`}
                                   >
                                     <MessageCircle size={11} />
                                     WhatsApp
@@ -580,7 +580,7 @@ export default function TarefasPage() {
                                     href={`tel:${colab.telefone.replace(/\D/g, "")}`}
                                     className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-lg transition-all hover:opacity-80"
                                     style={{ background: "#3b82f615", color: "#3b82f6", border: "1px solid #3b82f625" }}
-                                    title={`Ligar — ${colab.nome}`}
+                                    data-tip={`Ligar — ${colab.nome}`}
                                   >
                                     <Phone size={11} />
                                     Ligar

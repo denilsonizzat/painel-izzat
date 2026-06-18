@@ -87,7 +87,7 @@ export default function StoriesBar() {
                 onClick={() => temStory ? setVerColabId(c.id) : router.push(`/equipe/${c.id}`)}
                 className="flex flex-col items-center gap-1.5 flex-shrink-0 transition-opacity hover:opacity-80"
                 style={{ opacity: temStory ? 1 : 0.5, cursor: "pointer" }}
-                title={temStory ? `Ver story de ${c.nome.split(" ")[0]}` : `Ver perfil de ${c.nome.split(" ")[0]}`}
+                data-tip={temStory ? `Ver story de ${c.nome.split(" ")[0]}` : `Ver perfil de ${c.nome.split(" ")[0]}`}
               >
                 <div
                   className="p-0.5 rounded-full"

@@ -608,7 +608,7 @@ export default function LojaPerfilPage() {
                                 <button onClick={() => iniciarEdicaoCusto(g)} className="p-1 rounded hover:bg-white/10" style={{ color: "#64748b" }}>
                                   <Pencil size={10} />
                                 </button>
-                                <button onClick={() => toggleGastoOp(g.id)} className="p-1 rounded hover:bg-white/10" style={{ color: g.ativo ? "#64748b" : "#10b981" }} title={g.ativo ? "Desativar" : "Ativar"}>
+                                <button onClick={() => toggleGastoOp(g.id)} className="p-1 rounded hover:bg-white/10" style={{ color: g.ativo ? "#64748b" : "#10b981" }} data-tip={g.ativo ? "Desativar" : "Ativar"}>
                                   <Check size={10} />
                                 </button>
                                 <button onClick={() => setConfirmDeleteGastoId(g.id)} className="p-1 rounded hover:bg-white/10" style={{ color: "#ef4444" }}>
@@ -864,7 +864,7 @@ export default function LojaPerfilPage() {
           <button
             key={tab.v}
             onClick={() => setAbaAtiva(tab.v)}
-            title={tab.desc}
+            data-tip={tab.desc}
             className="px-4 py-2 rounded-lg text-sm font-semibold transition-all"
             style={{
               background: abaAtiva === tab.v ? corGrupo : "transparent",
@@ -1223,7 +1223,7 @@ export default function LojaPerfilPage() {
       {/* ─── ROTINAS DA LOJA ─── */}
       <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
         <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: "1px solid #1e3356" }}>
-          <div className="flex items-center gap-2" title="Rotinas vinculadas a esta loja. Cada uma pode ser delegada a um colaborador e aparece em Tarefas › Rotinas da pessoa. Sobrevivem se a pessoa sair.">
+          <div className="flex items-center gap-2" data-tip="Rotinas vinculadas a esta loja. Cada uma pode ser delegada a um colaborador e aparece em Tarefas › Rotinas da pessoa. Sobrevivem se a pessoa sair.">
             <RefreshCw size={15} style={{ color: corGrupo }} />
             <p className="text-sm font-semibold text-white">Rotinas desta Loja</p>
             <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#1e3356", color: "#64748b" }}>
@@ -1285,7 +1285,7 @@ export default function LojaPerfilPage() {
                       disabled={!podeCumprir}
                       className="mt-0.5 flex-shrink-0"
                       style={{ cursor: podeCumprir ? "pointer" : "default" }}
-                      title={rotina.concluida ? "Marcar como nao concluida" : "Marcar como concluida"}>
+                      data-tip={rotina.concluida ? "Marcar como nao concluida" : "Marcar como concluida"}>
                       {rotina.concluida
                         ? <CheckCircle2 size={20} style={{ color: "#10b981" }} />
                         : <Circle size={20} style={{ color: "#334155" }} />}

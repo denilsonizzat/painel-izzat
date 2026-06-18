@@ -7,6 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { calcNivel } from "@/lib/data";
 import { rotinasDoColaborador } from "@/lib/recorrencia";
+import Tip from "@/components/Tip";
 import { useEffect, useState } from "react";
 import { useNotifications } from "@/hooks/useNotifications";
 import StoriesBar from "@/components/StoriesBar";
@@ -317,9 +318,9 @@ export default function DashboardPage() {
       )}
 
       {/* Stories */}
-      <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }} title="Stories da equipe: compartilhe uma conquista do dia (texto ou emoji). Some sozinho em 24h, como nas redes sociais.">
+      <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }} data-tip="Stories da equipe: compartilhe uma conquista do dia (texto ou emoji). Some sozinho em 24h, como nas redes sociais.">
         <div className="flex items-center gap-2 mb-3">
-          <p className="text-section-label" title="Compartilhe uma vitória ou novidade rápida com o time. Expira em 24h.">Stories da Equipe</p>
+          <p className="text-section-label" data-tip="Compartilhe uma vitória ou novidade rápida com o time. Expira em 24h.">Stories da Equipe</p>
           <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#c9a84c15", color: "#c9a84c99", border: "1px solid #c9a84c20" }}>
             Compartilhe conquistas — expira em 24h
           </span>
@@ -362,7 +363,7 @@ export default function DashboardPage() {
       {/* Acesso Rapido — Ferramentas */}
       <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
         <div className="flex items-center gap-2 mb-3">
-          <p className="text-section-label" title="Atalhos para as ferramentas externas que o time usa no dia a dia. Abrem em nova aba.">Acesso Rapido</p>
+          <p className="text-section-label" data-tip="Atalhos para as ferramentas externas que o time usa no dia a dia. Abrem em nova aba.">Acesso Rapido</p>
         </div>
         <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
           {([
@@ -374,12 +375,11 @@ export default function DashboardPage() {
             { label: "Claude",   icon: "/icons/anthropic.svg",   href: "https://claude.ai/",               bg: "#C96442", light: false, desc: "Claude (IA) — assistente para trabalho e criação" },
             { label: "tldv",     icon: "/icons/tldv.svg",        href: "https://tldv.io/",                 bg: "#6D28D9", light: false, desc: "tl;dv — gravação e resumo de reuniões" },
           ] as { label: string; icon: string; href: string; bg: string; light: boolean; desc: string }[]).map((tool) => (
+            <Tip key={tool.label} titulo={tool.label} texto={tool.desc} place="top">
             <a
-              key={tool.label}
               href={tool.href}
               target="_blank"
               rel="noopener noreferrer"
-              title={tool.desc}
               className="flex flex-col items-center gap-2 py-3 px-1 rounded-xl transition-all hover:scale-105 hover:opacity-90 active:scale-95"
               style={{ background: "#1e335450", border: "1px solid #1e335480" }}
             >
@@ -404,6 +404,7 @@ export default function DashboardPage() {
               </div>
               <span className="text-xs font-medium text-center leading-tight" style={{ color: "#94a3b8" }}>{tool.label}</span>
             </a>
+            </Tip>
           ))}
         </div>
       </div>

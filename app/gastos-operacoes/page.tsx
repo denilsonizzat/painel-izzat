@@ -168,7 +168,7 @@ export default function GastosOperacoesPage() {
         ].map((card) => (
           <div
             key={card.label}
-            title={card.dica}
+            data-tip={card.dica}
             className="rounded-2xl p-4"
             style={{
               background: "#122039",
@@ -201,7 +201,7 @@ export default function GastosOperacoesPage() {
           <button
             key={tab.v}
             onClick={() => setGrupoTab(tab.v)}
-            title={tab.dica}
+            data-tip={tab.dica}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all"
             style={{
               background: grupoTab === tab.v ? tab.cor + "22" : "transparent",

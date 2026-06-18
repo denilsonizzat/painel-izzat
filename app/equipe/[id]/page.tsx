@@ -210,7 +210,7 @@ export default function ColaboradorPerfilPage() {
                     rel="noopener noreferrer"
                     className="flex items-center gap-1 text-sm transition-all hover:opacity-80 group"
                     style={{ color: "#64748b" }}
-                    title={`Enviar email para ${pessoa.nome}`}
+                    data-tip={`Enviar email para ${pessoa.nome}`}
                   >
                     <Mail size={13} className="group-hover:text-blue-400 transition-colors" />
                     <span className="group-hover:underline">{pessoa.email}</span>
@@ -253,7 +253,7 @@ export default function ColaboradorPerfilPage() {
                             R$ {pessoa.salario.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                           </span>
                           <button onClick={() => { setSalarioInput(String(pessoa.salario)); setEditandoSalario(true); }}
-                            className="p-1 rounded-lg hover:opacity-80 flex-shrink-0" style={{ color: "#334155" }} title="Editar salario">
+                            className="p-1 rounded-lg hover:opacity-80 flex-shrink-0" style={{ color: "#334155" }} data-tip="Editar salario">
                             <Edit2 size={12} />
                           </button>
                         </>
@@ -677,7 +677,7 @@ export default function ColaboradorPerfilPage() {
                         onClick={(e) => { e.stopPropagation(); abrirPomodoro(rotina.id, rotina.titulo); }}
                         className="text-xs px-2 py-1 rounded-lg flex items-center gap-1"
                         style={{ background: "#ef444415", color: "#ef4444" }}
-                        title="Iniciar Pomodoro"
+                        data-tip="Iniciar Pomodoro"
                       >
                         &#127813; Foco
                       </button>
@@ -709,7 +709,7 @@ export default function ColaboradorPerfilPage() {
                               onClick={() => abrirPomodoro(sub.id, sub.titulo)}
                               className="flex-shrink-0 text-xs px-1.5 py-1 rounded-lg"
                               style={{ color: "#ef4444", background: "#ef444410" }}
-                              title="Pomodoro nesta subtarefa"
+                              data-tip="Pomodoro nesta subtarefa"
                             >
                               &#127813;
                             </button>

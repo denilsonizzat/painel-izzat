@@ -168,7 +168,7 @@ export default function AtividadePage() {
             onClick={handleToggle}
             className="relative flex-shrink-0 transition-all hover:opacity-90 active:scale-95"
             style={{ width: 72, height: 38 }}
-            title={isOnline ? "Clique para ficar offline" : "Clique para ficar online"}
+            data-tip={isOnline ? "Clique para ficar offline" : "Clique para ficar online"}
           >
             <div
               className="w-full h-full rounded-full transition-all duration-300"
@@ -285,7 +285,7 @@ export default function AtividadePage() {
           <div className="flex gap-2 flex-wrap">
             <button
               onClick={() => setFiltroPessoa("eu")}
-              title="Ver só a sua atividade"
+              data-tip="Ver só a sua atividade"
               className="px-3 py-1 rounded-full text-xs font-medium transition-all"
               style={{
                 background: filtroPessoa === "eu" ? "#c9a84c" : "#122039",
@@ -301,7 +301,7 @@ export default function AtividadePage() {
                 <button
                   key={c.id}
                   onClick={() => setFiltroPessoa(c.id)}
-                  title={`Ver a atividade de ${c.nome.split(" ")[0]}`}
+                  data-tip={`Ver a atividade de ${c.nome.split(" ")[0]}`}
                   className="px-3 py-1 rounded-full text-xs font-medium transition-all"
                   style={{
                     background: filtroPessoa === c.id ? c.cor : "#122039",
@@ -335,7 +335,7 @@ export default function AtividadePage() {
         <div className="flex gap-2 flex-wrap">
           {FILTROS_HISTORICO.map((f) => (
             <button key={f.id} onClick={() => setFiltroHistorico(f.id)}
-              title={`Filtrar atividades: ${f.label}`}
+              data-tip={`Filtrar atividades: ${f.label}`}
               className="px-3 py-1 rounded-full text-xs font-medium transition-all"
               style={{
                 background: filtroHistorico === f.id ? "#c9a84c" : "#1e3356",

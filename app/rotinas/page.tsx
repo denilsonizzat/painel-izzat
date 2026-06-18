@@ -484,7 +484,7 @@ export default function RotinasPage() {
                           {/* Ver detalhe */}
                           <button
                             onClick={() => setVerRotina({ rotina, colaboradorNome: grupo.colaboradorNome })}
-                            title="Ver detalhes"
+                            data-tip="Ver detalhes"
                             style={{
                               background: "#1e3356",
                               border: "none",
@@ -504,7 +504,7 @@ export default function RotinasPage() {
                           {/* Toggle ativa */}
                           <button
                             onClick={() => toggleAtiva(rotina.colaboradorId, rotina.id, rotina.ativa)}
-                            title={inativa ? "Ativar rotina" : "Desativar rotina"}
+                            data-tip={inativa ? "Ativar rotina" : "Desativar rotina"}
                             style={{
                               background: "transparent",
                               border: "none",
@@ -524,7 +524,7 @@ export default function RotinasPage() {
                           {/* Editar */}
                           <button
                             onClick={() => abrirModal(rotina.colaboradorId, rotina)}
-                            title="Editar rotina"
+                            data-tip="Editar rotina"
                             style={{
                               background: "#1e3356",
                               border: "none",
@@ -544,7 +544,7 @@ export default function RotinasPage() {
                           {/* Deletar */}
                           <button
                             onClick={() => confirmarDeletar(rotina.colaboradorId, rotina.id, rotina.titulo)}
-                            title="Deletar rotina"
+                            data-tip="Deletar rotina"
                             style={{
                               background: "#1e3356",
                               border: "none",

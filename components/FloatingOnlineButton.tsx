@@ -19,7 +19,7 @@ export default function FloatingOnlineButton() {
     <>
       <button
         onClick={() => setAberto(true)}
-        title={isOnline ? "Online — clique para gerenciar" : "Offline — clique para ativar"}
+        data-tip={isOnline ? "Online — clique para gerenciar" : "Offline — clique para ativar"}
         className="hidden md:flex fixed top-4 right-4 z-40 items-center gap-2 px-3 py-2 rounded-xl shadow-2xl transition-all hover:scale-105 active:scale-95"
         style={{
           background: "#122039",

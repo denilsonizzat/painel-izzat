@@ -31,7 +31,7 @@ export default function MeuProgresso() {
         </div>
         <div className="flex items-center gap-2">
           {streak > 0 && (
-            <div className="flex items-center gap-1 px-3 py-1.5 rounded-full" style={{ background: "#f59e0b15", border: "1px solid #f59e0b30" }} title={streak + " dias seguidos de check-in"}>
+            <div className="flex items-center gap-1 px-3 py-1.5 rounded-full" style={{ background: "#f59e0b15", border: "1px solid #f59e0b30" }} data-tip={streak + " dias seguidos de check-in"}>
               <Flame size={14} style={{ color: "#f59e0b" }} />
               <span className="text-sm font-bold" style={{ color: "#f59e0b" }}>{streak}d</span>
             </div>

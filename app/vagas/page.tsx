@@ -97,7 +97,7 @@ export default function VagasPage() {
                   onClick={() => editarRotina(rotina.id, { vagaTemporaria: true })}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold"
                   style={{ background: "#f59e0b20", color: "#f59e0b" }}
-                  title="Marcar que precisa contratar alguém para isso"
+                  data-tip="Marcar que precisa contratar alguém para isso"
                 >
                   <Briefcase size={13} /> Preciso contratar
                 </button>
@@ -109,7 +109,7 @@ export default function VagasPage() {
                   onClick={() => editarRotina(rotina.id, { vagaTemporaria: false })}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs"
                   style={{ background: "#1e3356", color: "#94a3b8" }}
-                  title="Não é mais necessidade de contratação"
+                  data-tip="Não é mais necessidade de contratação"
                 >
                   <Undo2 size={13} /> Não preciso contratar
                 </button>
@@ -119,7 +119,7 @@ export default function VagasPage() {
                 onClick={() => deletarRotina(rotina.id)}
                 className="flex items-center gap-1 px-2 py-1.5 rounded-xl text-xs"
                 style={{ background: "#1e3356", color: "#64748b" }}
-                title="Remover"
+                data-tip="Remover"
               >
                 <Trash2 size={12} />
               </button>
