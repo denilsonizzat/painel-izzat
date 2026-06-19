@@ -151,7 +151,7 @@ export default function GastosPage() {
       <div className="flex items-start justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-bold text-white">Controle de Custos</h1>
-          <p className="text-sm mt-1" style={{ color: "#64748b" }}>
+          <p className="text-sm mt-1" style={{ color: "#9aa7ba" }}>
             Folha salarial, ferramentas e custo total por pessoa — somente administradores
           </p>
         </div>
@@ -172,7 +172,7 @@ export default function GastosPage() {
 
       {/* Hero — Custo Total Mensal */}
       <div className="rounded-2xl p-6 text-center" style={{ background: "linear-gradient(135deg, #0d1f35 0%, #0b1624 100%)", border: "2px solid #c9a84c40" }}>
-        <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#64748b" }}>Custo Total Mensal</p>
+        <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#9aa7ba" }}>Custo Total Mensal</p>
         <p className="font-black leading-none" style={{ fontSize: "clamp(2.5rem, 8vw, 4rem)", color: "#c9a84c" }}>
           R$ {fmt(totalGeral)}
         </p>
@@ -182,7 +182,7 @@ export default function GastosPage() {
               <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#10b981" }} />
               <span className="text-sm" style={{ color: "#94a3b8" }}>
                 Salarios <strong style={{ color: "#10b981" }}>R$ {fmt(totalSalarios)}</strong>
-                <span className="text-xs ml-1.5" style={{ color: "#475569" }}>({((totalSalarios / totalGeral) * 100).toFixed(0)}%)</span>
+                <span className="text-xs ml-1.5" style={{ color: "#74859c" }}>({((totalSalarios / totalGeral) * 100).toFixed(0)}%)</span>
               </span>
             </div>
             <div className="w-px" style={{ background: "#1e3356" }} />
@@ -190,7 +190,7 @@ export default function GastosPage() {
               <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#3b82f6" }} />
               <span className="text-sm" style={{ color: "#94a3b8" }}>
                 Ferramentas <strong style={{ color: "#3b82f6" }}>R$ {fmt(totalFerramentas)}</strong>
-                <span className="text-xs ml-1.5" style={{ color: "#475569" }}>({((totalFerramentas / totalGeral) * 100).toFixed(0)}%)</span>
+                <span className="text-xs ml-1.5" style={{ color: "#74859c" }}>({((totalFerramentas / totalGeral) * 100).toFixed(0)}%)</span>
               </span>
             </div>
           </div>
@@ -206,22 +206,22 @@ export default function GastosPage() {
       {/* Cards secundários */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <div className="rounded-xl p-3.5" style={{ background: "#122039", border: "1px solid #10b98125" }}>
-          <p className="text-xs" style={{ color: "#64748b" }}>Folha Salarial</p>
+          <p className="text-xs" style={{ color: "#9aa7ba" }}>Folha Salarial</p>
           <p className="text-lg font-black mt-0.5" style={{ color: "#10b981" }}>R$ {fmt(totalSalarios)}</p>
           <p className="text-xs mt-0.5" style={{ color: "#334155" }}>{comSalario.length}/{colaboradores.length} cadastrados</p>
         </div>
         <div className="rounded-xl p-3.5" style={{ background: "#122039", border: "1px solid #3b82f625" }}>
-          <p className="text-xs" style={{ color: "#64748b" }}>Ferramentas</p>
+          <p className="text-xs" style={{ color: "#9aa7ba" }}>Ferramentas</p>
           <p className="text-lg font-black mt-0.5" style={{ color: "#3b82f6" }}>R$ {fmt(totalFerramentas)}</p>
           <p className="text-xs mt-0.5" style={{ color: "#334155" }}>{ferramentas.length} ferramentas</p>
         </div>
         <div className="rounded-xl p-3.5" style={{ background: "#122039", border: "1px solid #8b5cf625" }}>
-          <p className="text-xs" style={{ color: "#64748b" }}>Media Salarial</p>
+          <p className="text-xs" style={{ color: "#9aa7ba" }}>Media Salarial</p>
           <p className="text-lg font-black mt-0.5" style={{ color: "#8b5cf6" }}>R$ {fmt(mediaSalario)}</p>
           <p className="text-xs mt-0.5" style={{ color: "#334155" }}>{comSalario.length} pessoas</p>
         </div>
         <div className="rounded-xl p-3.5" style={{ background: semSalario.length > 0 ? "#122039" : "#0d1928", border: semSalario.length > 0 ? "1px solid #f59e0b25" : "1px solid #1e3356" }}>
-          <p className="text-xs" style={{ color: "#64748b" }}>Sem Salario</p>
+          <p className="text-xs" style={{ color: "#9aa7ba" }}>Sem Salario</p>
           <p className="text-lg font-black mt-0.5" style={{ color: semSalario.length > 0 ? "#f59e0b" : "#334155" }}>{semSalario.length}</p>
           <p className="text-xs mt-0.5" style={{ color: "#334155" }}>colaboradores</p>
         </div>
@@ -248,7 +248,7 @@ export default function GastosPage() {
               <h2 className="text-white font-semibold">Custo Salarial por Area</h2>
             </div>
             {totalSalarios === 0 ? (
-              <p className="text-sm text-center py-4" style={{ color: "#475569" }}>Nenhum salario cadastrado ainda.</p>
+              <p className="text-sm text-center py-4" style={{ color: "#74859c" }}>Nenhum salario cadastrado ainda.</p>
             ) : (
               <div className="space-y-4">
                 {areasOrdenadas.map(([area, dados], idx) => {
@@ -260,7 +260,7 @@ export default function GastosPage() {
                       <div className="flex items-center gap-3 mb-1">
                         <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: cor }} />
                         <span className="text-sm font-medium text-white flex-1 truncate">{area}</span>
-                        <span className="text-xs flex-shrink-0" style={{ color: "#64748b" }}>{dados.colabs.length}p</span>
+                        <span className="text-xs flex-shrink-0" style={{ color: "#9aa7ba" }}>{dados.colabs.length}p</span>
                         <span className="text-xs font-bold flex-shrink-0" style={{ color: cor }}>{pct.toFixed(1)}%</span>
                         <span className="text-sm font-bold flex-shrink-0 w-32 text-right" style={{ color: dados.total > 0 ? "#e8edf5" : "#475569" }}>
                           {dados.total > 0 ? "R$ " + fmt(dados.total) : "—"}
@@ -285,7 +285,7 @@ export default function GastosPage() {
               <div className="flex items-center gap-2">
                 <Users size={15} style={{ color: "#c9a84c" }} />
                 <h2 className="text-white font-semibold text-sm">Custo Total por Pessoa</h2>
-                <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#1e3356", color: "#64748b" }}>salario + ferramentas</span>
+                <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#1e3356", color: "#9aa7ba" }}>salario + ferramentas</span>
               </div>
             </div>
             <div>
@@ -306,7 +306,7 @@ export default function GastosPage() {
                         <Avatar nome={c.nome} avatar={c.avatar} foto={c.foto} cor={c.cor} size={32} />
                         <div className="min-w-0">
                           <p className="text-sm font-medium text-white truncate">{c.nome.split(" ")[0]}</p>
-                          <p className="text-xs truncate" style={{ color: "#64748b" }}>{c.cargo}</p>
+                          <p className="text-xs truncate" style={{ color: "#9aa7ba" }}>{c.cargo}</p>
                         </div>
                       </Link>
                       <div className="flex items-center gap-3 flex-shrink-0">
@@ -319,7 +319,7 @@ export default function GastosPage() {
                         <span className="text-sm font-bold w-28 text-right" style={{ color: total > 0 ? "#e8edf5" : "#334155" }}>
                           {total > 0 ? "R$ " + fmt(total) : "—"}
                         </span>
-                        <span className="text-xs w-10 text-right" style={{ color: "#475569" }}>
+                        <span className="text-xs w-10 text-right" style={{ color: "#74859c" }}>
                           {totalGeral > 0 && total > 0 ? pct.toFixed(1) + "%" : ""}
                         </span>
                       </div>
@@ -346,7 +346,7 @@ export default function GastosPage() {
                 <span className="text-white font-semibold text-sm">Salarios</span>
               </div>
               <div className="flex items-center gap-2 ml-auto flex-wrap">
-                <span className="text-xs" style={{ color: "#64748b" }}>Area:</span>
+                <span className="text-xs" style={{ color: "#9aa7ba" }}>Area:</span>
                 <button onClick={() => setFiltroArea("todas")} className="px-2.5 py-1 rounded-lg text-xs font-medium transition-all"
                   style={{ background: filtroArea === "todas" ? "#c9a84c" : "#1e3356", color: filtroArea === "todas" ? "#0b1624" : "#64748b" }}>
                   Todas
@@ -381,7 +381,7 @@ export default function GastosPage() {
             )}
 
             <div className="grid px-5 py-2.5 text-xs font-semibold uppercase tracking-wider"
-              style={{ gridTemplateColumns: "1fr auto auto auto", color: "#475569", borderBottom: "1px solid #1e3356" }}>
+              style={{ gridTemplateColumns: "1fr auto auto auto", color: "#74859c", borderBottom: "1px solid #1e3356" }}>
               <span>Colaborador</span>
               <span className="w-32 text-center">Area</span>
               <span className="w-36 text-right">Salario Mensal</span>
@@ -401,7 +401,7 @@ export default function GastosPage() {
                       <Avatar nome={c.nome} avatar={c.avatar} foto={c.foto} cor={c.cor} size={32} />
                       <div className="min-w-0">
                         <p className="text-sm font-medium text-white truncate">{c.nome}</p>
-                        <p className="text-xs truncate" style={{ color: "#64748b" }}>{c.cargo}</p>
+                        <p className="text-xs truncate" style={{ color: "#9aa7ba" }}>{c.cargo}</p>
                       </div>
                     </Link>
                     <div className="w-32 flex justify-center">
@@ -417,7 +417,7 @@ export default function GastosPage() {
                             style={{ background: "#1e3356", border: "1px solid #334155", width: 100 }}
                             onKeyDown={(e) => { if (e.key === "Enter") salvarSalario(c.id); if (e.key === "Escape") setEditandoSalId(null); }} />
                           <button onClick={() => salvarSalario(c.id)} className="p-1.5 rounded-lg" style={{ background: "#10b98120", color: "#10b981" }}><Check size={13} /></button>
-                          <button onClick={() => setEditandoSalId(null)} className="p-1.5 rounded-lg" style={{ color: "#64748b" }}><X size={13} /></button>
+                          <button onClick={() => setEditandoSalId(null)} className="p-1.5 rounded-lg" style={{ color: "#9aa7ba" }}><X size={13} /></button>
                         </>
                       ) : (
                         <>
@@ -425,7 +425,7 @@ export default function GastosPage() {
                             ? <span className="text-sm font-bold" style={{ color: "#e8edf5" }}>R$ {fmt(c.salario)}</span>
                             : <span className="text-xs italic" style={{ color: "#334155" }}>nao cadastrado</span>}
                           <button onClick={() => { setEditandoSalId(c.id); setSalInput(c.salario ? String(c.salario) : ""); }}
-                            className="p-1 rounded-lg hover:opacity-80" style={{ color: "#475569" }} data-tip="Editar salario">
+                            className="p-1 rounded-lg hover:opacity-80" style={{ color: "#74859c" }} data-tip="Editar salario">
                             <Edit2 size={12} />
                           </button>
                         </>
@@ -476,7 +476,7 @@ export default function GastosPage() {
       {aba === "ferramentas" && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <p className="text-sm" style={{ color: "#64748b" }}>
+            <p className="text-sm" style={{ color: "#9aa7ba" }}>
               Ferramentas individuais cobram por usuario vinculado. Compartilhadas tem custo fixo independente de usuarios.
             </p>
             <button onClick={abrirNovaFerr} className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-opacity hover:opacity-80"
@@ -489,7 +489,7 @@ export default function GastosPage() {
             <div className="rounded-2xl p-10 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
               <div className="text-4xl mb-3">🔧</div>
               <p className="font-semibold text-white mb-1">Nenhuma ferramenta cadastrada</p>
-              <p className="text-sm" style={{ color: "#64748b" }}>
+              <p className="text-sm" style={{ color: "#9aa7ba" }}>
                 Adicione ferramentas como ChatGPT, Claude, Notion, etc. e vincule as pessoas que as usam.
               </p>
               <button onClick={abrirNovaFerr} className="mt-4 px-4 py-2 rounded-xl text-sm font-bold transition-opacity hover:opacity-80" style={{ background: "#c9a84c", color: "#0b1624" }}>
@@ -515,13 +515,13 @@ export default function GastosPage() {
                       </div>
                       <div className="min-w-0">
                         <p className="text-white font-semibold">{f.nome}</p>
-                        {f.descricao && <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>{f.descricao}</p>}
+                        {f.descricao && <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>{f.descricao}</p>}
                         <div className="flex items-center gap-2 mt-1">
                           <span className="text-xs px-2 py-0.5 rounded-full font-medium"
                             style={{ background: f.tipo === "individual" ? "#8b5cf620" : "#10b98120", color: f.tipo === "individual" ? "#8b5cf6" : "#10b981" }}>
                             {f.tipo === "individual" ? "Individual" : "Compartilhada"}
                           </span>
-                          <span className="text-xs" style={{ color: "#64748b" }}>
+                          <span className="text-xs" style={{ color: "#9aa7ba" }}>
                             R$ {fmt(f.preco)}{f.tipo === "individual" ? "/pessoa" : "/mes (fixo)"}
                           </span>
                         </div>
@@ -530,13 +530,13 @@ export default function GastosPage() {
                     <div className="flex items-center gap-2 flex-shrink-0">
                       <div className="text-right">
                         <p className="text-sm font-black" style={{ color: cor }}>R$ {fmt(custo)}</p>
-                        <p className="text-xs" style={{ color: "#475569" }}>
+                        <p className="text-xs" style={{ color: "#74859c" }}>
                           {f.tipo === "individual"
                             ? `${f.colaboradoresIds.length} usuario${f.colaboradoresIds.length !== 1 ? "s" : ""}`
                             : "custo fixo"}
                         </p>
                       </div>
-                      <button onClick={() => abrirEditFerr(f)} className="p-2 rounded-xl hover:opacity-80 transition-opacity" style={{ color: "#64748b" }} data-tip="Editar">
+                      <button onClick={() => abrirEditFerr(f)} className="p-2 rounded-xl hover:opacity-80 transition-opacity" style={{ color: "#9aa7ba" }} data-tip="Editar">
                         <Edit2 size={14} />
                       </button>
                       {confirmarDelete === f.id ? (
@@ -545,12 +545,12 @@ export default function GastosPage() {
                             className="p-1.5 rounded-lg text-xs font-bold" style={{ background: "#ef444420", color: "#ef4444" }}>
                             Confirmar
                           </button>
-                          <button onClick={() => setConfirmarDelete(null)} className="p-1.5 rounded-lg" style={{ color: "#64748b" }}>
+                          <button onClick={() => setConfirmarDelete(null)} className="p-1.5 rounded-lg" style={{ color: "#9aa7ba" }}>
                             <X size={13} />
                           </button>
                         </div>
                       ) : (
-                        <button onClick={() => setConfirmarDelete(f.id)} className="p-2 rounded-xl hover:opacity-80" style={{ color: "#475569" }} data-tip="Excluir">
+                        <button onClick={() => setConfirmarDelete(f.id)} className="p-2 rounded-xl hover:opacity-80" style={{ color: "#74859c" }} data-tip="Excluir">
                           <Trash2 size={14} />
                         </button>
                       )}
@@ -567,7 +567,7 @@ export default function GastosPage() {
                           <Avatar nome={c.nome} avatar={c.avatar} foto={c.foto} cor={c.cor} size={20} />
                           <span className="text-xs text-white">{c.nome.split(" ")[0]}</span>
                           <button onClick={() => desvincularFerramenta(f.id, c.id)} className="ml-0.5 p-0.5 rounded hover:opacity-70 transition-opacity"
-                            style={{ color: "#475569" }} data-tip="Desvincular">
+                            style={{ color: "#74859c" }} data-tip="Desvincular">
                             <X size={11} />
                           </button>
                         </div>
@@ -583,7 +583,7 @@ export default function GastosPage() {
                   {/* Dropdown para vincular */}
                   {vinculando && naoVinculados.length > 0 && (
                     <div className="mt-2 p-2 rounded-xl flex flex-wrap gap-1.5" style={{ background: "#0d1928", border: "1px solid #1e3356" }}>
-                      <span className="text-xs w-full mb-1" style={{ color: "#64748b" }}>Clique para vincular:</span>
+                      <span className="text-xs w-full mb-1" style={{ color: "#9aa7ba" }}>Clique para vincular:</span>
                       {naoVinculados.map((c) => (
                         <button key={c.id} onClick={() => vincularFerramenta(f.id, c.id)}
                           className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs transition-all hover:opacity-80"
@@ -595,7 +595,7 @@ export default function GastosPage() {
                     </div>
                   )}
                   {vinculando && naoVinculados.length === 0 && (
-                    <p className="mt-2 text-xs" style={{ color: "#64748b" }}>Todos os colaboradores ja estao vinculados.</p>
+                    <p className="mt-2 text-xs" style={{ color: "#9aa7ba" }}>Todos os colaboradores ja estao vinculados.</p>
                   )}
                 </div>
               </div>
@@ -626,20 +626,20 @@ export default function GastosPage() {
               {/* Header modal */}
               <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: "1px solid #1e3356" }}>
                 <h2 className="text-white font-bold">{editFerr ? "Editar Ferramenta" : "Nova Ferramenta"}</h2>
-                <button onClick={() => setModalFerr(false)} className="p-1.5 rounded-lg hover:opacity-70" style={{ color: "#64748b" }}><X size={18} /></button>
+                <button onClick={() => setModalFerr(false)} className="p-1.5 rounded-lg hover:opacity-70" style={{ color: "#9aa7ba" }}><X size={18} /></button>
               </div>
 
               <div className="p-6 space-y-4">
                 {/* Nome + Desc */}
                 <div className="space-y-3">
                   <div>
-                    <label className="text-xs font-semibold uppercase tracking-wider mb-1 block" style={{ color: "#64748b" }}>Nome *</label>
+                    <label className="text-xs font-semibold uppercase tracking-wider mb-1 block" style={{ color: "#9aa7ba" }}>Nome *</label>
                     <input value={form.nome} onChange={(e) => setForm({ ...form, nome: e.target.value })} placeholder="ex: ChatGPT Plus"
                       className="w-full px-3 py-2.5 rounded-xl text-white text-sm outline-none"
                       style={{ background: "#1e3356", border: "1px solid #334155" }} />
                   </div>
                   <div>
-                    <label className="text-xs font-semibold uppercase tracking-wider mb-1 block" style={{ color: "#64748b" }}>Descricao</label>
+                    <label className="text-xs font-semibold uppercase tracking-wider mb-1 block" style={{ color: "#9aa7ba" }}>Descricao</label>
                     <input value={form.descricao} onChange={(e) => setForm({ ...form, descricao: e.target.value })} placeholder="ex: IA para criacao de conteudo"
                       className="w-full px-3 py-2.5 rounded-xl text-white text-sm outline-none"
                       style={{ background: "#1e3356", border: "1px solid #334155" }} />
@@ -649,13 +649,13 @@ export default function GastosPage() {
                 {/* Preco + Cor */}
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-xs font-semibold uppercase tracking-wider mb-1 block" style={{ color: "#64748b" }}>Preco Mensal (R$) *</label>
+                    <label className="text-xs font-semibold uppercase tracking-wider mb-1 block" style={{ color: "#9aa7ba" }}>Preco Mensal (R$) *</label>
                     <input value={form.preco} onChange={(e) => setForm({ ...form, preco: e.target.value })} placeholder="0.00" type="number"
                       className="w-full px-3 py-2.5 rounded-xl text-white text-sm outline-none"
                       style={{ background: "#1e3356", border: "1px solid #334155" }} />
                   </div>
                   <div>
-                    <label className="text-xs font-semibold uppercase tracking-wider mb-1 block" style={{ color: "#64748b" }}>Cor</label>
+                    <label className="text-xs font-semibold uppercase tracking-wider mb-1 block" style={{ color: "#9aa7ba" }}>Cor</label>
                     <div className="flex gap-1.5 flex-wrap pt-1">
                       {CORES.slice(0, 8).map((c) => (
                         <button key={c} onClick={() => setForm({ ...form, cor: c })}
@@ -668,7 +668,7 @@ export default function GastosPage() {
 
                 {/* Tipo */}
                 <div>
-                  <label className="text-xs font-semibold uppercase tracking-wider mb-2 block" style={{ color: "#64748b" }}>Tipo de Licenca</label>
+                  <label className="text-xs font-semibold uppercase tracking-wider mb-2 block" style={{ color: "#9aa7ba" }}>Tipo de Licenca</label>
                   <div className="grid grid-cols-2 gap-2">
                     {(["individual", "compartilhada"] as const).map((t) => (
                       <button key={t} onClick={() => setForm({ ...form, tipo: t })}
@@ -686,7 +686,7 @@ export default function GastosPage() {
                 {/* Vincular pessoas */}
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#64748b" }}>
+                    <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#9aa7ba" }}>
                       Quem usa essa ferramenta
                     </label>
                     {formPessoas.length > 0 && (
@@ -708,7 +708,7 @@ export default function GastosPage() {
                           <Avatar nome={c.nome} avatar={c.avatar} foto={c.foto} cor={c.cor} size={24} />
                           <div className="min-w-0 flex-1">
                             <p className="text-xs font-medium text-white truncate">{c.nome.split(" ")[0]}</p>
-                            <p className="text-xs truncate" style={{ color: "#475569" }}>{c.cargo?.split(" ")[0]}</p>
+                            <p className="text-xs truncate" style={{ color: "#74859c" }}>{c.cargo?.split(" ")[0]}</p>
                           </div>
                           {sel && <Check size={13} style={{ color: form.cor || "#3b82f6", flexShrink: 0 }} />}
                         </button>
@@ -721,9 +721,9 @@ export default function GastosPage() {
                 {precoNum > 0 && (
                   <div className="rounded-xl px-4 py-3 flex items-center justify-between" style={{ background: "#0d1928", border: "1px solid #1e3356" }}>
                     <div>
-                      <p className="text-xs" style={{ color: "#64748b" }}>Custo mensal estimado</p>
+                      <p className="text-xs" style={{ color: "#9aa7ba" }}>Custo mensal estimado</p>
                       {form.tipo === "compartilhada" && formPessoas.length > 1 && (
-                        <p className="text-xs mt-0.5" style={{ color: "#475569" }}>
+                        <p className="text-xs mt-0.5" style={{ color: "#74859c" }}>
                           R$ {fmt(custoPorPessoa)}/pessoa ({formPessoas.length} usuarios)
                         </p>
                       )}
@@ -737,7 +737,7 @@ export default function GastosPage() {
 
               {/* Footer */}
               <div className="flex gap-3 px-6 pb-6">
-                <button onClick={() => setModalFerr(false)} className="flex-1 py-2.5 rounded-xl text-sm font-semibold" style={{ background: "#1e3356", color: "#64748b" }}>
+                <button onClick={() => setModalFerr(false)} className="flex-1 py-2.5 rounded-xl text-sm font-semibold" style={{ background: "#1e3356", color: "#9aa7ba" }}>
                   Cancelar
                 </button>
                 <button onClick={salvarFerr} disabled={!form.nome.trim() || !form.preco}

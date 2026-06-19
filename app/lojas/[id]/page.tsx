@@ -342,7 +342,7 @@ export default function LojaPerfilPage() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <Link href="/lojas" className="inline-flex items-center gap-2 text-sm transition-opacity hover:opacity-70" style={{ color: "#64748b" }}>
+      <Link href="/lojas" className="inline-flex items-center gap-2 text-sm transition-opacity hover:opacity-70" style={{ color: "#9aa7ba" }}>
         <ArrowLeft size={16} /> Voltar para Lojas
       </Link>
 
@@ -406,7 +406,7 @@ export default function LojaPerfilPage() {
 
                     {linksLoja.length === 0 && !adicionandoLink && (
                       <div className="px-4 py-4 text-center">
-                        <p className="text-xs" style={{ color: "#475569" }}>Nenhum link cadastrado</p>
+                        <p className="text-xs" style={{ color: "#74859c" }}>Nenhum link cadastrado</p>
                         {!isAdmin && <p className="text-xs mt-1" style={{ color: "#334155" }}>Peça ao admin para adicionar links</p>}
                       </div>
                     )}
@@ -440,7 +440,7 @@ export default function LojaPerfilPage() {
                             />
                             <div className="flex gap-1.5">
                               <button onClick={salvarLink} className="flex-1 py-1 rounded-lg text-xs font-bold" style={{ background: "#c9a84c", color: "#000" }}>Salvar</button>
-                              <button onClick={() => { setEditandoLinkId(null); setLinkForm({ nome: "", url: "", emoji: "🔗" }); }} className="px-2 py-1 rounded-lg text-xs" style={{ background: "#1e3356", color: "#64748b" }}>✕</button>
+                              <button onClick={() => { setEditandoLinkId(null); setLinkForm({ nome: "", url: "", emoji: "🔗" }); }} className="px-2 py-1 rounded-lg text-xs" style={{ background: "#1e3356", color: "#9aa7ba" }}>✕</button>
                             </div>
                           </div>
                         ) : (
@@ -449,18 +449,18 @@ export default function LojaPerfilPage() {
                               className="flex items-center gap-2 flex-1 min-w-0 hover:opacity-80 transition-opacity">
                               <span className="text-base flex-shrink-0">{link.emoji}</span>
                               <span className="text-sm text-white truncate">{link.nome}</span>
-                              <ExternalLink size={10} className="flex-shrink-0 ml-auto" style={{ color: "#475569" }} />
+                              <ExternalLink size={10} className="flex-shrink-0 ml-auto" style={{ color: "#74859c" }} />
                             </a>
                             {isAdmin && (
                               <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
                                 {confirmDeleteLinkId === link.id ? (
                                   <>
                                     <button onClick={() => { deletarLinkRapido(link.id); setConfirmDeleteLinkId(null); }} className="text-xs px-1.5 py-0.5 rounded font-bold" style={{ background: "#ef444430", color: "#ef4444" }}>Sim</button>
-                                    <button onClick={() => setConfirmDeleteLinkId(null)} className="text-xs px-1.5 py-0.5 rounded" style={{ background: "#1e3356", color: "#64748b" }}>Não</button>
+                                    <button onClick={() => setConfirmDeleteLinkId(null)} className="text-xs px-1.5 py-0.5 rounded" style={{ background: "#1e3356", color: "#9aa7ba" }}>Não</button>
                                   </>
                                 ) : (
                                   <>
-                                    <button onClick={() => iniciarEdicaoLink(link)} className="p-1 rounded hover:bg-white/10" style={{ color: "#64748b" }}><Pencil size={10} /></button>
+                                    <button onClick={() => iniciarEdicaoLink(link)} className="p-1 rounded hover:bg-white/10" style={{ color: "#9aa7ba" }}><Pencil size={10} /></button>
                                     <button onClick={() => setConfirmDeleteLinkId(link.id)} className="p-1 rounded hover:bg-white/10" style={{ color: "#ef4444" }}><X size={10} /></button>
                                   </>
                                 )}
@@ -500,7 +500,7 @@ export default function LojaPerfilPage() {
                         />
                         <div className="flex gap-1.5">
                           <button onClick={salvarLink} className="flex-1 py-1.5 rounded-lg text-xs font-bold" style={{ background: "#c9a84c", color: "#000" }}>Adicionar</button>
-                          <button onClick={() => { setAdicionandoLink(false); setLinkForm({ nome: "", url: "", emoji: "🔗" }); }} className="px-3 py-1.5 rounded-lg text-xs" style={{ background: "#1e3356", color: "#64748b" }}>Cancelar</button>
+                          <button onClick={() => { setAdicionandoLink(false); setLinkForm({ nome: "", url: "", emoji: "🔗" }); }} className="px-3 py-1.5 rounded-lg text-xs" style={{ background: "#1e3356", color: "#9aa7ba" }}>Cancelar</button>
                         </div>
                       </div>
                     )}
@@ -533,7 +533,7 @@ export default function LojaPerfilPage() {
                     R$ {(totalFixo + totalVariavel).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                   </span>
                 ) : gastosLoja.length === 0 ? (
-                  <span className="text-xs" style={{ color: "#475569" }}>vazio</span>
+                  <span className="text-xs" style={{ color: "#74859c" }}>vazio</span>
                 ) : null}
                 {custosPanelAberto ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
               </button>
@@ -553,12 +553,12 @@ export default function LojaPerfilPage() {
                 </div>
                 <div className="flex items-center gap-3">
                   {totalFixo > 0 && (
-                    <span className="text-xs" style={{ color: "#64748b" }}>
+                    <span className="text-xs" style={{ color: "#9aa7ba" }}>
                       Fixo: <span style={{ color: "#10b981" }}>R$ {totalFixo.toFixed(2)}</span>
                     </span>
                   )}
                   {totalVariavel > 0 && (
-                    <span className="text-xs" style={{ color: "#64748b" }}>
+                    <span className="text-xs" style={{ color: "#9aa7ba" }}>
                       Variável/mês: <span style={{ color: "#f59e0b" }}>R$ {totalVariavel.toFixed(2)}</span>
                     </span>
                   )}
@@ -576,9 +576,9 @@ export default function LojaPerfilPage() {
                     <span className="text-xs px-1.5 rounded-full" style={{ background: "#10b98118", color: "#10b981" }}>
                       {gastosLoja.filter((g) => g.tipo === "fixo").length}
                     </span>
-                    <span className="text-xs" style={{ color: "#475569" }}>Claude AI, Workspace, plataformas…</span>
+                    <span className="text-xs" style={{ color: "#74859c" }}>Claude AI, Workspace, plataformas…</span>
                   </div>
-                  {custoSecaoAberta === "fixo" ? <ChevronUp size={12} style={{ color: "#64748b" }} /> : <ChevronDown size={12} style={{ color: "#64748b" }} />}
+                  {custoSecaoAberta === "fixo" ? <ChevronUp size={12} style={{ color: "#9aa7ba" }} /> : <ChevronDown size={12} style={{ color: "#9aa7ba" }} />}
                 </button>
 
                 {custoSecaoAberta === "fixo" && (
@@ -588,7 +588,7 @@ export default function LojaPerfilPage() {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
                             <span className={`text-xs font-semibold ${g.ativo ? "text-white" : "line-through"}`} style={{ color: g.ativo ? "#fff" : "#475569" }}>{g.nome}</span>
-                            <span className="text-xs px-1.5 py-0 rounded-full" style={{ background: "#1e3356", color: "#64748b" }}>
+                            <span className="text-xs px-1.5 py-0 rounded-full" style={{ background: "#1e3356", color: "#9aa7ba" }}>
                               {CATEGORIA_GASTO_LABEL[g.categoria]}
                             </span>
                           </div>
@@ -602,11 +602,11 @@ export default function LojaPerfilPage() {
                               <>
                                 <span className="text-xs" style={{ color: "#ef4444" }}>Apagar?</span>
                                 <button onClick={() => { deletarGastoOp(g.id); setConfirmDeleteGastoId(null); }} className="text-xs px-1.5 py-0.5 rounded font-bold" style={{ background: "#ef444430", color: "#ef4444" }}>Sim</button>
-                                <button onClick={() => setConfirmDeleteGastoId(null)} className="text-xs px-1.5 py-0.5 rounded" style={{ background: "#1e3356", color: "#64748b" }}>Não</button>
+                                <button onClick={() => setConfirmDeleteGastoId(null)} className="text-xs px-1.5 py-0.5 rounded" style={{ background: "#1e3356", color: "#9aa7ba" }}>Não</button>
                               </>
                             ) : (
                               <>
-                                <button onClick={() => iniciarEdicaoCusto(g)} className="p-1 rounded hover:bg-white/10" style={{ color: "#64748b" }}>
+                                <button onClick={() => iniciarEdicaoCusto(g)} className="p-1 rounded hover:bg-white/10" style={{ color: "#9aa7ba" }}>
                                   <Pencil size={10} />
                                 </button>
                                 <button onClick={() => toggleGastoOp(g.id)} className="p-1 rounded hover:bg-white/10" style={{ color: g.ativo ? "#64748b" : "#10b981" }} data-tip={g.ativo ? "Desativar" : "Ativar"}>
@@ -675,7 +675,7 @@ export default function LojaPerfilPage() {
                             <button
                               onClick={() => { setAdicionandoCusto(null); setEditandoCustoId(null); setCustoForm({ nome: "", categoria: "outro", valor: "", moeda: "BRL", mes: mesAtual, descricao: "" }); }}
                               className="px-2 py-1.5 rounded-lg text-xs"
-                              style={{ background: "#1e3356", color: "#64748b" }}
+                              style={{ background: "#1e3356", color: "#9aa7ba" }}
                             >
                               Cancelar
                             </button>
@@ -706,9 +706,9 @@ export default function LojaPerfilPage() {
                     <span className="text-xs px-1.5 rounded-full" style={{ background: "#f59e0b18", color: "#f59e0b" }}>
                       {gastosLoja.filter((g) => g.tipo === "variavel").length}
                     </span>
-                    <span className="text-xs" style={{ color: "#475569" }}>Meta Ads, TikTok, campanhas…</span>
+                    <span className="text-xs" style={{ color: "#74859c" }}>Meta Ads, TikTok, campanhas…</span>
                   </div>
-                  {custoSecaoAberta === "variavel" ? <ChevronUp size={12} style={{ color: "#64748b" }} /> : <ChevronDown size={12} style={{ color: "#64748b" }} />}
+                  {custoSecaoAberta === "variavel" ? <ChevronUp size={12} style={{ color: "#9aa7ba" }} /> : <ChevronDown size={12} style={{ color: "#9aa7ba" }} />}
                 </button>
 
                 {custoSecaoAberta === "variavel" && (
@@ -718,11 +718,11 @@ export default function LojaPerfilPage() {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
                             <span className="text-xs font-semibold text-white">{g.nome}</span>
-                            <span className="text-xs px-1.5 py-0 rounded-full" style={{ background: "#1e3356", color: "#64748b" }}>
+                            <span className="text-xs px-1.5 py-0 rounded-full" style={{ background: "#1e3356", color: "#9aa7ba" }}>
                               {CATEGORIA_GASTO_LABEL[g.categoria]}
                             </span>
                             {g.mes && (
-                              <span className="text-xs" style={{ color: "#475569" }}>{g.mes}</span>
+                              <span className="text-xs" style={{ color: "#74859c" }}>{g.mes}</span>
                             )}
                           </div>
                         </div>
@@ -735,11 +735,11 @@ export default function LojaPerfilPage() {
                               <>
                                 <span className="text-xs" style={{ color: "#ef4444" }}>Apagar?</span>
                                 <button onClick={() => { deletarGastoOp(g.id); setConfirmDeleteGastoId(null); }} className="text-xs px-1.5 py-0.5 rounded font-bold" style={{ background: "#ef444430", color: "#ef4444" }}>Sim</button>
-                                <button onClick={() => setConfirmDeleteGastoId(null)} className="text-xs px-1.5 py-0.5 rounded" style={{ background: "#1e3356", color: "#64748b" }}>Não</button>
+                                <button onClick={() => setConfirmDeleteGastoId(null)} className="text-xs px-1.5 py-0.5 rounded" style={{ background: "#1e3356", color: "#9aa7ba" }}>Não</button>
                               </>
                             ) : (
                               <>
-                                <button onClick={() => iniciarEdicaoCusto(g)} className="p-1 rounded hover:bg-white/10" style={{ color: "#64748b" }}>
+                                <button onClick={() => iniciarEdicaoCusto(g)} className="p-1 rounded hover:bg-white/10" style={{ color: "#9aa7ba" }}>
                                   <Pencil size={10} />
                                 </button>
                                 <button onClick={() => setConfirmDeleteGastoId(g.id)} className="p-1 rounded hover:bg-white/10" style={{ color: "#ef4444" }}>
@@ -812,7 +812,7 @@ export default function LojaPerfilPage() {
                             <button
                               onClick={() => { setAdicionandoCusto(null); setEditandoCustoId(null); setCustoForm({ nome: "", categoria: "outro", valor: "", moeda: "BRL", mes: mesAtual, descricao: "" }); }}
                               className="px-2 py-1.5 rounded-lg text-xs"
-                              style={{ background: "#1e3356", color: "#64748b" }}
+                              style={{ background: "#1e3356", color: "#9aa7ba" }}
                             >
                               Cancelar
                             </button>
@@ -835,21 +835,21 @@ export default function LojaPerfilPage() {
           )}
 
           <div className="flex items-center gap-3">
-            <p className="text-xs font-medium uppercase tracking-wider mr-1" style={{ color: "#64748b" }}>Responsavel:</p>
+            <p className="text-xs font-medium uppercase tracking-wider mr-1" style={{ color: "#9aa7ba" }}>Responsavel:</p>
             {responsavel ? (
               <Link href={`/equipe/${responsavel.id}`} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
                 <Avatar nome={responsavel.nome} avatar={responsavel.avatar} foto={responsavel.foto} cor={responsavel.cor} size={32} />
                 <div>
                   <p className="text-sm text-white leading-tight">{responsavel.nome}</p>
-                  <p className="text-xs" style={{ color: "#64748b" }}>{responsavel.cargo}</p>
+                  <p className="text-xs" style={{ color: "#9aa7ba" }}>{responsavel.cargo}</p>
                 </div>
               </Link>
             ) : (
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "#1e3356" }}>
-                  <Users size={14} style={{ color: "#475569" }} />
+                  <Users size={14} style={{ color: "#74859c" }} />
                 </div>
-                <span className="text-sm" style={{ color: "#475569" }}>Sem responsavel</span>
+                <span className="text-sm" style={{ color: "#74859c" }}>Sem responsavel</span>
               </div>
             )}
           </div>
@@ -895,7 +895,7 @@ export default function LojaPerfilPage() {
             ].map((s) => (
               <div key={s.label} className="rounded-xl p-3 text-center" style={{ background: s.bg, border: `1px solid ${s.cor}30` }}>
                 <p className="font-extrabold" style={{ fontSize: 28, letterSpacing: "-0.5px", lineHeight: 1, color: s.cor }}>{s.count}</p>
-                <p className="text-xs mt-1 font-medium" style={{ color: "#64748b" }}>{s.label}</p>
+                <p className="text-xs mt-1 font-medium" style={{ color: "#9aa7ba" }}>{s.label}</p>
               </div>
             ))}
           </div>
@@ -976,7 +976,7 @@ export default function LojaPerfilPage() {
                           <div className="w-24 h-1 rounded-full overflow-hidden" style={{ background: "#1e3356" }}>
                             <div className="h-full rounded-full" style={{ width: `${pctProd}%`, background: completo ? statusCor : "#f59e0b" }} />
                           </div>
-                          <span className="text-xs" style={{ color: "#475569" }}>{preenchidos}/{CAMPOS_PRODUTO.length}</span>
+                          <span className="text-xs" style={{ color: "#74859c" }}>{preenchidos}/{CAMPOS_PRODUTO.length}</span>
                         </div>
                       </div>
 
@@ -1033,7 +1033,7 @@ export default function LojaPerfilPage() {
                         <button
                           onClick={() => setExpandidoProd(aberto ? null : p.id)}
                           className="p-1 rounded-lg hover:bg-slate-800"
-                          style={{ color: "#64748b" }}
+                          style={{ color: "#9aa7ba" }}
                         >
                           <ChevronDown size={13} style={{ transform: aberto ? "rotate(180deg)" : "rotate(0)", transition: "transform 0.2s" }} />
                         </button>
@@ -1067,7 +1067,7 @@ export default function LojaPerfilPage() {
                                   </a>
                                 )}
                                 {preenchido && campo.tipo !== "url" && (
-                                  <span className="text-xs font-mono" style={{ color: "#64748b" }}>
+                                  <span className="text-xs font-mono" style={{ color: "#9aa7ba" }}>
                                     {campo.tipo === "pct" ? `${val}%` : `R$ ${(val as number).toFixed(2)}`}
                                   </span>
                                 )}
@@ -1144,9 +1144,9 @@ export default function LojaPerfilPage() {
                     <h2 className="font-bold text-white text-sm flex items-center gap-2">
                       <Share2 size={14} style={{ color: "#8b5cf6" }} /> Distribuir Produto
                     </h2>
-                    <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>{distribuirModal.nome}</p>
+                    <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>{distribuirModal.nome}</p>
                   </div>
-                  <button onClick={() => setDistribuirModal(null)} style={{ color: "#64748b" }}><X size={16} /></button>
+                  <button onClick={() => setDistribuirModal(null)} style={{ color: "#9aa7ba" }}><X size={16} /></button>
                 </div>
                 {distribuirSucesso ? (
                   <div className="flex flex-col items-center justify-center py-10 gap-3">
@@ -1154,7 +1154,7 @@ export default function LojaPerfilPage() {
                       <Check size={20} style={{ color: "#8b5cf6" }} />
                     </div>
                     <p className="text-white font-bold">Distribuido para {lojasDistribuir.length} {lojasDistribuir.length === 1 ? "loja" : "lojas"}!</p>
-                    <p className="text-xs text-center px-6" style={{ color: "#64748b" }}>Atualize o Link Shopify em cada copia.</p>
+                    <p className="text-xs text-center px-6" style={{ color: "#9aa7ba" }}>Atualize o Link Shopify em cada copia.</p>
                   </div>
                 ) : (
                   <div className="px-5 py-4 space-y-3" style={{ maxHeight: "calc(90vh - 80px)", overflowY: "auto" }}>
@@ -1201,15 +1201,15 @@ export default function LojaPerfilPage() {
       <div className="grid grid-cols-3 gap-4">
         <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
           <p className="text-3xl font-bold text-white">{tarefasLoja.length}</p>
-          <p className="text-xs mt-1" style={{ color: "#64748b" }}>Total de Tarefas</p>
+          <p className="text-xs mt-1" style={{ color: "#9aa7ba" }}>Total de Tarefas</p>
         </div>
         <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: "1px solid #10b98140" }}>
           <p className="text-3xl font-bold" style={{ color: "#10b981" }}>{concluidas}</p>
-          <p className="text-xs mt-1" style={{ color: "#64748b" }}>Concluidas</p>
+          <p className="text-xs mt-1" style={{ color: "#9aa7ba" }}>Concluidas</p>
         </div>
         <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: `1px solid ${urgentes > 0 ? "#ef444440" : "#1e3356"}` }}>
           <p className="text-3xl font-bold" style={{ color: urgentes > 0 ? "#ef4444" : "#475569" }}>{urgentes}</p>
-          <p className="text-xs mt-1" style={{ color: "#64748b" }}>Urgentes</p>
+          <p className="text-xs mt-1" style={{ color: "#9aa7ba" }}>Urgentes</p>
         </div>
       </div>
 
@@ -1219,7 +1219,7 @@ export default function LojaPerfilPage() {
           <div className="flex items-center gap-2" data-tip="Rotinas vinculadas a esta loja. Cada uma pode ser delegada a um colaborador e aparece em Tarefas › Rotinas da pessoa. Sobrevivem se a pessoa sair.">
             <RefreshCw size={15} style={{ color: corGrupo }} />
             <p className="text-sm font-semibold text-white">Rotinas desta Loja</p>
-            <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#1e3356", color: "#64748b" }}>
+            <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#1e3356", color: "#9aa7ba" }}>
               {rotinasLoja.length} {rotinasLoja.length === 1 ? "rotina" : "rotinas"}
             </span>
             {rotinasLoja.length > 0 && (
@@ -1244,7 +1244,7 @@ export default function LojaPerfilPage() {
           <div className="p-10 text-center">
             <RefreshCw size={32} className="mx-auto mb-3" style={{ color: "#1e3356" }} />
             <p className="text-white font-medium mb-1">Nenhuma rotina para esta loja</p>
-            <p className="text-xs mb-4" style={{ color: "#64748b" }}>
+            <p className="text-xs mb-4" style={{ color: "#9aa7ba" }}>
               Rotinas sao atividades diarias recorrentes vinculadas a esta loja.
             </p>
             {isAdmin && (
@@ -1348,7 +1348,7 @@ export default function LojaPerfilPage() {
       {/* Progress chart */}
       {tarefasLoja.length > 0 && (
         <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
-          <p className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: "#64748b" }}>Distribuicao por Status — Tarefas</p>
+          <p className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: "#9aa7ba" }}>Distribuicao por Status — Tarefas</p>
           <div className="space-y-3">
             {tarefasPorStatus.map((s) => {
               const pctS = tarefasLoja.length ? Math.round((s.count / tarefasLoja.length) * 100) : 0;
@@ -1367,7 +1367,7 @@ export default function LojaPerfilPage() {
           </div>
           <div className="mt-4">
             <div className="flex justify-between text-xs mb-1">
-              <span style={{ color: "#64748b" }}>Progresso geral</span>
+              <span style={{ color: "#9aa7ba" }}>Progresso geral</span>
               <span style={{ color: corGrupo }}>{pct}%</span>
             </div>
             <div className="h-3 rounded-full overflow-hidden" style={{ background: "#1e3356" }}>
@@ -1381,7 +1381,7 @@ export default function LojaPerfilPage() {
       {tarefasLoja.length > 0 && (
         <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
           <div className="flex items-center justify-between mb-4">
-            <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#64748b" }}>
+            <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#9aa7ba" }}>
               Tarefas ({tarefasLoja.length})
             </p>
             {isAdmin && (
@@ -1402,7 +1402,7 @@ export default function LojaPerfilPage() {
                   style={{ background: "#1e3356", borderLeft: `3px solid ${cor}` }}>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-white font-medium">{t.titulo}</p>
-                    {t.descricao && <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>{t.descricao}</p>}
+                    {t.descricao && <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>{t.descricao}</p>}
                     {membros.length > 0 ? (
                       <div className="flex items-center gap-1.5 mt-1.5 flex-wrap">
                         {membros.map((m) => {
@@ -1429,7 +1429,7 @@ export default function LojaPerfilPage() {
                   </div>
                   <div className="flex flex-col items-end gap-1 ml-2 flex-shrink-0">
                     <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: `${cor}20`, color: cor }}>{PRI_LABEL[t.prioridade] || t.prioridade}</span>
-                    <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#122039", color: "#64748b" }}>{STATUS_LABEL[t.status] || t.status}</span>
+                    <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#122039", color: "#9aa7ba" }}>{STATUS_LABEL[t.status] || t.status}</span>
                   </div>
                 </div>
               );
@@ -1442,7 +1442,7 @@ export default function LojaPerfilPage() {
         <div className="rounded-2xl p-10 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
           <Store size={36} className="mx-auto mb-3" style={{ color: "#1e3356" }} />
           <p className="text-white font-medium mb-1">Nenhuma tarefa ativa para esta loja</p>
-          <p className="text-xs mb-5" style={{ color: "#64748b" }}>Crie a primeira tarefa para comecar a acompanhar.</p>
+          <p className="text-xs mb-5" style={{ color: "#9aa7ba" }}>Crie a primeira tarefa para comecar a acompanhar.</p>
           {isAdmin && (
             <button onClick={abrirModalTarefa}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl font-bold text-sm transition-all hover:opacity-90"
@@ -1465,9 +1465,9 @@ export default function LojaPerfilPage() {
             <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid #1e3356" }}>
               <div>
                 <h2 className="font-bold text-white text-sm">Nova Tarefa</h2>
-                <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>{loja.nome}</p>
+                <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>{loja.nome}</p>
               </div>
-              <button onClick={() => setModalTarefa(false)} className="p-1.5 rounded-xl hover:bg-slate-800" style={{ color: "#64748b" }}><X size={16} /></button>
+              <button onClick={() => setModalTarefa(false)} className="p-1.5 rounded-xl hover:bg-slate-800" style={{ color: "#9aa7ba" }}><X size={16} /></button>
             </div>
 
             {sucesso ? (
@@ -1497,7 +1497,7 @@ export default function LojaPerfilPage() {
                       style={{ background: "#122039", border: "1px solid #1e3356" }} autoFocus />
                   </div>
                   <div>
-                    <label className="text-xs font-semibold block mb-1.5" style={{ color: "#94a3b8" }}>Contexto <span style={{ color: "#475569" }}>(opcional)</span></label>
+                    <label className="text-xs font-semibold block mb-1.5" style={{ color: "#94a3b8" }}>Contexto <span style={{ color: "#74859c" }}>(opcional)</span></label>
                     <textarea rows={2} value={formTarefa.contexto} onChange={(e) => setFormTarefa((f) => ({ ...f, contexto: e.target.value }))}
                       placeholder="Contexto adicional para o responsavel..."
                       className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none resize-none"
@@ -1517,7 +1517,7 @@ export default function LojaPerfilPage() {
                             </option>
                           ))}
                         </select>
-                        <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "#64748b" }} />
+                        <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "#9aa7ba" }} />
                       </div>
                     </div>
                   )}
@@ -1557,7 +1557,7 @@ export default function LojaPerfilPage() {
                                 <option key={c.id} value={c.id} style={{ background: "#122039" }}>{c.nome}</option>
                               ))}
                             </select>
-                            <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "#64748b" }} />
+                            <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "#9aa7ba" }} />
                           </div>
                           <button type="button" onClick={addMembro} disabled={!novoMembroId}
                             className="flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-bold disabled:opacity-40"
@@ -1576,7 +1576,7 @@ export default function LojaPerfilPage() {
                                 <Avatar nome={colab.nome} avatar={colab.avatar} foto={colab.foto} cor={colab.cor} size={26} />
                                 <p className="text-sm font-semibold text-white">{colab.nome.split(" ")[0]}</p>
                               </div>
-                              <button type="button" onClick={() => rmMembro(m.uid)} className="p-1 rounded-lg" style={{ color: "#475569" }}><X size={13} /></button>
+                              <button type="button" onClick={() => rmMembro(m.uid)} className="p-1 rounded-lg" style={{ color: "#74859c" }}><X size={13} /></button>
                             </div>
                             <div className="space-y-1.5 ml-1">
                               {m.subtarefas.map((s, i) => (
@@ -1586,7 +1586,7 @@ export default function LojaPerfilPage() {
                                     placeholder={`Subtarefa de ${colab.nome.split(" ")[0]}...`}
                                     className="flex-1 px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
                                     style={{ background: "#0b1624", border: "1px solid #1e3356" }} />
-                                  <button type="button" onClick={() => rmSubMembro(m.uid, i)} style={{ color: "#475569" }}><Trash2 size={11} /></button>
+                                  <button type="button" onClick={() => rmSubMembro(m.uid, i)} style={{ color: "#74859c" }}><Trash2 size={11} /></button>
                                 </div>
                               ))}
                               <button type="button" onClick={() => addSubMembro(m.uid)}
@@ -1625,9 +1625,9 @@ export default function LojaPerfilPage() {
             <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid #1e3356" }}>
               <div>
                 <h2 className="font-bold text-white text-sm">Nova Rotina</h2>
-                <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>{loja.nome} — aparece no Meu Dia do responsavel</p>
+                <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>{loja.nome} — aparece no Meu Dia do responsavel</p>
               </div>
-              <button onClick={() => setModalRotina(false)} className="p-1.5 rounded-xl hover:bg-slate-800" style={{ color: "#64748b" }}><X size={16} /></button>
+              <button onClick={() => setModalRotina(false)} className="p-1.5 rounded-xl hover:bg-slate-800" style={{ color: "#9aa7ba" }}><X size={16} /></button>
             </div>
 
             {sucessoRotina ? (
@@ -1636,7 +1636,7 @@ export default function LojaPerfilPage() {
                   <Check size={24} style={{ color: "#10b981" }} />
                 </div>
                 <p className="text-white font-bold">Rotina criada!</p>
-                <p className="text-xs text-center px-6" style={{ color: "#64748b" }}>
+                <p className="text-xs text-center px-6" style={{ color: "#9aa7ba" }}>
                   Aparece no Meu Dia de {colaboradores.find((c) => c.id === formRotina.colaboradorId)?.nome.split(" ")[0] || ""}
                 </p>
               </div>
@@ -1663,13 +1663,13 @@ export default function LojaPerfilPage() {
                           <option key={f} value={f} style={{ background: "#122039" }}>{LABEL_FREQUENCIA[f]}</option>
                         ))}
                       </select>
-                      <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "#64748b" }} />
+                      <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "#9aa7ba" }} />
                     </div>
                   </div>
 
                   {/* Responsavel */}
                   <div>
-                    <label className="text-xs font-semibold block mb-1.5" style={{ color: "#94a3b8" }}>Responsavel <span style={{ color: "#475569" }}>(opcional)</span></label>
+                    <label className="text-xs font-semibold block mb-1.5" style={{ color: "#94a3b8" }}>Responsavel <span style={{ color: "#74859c" }}>(opcional)</span></label>
                     <div className="relative">
                       <select value={formRotina.colaboradorId} onChange={(e) => setFormRotina((f) => ({ ...f, colaboradorId: e.target.value }))}
                         className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none appearance-none"
@@ -1681,9 +1681,9 @@ export default function LojaPerfilPage() {
                           </option>
                         ))}
                       </select>
-                      <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "#64748b" }} />
+                      <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "#9aa7ba" }} />
                     </div>
-                    <p className="text-xs mt-1.5 flex items-center gap-1" style={{ color: "#475569" }}>
+                    <p className="text-xs mt-1.5 flex items-center gap-1" style={{ color: "#74859c" }}>
                       <RefreshCw size={10} />
                       {formRotina.colaboradorId
                         ? `Aparece em Tarefas › Rotinas de ${colaboradores.find((c) => c.id === formRotina.colaboradorId)?.nome.split(" ")[0]}`
@@ -1694,7 +1694,7 @@ export default function LojaPerfilPage() {
                   {/* Subtarefas */}
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
-                      <label className="text-xs font-semibold" style={{ color: "#94a3b8" }}>Subtarefas <span style={{ color: "#475569" }}>(opcional)</span></label>
+                      <label className="text-xs font-semibold" style={{ color: "#94a3b8" }}>Subtarefas <span style={{ color: "#74859c" }}>(opcional)</span></label>
                       <button type="button" onClick={addSubRotina}
                         className="flex items-center gap-1 text-xs px-2 py-1 rounded-lg transition-all hover:opacity-80"
                         style={{ background: corGrupo + "20", color: corGrupo, border: `1px solid ${corGrupo}30` }}>
@@ -1712,7 +1712,7 @@ export default function LojaPerfilPage() {
                             placeholder={`Subtarefa ${i + 1}...`}
                             className="flex-1 px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
                             style={{ background: "#122039", border: "1px solid #1e3356" }} />
-                          <button type="button" onClick={() => rmSubRotina(i)} style={{ color: "#475569" }}><Trash2 size={11} /></button>
+                          <button type="button" onClick={() => rmSubRotina(i)} style={{ color: "#74859c" }}><Trash2 size={11} /></button>
                         </div>
                       ))}
                     </div>

@@ -191,7 +191,7 @@ export default function Sidebar() {
               }}
             >
               <p className="text-white font-bold text-sm">Izzat Group</p>
-              <p className="text-xs" style={{ color: "#64748b" }}>Gestao de Equipe</p>
+              <p className="text-xs" style={{ color: "#9aa7ba" }}>Gestao de Equipe</p>
             </div>
           </div>
 
@@ -244,7 +244,7 @@ export default function Sidebar() {
         {!isCollapsed && notifAberta && (
           <div className="mt-3 rounded-xl overflow-hidden" style={{ background: "var(--bg)", border: "1px solid var(--border)" }}>
             <div className="flex items-center justify-between px-3 py-2" style={{ borderBottom: "1px solid var(--border)" }}>
-              <span className="text-xs font-semibold" style={{ color: "#64748b" }}>Notificacoes</span>
+              <span className="text-xs font-semibold" style={{ color: "#9aa7ba" }}>Notificacoes</span>
               {naoLidas > 0 && (
                 <button
                   onClick={() => minhasNotifs.filter((n) => !n.lida).forEach((n) => marcarNotificacaoLida(n.id))}
@@ -258,7 +258,7 @@ export default function Sidebar() {
             <BotaoAtivarPush />
             <div className="max-h-56 overflow-y-auto" style={{ borderTop: "1px solid var(--border)" }}>
               {minhasNotifs.length === 0 ? (
-                <p className="px-3 py-4 text-xs text-center" style={{ color: "#475569" }}>
+                <p className="px-3 py-4 text-xs text-center" style={{ color: "#74859c" }}>
                   Nenhuma notificacao
                 </p>
               ) : (
@@ -275,7 +275,7 @@ export default function Sidebar() {
                     style={{ background: n.lida ? "transparent" : "#1e335640", borderTop: "1px solid #1e3356" }}
                   >
                     <p className="text-xs font-medium" style={{ color: n.lida ? "#64748b" : "#e8edf5" }}>{n.titulo}</p>
-                    <p className="text-xs mt-0.5 leading-snug" style={{ color: "#475569" }}>
+                    <p className="text-xs mt-0.5 leading-snug" style={{ color: "#74859c" }}>
                       {n.corpo.length > 55 ? n.corpo.slice(0, 55) + "..." : n.corpo}
                     </p>
                   </button>
@@ -293,7 +293,7 @@ export default function Sidebar() {
       >
         <div className="px-4 pt-3 pb-1 relative">
           <div className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ background: "var(--border)" }}>
-            <Search size={13} style={{ color: "#64748b" }} />
+            <Search size={13} style={{ color: "#9aa7ba" }} />
             <input
               value={busca}
               onChange={(e) => setBusca(e.target.value)}
@@ -303,7 +303,7 @@ export default function Sidebar() {
             />
             {busca && (
               <button onClick={() => setBusca("")}>
-                <X size={11} style={{ color: "#64748b" }} />
+                <X size={11} style={{ color: "#9aa7ba" }} />
               </button>
             )}
           </div>
@@ -323,7 +323,7 @@ export default function Sidebar() {
                   <div className="w-1.5 h-5 rounded-full flex-shrink-0" style={{ background: r.cor }} />
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-medium text-white truncate">{r.label}</p>
-                    <p className="text-xs" style={{ color: "#64748b" }}>
+                    <p className="text-xs" style={{ color: "#9aa7ba" }}>
                       {r.tipo === "colab" ? "Pessoa" : r.tipo === "loja" ? "Loja" : "Tarefa"}
                       {r.sub ? " · " + r.sub : ""}
                     </p>
@@ -526,7 +526,7 @@ export default function Sidebar() {
           <button
             onClick={handleLogout}
             className="w-full flex items-center justify-center py-2 rounded-xl transition-all hover:opacity-80"
-            style={{ color: "#64748b" }}
+            style={{ color: "#9aa7ba" }}
             data-tip="Sair"
           >
             <LogOut size={15} />
@@ -536,7 +536,7 @@ export default function Sidebar() {
             <button
               onClick={handleLogout}
               className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition-all hover:opacity-80"
-              style={{ color: "#64748b", background: "transparent" }}
+              style={{ color: "#9aa7ba", background: "transparent" }}
             >
               <LogOut size={16} />
               Sair
@@ -628,7 +628,7 @@ export default function Sidebar() {
             style={{ background: "var(--card)", border: "1px solid var(--border)" }} onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <h2 className="text-white font-bold">Nova Tarefa</h2>
-              <button onClick={() => setModalAberto(false)} style={{ color: "#64748b" }}><X size={20} /></button>
+              <button onClick={() => setModalAberto(false)} style={{ color: "#9aa7ba" }}><X size={20} /></button>
             </div>
             <input
               value={form.titulo}

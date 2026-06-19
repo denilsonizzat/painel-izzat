@@ -93,7 +93,7 @@ export default function RegrasPage() {
             </div>
             <h1 className="text-2xl font-bold text-white">Regras da Empresa</h1>
           </div>
-          <p className="text-sm" style={{ color: "#64748b" }}>
+          <p className="text-sm" style={{ color: "#9aa7ba" }}>
             Diretrizes operacionais do time Izzat. O que é inegociável, o que é recomendado e o que é flexível.
           </p>
         </div>
@@ -126,7 +126,7 @@ export default function RegrasPage() {
               <span className="text-xl font-black" style={{ color: r.cor }}>{contPorRigidez[r.value]}</span>
             </div>
             <p className="text-xs font-semibold" style={{ color: filtroRigidez === r.value ? r.cor : "#64748b" }}>{r.label}</p>
-            <p className="text-xs mt-0.5 leading-tight" style={{ color: "#475569" }}>{r.desc}</p>
+            <p className="text-xs mt-0.5 leading-tight" style={{ color: "#74859c" }}>{r.desc}</p>
           </button>
         ))}
       </div>
@@ -154,7 +154,7 @@ export default function RegrasPage() {
           <button
             onClick={() => setMostrarInativas(!mostrarInativas)}
             className="ml-auto px-3 py-1.5 rounded-full text-xs transition-all"
-            style={{ background: mostrarInativas ? "#1e3356" : "#122039", color: "#475569", border: "1px solid #1e3356" }}
+            style={{ background: mostrarInativas ? "#1e3356" : "#122039", color: "#74859c", border: "1px solid #1e3356" }}
           >
             {mostrarInativas ? "Ocultar inativas" : "Ver inativas"}
           </button>
@@ -165,15 +165,15 @@ export default function RegrasPage() {
       <div className="flex items-center gap-4 px-4 py-2 rounded-xl" style={{ background: "#0d1928", border: "1px solid #1e3356" }}>
         <div className="flex items-center gap-1.5">
           <ShieldAlert size={12} style={{ color: "#ef4444" }} />
-          <span className="text-xs" style={{ color: "#64748b" }}>Inegociável = sem exceções</span>
+          <span className="text-xs" style={{ color: "#9aa7ba" }}>Inegociável = sem exceções</span>
         </div>
         <div className="flex items-center gap-1.5">
           <BookOpen size={12} style={{ color: "#f59e0b" }} />
-          <span className="text-xs" style={{ color: "#64748b" }}>Recomendado = desvio precisa de justificativa</span>
+          <span className="text-xs" style={{ color: "#9aa7ba" }}>Recomendado = desvio precisa de justificativa</span>
         </div>
         <div className="flex items-center gap-1.5">
           <Check size={12} style={{ color: "#10b981" }} />
-          <span className="text-xs" style={{ color: "#64748b" }}>Maleável = adaptar ao contexto</span>
+          <span className="text-xs" style={{ color: "#9aa7ba" }}>Maleável = adaptar ao contexto</span>
         </div>
       </div>
 
@@ -183,7 +183,7 @@ export default function RegrasPage() {
           <div className="rounded-2xl p-10 text-center space-y-2" style={{ background: "#122039", border: "1px solid #1e3356" }}>
             <div className="text-4xl">📋</div>
             <p className="text-white font-medium">Nenhuma regra encontrada</p>
-            <p className="text-sm" style={{ color: "#475569" }}>
+            <p className="text-sm" style={{ color: "#74859c" }}>
               {filtroCategoria !== "todos" || filtroRigidez !== "todos"
                 ? "Tente limpar os filtros acima"
                 : isAdmin ? "Clique em Nova Regra para adicionar a primeira diretriz" : "Aguarde o gestor adicionar as regras do time"}
@@ -231,7 +231,7 @@ export default function RegrasPage() {
                           {categoria.emoji} {categoria.label}
                         </span>
                         {!regra.ativa && (
-                          <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#1e3356", color: "#475569" }}>
+                          <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#1e3356", color: "#74859c" }}>
                             Inativa
                           </span>
                         )}
@@ -258,7 +258,7 @@ export default function RegrasPage() {
                         <button
                           onClick={() => abrirEditar(regra)}
                           className="p-1.5 rounded-lg hover:opacity-80"
-                          style={{ background: "#1e3356", color: "#64748b" }}
+                          style={{ background: "#1e3356", color: "#9aa7ba" }}
                           data-tip="Editar regra"
                         >
                           <Pencil size={13} />
@@ -275,7 +275,7 @@ export default function RegrasPage() {
                             <button
                               onClick={() => setConfirmDeleteId(null)}
                               className="p-1.5 rounded-lg"
-                              style={{ color: "#64748b" }}
+                              style={{ color: "#9aa7ba" }}
                             >
                               <X size={13} />
                             </button>
@@ -284,7 +284,7 @@ export default function RegrasPage() {
                           <button
                             onClick={() => setConfirmDeleteId(regra.id)}
                             className="p-1.5 rounded-lg hover:opacity-80"
-                            style={{ background: "#1e3356", color: "#64748b" }}
+                            style={{ background: "#1e3356", color: "#9aa7ba" }}
                             data-tip="Deletar regra"
                           >
                             <Trash2 size={13} />
@@ -313,14 +313,14 @@ export default function RegrasPage() {
               <h2 className="text-white font-bold text-lg">
                 {editandoId ? "Editar Regra" : "Nova Regra"}
               </h2>
-              <button onClick={() => setModalAberto(false)} style={{ color: "#64748b" }}>
+              <button onClick={() => setModalAberto(false)} style={{ color: "#9aa7ba" }}>
                 <X size={20} />
               </button>
             </div>
 
             {/* Ícone */}
             <div>
-              <label className="text-xs font-semibold uppercase tracking-wider block mb-2" style={{ color: "#64748b" }}>
+              <label className="text-xs font-semibold uppercase tracking-wider block mb-2" style={{ color: "#9aa7ba" }}>
                 Ícone
               </label>
               <div className="flex gap-2 flex-wrap">
@@ -342,7 +342,7 @@ export default function RegrasPage() {
 
             {/* Título */}
             <div>
-              <label className="text-xs font-semibold uppercase tracking-wider block mb-1.5" style={{ color: "#64748b" }}>Título *</label>
+              <label className="text-xs font-semibold uppercase tracking-wider block mb-1.5" style={{ color: "#9aa7ba" }}>Título *</label>
               <input
                 autoFocus
                 value={form.titulo}
@@ -355,7 +355,7 @@ export default function RegrasPage() {
 
             {/* Descrição */}
             <div>
-              <label className="text-xs font-semibold uppercase tracking-wider block mb-1.5" style={{ color: "#64748b" }}>Descrição</label>
+              <label className="text-xs font-semibold uppercase tracking-wider block mb-1.5" style={{ color: "#9aa7ba" }}>Descrição</label>
               <textarea
                 value={form.descricao}
                 onChange={(e) => upd("descricao", e.target.value)}
@@ -368,7 +368,7 @@ export default function RegrasPage() {
 
             {/* Rigidez */}
             <div>
-              <label className="text-xs font-semibold uppercase tracking-wider block mb-2" style={{ color: "#64748b" }}>Nível de rigidez</label>
+              <label className="text-xs font-semibold uppercase tracking-wider block mb-2" style={{ color: "#9aa7ba" }}>Nível de rigidez</label>
               <div className="space-y-2">
                 {RIGIDEZ.map((r) => (
                   <button
@@ -383,7 +383,7 @@ export default function RegrasPage() {
                     <span className="text-lg">{r.icone}</span>
                     <div>
                       <p className="text-sm font-semibold" style={{ color: form.rigidez === r.value ? r.cor : "#e8edf5" }}>{r.label}</p>
-                      <p className="text-xs" style={{ color: "#64748b" }}>{r.desc}</p>
+                      <p className="text-xs" style={{ color: "#9aa7ba" }}>{r.desc}</p>
                     </div>
                   </button>
                 ))}
@@ -392,7 +392,7 @@ export default function RegrasPage() {
 
             {/* Categoria */}
             <div>
-              <label className="text-xs font-semibold uppercase tracking-wider block mb-2" style={{ color: "#64748b" }}>Categoria</label>
+              <label className="text-xs font-semibold uppercase tracking-wider block mb-2" style={{ color: "#9aa7ba" }}>Categoria</label>
               <div className="grid grid-cols-3 gap-2">
                 {CATEGORIAS.map((c) => (
                   <button

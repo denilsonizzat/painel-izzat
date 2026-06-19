@@ -239,10 +239,10 @@ export default function FloatingPomodoro() {
           )}
         </div>
         <div className="flex items-center gap-1">
-          <button onClick={() => setAberto(false)} className="p-1.5 rounded-xl hover:bg-slate-800 transition-colors" style={{ color: "#64748b" }} data-tip="Minimizar">
+          <button onClick={() => setAberto(false)} className="p-1.5 rounded-xl hover:bg-slate-800 transition-colors" style={{ color: "#9aa7ba" }} data-tip="Minimizar">
             <ChevronDown size={14} />
           </button>
-          <button onClick={fechar} className="p-1.5 rounded-xl hover:bg-slate-800 transition-colors" style={{ color: "#64748b" }} data-tip="Fechar">
+          <button onClick={fechar} className="p-1.5 rounded-xl hover:bg-slate-800 transition-colors" style={{ color: "#9aa7ba" }} data-tip="Fechar">
             <X size={14} />
           </button>
         </div>
@@ -259,20 +259,20 @@ export default function FloatingPomodoro() {
                 <CheckCircle2 size={14} style={{ color: "#10b981", flexShrink: 0 }} />
                 <span className="text-xs font-semibold flex-1 text-white truncate">{atividadeSel.titulo}</span>
                 <button onClick={() => { setAtividadeSel(null); setTitulo(""); }}
-                  className="p-0.5 rounded-lg hover:bg-slate-800" style={{ color: "#64748b" }}>
+                  className="p-0.5 rounded-lg hover:bg-slate-800" style={{ color: "#9aa7ba" }}>
                   <RotateCcw size={11} />
                 </button>
               </div>
             ) : (
               <div>
-                <p className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: "#64748b" }}>
+                <p className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: "#9aa7ba" }}>
                   Selecionar atividade
                 </p>
 
                 {/* Tarefas abertas */}
                 {tarefasAbertas.length > 0 && (
                   <div className="mb-2">
-                    <p className="text-xs mb-1.5 font-semibold" style={{ color: "#475569" }}>Tarefas</p>
+                    <p className="text-xs mb-1.5 font-semibold" style={{ color: "#74859c" }}>Tarefas</p>
                     <div className="space-y-1">
                       {tarefasAbertas.slice(0, 5).map((t) => (
                         <button key={t.id} onClick={() => selecionarAtividade({ tipo: "tarefa", id: t.id, titulo: t.titulo })}
@@ -280,7 +280,7 @@ export default function FloatingPomodoro() {
                           style={{ background: "#122039", border: "1px solid #1e3356" }}>
                           <Circle size={12} style={{ color: "#ef4444", flexShrink: 0 }} />
                           <span className="text-xs text-white truncate flex-1">{t.titulo}</span>
-                          <span className="text-xs flex-shrink-0" style={{ color: "#475569" }}>tarefa</span>
+                          <span className="text-xs flex-shrink-0" style={{ color: "#74859c" }}>tarefa</span>
                         </button>
                       ))}
                     </div>
@@ -290,7 +290,7 @@ export default function FloatingPomodoro() {
                 {/* Rotinas abertas */}
                 {rotinasAbertas.length > 0 && (
                   <div className="mb-2">
-                    <p className="text-xs mb-1.5 font-semibold" style={{ color: "#475569" }}>Rotinas</p>
+                    <p className="text-xs mb-1.5 font-semibold" style={{ color: "#74859c" }}>Rotinas</p>
                     <div className="space-y-1">
                       {rotinasAbertas.slice(0, 5).map((r) => (
                         <button key={r.id} onClick={() => selecionarAtividade({ tipo: "rotina", id: r.id, titulo: r.titulo })}
@@ -298,7 +298,7 @@ export default function FloatingPomodoro() {
                           style={{ background: "#122039", border: "1px solid #1e3356" }}>
                           <Circle size={12} style={{ color: "#c9a84c", flexShrink: 0 }} />
                           <span className="text-xs text-white truncate flex-1">{r.titulo}</span>
-                          <span className="text-xs flex-shrink-0" style={{ color: "#475569" }}>rotina</span>
+                          <span className="text-xs flex-shrink-0" style={{ color: "#74859c" }}>rotina</span>
                         </button>
                       ))}
                     </div>
@@ -306,7 +306,7 @@ export default function FloatingPomodoro() {
                 )}
 
                 {tarefasAbertas.length === 0 && rotinasAbertas.length === 0 && (
-                  <p className="text-xs py-2" style={{ color: "#475569" }}>Nenhuma atividade em aberto — pode digitar abaixo.</p>
+                  <p className="text-xs py-2" style={{ color: "#74859c" }}>Nenhuma atividade em aberto — pode digitar abaixo.</p>
                 )}
 
                 {/* Ou digitar */}
@@ -322,7 +322,7 @@ export default function FloatingPomodoro() {
 
             {/* Duracao */}
             <div>
-              <label className="text-xs font-semibold block mb-2" style={{ color: "#64748b" }}>Duracao</label>
+              <label className="text-xs font-semibold block mb-2" style={{ color: "#9aa7ba" }}>Duracao</label>
               <div className="grid grid-cols-3 gap-2 mb-2">
                 {[25, 45, 60].map((m) => (
                   <button key={m} onClick={() => setConfig({ ...config, minutos: m })}
@@ -337,18 +337,18 @@ export default function FloatingPomodoro() {
                 ))}
               </div>
               <div className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ background: "#122039", border: "1px solid #1e3356" }}>
-                <span className="text-xs flex-shrink-0" style={{ color: "#64748b" }}>Outro:</span>
+                <span className="text-xs flex-shrink-0" style={{ color: "#9aa7ba" }}>Outro:</span>
                 <input type="number" min={1} max={120} value={config.minutos}
                   onChange={(e) => setConfig({ ...config, minutos: Math.max(1, Math.min(120, parseInt(e.target.value) || 1)) })}
                   className="flex-1 bg-transparent text-center text-sm font-bold outline-none"
                   style={{ color: "#e8edf5", width: 40 }} />
-                <span className="text-xs flex-shrink-0" style={{ color: "#64748b" }}>min</span>
+                <span className="text-xs flex-shrink-0" style={{ color: "#9aa7ba" }}>min</span>
               </div>
             </div>
 
             {/* Intervalo */}
             <div>
-              <label className="text-xs font-semibold block mb-2" style={{ color: "#64748b" }}>Intervalo</label>
+              <label className="text-xs font-semibold block mb-2" style={{ color: "#9aa7ba" }}>Intervalo</label>
               <div className="grid grid-cols-3 gap-2 mb-2">
                 {[5, 10, 15].map((m) => (
                   <button key={m} onClick={() => setConfig({ ...config, minutosDescanso: m })}
@@ -363,18 +363,18 @@ export default function FloatingPomodoro() {
                 ))}
               </div>
               <div className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ background: "#122039", border: "1px solid #1e3356" }}>
-                <span className="text-xs flex-shrink-0" style={{ color: "#64748b" }}>Outro:</span>
+                <span className="text-xs flex-shrink-0" style={{ color: "#9aa7ba" }}>Outro:</span>
                 <input type="number" min={1} max={60} value={config.minutosDescanso}
                   onChange={(e) => setConfig({ ...config, minutosDescanso: Math.max(1, Math.min(60, parseInt(e.target.value) || 1)) })}
                   className="flex-1 bg-transparent text-center text-sm font-bold outline-none"
                   style={{ color: "#e8edf5", width: 40 }} />
-                <span className="text-xs flex-shrink-0" style={{ color: "#64748b" }}>min</span>
+                <span className="text-xs flex-shrink-0" style={{ color: "#9aa7ba" }}>min</span>
               </div>
             </div>
 
             {/* Sessoes */}
             <div>
-              <label className="text-xs font-semibold block mb-2" style={{ color: "#64748b" }}>Sessoes</label>
+              <label className="text-xs font-semibold block mb-2" style={{ color: "#9aa7ba" }}>Sessoes</label>
               <div className="grid grid-cols-4 gap-2 mb-2">
                 {[1, 2, 4, 6].map((n) => (
                   <button key={n} onClick={() => setConfig({ ...config, sessoes: n })}
@@ -389,12 +389,12 @@ export default function FloatingPomodoro() {
                 ))}
               </div>
               <div className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ background: "#122039", border: "1px solid #1e3356" }}>
-                <span className="text-xs flex-shrink-0" style={{ color: "#64748b" }}>Outro:</span>
+                <span className="text-xs flex-shrink-0" style={{ color: "#9aa7ba" }}>Outro:</span>
                 <input type="number" min={1} max={20} value={config.sessoes}
                   onChange={(e) => setConfig({ ...config, sessoes: Math.max(1, Math.min(20, parseInt(e.target.value) || 1)) })}
                   className="flex-1 bg-transparent text-center text-sm font-bold outline-none"
                   style={{ color: "#e8edf5", width: 40 }} />
-                <span className="text-xs flex-shrink-0" style={{ color: "#64748b" }}>sessoes</span>
+                <span className="text-xs flex-shrink-0" style={{ color: "#9aa7ba" }}>sessoes</span>
               </div>
               <p className="text-xs mt-1 text-center" style={{ color: "#334155" }}>
                 Total: {config.sessoes * config.minutos + (config.sessoes - 1) * config.minutosDescanso} min
@@ -415,7 +415,7 @@ export default function FloatingPomodoro() {
       {etapa === "ativo" && (
         <div className="px-4 pb-4 space-y-3 overflow-y-auto flex-1">
           {titulo && (
-            <p className="text-xs text-center truncate px-2" style={{ color: "#64748b" }}>{titulo}</p>
+            <p className="text-xs text-center truncate px-2" style={{ color: "#9aa7ba" }}>{titulo}</p>
           )}
           <div className="flex flex-col items-center gap-1 py-1">
             <Ampulheta pct={pct} cor={cor} />
@@ -435,10 +435,10 @@ export default function FloatingPomodoro() {
               {rodando ? <Pause size={15} /> : <Play size={15} />}
               {rodando ? "Pausar" : "Continuar"}
             </button>
-            <button onClick={pularFase} className="p-2.5 rounded-2xl transition-colors hover:bg-slate-800" style={{ background: "#1e3356", color: "#64748b" }}>
+            <button onClick={pularFase} className="p-2.5 rounded-2xl transition-colors hover:bg-slate-800" style={{ background: "#1e3356", color: "#9aa7ba" }}>
               <SkipForward size={15} />
             </button>
-            <button onClick={resetar} className="p-2.5 rounded-2xl transition-colors hover:bg-slate-800" style={{ background: "#1e3356", color: "#64748b" }}>
+            <button onClick={resetar} className="p-2.5 rounded-2xl transition-colors hover:bg-slate-800" style={{ background: "#1e3356", color: "#9aa7ba" }}>
               <Square size={15} />
             </button>
           </div>

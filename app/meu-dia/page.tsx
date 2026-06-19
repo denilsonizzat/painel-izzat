@@ -167,10 +167,10 @@ export default function MeuDiaPage() {
           <h1 className="text-2xl font-bold text-white">
             {new Date().getHours() < 12 ? "Bom dia" : new Date().getHours() < 18 ? "Boa tarde" : "Boa noite"}, {usuarioAtual.nome.split(" ")[0]} ☀️
           </h1>
-          <p className="text-sm mt-0.5" style={{ color: "#64748b" }}>
+          <p className="text-sm mt-0.5" style={{ color: "#9aa7ba" }}>
             {new Date().toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" })}
           </p>
-          <p className="text-xs mt-1" style={{ color: "#475569" }}>
+          <p className="text-xs mt-1" style={{ color: "#74859c" }}>
             Marque suas rotinas, registre atividades e acompanhe suas entregas
           </p>
         </div>
@@ -195,7 +195,7 @@ export default function MeuDiaPage() {
           <Moon size={14} style={{ color: "#8b5cf6" }} />
           <div className="flex-1 min-w-0">
             <span className="text-sm font-medium text-white">{"Como você dormiu?"}</span>
-            <span className="text-xs ml-2" style={{ color: "#64748b" }}>{"Registre seu sono de ontem"}</span>
+            <span className="text-xs ml-2" style={{ color: "#9aa7ba" }}>{"Registre seu sono de ontem"}</span>
           </div>
           <button
             onClick={() => setShowSonoPopup(true)}
@@ -204,7 +204,7 @@ export default function MeuDiaPage() {
           >
             Registrar
           </button>
-          <button onClick={dispensarSonoPopup} className="flex-shrink-0" style={{ color: "#475569" }}>
+          <button onClick={dispensarSonoPopup} className="flex-shrink-0" style={{ color: "#74859c" }}>
             <X size={14} />
           </button>
         </div>
@@ -219,7 +219,7 @@ export default function MeuDiaPage() {
             <span className="text-xs px-1.5 py-0.5 rounded-full font-medium" style={{ background: nivelInfo.cor + "20", color: nivelInfo.cor }}>{nivelInfo.nome}</span>
           </div>
           {nivelInfo.proximo ? (
-            <span className="text-xs" style={{ color: "#64748b" }}>
+            <span className="text-xs" style={{ color: "#9aa7ba" }}>
               {nivelInfo.proximo.xpMin - nivelInfo.xp} XP para {nivelInfo.proximo.nome}
             </span>
           ) : (
@@ -242,7 +242,7 @@ export default function MeuDiaPage() {
         <div className="flex items-center justify-between mb-3">
           <div>
             <p className="text-white font-semibold">Rotinas de hoje</p>
-            <p className="text-sm" style={{ color: "#64748b" }}>{feitas} de {totalSubs} subtarefas concluidas</p>
+            <p className="text-sm" style={{ color: "#9aa7ba" }}>{feitas} de {totalSubs} subtarefas concluidas</p>
           </div>
           <p className="text-3xl font-bold" style={{ color: pct === 100 ? "#10b981" : "#c9a84c" }}>{pct}%</p>
         </div>
@@ -257,7 +257,7 @@ export default function MeuDiaPage() {
             <Star size={18} style={{ color: "#10b981" }} />
             <div>
               <p className="text-sm font-bold" style={{ color: "#10b981" }}>Dia concluido! +50 XP bonus</p>
-              <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>Streak mantido: {streak} dias consecutivos</p>
+              <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>Streak mantido: {streak} dias consecutivos</p>
             </div>
           </div>
         )}
@@ -271,7 +271,7 @@ export default function MeuDiaPage() {
               <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "#10b981" }}>ENTREGAS DA SEMANA</span>
               <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#10b98120", color: "#10b981" }}>Compromissos ate sexta</span>
             </div>
-            <p className="text-xs" style={{ color: "#475569" }}>
+            <p className="text-xs" style={{ color: "#74859c" }}>
               O que voce se comprometeu a entregar esta semana. Registre e atualize o status.
             </p>
           </div>
@@ -322,7 +322,7 @@ export default function MeuDiaPage() {
             >
               OK
             </button>
-            <button onClick={() => { setShowAddEntrega(false); setNovaEntrega(""); }} className="px-2 py-1.5 rounded-lg" style={{ color: "#64748b" }}>
+            <button onClick={() => { setShowAddEntrega(false); setNovaEntrega(""); }} className="px-2 py-1.5 rounded-lg" style={{ color: "#9aa7ba" }}>
               <X size={14} />
             </button>
           </div>
@@ -331,7 +331,7 @@ export default function MeuDiaPage() {
         {minhasEntregas.length === 0 && !showAddEntrega && (
           <div className="rounded-2xl p-5 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
             <div className="text-2xl mb-2">📦</div>
-            <p className="text-sm font-medium" style={{ color: "#475569" }}>Nenhuma entrega desta semana ainda</p>
+            <p className="text-sm font-medium" style={{ color: "#74859c" }}>Nenhuma entrega desta semana ainda</p>
             <p className="text-xs mt-1 mb-3" style={{ color: "#334155" }}>
               Registre o que voce se compromete a entregar ate sexta-feira.
             </p>
@@ -352,7 +352,7 @@ export default function MeuDiaPage() {
                 {e.status === "entregue" && <CheckCircle2 size={16} style={{ color: "#10b981" }} />}
                 {e.status === "em_andamento" && <Clock size={16} style={{ color: "#3b82f6" }} />}
                 {e.status === "travado" && <AlertTriangle size={16} style={{ color: "#ef4444" }} />}
-                {e.status === "pendente" && <Circle size={16} style={{ color: "#64748b" }} />}
+                {e.status === "pendente" && <Circle size={16} style={{ color: "#9aa7ba" }} />}
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm" style={{ color: e.status === "entregue" ? "#64748b" : e.status === "travado" ? "#ef4444" : "#e8edf5", textDecoration: e.status === "entregue" ? "line-through" : "none" }}>
@@ -386,7 +386,7 @@ export default function MeuDiaPage() {
                     >
                       Confirmar
                     </button>
-                    <button onClick={() => { setTravandoId(null); setMotivoTravado(""); }} className="px-2 py-1 rounded-lg" style={{ color: "#64748b" }}>
+                    <button onClick={() => { setTravandoId(null); setMotivoTravado(""); }} className="px-2 py-1 rounded-lg" style={{ color: "#9aa7ba" }}>
                       <X size={12} />
                     </button>
                   </div>
@@ -427,7 +427,7 @@ export default function MeuDiaPage() {
         <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
           <div className="text-4xl mb-3">📋</div>
           <p className="font-semibold text-white mb-1">Nenhuma rotina cadastrada ainda</p>
-          <p className="text-sm leading-relaxed" style={{ color: "#64748b" }}>
+          <p className="text-sm leading-relaxed" style={{ color: "#9aa7ba" }}>
             Rotinas sao tarefas que voce repete todo dia — por exemplo: verificar pedidos, responder mensagens, atualizar planilha. Seu gestor vai cadastrar as suas.
           </p>
         </div>
@@ -441,7 +441,7 @@ export default function MeuDiaPage() {
                 <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "#0ea5e9" }}>ROTINAS</span>
                 <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#0ea5e920", color: "#0ea5e9" }}>O minimo de hoje</span>
               </div>
-              <p className="text-xs" style={{ color: "#475569" }}>
+              <p className="text-xs" style={{ color: "#74859c" }}>
                 Habitos diarios — o que se espera de voce todo dia. Complete todas para +50 XP bonus.
               </p>
             </div>
@@ -464,13 +464,13 @@ export default function MeuDiaPage() {
                     onClick={(e) => { e.stopPropagation(); rotina.concluida ? reabrirRotina(rotina.id) : concluirRotina(rotina.id); }}
                     onKeyDown={(e) => { if (e.key === " " || e.key === "Enter") { e.stopPropagation(); rotina.concluida ? reabrirRotina(rotina.id) : concluirRotina(rotina.id); } }}
                   >
-                    {rotina.concluida ? <CheckCircle2 size={22} style={{ color: "#10b981" }} /> : <Circle size={22} style={{ color: "#475569" }} />}
+                    {rotina.concluida ? <CheckCircle2 size={22} style={{ color: "#10b981" }} /> : <Circle size={22} style={{ color: "#74859c" }} />}
                   </span>
                   <div className="flex-1 min-w-0">
                     <p className="text-white font-medium text-sm" style={{ textDecoration: rotina.concluida ? "line-through" : "none", opacity: rotina.concluida ? 0.5 : 1 }}>
                       {rotina.titulo}
                     </p>
-                    {loja && <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>{loja.nome}</p>}
+                    {loja && <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>{loja.nome}</p>}
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0">
                     <button
@@ -481,8 +481,8 @@ export default function MeuDiaPage() {
                     >
                       🍅 <span>Foco</span>
                     </button>
-                    <span className="text-xs" style={{ color: "#64748b" }}>{subFeitas}/{rotina.subtarefas.length}</span>
-                    {aberta ? <ChevronUp size={16} style={{ color: "#64748b" }} /> : <ChevronDown size={16} style={{ color: "#64748b" }} />}
+                    <span className="text-xs" style={{ color: "#9aa7ba" }}>{subFeitas}/{rotina.subtarefas.length}</span>
+                    {aberta ? <ChevronUp size={16} style={{ color: "#9aa7ba" }} /> : <ChevronDown size={16} style={{ color: "#9aa7ba" }} />}
                   </div>
                 </button>
                 {aberta && rotina.subtarefas.length > 0 && (
@@ -495,11 +495,11 @@ export default function MeuDiaPage() {
                           className="w-full flex items-center gap-3 p-2.5 rounded-xl text-left transition-all hover:opacity-80"
                           style={{ background: "#1e3356" }}
                         >
-                          {sub.concluida ? <CheckCircle2 size={18} style={{ color: "#10b981" }} /> : <Circle size={18} style={{ color: "#475569" }} />}
+                          {sub.concluida ? <CheckCircle2 size={18} style={{ color: "#10b981" }} /> : <Circle size={18} style={{ color: "#74859c" }} />}
                           <span className="text-sm flex-1" style={{ color: sub.concluida ? "#64748b" : "#e2e8f0", textDecoration: sub.concluida ? "line-through" : "none" }}>
                             {sub.titulo}
                           </span>
-                          {!sub.concluida && <span className="text-xs" style={{ color: "#475569" }}>+10 XP</span>}
+                          {!sub.concluida && <span className="text-xs" style={{ color: "#74859c" }}>+10 XP</span>}
                         </button>
                       ))}
                     </div>
@@ -521,7 +521,7 @@ export default function MeuDiaPage() {
                 <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "#c9a84c" }}>TAREFAS DELEGADAS</span>
                 <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#c9a84c20", color: "#c9a84c" }}>O que te pediram</span>
               </div>
-              <p className="text-xs" style={{ color: "#475569" }}>
+              <p className="text-xs" style={{ color: "#74859c" }}>
                 Atividades avulsas atribuidas pelo gestor. Cada uma concluida vale +30 XP.
               </p>
             </div>
@@ -541,17 +541,17 @@ export default function MeuDiaPage() {
                       <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ background: `${cor}20`, color: cor }}>
                         {t.prioridade === "alta" ? "Alta" : t.prioridade === "media" ? "Media" : "Baixa"}
                       </span>
-                      {loja && <span className="text-xs" style={{ color: "#64748b" }}>{loja.nome}</span>}
+                      {loja && <span className="text-xs" style={{ color: "#9aa7ba" }}>{loja.nome}</span>}
                     </div>
                     <p className="text-white font-medium text-sm">{t.titulo}</p>
-                    {t.descricao && <p className="text-xs mt-1" style={{ color: "#64748b" }}>{t.descricao}</p>}
+                    {t.descricao && <p className="text-xs mt-1" style={{ color: "#9aa7ba" }}>{t.descricao}</p>}
 
                     {/* Comentarios */}
                     {(t.comentarios || []).length > 0 && (
                       <div className="mt-2 space-y-1">
                         {(t.comentarios || []).map((c) => (
                           <div key={c.id} className="text-xs p-2 rounded-lg" style={{ background: "#1e3356" }}>
-                            <span style={{ color: "#64748b" }}>{c.autorId}: </span>
+                            <span style={{ color: "#9aa7ba" }}>{c.autorId}: </span>
                             <span style={{ color: "#94a3b8" }}>{c.texto}</span>
                           </div>
                         ))}
@@ -606,7 +606,7 @@ export default function MeuDiaPage() {
                     <button
                       onClick={() => setComentandoId(comentandoEsta ? null : t.id)}
                       className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs"
-                      style={{ background: "#1e3356", color: "#64748b" }}
+                      style={{ background: "#1e3356", color: "#9aa7ba" }}
                     >
                       Comentar
                     </button>
@@ -632,7 +632,7 @@ export default function MeuDiaPage() {
                   <CheckCircle2 size={24} style={{ color: "#10b981" }} />
                 </div>
                 <p className="text-white font-bold">Sono registrado!</p>
-                <p className="text-sm" style={{ color: "#64748b" }}>
+                <p className="text-sm" style={{ color: "#9aa7ba" }}>
                   {fmtSono(calcMinutosSono(sonoDormir, sonoAcordar))} dormidas
                 </p>
               </div>
@@ -644,9 +644,9 @@ export default function MeuDiaPage() {
                       <Moon size={16} style={{ color: "#8b5cf6" }} />
                       <h2 className="font-bold text-white">Como voce dormiu?</h2>
                     </div>
-                    <button onClick={dispensarSonoPopup} style={{ color: "#475569" }}>✕</button>
+                    <button onClick={dispensarSonoPopup} style={{ color: "#74859c" }}>✕</button>
                   </div>
-                  <p className="text-xs mt-1" style={{ color: "#64748b" }}>Registre agora para acompanhar seu sono ao longo do tempo.</p>
+                  <p className="text-xs mt-1" style={{ color: "#9aa7ba" }}>Registre agora para acompanhar seu sono ao longo do tempo.</p>
                 </div>
                 <div className="px-5 py-4 space-y-4">
                   <div className="grid grid-cols-2 gap-3">
@@ -671,7 +671,7 @@ export default function MeuDiaPage() {
                     const m = calcMinutosSono(sonoDormir, sonoAcordar);
                     return (
                       <div className="flex items-center justify-between px-3 py-2.5 rounded-xl" style={{ background: "#0d1928" }}>
-                        <span className="text-sm" style={{ color: "#64748b" }}>Total</span>
+                        <span className="text-sm" style={{ color: "#9aa7ba" }}>Total</span>
                         <span className="text-lg font-black" style={{ color: corSono(m) }}>
                           {fmtSono(m)}
                         </span>
@@ -682,7 +682,7 @@ export default function MeuDiaPage() {
                 <div className="px-5 pb-5 flex gap-2">
                   <button onClick={dispensarSonoPopup}
                     className="flex-1 py-2.5 rounded-xl text-sm font-medium hover:opacity-80"
-                    style={{ background: "#1e3356", color: "#64748b" }}>
+                    style={{ background: "#1e3356", color: "#9aa7ba" }}>
                     Agora nao
                   </button>
                   <button onClick={handleSalvarSono}
@@ -712,7 +712,7 @@ export default function MeuDiaPage() {
             <p className="text-base" style={{ color: "#c9a84c" }}>
               Todas as rotinas do dia feitas!
             </p>
-            <p className="text-sm" style={{ color: "#64748b" }}>
+            <p className="text-sm" style={{ color: "#9aa7ba" }}>
               Faça o check-in para registrar e ganhar XP bônus.
             </p>
             <button

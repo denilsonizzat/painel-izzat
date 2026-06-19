@@ -34,7 +34,7 @@ export default function Tooltip({ texto, text, posicao, position, children, dela
       onFocus={() => setShow(true)}
       onBlur={leave}
     >
-      <HelpCircle size={13} style={{ color: "#475569" }} />
+      <HelpCircle size={13} style={{ color: "#74859c" }} />
     </button>
   );
 

@@ -106,11 +106,11 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
         <div className="flex items-center justify-between mb-5">
           <div>
             <h2 className="text-white font-bold text-lg">Status de Presença</h2>
-            <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>
+            <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>
               {isOnline ? "Sua equipe sabe que você está disponível" : "Ative para avisar sua equipe"}
             </p>
           </div>
-          <button onClick={onFechar} className="p-1.5 rounded-xl" style={{ color: "#64748b" }}>
+          <button onClick={onFechar} className="p-1.5 rounded-xl" style={{ color: "#9aa7ba" }}>
             <X size={18} />
           </button>
         </div>
@@ -124,7 +124,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
             {isOnline ? (foco ? "NO FOCO" : "ONLINE") : "OFFLINE"}
           </p>
           {isOnline && usuarioAtual.statusOnline?.desde && (
-            <p className="text-sm mt-1" style={{ color: "#64748b" }}>
+            <p className="text-sm mt-1" style={{ color: "#9aa7ba" }}>
               Desde {usuarioAtual.statusOnline.desde}
               {usuarioAtual.statusOnline.ate
                 ? " · até " + usuarioAtual.statusOnline.ate + (usuarioAtual.statusOnline.proximoDia ? " (+1 dia)" : "")
@@ -189,7 +189,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
         {/* Trabalhando em */}
         {isOnline && (
           <div className="mb-4">
-            <p className="text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: "#64748b" }}>
+            <p className="text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: "#9aa7ba" }}>
               Trabalhando em
             </p>
             <input
@@ -218,7 +218,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
           <div className="grid grid-cols-2 gap-3">
             {/* Início */}
             <div>
-              <p className="text-xs mb-1.5 font-semibold uppercase tracking-wider" style={{ color: "#64748b" }}>
+              <p className="text-xs mb-1.5 font-semibold uppercase tracking-wider" style={{ color: "#9aa7ba" }}>
                 Início
               </p>
               <input
@@ -236,7 +236,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
             </div>
             {/* Até */}
             <div>
-              <p className="text-xs mb-1.5 font-semibold uppercase tracking-wider" style={{ color: "#64748b" }}>
+              <p className="text-xs mb-1.5 font-semibold uppercase tracking-wider" style={{ color: "#9aa7ba" }}>
                 Até
               </p>
               <input
@@ -283,7 +283,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
                 />
               </div>
             </button>
-            <p className="text-xs px-1 leading-snug" style={{ color: "#475569" }}>
+            <p className="text-xs px-1 leading-snug" style={{ color: "#74859c" }}>
               Ative quando seu horario de trabalho passa da meia-noite — ex: entrada 22:00, saida 03:00 do dia seguinte.
             </p>
           </div>

@@ -68,7 +68,7 @@ export default function StoriesBar() {
                 </div>
               </div>
             </div>
-            <span className="text-xs" style={{ color: "#64748b" }}>Você</span>
+            <span className="text-xs" style={{ color: "#9aa7ba" }}>Você</span>
           </button>
         )}
 
@@ -127,7 +127,7 @@ export default function StoriesBar() {
             <div className="flex items-center justify-between">
               <h3 className="font-bold text-white">Novo Story</h3>
               <button onClick={() => setCriarModal(false)}>
-                <X size={18} style={{ color: "#64748b" }} />
+                <X size={18} style={{ color: "#9aa7ba" }} />
               </button>
             </div>
 
@@ -198,7 +198,7 @@ export default function StoriesBar() {
             onClick={(e) => e.stopPropagation()}
           >
             <button className="absolute top-4 right-4" onClick={() => setVerColabId(null)}>
-              <X size={20} style={{ color: "#64748b" }} />
+              <X size={20} style={{ color: "#9aa7ba" }} />
             </button>
 
             <div className="flex justify-center">
@@ -207,7 +207,7 @@ export default function StoriesBar() {
 
             <div>
               <p className="font-bold text-white text-lg">{verColab.nome.split(" ")[0]}</p>
-              <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>
+              <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>
                 {new Date(verColabStories[0].criadoEm).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
                 {" · "}{verColabStories[0].vistoPor.length - 1} visualizac
                 {verColabStories[0].vistoPor.length - 1 !== 1 ? "oes" : "ao"}

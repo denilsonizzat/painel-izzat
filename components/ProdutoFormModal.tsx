@@ -206,9 +206,9 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
         <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid #1e3356" }}>
           <div>
             <h2 className="font-bold text-white text-sm">{isEditing ? "Editar Produto" : "Novo Produto"}</h2>
-            <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>Preencha os 13 campos obrigatorios para liberar</p>
+            <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>Preencha os 13 campos obrigatorios para liberar</p>
           </div>
-          <button onClick={onClose} style={{ color: "#64748b" }}><X size={16} /></button>
+          <button onClick={onClose} style={{ color: "#9aa7ba" }}><X size={16} /></button>
         </div>
 
         {sucesso ? (
@@ -251,7 +251,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
                     </option>
                   ))}
                 </select>
-                <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "#64748b" }} />
+                <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "#9aa7ba" }} />
               </div>
               {form.lojaId === "izzat-express" && (
                 <p className="text-xs mt-1" style={{ color: "#c9a84c" }}>Loja de teste → valide → distribua para nichadas</p>
@@ -321,7 +321,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
 
                     <div className="grid grid-cols-2 gap-2">
                       <div>
-                        <label className="text-xs block mb-1" style={{ color: "#475569" }}>Preco Unit. (R$)</label>
+                        <label className="text-xs block mb-1" style={{ color: "#74859c" }}>Preco Unit. (R$)</label>
                         <input
                           type="number" step="0.01"
                           value={form[forn.precoKey] ?? ""}
@@ -332,7 +332,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
                         />
                       </div>
                       <div>
-                        <label className="text-xs block mb-1" style={{ color: "#475569" }}>Frete (R$)</label>
+                        <label className="text-xs block mb-1" style={{ color: "#74859c" }}>Frete (R$)</label>
                         <input
                           type="number" step="0.01"
                           value={form[forn.freteKey] ?? ""}
@@ -352,7 +352,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <div className="h-px flex-1" style={{ background: "#1e3356" }} />
-                <p className="text-xs font-bold uppercase tracking-wider px-2" style={{ color: "#475569" }}>Precificacao</p>
+                <p className="text-xs font-bold uppercase tracking-wider px-2" style={{ color: "#74859c" }}>Precificacao</p>
                 <div className="h-px flex-1" style={{ background: "#1e3356" }} />
               </div>
               <div className="grid grid-cols-2 gap-3">
@@ -392,7 +392,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
                 className="rounded-xl p-3 space-y-2"
                 style={{ background: "#122039", border: "1px solid #4285f430" }}
               >
-                <p className="text-xs" style={{ color: "#64748b" }}>
+                <p className="text-xs" style={{ color: "#9aa7ba" }}>
                   Pesquisa completa: fornecedor, concorrentes, dimensoes, margem, etc.
                 </p>
                 <div className="flex gap-2">
@@ -423,7 +423,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <div className="h-px flex-1" style={{ background: "#1e3356" }} />
-                <p className="text-xs font-bold uppercase tracking-wider px-2" style={{ color: "#475569" }}>Midia e Catalogo</p>
+                <p className="text-xs font-bold uppercase tracking-wider px-2" style={{ color: "#74859c" }}>Midia e Catalogo</p>
                 <div className="h-px flex-1" style={{ background: "#1e3356" }} />
               </div>
               <div className="space-y-3">
@@ -453,7 +453,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
             {form.nome && (
               <div className="rounded-xl p-3" style={{ background: "#122039", border: "1px solid #1e3356" }}>
                 <div className="flex justify-between text-xs mb-1">
-                  <span style={{ color: "#64748b" }}>{filled}/{CAMPOS_PRODUTO.length} campos</span>
+                  <span style={{ color: "#9aa7ba" }}>{filled}/{CAMPOS_PRODUTO.length} campos</span>
                   <span style={{ color: filled === CAMPOS_PRODUTO.length ? "#10b981" : "#c9a84c" }}>{pct}%</span>
                 </div>
                 <div className="h-2 rounded-full overflow-hidden" style={{ background: "#1e3356" }}>

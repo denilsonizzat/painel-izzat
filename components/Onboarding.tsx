@@ -97,7 +97,7 @@ export default function Onboarding() {
           <button
             onClick={concluir}
             className="absolute top-4 right-4 w-7 h-7 rounded-full flex items-center justify-center transition-all hover:opacity-80"
-            style={{ background: "#1e3356", color: "#64748b" }}
+            style={{ background: "#1e3356", color: "#9aa7ba" }}
           >
             <X size={13} />
           </button>
@@ -111,7 +111,7 @@ export default function Onboarding() {
                 background: i === step ? "#c9a84c" : i < step ? "#c9a84c60" : "#1e3356",
               }} />
             ))}
-            <span className="ml-auto text-xs" style={{ color: "#475569" }}>{step + 1} / {STEPS.length}</span>
+            <span className="ml-auto text-xs" style={{ color: "#74859c" }}>{step + 1} / {STEPS.length}</span>
           </div>
 
           {/* Emoji */}

@@ -148,7 +148,7 @@ function Heatmap({ datas, dataInicio, dataFim, h }: { datas: Set<string>; dataIn
             : "";
           return (
             <div key={wi} className="flex flex-col gap-1">
-              <div style={{ height: 14, fontSize: 9, color: "#475569", whiteSpace: "nowrap" }}>{monthLabel}</div>
+              <div style={{ height: 14, fontSize: 9, color: "#74859c", whiteSpace: "nowrap" }}>{monthLabel}</div>
               {w.map((d, di) => {
                 if (!d) return <div key={di} style={{ width: 14, height: 14 }} />;
                 const inRange = d >= dataInicio && d <= dataFim;
@@ -252,7 +252,7 @@ function ModalDesafio({
       <div className="w-full max-w-lg rounded-2xl p-6" style={{ background: "#0d1a2e", border: "1px solid #c9a84c30" }} onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-5">
           <h2 className="font-black text-white" style={{ fontSize: 18 }}>{editando ? "Editar Desafio" : "Novo Desafio"}</h2>
-          <button onClick={onFechar} style={{ color: "#64748b" }}><X size={20} /></button>
+          <button onClick={onFechar} style={{ color: "#9aa7ba" }}><X size={20} /></button>
         </div>
 
         <div className="space-y-4">
@@ -295,7 +295,7 @@ function ModalDesafio({
 
           {/* Categoria */}
           <div>
-            <p className="text-xs font-semibold mb-2" style={{ color: "#64748b" }}>Categoria</p>
+            <p className="text-xs font-semibold mb-2" style={{ color: "#9aa7ba" }}>Categoria</p>
             <div className="grid grid-cols-3 gap-2">
               {(Object.entries(CAT) as [CategoriaDesafio, typeof CAT[CategoriaDesafio]][]).map(([key, cfg]) => (
                 <button
@@ -317,7 +317,7 @@ function ModalDesafio({
           {/* Datas */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <p className="text-xs font-semibold mb-1.5" style={{ color: "#64748b" }}>Início</p>
+              <p className="text-xs font-semibold mb-1.5" style={{ color: "#9aa7ba" }}>Início</p>
               <input
                 type="date"
                 value={form.dataInicio}
@@ -327,7 +327,7 @@ function ModalDesafio({
               />
             </div>
             <div>
-              <p className="text-xs font-semibold mb-1.5" style={{ color: "#64748b" }}>Fim</p>
+              <p className="text-xs font-semibold mb-1.5" style={{ color: "#9aa7ba" }}>Fim</p>
               <input
                 type="date"
                 value={form.dataFim}
@@ -397,24 +397,24 @@ function DetalheDesafio({
       {/* My stats strip */}
       <div className="grid grid-cols-3 gap-3">
         <div className="rounded-xl p-3 text-center" style={{ background: "#1e335640" }}>
-          <p className="text-xs mb-1" style={{ color: "#64748b" }}>Check-ins</p>
-          <p className="font-black text-white text-lg">{meusCIs.length}<span className="text-xs font-normal" style={{ color: "#475569" }}>/{totalPossivel}</span></p>
+          <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Check-ins</p>
+          <p className="font-black text-white text-lg">{meusCIs.length}<span className="text-xs font-normal" style={{ color: "#74859c" }}>/{totalPossivel}</span></p>
         </div>
         <div className="rounded-xl p-3 text-center" style={{ background: "#1e335640" }}>
-          <p className="text-xs mb-1" style={{ color: "#64748b" }}>Streak atual</p>
+          <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Streak atual</p>
           <p className="font-black text-lg" style={{ color: streak > 0 ? "#f59e0b" : "#334155" }}>
             {streak > 0 ? "🔥" : "💤"} {streak}d
           </p>
         </div>
         <div className="rounded-xl p-3 text-center" style={{ background: "#1e335640" }}>
-          <p className="text-xs mb-1" style={{ color: "#64748b" }}>Melhor streak</p>
+          <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Melhor streak</p>
           <p className="font-black text-lg" style={{ color: "#c9a84c" }}>🏅 {best}d</p>
         </div>
       </div>
 
       {/* Milestones */}
       <div>
-        <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "#475569" }}>Conquistas</p>
+        <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "#74859c" }}>Conquistas</p>
         <div className="flex gap-2 flex-wrap">
           {MILESTONES.map((m) => {
             const unlocked = best >= m.dias;
@@ -438,25 +438,25 @@ function DetalheDesafio({
 
       {/* Heatmap */}
       <div>
-        <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "#475569" }}>Calendário do Desafio</p>
+        <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "#74859c" }}>Calendário do Desafio</p>
         <Heatmap datas={meuSet} dataInicio={desafio.dataInicio} dataFim={desafio.dataFim} h={h} />
         <div className="flex items-center gap-3 mt-2">
-          <div className="flex items-center gap-1"><div style={{ width: 10, height: 10, borderRadius: 2, background: "#10b981" }} /><span className="text-xs" style={{ color: "#475569" }}>Feito</span></div>
-          <div className="flex items-center gap-1"><div style={{ width: 10, height: 10, borderRadius: 2, background: "#1e3356" }} /><span className="text-xs" style={{ color: "#475569" }}>Não feito</span></div>
-          <div className="flex items-center gap-1"><div style={{ width: 10, height: 10, borderRadius: 2, background: "#1e335640", border: "1px dashed #334155" }} /><span className="text-xs" style={{ color: "#475569" }}>Futuro</span></div>
+          <div className="flex items-center gap-1"><div style={{ width: 10, height: 10, borderRadius: 2, background: "#10b981" }} /><span className="text-xs" style={{ color: "#74859c" }}>Feito</span></div>
+          <div className="flex items-center gap-1"><div style={{ width: 10, height: 10, borderRadius: 2, background: "#1e3356" }} /><span className="text-xs" style={{ color: "#74859c" }}>Não feito</span></div>
+          <div className="flex items-center gap-1"><div style={{ width: 10, height: 10, borderRadius: 2, background: "#1e335640", border: "1px dashed #334155" }} /><span className="text-xs" style={{ color: "#74859c" }}>Futuro</span></div>
         </div>
       </div>
 
       {/* Bar chart 7 dias */}
       <div>
-        <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "#475569" }}>Últimos 7 dias</p>
+        <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "#74859c" }}>Últimos 7 dias</p>
         <BarChart7 datas={meuSet} dataInicio={desafio.dataInicio} dataFim={desafio.dataFim} h={h} />
       </div>
 
       {/* Leaderboard */}
       {ranking.length > 0 && (
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "#475569" }}>Ranking do Desafio</p>
+          <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "#74859c" }}>Ranking do Desafio</p>
           <div className="space-y-1.5">
             {ranking.slice(0, 5).map((r, i) => (
               <div key={r.c.id} className="flex items-center gap-3 px-3 py-2 rounded-xl" style={{ background: i === 0 ? "#c9a84c12" : "#1e335430", border: i === 0 ? "1px solid #c9a84c25" : "1px solid transparent" }}>
@@ -589,7 +589,7 @@ export default function DesafiosPage() {
             <BackButton />
             <h1 className="text-2xl font-black text-white" style={{ letterSpacing: "-0.02em" }}>Desafios do Time 🏆</h1>
           </div>
-          <p className="text-sm" style={{ color: "#64748b" }}>Desafios com data de início e fim — tiro curto ou formação de hábito</p>
+          <p className="text-sm" style={{ color: "#9aa7ba" }}>Desafios com data de início e fim — tiro curto ou formação de hábito</p>
         </div>
         {isAdmin && (
           <button
@@ -608,21 +608,21 @@ export default function DesafiosPage() {
       {/* Stats banner */}
       <div className="grid grid-cols-3 gap-3">
         <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }} data-tip="Quantos check-ins você fez nos desafios esta semana">
-          <p className="text-xs mb-1" style={{ color: "#64748b" }}>Minha semana</p>
+          <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Minha semana</p>
           <p className="text-2xl font-black text-white">{meusCheckInsSemana}</p>
-          <p className="text-xs mt-0.5" style={{ color: "#475569" }}>check-ins</p>
+          <p className="text-xs mt-0.5" style={{ color: "#74859c" }}>check-ins</p>
         </div>
         <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }} data-tip="Sua maior sequência de dias seguidos fazendo check-in num desafio">
-          <p className="text-xs mb-1" style={{ color: "#64748b" }}>Streak ativo</p>
+          <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Streak ativo</p>
           <p className="text-2xl font-black" style={{ color: meuMelhorStreak > 0 ? "#f59e0b" : "#334155" }}>
             {meuMelhorStreak > 0 ? "🔥" : "💤"} {meuMelhorStreak}
           </p>
-          <p className="text-xs mt-0.5" style={{ color: "#475569" }}>dias seguidos</p>
+          <p className="text-xs mt-0.5" style={{ color: "#74859c" }}>dias seguidos</p>
         </div>
         <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }} data-tip="Quantos membros do time já fizeram check-in hoje">
-          <p className="text-xs mb-1" style={{ color: "#64748b" }}>Time hoje</p>
+          <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Time hoje</p>
           <p className="text-2xl font-black text-white">{membrosComCheckInHoje}</p>
-          <p className="text-xs mt-0.5" style={{ color: "#475569" }}>/ {colaboradores.length} membros</p>
+          <p className="text-xs mt-0.5" style={{ color: "#74859c" }}>/ {colaboradores.length} membros</p>
         </div>
       </div>
 
@@ -660,7 +660,7 @@ export default function DesafiosPage() {
         <div className="rounded-2xl p-10 text-center" style={{ background: "#122039", border: "1px dashed #1e3356" }}>
           <p className="text-4xl mb-3">🏁</p>
           <p className="font-bold text-white mb-1">Nenhum desafio aqui</p>
-          <p className="text-sm" style={{ color: "#475569" }}>
+          <p className="text-sm" style={{ color: "#74859c" }}>
             {filtro === "andamento" ? "Nenhum desafio ativo no momento." : `Sem desafios ${filtro === "proximo" ? "futuros" : filtro === "encerrado" ? "encerrados" : ""} ainda.`}
           </p>
           {isAdmin && (
@@ -715,17 +715,17 @@ export default function DesafiosPage() {
                       <div className="flex items-center gap-2 flex-wrap mb-1">
                         <h3 className="font-black text-white" style={{ fontSize: 16 }}>{desafio.titulo}</h3>
                         <span className="text-xs px-2 py-0.5 rounded-full font-semibold" style={{ background: sl.bg, color: sl.cor }}>{sl.label}</span>
-                        {!desafio.ativo && <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#334155", color: "#64748b" }}>Inativo</span>}
+                        {!desafio.ativo && <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#334155", color: "#9aa7ba" }}>Inativo</span>}
                       </div>
 
                       <div className="flex items-center gap-3 flex-wrap">
                         <span className="flex items-center gap-1 text-xs" style={{ color: catCfg.cor }}>
                           {catCfg.emoji} {catCfg.label}
                         </span>
-                        <span className="flex items-center gap-1 text-xs" style={{ color: "#64748b" }}>
+                        <span className="flex items-center gap-1 text-xs" style={{ color: "#9aa7ba" }}>
                           <Target size={11} /> {desafio.meta}
                         </span>
-                        <span className="flex items-center gap-1 text-xs" style={{ color: "#64748b" }}>
+                        <span className="flex items-center gap-1 text-xs" style={{ color: "#9aa7ba" }}>
                           <Calendar size={11} /> {duracao}d
                           {status === "andamento" && ` · ${dr}d restantes`}
                           {status === "proximo" && ` · começa em ${Math.abs(diasRestantes(desafio.dataInicio, h))}d`}
@@ -733,14 +733,14 @@ export default function DesafiosPage() {
                       </div>
 
                       {desafio.descricao && (
-                        <p className="text-xs mt-1 leading-relaxed" style={{ color: "#475569" }}>{desafio.descricao}</p>
+                        <p className="text-xs mt-1 leading-relaxed" style={{ color: "#74859c" }}>{desafio.descricao}</p>
                       )}
                     </div>
 
                     {/* Admin actions */}
                     {isAdmin && (
                       <div className="flex items-center gap-1 flex-shrink-0">
-                        <button onClick={() => abrirEditar(desafio)} className="p-1.5 rounded-lg hover:opacity-80 transition-opacity" style={{ color: "#475569" }}>
+                        <button onClick={() => abrirEditar(desafio)} className="p-1.5 rounded-lg hover:opacity-80 transition-opacity" style={{ color: "#74859c" }}>
                           <Pencil size={14} />
                         </button>
                         {confirmDelete === desafio.id ? (
@@ -748,12 +748,12 @@ export default function DesafiosPage() {
                             <button onClick={() => { deletarDesafio(desafio.id); setConfirmDelete(null); if (selectedId === desafio.id) setSelectedId(null); }} className="px-2 py-1 rounded-lg text-xs font-bold" style={{ background: "#ef444420", color: "#ef4444" }}>
                               Sim
                             </button>
-                            <button onClick={() => setConfirmDelete(null)} className="px-2 py-1 rounded-lg text-xs" style={{ color: "#64748b" }}>
+                            <button onClick={() => setConfirmDelete(null)} className="px-2 py-1 rounded-lg text-xs" style={{ color: "#9aa7ba" }}>
                               Não
                             </button>
                           </div>
                         ) : (
-                          <button onClick={() => setConfirmDelete(desafio.id)} className="p-1.5 rounded-lg hover:opacity-80 transition-opacity" style={{ color: "#475569" }}>
+                          <button onClick={() => setConfirmDelete(desafio.id)} className="p-1.5 rounded-lg hover:opacity-80 transition-opacity" style={{ color: "#74859c" }}>
                             <Trash2 size={14} />
                           </button>
                         )}
@@ -765,7 +765,7 @@ export default function DesafiosPage() {
                   {status === "andamento" && (
                     <div className="mt-4">
                       <div className="flex items-center justify-between mb-1.5">
-                        <span className="text-xs" style={{ color: "#64748b" }}>
+                        <span className="text-xs" style={{ color: "#9aa7ba" }}>
                           <Users size={11} className="inline mr-1" />
                           {new Set(teamHoje.map((ci) => ci.colaboradorId)).size}/{colaboradores.length} hoje
                         </span>
@@ -782,7 +782,7 @@ export default function DesafiosPage() {
                             </div>
                           ))}
                           {membrosHoje.length > 8 && (
-                            <span className="text-xs" style={{ color: "#475569" }}>+{membrosHoje.length - 8}</span>
+                            <span className="text-xs" style={{ color: "#74859c" }}>+{membrosHoje.length - 8}</span>
                           )}
                         </div>
                       )}
@@ -797,7 +797,7 @@ export default function DesafiosPage() {
                           <Flame size={14} /> {meuStreak} dias
                         </span>
                       )}
-                      <span className="text-xs" style={{ color: "#475569" }}>
+                      <span className="text-xs" style={{ color: "#74859c" }}>
                         {meusCIs.length} check-in{meusCIs.length !== 1 ? "s" : ""} meus
                       </span>
                     </div>
@@ -807,7 +807,7 @@ export default function DesafiosPage() {
                       <button
                         onClick={() => setSelectedId(isSelected ? null : desafio.id)}
                         className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs transition-all hover:opacity-80"
-                        style={{ background: "#1e3356", color: "#64748b" }}
+                        style={{ background: "#1e3356", color: "#9aa7ba" }}
                       >
                         {isSelected ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
                         Detalhes
@@ -861,7 +861,7 @@ export default function DesafiosPage() {
             </span>
           </div>
           {rankingSemana.length === 0 ? (
-            <p className="text-sm text-center py-4" style={{ color: "#475569" }}>Nenhum check-in esta semana ainda</p>
+            <p className="text-sm text-center py-4" style={{ color: "#74859c" }}>Nenhum check-in esta semana ainda</p>
           ) : (
             <div className="space-y-2">
               {rankingSemana.slice(0, 5).map((r, i) => (
@@ -892,13 +892,13 @@ export default function DesafiosPage() {
               <span style={{ fontSize: 16 }}>📡</span>
               <p className="text-sm font-bold text-white">Feed do Time</p>
             </div>
-            <button onClick={() => setShowFeed((v) => !v)} style={{ color: "#475569" }}>
+            <button onClick={() => setShowFeed((v) => !v)} style={{ color: "#74859c" }}>
               {showFeed ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
             </button>
           </div>
           {showFeed && (
             feedRecente.length === 0 ? (
-              <p className="text-sm text-center py-4" style={{ color: "#475569" }}>Nenhuma atividade recente</p>
+              <p className="text-sm text-center py-4" style={{ color: "#74859c" }}>Nenhuma atividade recente</p>
             ) : (
               <div className="space-y-2 max-h-80 overflow-y-auto pr-1">
                 {feedRecente.map((ci) => {
@@ -912,11 +912,11 @@ export default function DesafiosPage() {
                       <div className="flex-1 min-w-0">
                         <p className="text-xs leading-snug">
                           <span className="font-bold text-white">{colab.nome.split(" ")[0]}</span>
-                          <span style={{ color: "#64748b" }}> completou </span>
+                          <span style={{ color: "#9aa7ba" }}> completou </span>
                           <span className="font-semibold" style={{ color: "#c9a84c" }}>{desafio.emoji} {desafio.titulo}</span>
                         </p>
-                        <p className="text-xs mt-0.5" style={{ color: "#475569" }}>{isHoje ? `hoje · ${ci.hora}` : "ontem"}</p>
-                        {ci.nota && <p className="text-xs mt-1 italic" style={{ color: "#64748b" }}>&ldquo;{ci.nota}&rdquo;</p>}
+                        <p className="text-xs mt-0.5" style={{ color: "#74859c" }}>{isHoje ? `hoje · ${ci.hora}` : "ontem"}</p>
+                        {ci.nota && <p className="text-xs mt-1 italic" style={{ color: "#9aa7ba" }}>&ldquo;{ci.nota}&rdquo;</p>}
                         {/* Reactions */}
                         <div className="flex items-center gap-1 mt-1.5 flex-wrap">
                           {EMOJIS_FEED.map((emoji) => {

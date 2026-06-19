@@ -16,7 +16,7 @@ const STATUS_ENTREGA_COR: Record<string, string> = {
 };
 
 const STATUS_ENTREGA_ICONE = {
-  pendente: <Circle size={14} style={{ color: "#64748b" }} />,
+  pendente: <Circle size={14} style={{ color: "#9aa7ba" }} />,
   em_andamento: <Clock size={14} style={{ color: "#3b82f6" }} />,
   travado: <AlertTriangle size={14} style={{ color: "#ef4444" }} />,
   entregue: <CheckCircle2 size={14} style={{ color: "#10b981" }} />,
@@ -69,10 +69,10 @@ export default function SemanaPage() {
       <div className="flex items-start justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-bold text-white">Semana do Time</h1>
-          <p className="text-sm mt-1" style={{ color: "#64748b" }}>
+          <p className="text-sm mt-1" style={{ color: "#9aa7ba" }}>
             {"Visão geral de tudo que a equipe tem para fazer nesta semana"}
           </p>
-          <p className="text-xs mt-0.5" style={{ color: "#475569" }}>
+          <p className="text-xs mt-0.5" style={{ color: "#74859c" }}>
             {labelSemana()} · {semana}
           </p>
         </div>
@@ -91,7 +91,7 @@ export default function SemanaPage() {
       </div>
 
       {/* Legenda de status */}
-      <div className="flex flex-wrap gap-3 text-xs" style={{ color: "#64748b" }}>
+      <div className="flex flex-wrap gap-3 text-xs" style={{ color: "#9aa7ba" }}>
         <div className="flex items-center gap-1.5">
           <span className="w-2 h-2 rounded-full" style={{ background: "#10b981" }} />
           <span><strong style={{ color: "#10b981" }}>Em dia</strong> — rotinas e entregas ok</span>
@@ -150,7 +150,7 @@ export default function SemanaPage() {
                     </div>
                     <div className="min-w-0">
                       <p className="text-white font-semibold text-sm truncate">{colab.nome.split(" ")[0]}</p>
-                      <p className="text-xs truncate" style={{ color: "#64748b" }}>{colab.cargo || "Sem cargo"}</p>
+                      <p className="text-xs truncate" style={{ color: "#9aa7ba" }}>{colab.cargo || "Sem cargo"}</p>
                     </div>
                   </div>
                   <div
@@ -177,7 +177,7 @@ export default function SemanaPage() {
                     <span className="text-xs font-semibold" style={{ color: nivelInfo.cor }}>{nivelInfo.nome}</span>
                   </div>
                   {isOnline && colab.statusOnline?.trabalhando && (
-                    <p className="text-xs truncate" style={{ color: "#64748b" }}>
+                    <p className="text-xs truncate" style={{ color: "#9aa7ba" }}>
                       ↳ {colab.statusOnline.trabalhando}
                     </p>
                   )}
@@ -187,7 +187,7 @@ export default function SemanaPage() {
               {/* Rotinas da semana */}
               <div className="px-4 pb-3" style={{ borderTop: "1px solid #1e3356" }}>
                 <div className="flex items-center justify-between mt-3 mb-1.5">
-                  <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#475569" }}>Rotinas</p>
+                  <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#74859c" }}>Rotinas</p>
                   <span className="text-xs font-bold" style={{ color: rotinasPct === 100 ? "#10b981" : rotinasPct < 40 ? "#f59e0b" : "#c9a84c" }}>
                     {rotinasPct}%
                   </span>
@@ -217,13 +217,13 @@ export default function SemanaPage() {
 
               {/* Entregas da semana */}
               <div className="px-4 pb-4" style={{ borderTop: "1px solid #1e3356" }}>
-                <p className="text-xs font-semibold uppercase tracking-wider mt-3 mb-2" style={{ color: "#475569" }}>
+                <p className="text-xs font-semibold uppercase tracking-wider mt-3 mb-2" style={{ color: "#74859c" }}>
                   Entregas da Semana
                 </p>
                 {entregas.length === 0 ? (
                   <p className="text-xs leading-relaxed" style={{ color: "#334155" }}>
                     Nenhum compromisso registrado.<br />
-                    <span style={{ color: "#475569" }}>Vá em Meu Dia → seção &quot;Entregas da Semana&quot; para adicionar.</span>
+                    <span style={{ color: "#74859c" }}>Vá em Meu Dia → seção &quot;Entregas da Semana&quot; para adicionar.</span>
                   </p>
                 ) : (
                   <div className="space-y-1.5">
@@ -263,7 +263,7 @@ export default function SemanaPage() {
                 <Link
                   href={`/equipe/${colab.id}`}
                   className="block w-full px-4 py-2 text-xs text-center transition-opacity hover:opacity-70"
-                  style={{ color: "#475569" }}
+                  style={{ color: "#74859c" }}
                 >
                   Ver perfil completo →
                 </Link>

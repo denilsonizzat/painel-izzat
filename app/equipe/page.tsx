@@ -61,14 +61,14 @@ export default function EquipePage() {
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
           <h1 className="text-2xl font-bold text-white">Equipe</h1>
-          <p className="text-sm mt-1" style={{ color: "#64748b" }}>
+          <p className="text-sm mt-1" style={{ color: "#9aa7ba" }}>
             {"Todos os membros da sua equipe em um lugar só"}
           </p>
           <div className="flex items-center gap-3 mt-2 flex-wrap">
             <span className="px-2.5 py-1 rounded-lg text-xs font-semibold" style={{ background: "#10b98120", color: "#10b981" }}>
               {colaboradores.filter((c) => c.statusOnline?.ativo).length} online agora
             </span>
-            <span className="text-xs" style={{ color: "#475569" }}>
+            <span className="text-xs" style={{ color: "#74859c" }}>
               {colaboradores.length} {colaboradores.length === 1 ? "membro" : "membros"} no total &middot; Clique para ver perfil
             </span>
           </div>
@@ -108,9 +108,9 @@ export default function EquipePage() {
                     <div className="w-2 h-2 rounded-full flex-shrink-0"
                       style={{ background: c.statusOnline?.ativo ? (c.statusOnline.foco ? "#f97316" : "#10b981") : "#475569" }} />
                   </div>
-                  <p className="text-xs truncate" style={{ color: "#64748b" }}>{c.cargo}</p>
+                  <p className="text-xs truncate" style={{ color: "#9aa7ba" }}>{c.cargo}</p>
                   {c.statusOnline?.ativo && c.statusOnline?.trabalhando && (
-                    <p className="text-xs truncate mt-0.5" style={{ color: "#64748b", maxWidth: 140 }}>
+                    <p className="text-xs truncate mt-0.5" style={{ color: "#9aa7ba", maxWidth: 140 }}>
                       &rarr; {c.statusOnline.trabalhando}
                     </p>
                   )}
@@ -126,7 +126,7 @@ export default function EquipePage() {
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-1">
-                  <span className="text-xs font-bold" style={{ color: "#475569" }}>{c.xp || 0} XP</span>
+                  <span className="text-xs font-bold" style={{ color: "#74859c" }}>{c.xp || 0} XP</span>
                   <span className="text-xs font-semibold"
                     style={{ color: c.statusOnline?.ativo ? (c.statusOnline.foco ? "#f97316" : "#10b981") : "#475569" }}>
                     {c.statusOnline?.ativo ? (c.statusOnline.foco ? "No Foco" : "Online") : "Offline"}
@@ -143,7 +143,7 @@ export default function EquipePage() {
               <div className="space-y-2 mb-4">
                 <div>
                   <div className="flex justify-between text-xs mb-1">
-                    <span style={{ color: "#64748b" }}>Rotinas</span>
+                    <span style={{ color: "#9aa7ba" }}>Rotinas</span>
                     <span className="font-bold" style={{ color: corRotina }}>{pctRotina}%</span>
                   </div>
                   <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "#1e3356" }}>
@@ -152,7 +152,7 @@ export default function EquipePage() {
                 </div>
                 <div>
                   <div className="flex justify-between text-xs mb-1">
-                    <span style={{ color: "#64748b" }}>Expectativas</span>
+                    <span style={{ color: "#9aa7ba" }}>Expectativas</span>
                     <span className="font-bold" style={{ color: corExp }}>{pctExp}%</span>
                   </div>
                   <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "#1e3356" }}>
@@ -167,7 +167,7 @@ export default function EquipePage() {
                     <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: "#1e3356" }}>
                       <div className="h-full rounded-full" style={{ width: `${h.nivel}%`, background: c.cor }} />
                     </div>
-                    <span className="text-xs w-20 truncate" style={{ color: "#64748b" }}>{h.nome}</span>
+                    <span className="text-xs w-20 truncate" style={{ color: "#9aa7ba" }}>{h.nome}</span>
                     <span className="text-xs font-bold w-6 text-right" style={{ color: c.cor }}>{h.nivel}</span>
                   </div>
                 ))}
@@ -184,10 +184,10 @@ export default function EquipePage() {
             style={{ background: "#122039", border: "2px dashed #1e3356", minHeight: 200 }}
           >
             <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: "#1e3356" }}>
-              <UserPlus size={22} style={{ color: "#475569" }} />
+              <UserPlus size={22} style={{ color: "#74859c" }} />
             </div>
             <div className="text-center">
-              <p className="text-sm font-medium" style={{ color: "#64748b" }}>Adicionar membro</p>
+              <p className="text-sm font-medium" style={{ color: "#9aa7ba" }}>Adicionar membro</p>
               <p className="text-xs mt-0.5" style={{ color: "#334155" }}>Expandir o time</p>
             </div>
           </button>
@@ -200,7 +200,7 @@ export default function EquipePage() {
           <h2 className="text-lg font-bold text-white mb-4">Mapa de Reconhecimentos</h2>
           <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
             <div className="grid grid-cols-4 px-4 py-2 text-xs font-semibold uppercase tracking-wider"
-              style={{ color: "#64748b", borderBottom: "1px solid #1e3356" }}>
+              style={{ color: "#9aa7ba", borderBottom: "1px solid #1e3356" }}>
               <span>De</span>
               <span>Para</span>
               <span>Mensagem</span>
@@ -217,7 +217,7 @@ export default function EquipePage() {
 
               if (todos.length === 0) {
                 return (
-                  <div className="px-4 py-8 text-center text-sm" style={{ color: "#64748b" }}>
+                  <div className="px-4 py-8 text-center text-sm" style={{ color: "#9aa7ba" }}>
                     Nenhum reconhecimento ainda.
                   </div>
                 );
@@ -229,7 +229,7 @@ export default function EquipePage() {
                   <span style={{ color: "#94a3b8" }}>{r.deColab?.nome.split(" ")[0] ?? "—"}</span>
                   <span className="font-medium text-white">{r.paraColab.nome.split(" ")[0]}</span>
                   <span style={{ color: "#94a3b8" }} className="truncate">{r.emoji} {r.mensagem}</span>
-                  <span style={{ color: "#64748b" }}>{r.data}</span>
+                  <span style={{ color: "#9aa7ba" }}>{r.data}</span>
                 </div>
               ));
             })()}
@@ -248,9 +248,9 @@ export default function EquipePage() {
             <div className="flex items-center justify-between mb-5">
               <div>
                 <h2 className="text-white font-bold text-lg">Novo Membro</h2>
-                <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>Adicione alguem ao time Izzat</p>
+                <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>Adicione alguem ao time Izzat</p>
               </div>
-              <button onClick={() => setNovoMembro(false)} style={{ color: "#64748b" }}><X size={18} /></button>
+              <button onClick={() => setNovoMembro(false)} style={{ color: "#9aa7ba" }}><X size={18} /></button>
             </div>
 
             <div className="space-y-4">
@@ -263,7 +263,7 @@ export default function EquipePage() {
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-wider block mb-1.5" style={{ color: "#64748b" }}>Nome *</label>
+                <label className="text-xs font-semibold uppercase tracking-wider block mb-1.5" style={{ color: "#9aa7ba" }}>Nome *</label>
                 <input
                   value={form.nome}
                   onChange={(e) => setForm({ ...form, nome: e.target.value })}
@@ -275,7 +275,7 @@ export default function EquipePage() {
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-wider block mb-1.5" style={{ color: "#64748b" }}>Cargo *</label>
+                <label className="text-xs font-semibold uppercase tracking-wider block mb-1.5" style={{ color: "#9aa7ba" }}>Cargo *</label>
                 <input
                   value={form.cargo}
                   onChange={(e) => setForm({ ...form, cargo: e.target.value })}
@@ -286,7 +286,7 @@ export default function EquipePage() {
               </div>
 
               <div>
-                <label className="text-xs font-semibold uppercase tracking-wider block mb-1.5" style={{ color: "#64748b" }}>E-mail</label>
+                <label className="text-xs font-semibold uppercase tracking-wider block mb-1.5" style={{ color: "#9aa7ba" }}>E-mail</label>
                 <input
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -299,7 +299,7 @@ export default function EquipePage() {
 
               {/* Color picker */}
               <div>
-                <label className="text-xs font-semibold uppercase tracking-wider block mb-2" style={{ color: "#64748b" }}>Cor do perfil</label>
+                <label className="text-xs font-semibold uppercase tracking-wider block mb-2" style={{ color: "#9aa7ba" }}>Cor do perfil</label>
                 <div className="flex flex-wrap gap-2">
                   {CORES_PALETTE.map((cor) => (
                     <button
@@ -318,7 +318,7 @@ export default function EquipePage() {
 
               {/* Nivel */}
               <div>
-                <label className="text-xs font-semibold uppercase tracking-wider block mb-2" style={{ color: "#64748b" }}>Nivel de acesso</label>
+                <label className="text-xs font-semibold uppercase tracking-wider block mb-2" style={{ color: "#9aa7ba" }}>Nivel de acesso</label>
                 <div className="grid grid-cols-2 gap-2">
                   {(["colaborador", "admin"] as const).map((n) => (
                     <button

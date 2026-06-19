@@ -176,7 +176,7 @@ export default function SonoPage() {
             <Moon size={20} style={{ color: "#8b5cf6" }} />
             <h1 className="text-2xl font-bold text-white">Sono</h1>
           </div>
-          <p className="text-sm mt-1" style={{ color: "#64748b" }}>
+          <p className="text-sm mt-1" style={{ color: "#9aa7ba" }}>
             Consistencia do horario de sono e horas dormidas
           </p>
         </div>
@@ -203,24 +203,24 @@ export default function SonoPage() {
       {/* Cards de stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <div className="rounded-xl p-3.5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
-          <p className="text-xs" style={{ color: "#64748b" }}>Media de sono</p>
+          <p className="text-xs" style={{ color: "#9aa7ba" }}>Media de sono</p>
           <p className="text-lg font-black mt-0.5" style={{ color: corHoras(mediaHoras) }}>
             {comDados.length > 0 ? hToStr(mediaHoras) : "—"}
           </p>
           <p className="text-xs mt-0.5" style={{ color: "#334155" }}>ultimos {periodo} dias</p>
         </div>
         <div className="rounded-xl p-3.5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
-          <p className="text-xs" style={{ color: "#64748b" }}>Media dormir</p>
+          <p className="text-xs" style={{ color: "#9aa7ba" }}>Media dormir</p>
           <p className="text-lg font-black mt-0.5" style={{ color: "#8b5cf6" }}>{mediaDormir}</p>
           <p className="text-xs mt-0.5" style={{ color: "#334155" }}>horario medio</p>
         </div>
         <div className="rounded-xl p-3.5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
-          <p className="text-xs" style={{ color: "#64748b" }}>Media acordar</p>
+          <p className="text-xs" style={{ color: "#9aa7ba" }}>Media acordar</p>
           <p className="text-lg font-black mt-0.5" style={{ color: "#f59e0b" }}>{mediaAcordar}</p>
           <p className="text-xs mt-0.5" style={{ color: "#334155" }}>horario medio</p>
         </div>
         <div className="rounded-xl p-3.5" style={{ background: "#122039", border: `1px solid ${corConsistencia}25` }}>
-          <p className="text-xs" style={{ color: "#64748b" }}>Consistencia</p>
+          <p className="text-xs" style={{ color: "#9aa7ba" }}>Consistencia</p>
           <p className="text-lg font-black mt-0.5" style={{ color: corConsistencia }}>
             {comDados.length >= 2 ? `${consistencia}%` : "—"}
           </p>
@@ -251,12 +251,12 @@ export default function SonoPage() {
           {comDados.length === 0 ? (
             <div className="text-center py-8">
               <Moon size={32} className="mx-auto mb-2" style={{ color: "#1e3356" }} />
-              <p className="text-sm" style={{ color: "#475569" }}>Sem registros nos ultimos {periodo} dias</p>
+              <p className="text-sm" style={{ color: "#74859c" }}>Sem registros nos ultimos {periodo} dias</p>
             </div>
           ) : (
             <>
               {/* Legenda */}
-              <div className="flex items-center gap-4 mb-3 text-xs" style={{ color: "#475569" }}>
+              <div className="flex items-center gap-4 mb-3 text-xs" style={{ color: "#74859c" }}>
                 <span className="flex items-center gap-1"><span style={{ background: "#10b981", width: 8, height: 8, borderRadius: 4, display: "inline-block" }} /> 7-9h (ideal)</span>
                 <span className="flex items-center gap-1"><span style={{ background: "#f59e0b", width: 8, height: 8, borderRadius: 4, display: "inline-block" }} /> 6-7h / 9-10h</span>
                 <span className="flex items-center gap-1"><span style={{ background: "#ef4444", width: 8, height: 8, borderRadius: 4, display: "inline-block" }} /> {"<6h ou >10h"}</span>
@@ -313,9 +313,9 @@ export default function SonoPage() {
       {registros.length > 0 && (
         <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
           <div className="flex items-center gap-2 px-5 py-4" style={{ borderBottom: "1px solid #1e3356" }}>
-            <Calendar size={14} style={{ color: "#64748b" }} />
+            <Calendar size={14} style={{ color: "#9aa7ba" }} />
             <p className="text-sm font-semibold text-white">Historico</p>
-            <span className="text-xs px-2 py-0.5 rounded-full ml-auto" style={{ background: "#1e3356", color: "#64748b" }}>
+            <span className="text-xs px-2 py-0.5 rounded-full ml-auto" style={{ background: "#1e3356", color: "#9aa7ba" }}>
               {registros.length} registros
             </span>
           </div>
@@ -327,8 +327,8 @@ export default function SonoPage() {
                 <div key={r.id} className="flex items-center gap-4 px-5 py-3"
                   style={{ borderTop: idx > 0 ? "1px solid #1e335640" : "none" }}>
                   <div className="text-center flex-shrink-0" style={{ minWidth: 44 }}>
-                    <p className="text-xs font-bold" style={{ color: "#64748b" }}>{fmtDia(r.data)}</p>
-                    <p className="text-xs" style={{ color: "#475569" }}>{fmtData(r.data)}</p>
+                    <p className="text-xs font-bold" style={{ color: "#9aa7ba" }}>{fmtDia(r.data)}</p>
+                    <p className="text-xs" style={{ color: "#74859c" }}>{fmtData(r.data)}</p>
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0">
                     <Moon size={13} style={{ color: "#8b5cf6" }} />
@@ -358,7 +358,7 @@ export default function SonoPage() {
         <div className="rounded-2xl p-10 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
           <div className="text-5xl mb-3">🌙</div>
           <p className="font-semibold text-white mb-1">Nenhum registro ainda</p>
-          <p className="text-sm mb-4" style={{ color: "#64748b" }}>
+          <p className="text-sm mb-4" style={{ color: "#9aa7ba" }}>
             Registre seu primeiro sono para comecar a acompanhar sua consistencia.
           </p>
           <button onClick={() => { setFormData(hoje_); setShowForm(true); }}
@@ -383,7 +383,7 @@ export default function SonoPage() {
                   <Check size={24} style={{ color: "#10b981" }} />
                 </div>
                 <p className="text-white font-bold">Sono registrado!</p>
-                <p className="text-sm" style={{ color: "#64748b" }}>
+                <p className="text-sm" style={{ color: "#9aa7ba" }}>
                   {fmtMin(calcMinutos(formDormir, formAcordar))} dormidas
                 </p>
               </div>
@@ -394,11 +394,11 @@ export default function SonoPage() {
                     <Moon size={16} style={{ color: "#8b5cf6" }} />
                     <h2 className="font-bold text-white">Registrar Sono</h2>
                   </div>
-                  <button onClick={() => setShowForm(false)} style={{ color: "#64748b" }}>✕</button>
+                  <button onClick={() => setShowForm(false)} style={{ color: "#9aa7ba" }}>✕</button>
                 </div>
                 <div className="px-5 py-4 space-y-4">
                   <div>
-                    <label className="text-xs font-semibold uppercase tracking-wider mb-1.5 block" style={{ color: "#64748b" }}>Data (acordou em)</label>
+                    <label className="text-xs font-semibold uppercase tracking-wider mb-1.5 block" style={{ color: "#9aa7ba" }}>Data (acordou em)</label>
                     <input type="date" value={formData} onChange={(e) => setFormData(e.target.value)}
                       max={hoje_}
                       className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none"
@@ -428,7 +428,7 @@ export default function SonoPage() {
                     const m = calcMinutos(formDormir, formAcordar);
                     return (
                       <div className="flex items-center justify-between px-3 py-2.5 rounded-xl" style={{ background: "#0d1928" }}>
-                        <span className="text-sm" style={{ color: "#64748b" }}>Total de sono</span>
+                        <span className="text-sm" style={{ color: "#9aa7ba" }}>Total de sono</span>
                         <span className="text-lg font-black" style={{ color: corMin(m) }}>
                           {fmtMin(m)}
                         </span>

@@ -185,7 +185,7 @@ export default function TarefasPage() {
               style={{ background: "#10b981", color: "#fff" }}>
               Abrir WhatsApp
             </a>
-            <button onClick={() => setWaLink(null)} className="p-1.5 rounded-lg" style={{ color: "#475569" }}>
+            <button onClick={() => setWaLink(null)} className="p-1.5 rounded-lg" style={{ color: "#74859c" }}>
               <X size={14} />
             </button>
           </div>
@@ -196,7 +196,7 @@ export default function TarefasPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-white">Tarefas</h1>
-          <p className="text-sm mt-0.5" style={{ color: "#64748b" }}>
+          <p className="text-sm mt-0.5" style={{ color: "#9aa7ba" }}>
             Tudo que você precisa fazer, organizado num lugar só
           </p>
         </div>
@@ -251,7 +251,7 @@ export default function TarefasPage() {
       {aba === "avulsas" && (<>
       {/* KPIs — clicaveis para filtrar */}
       <div>
-        <p className="text-xs mb-2" style={{ color: "#475569" }}>
+        <p className="text-xs mb-2" style={{ color: "#74859c" }}>
           Clique em um status para filtrar a lista abaixo
         </p>
         <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
@@ -306,14 +306,14 @@ export default function TarefasPage() {
               {LOJAS.map((l) => <option key={l.id} value={l.id}>{l.nome}</option>)}
             </select>
             {(filtroColab !== "todos" || filtroLoja !== "todos") && (
-              <button onClick={() => { setFiltroColab("todos"); setFiltroLoja("todos"); }} className="px-3 py-1.5 rounded-xl text-xs" style={{ background: "#1e3356", color: "#64748b" }}>
+              <button onClick={() => { setFiltroColab("todos"); setFiltroLoja("todos"); }} className="px-3 py-1.5 rounded-xl text-xs" style={{ background: "#1e3356", color: "#9aa7ba" }}>
                 Limpar filtros
               </button>
             )}
           </div>
         )}
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-xs" style={{ color: "#475569" }}>Prioridade:</span>
+          <span className="text-xs" style={{ color: "#74859c" }}>Prioridade:</span>
           {(["todos", "alta", "media", "baixa"] as const).map((p) => {
             const cor = p === "todos" ? "#c9a84c" : PRIORIDADE_COR[p as Prioridade];
             return (
@@ -328,7 +328,7 @@ export default function TarefasPage() {
 
       {/* Contagem de resultados */}
       <div className="flex items-center justify-between">
-        <p className="text-xs" style={{ color: "#475569" }}>
+        <p className="text-xs" style={{ color: "#74859c" }}>
           {tarefasFiltradas.length === 0
             ? "Nenhuma tarefa encontrada"
             : `${tarefasFiltradas.length} tarefa${tarefasFiltradas.length > 1 ? "s" : ""} encontrada${tarefasFiltradas.length > 1 ? "s" : ""}`}
@@ -337,7 +337,7 @@ export default function TarefasPage() {
         {(filtroStatus !== "todos" || filtroPrioridade !== "todos") && (
           <button onClick={() => { setFiltroStatus("todos"); setFiltroPrioridade("todos"); }}
             className="text-xs px-2 py-1 rounded-lg transition-opacity hover:opacity-80"
-            style={{ color: "#64748b", background: "#1e3356" }}>
+            style={{ color: "#9aa7ba", background: "#1e3356" }}>
             Limpar
           </button>
         )}
@@ -353,7 +353,7 @@ export default function TarefasPage() {
                 ? "Nenhuma tarefa com esses filtros"
                 : isAdmin ? "Nenhuma tarefa criada ainda" : "Voce nao tem tarefas atribuidas"}
             </p>
-            <p className="text-sm" style={{ color: "#475569" }}>
+            <p className="text-sm" style={{ color: "#74859c" }}>
               {filtroStatus !== "todos" || filtroPrioridade !== "todos"
                 ? "Tente mudar ou limpar os filtros acima"
                 : isAdmin ? "Use o botao Nova Tarefa para comecar" : "Aguarde o gestor atribuir tarefas a voce"}
@@ -405,7 +405,7 @@ export default function TarefasPage() {
                                 <Image src={loja.logo} alt={loja.nome} width={16} height={16} className="w-full h-full object-contain" unoptimized />
                               </div>
                             )}
-                            <span className="text-xs" style={{ color: "#64748b" }}>{loja.nome}</span>
+                            <span className="text-xs" style={{ color: "#9aa7ba" }}>{loja.nome}</span>
                           </div>
                         )}
                         {estaTravada && (
@@ -426,7 +426,7 @@ export default function TarefasPage() {
                       </div>
 
                       <p className="text-white font-medium">{t.titulo}</p>
-                      {t.descricao && <p className="text-sm mt-1" style={{ color: "#64748b" }}>{t.descricao}</p>}
+                      {t.descricao && <p className="text-sm mt-1" style={{ color: "#9aa7ba" }}>{t.descricao}</p>}
 
                       {/* Meta row */}
                       <div className="flex items-center gap-3 mt-2 flex-wrap">
@@ -441,9 +441,9 @@ export default function TarefasPage() {
                             <Clock size={11} /> Prazo: {t.dataLimite}
                           </span>
                         )}
-                        <span className="text-xs" style={{ color: "#475569" }}>Criada {t.dataCriacao}</span>
+                        <span className="text-xs" style={{ color: "#74859c" }}>Criada {t.dataCriacao}</span>
                         {nComentarios > 0 && (
-                          <span className="flex items-center gap-1 text-xs" style={{ color: "#64748b" }}>
+                          <span className="flex items-center gap-1 text-xs" style={{ color: "#9aa7ba" }}>
                             <MessageSquare size={11} /> {nComentarios}
                           </span>
                         )}
@@ -452,7 +452,7 @@ export default function TarefasPage() {
                       {/* Read receipts */}
                       {t.visualizacoes && Object.keys(t.visualizacoes).length > 0 && (
                         <div className="flex items-center gap-1 mt-1.5">
-                          <Eye size={10} style={{ color: "#475569" }} />
+                          <Eye size={10} style={{ color: "#74859c" }} />
                           <div className="flex -space-x-1">
                             {Object.entries(t.visualizacoes).slice(0, 5).map(([cid]) => {
                               const c = colaboradores.find((x) => x.id === cid);
@@ -461,7 +461,7 @@ export default function TarefasPage() {
                             })}
                           </div>
                           {Object.keys(t.visualizacoes).length > 5 && (
-                            <span className="text-xs" style={{ color: "#475569" }}>+{Object.keys(t.visualizacoes).length - 5}</span>
+                            <span className="text-xs" style={{ color: "#74859c" }}>+{Object.keys(t.visualizacoes).length - 5}</span>
                           )}
                         </div>
                       )}
@@ -525,7 +525,7 @@ export default function TarefasPage() {
                         setExpandidoId(nowExpanding ? t.id : null);
                         setComentandoId(null);
                         if (nowExpanding && usuarioAtual) marcarVisualizacaoTarefa(t.id, usuarioAtual.id);
-                      }} className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs" style={{ background: "#1e3356", color: "#64748b" }}>
+                      }} className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs" style={{ background: "#1e3356", color: "#9aa7ba" }}>
                         {isElaborada ? (expandida ? <ChevronUp size={12} /> : <ChevronDown size={12} />) : <MessageSquare size={12} />}
                         {nComentarios > 0 && !isElaborada ? nComentarios : ""}
                         {isElaborada && <span>{expandida ? "Fechar" : "Detalhe"}</span>}
@@ -546,7 +546,7 @@ export default function TarefasPage() {
                             <div className="flex items-center gap-2 mb-2 flex-wrap">
                               <Avatar nome={colab.nome} avatar={colab.avatar} foto={colab.foto} cor={colab.cor} size={24} />
                               <span className="text-sm font-semibold text-white">{colab.nome.split(" ")[0]}</span>
-                              <span className="text-xs" style={{ color: "#64748b" }}>{m.subtarefas.filter(s => s.concluida).length}/{m.subtarefas.length} concluidas</span>
+                              <span className="text-xs" style={{ color: "#9aa7ba" }}>{m.subtarefas.filter(s => s.concluida).length}/{m.subtarefas.length} concluidas</span>
                               {/* Contato — só mostra para outros membros, nao para si mesmo */}
                               {colab.id !== usuarioAtual?.id && colab.telefone && (
                                 <>
@@ -584,11 +584,11 @@ export default function TarefasPage() {
                                 >
                                   {s.concluida
                                     ? <CheckCircle2 size={15} style={{ color: "#10b981" }} />
-                                    : <Circle size={15} style={{ color: "#475569" }} />}
+                                    : <Circle size={15} style={{ color: "#74859c" }} />}
                                   <span className="text-sm flex-1" style={{ color: s.concluida ? "#64748b" : "#e2e8f0", textDecoration: s.concluida ? "line-through" : "none" }}>
                                     {s.titulo}
                                   </span>
-                                  {!s.concluida && (isEuMembro || isAdmin) && <span className="text-xs" style={{ color: "#475569" }}>+10 XP</span>}
+                                  {!s.concluida && (isEuMembro || isAdmin) && <span className="text-xs" style={{ color: "#74859c" }}>+10 XP</span>}
                                 </button>
                               ))}
                               {m.subtarefas.length === 0 && <p className="text-xs" style={{ color: "#334155" }}>Nenhuma subtarefa.</p>}
@@ -604,7 +604,7 @@ export default function TarefasPage() {
                         return (
                           <div className="rounded-xl p-3" style={{ background: "#0f1c30", border: "1px solid #1e3356" }}>
                             <div className="flex items-center justify-between mb-2">
-                              <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#475569" }}>
+                              <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#74859c" }}>
                                 Minhas Sub-tarefas
                               </p>
                               {isAdmin && totalOutros > 0 && (
@@ -617,12 +617,12 @@ export default function TarefasPage() {
                                   <button onClick={() => toggleMiniTarefa(t.id, m.id, !m.concluida)} className="flex-shrink-0">
                                     {m.concluida
                                       ? <CheckCircle2 size={14} style={{ color: "#10b981" }} />
-                                      : <Circle size={14} style={{ color: "#475569" }} />}
+                                      : <Circle size={14} style={{ color: "#74859c" }} />}
                                   </button>
                                   <span className="text-xs flex-1" style={{ color: m.concluida ? "#475569" : "#94a3b8", textDecoration: m.concluida ? "line-through" : "none" }}>
                                     {m.titulo}
                                   </span>
-                                  <button onClick={() => deletarMiniTarefa(t.id, m.id)} className="opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "#475569" }}>
+                                  <button onClick={() => deletarMiniTarefa(t.id, m.id)} className="opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "#74859c" }}>
                                     <Trash2 size={11} />
                                   </button>
                                 </div>
@@ -661,8 +661,8 @@ export default function TarefasPage() {
 
                       {/* Comentários */}
                       <div>
-                        {isElaborada && <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "#475569" }}>Comentarios</p>}
-                        {(t.comentarios || []).length === 0 && <p className="text-xs" style={{ color: "#475569" }}>Nenhum comentário ainda.</p>}
+                        {isElaborada && <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "#74859c" }}>Comentarios</p>}
+                        {(t.comentarios || []).length === 0 && <p className="text-xs" style={{ color: "#74859c" }}>Nenhum comentário ainda.</p>}
                         {(t.comentarios || []).map((c) => {
                           const autor = colaboradores.find((col) => col.id === c.autorId);
                           return (
@@ -670,7 +670,7 @@ export default function TarefasPage() {
                               {autor && <Avatar nome={autor.nome} avatar={autor.avatar} foto={autor.foto} cor={autor.cor} size={22} />}
                               <div className="flex-1 p-2 rounded-xl" style={{ background: "#1e3356" }}>
                                 <span className="text-xs font-medium" style={{ color: "#94a3b8" }}>{autor?.nome.split(" ")[0]} </span>
-                                <span className="text-xs" style={{ color: "#64748b" }}>{c.criadoEm.slice(0, 10)}</span>
+                                <span className="text-xs" style={{ color: "#9aa7ba" }}>{c.criadoEm.slice(0, 10)}</span>
                                 <p className="text-xs mt-0.5" style={{ color: "#e8edf5" }}>{c.texto}</p>
                               </div>
                             </div>
@@ -697,7 +697,7 @@ export default function TarefasPage() {
                   {/* Para tarefas rápidas: expandir só comentários */}
                   {!isElaborada && expandida && (
                     <div className="mt-3 pt-3 border-t" style={{ borderColor: "#1e3356" }}>
-                      {(t.comentarios || []).length === 0 && <p className="text-xs mb-2" style={{ color: "#475569" }}>Nenhum comentário ainda.</p>}
+                      {(t.comentarios || []).length === 0 && <p className="text-xs mb-2" style={{ color: "#74859c" }}>Nenhum comentário ainda.</p>}
                       {(t.comentarios || []).map((c) => {
                         const autor = colaboradores.find((col) => col.id === c.autorId);
                         return (
@@ -705,7 +705,7 @@ export default function TarefasPage() {
                             {autor && <Avatar nome={autor.nome} avatar={autor.avatar} foto={autor.foto} cor={autor.cor} size={22} />}
                             <div className="flex-1 p-2 rounded-xl" style={{ background: "#1e3356" }}>
                               <span className="text-xs font-medium" style={{ color: "#94a3b8" }}>{autor?.nome.split(" ")[0]} </span>
-                              <span className="text-xs" style={{ color: "#64748b" }}>{c.criadoEm.slice(0, 10)}</span>
+                              <span className="text-xs" style={{ color: "#9aa7ba" }}>{c.criadoEm.slice(0, 10)}</span>
                               <p className="text-xs mt-0.5" style={{ color: "#e8edf5" }}>{c.texto}</p>
                             </div>
                           </div>
@@ -746,7 +746,7 @@ export default function TarefasPage() {
                 </div>
                 <h2 className="text-white font-bold">Tarefa Rápida</h2>
               </div>
-              <button onClick={() => setRapidaAberto(false)} style={{ color: "#64748b" }}><X size={20} /></button>
+              <button onClick={() => setRapidaAberto(false)} style={{ color: "#9aa7ba" }}><X size={20} /></button>
             </div>
 
             <div className="space-y-3">
@@ -833,7 +833,7 @@ export default function TarefasPage() {
                 </div>
                 <h2 className="text-white font-bold">Tarefa Elaborada</h2>
               </div>
-              <button onClick={() => setElaboradaAberto(false)} style={{ color: "#64748b" }}><X size={20} /></button>
+              <button onClick={() => setElaboradaAberto(false)} style={{ color: "#9aa7ba" }}><X size={20} /></button>
             </div>
 
             {/* Campos gerais */}
@@ -880,7 +880,7 @@ export default function TarefasPage() {
             <div>
               <div className="flex items-center justify-between mb-3">
                 <p className="text-sm font-semibold text-white">Membros e Subtarefas</p>
-                <span className="text-xs" style={{ color: "#64748b" }}>{membrosElab.length} membro{membrosElab.length !== 1 ? "s" : ""}</span>
+                <span className="text-xs" style={{ color: "#9aa7ba" }}>{membrosElab.length} membro{membrosElab.length !== 1 ? "s" : ""}</span>
               </div>
 
               {/* Add member */}
@@ -914,9 +914,9 @@ export default function TarefasPage() {
                         <div className="flex items-center gap-2">
                           <Avatar nome={colab.nome} avatar={colab.avatar} foto={colab.foto} cor={colab.cor} size={24} />
                           <span className="text-sm font-semibold text-white">{colab.nome.split(" ")[0]}</span>
-                          <span className="text-xs" style={{ color: "#64748b" }}>{colab.cargo || ""}</span>
+                          <span className="text-xs" style={{ color: "#9aa7ba" }}>{colab.cargo || ""}</span>
                         </div>
-                        <button onClick={() => removeMembroElab(m.uid)} className="p-1 rounded-lg" style={{ color: "#475569" }}>
+                        <button onClick={() => removeMembroElab(m.uid)} className="p-1 rounded-lg" style={{ color: "#74859c" }}>
                           <X size={14} />
                         </button>
                       </div>
@@ -926,9 +926,9 @@ export default function TarefasPage() {
                         <div className="space-y-1 mb-2 ml-1">
                           {m.subtarefas.map((s) => (
                             <div key={s.uid} className="flex items-center gap-2 px-2 py-1 rounded-lg" style={{ background: "#122039" }}>
-                              <Circle size={12} style={{ color: "#475569" }} />
+                              <Circle size={12} style={{ color: "#74859c" }} />
                               <span className="text-xs flex-1 text-white">{s.titulo}</span>
-                              <button onClick={() => removeSubtarefaElab(m.uid, s.uid)} style={{ color: "#475569" }}>
+                              <button onClick={() => removeSubtarefaElab(m.uid, s.uid)} style={{ color: "#74859c" }}>
                                 <X size={12} />
                               </button>
                             </div>

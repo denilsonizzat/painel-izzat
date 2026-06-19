@@ -251,7 +251,7 @@ export default function RelogioWidget() {
               :{ss}
             </span>
           </div>
-          <p className="text-sm mt-1 capitalize" style={{ color: "#64748b" }}>
+          <p className="text-sm mt-1 capitalize" style={{ color: "#9aa7ba" }}>
             {diaSemana}, {dataLabel}
           </p>
         </div>
@@ -260,7 +260,7 @@ export default function RelogioWidget() {
         <div className="flex items-center gap-5 flex-wrap">
           {locLabel && (
             <div className="flex items-center gap-1.5">
-              <MapPin size={13} style={{ color: "#475569" }} />
+              <MapPin size={13} style={{ color: "#74859c" }} />
               <span className="text-sm" style={{ color: "#94a3b8" }}>{locLabel}</span>
             </div>
           )}
@@ -271,7 +271,7 @@ export default function RelogioWidget() {
                 <p className="font-bold" style={{ fontSize: 22, color: "#e8edf5", lineHeight: 1.1 }}>
                   {clima.temperatura}°C
                 </p>
-                <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>{climaDesc(clima.codigo)}</p>
+                <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>{climaDesc(clima.codigo)}</p>
               </div>
             </div>
           )}

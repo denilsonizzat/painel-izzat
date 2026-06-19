@@ -108,10 +108,10 @@ export default function AtividadePage() {
       <div className="flex items-start justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-bold text-white">Minha Atividade</h1>
-          <p className="text-sm mt-1" style={{ color: "#64748b" }}>
+          <p className="text-sm mt-1" style={{ color: "#9aa7ba" }}>
             {"Tudo que você fez hoje — tarefas, rotinas, check-ins e pontos ganhos"}
           </p>
-          <p className="text-xs mt-0.5 capitalize" style={{ color: "#475569" }}>{hojeLabel}</p>
+          <p className="text-xs mt-0.5 capitalize" style={{ color: "#74859c" }}>{hojeLabel}</p>
         </div>
         <div className="flex items-center gap-2 flex-wrap justify-end">
           {totalXPHoje > 0 && (
@@ -135,7 +135,7 @@ export default function AtividadePage() {
             <div className="text-2xl">📊</div>
             <div>
               <p className="text-sm font-semibold text-white mb-1">Nenhuma atividade registrada hoje</p>
-              <p className="text-xs" style={{ color: "#64748b" }}>
+              <p className="text-xs" style={{ color: "#9aa7ba" }}>
                 {"Suas ações aparecem aqui automaticamente: ao concluir tarefas, marcar rotinas, fazer check-in ou completar um Pomodoro. Comece por qualquer uma dessas ações!"}
               </p>
             </div>
@@ -147,14 +147,14 @@ export default function AtividadePage() {
       <div className="rounded-2xl p-6" style={{ background: "#122039", border: `1px solid ${isOnline ? "#10b98130" : "#1e3356"}` }}>
         <div className="flex items-center justify-between gap-4">
           <div className="flex-1">
-            <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: "#64748b" }}>
+            <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: "#9aa7ba" }}>
               Status de Presença
             </p>
             <h2 className="text-xl font-bold" style={{ color: isOnline ? "#10b981" : "#94a3b8" }}>
               {isOnline ? "Online Agora" : "Offline"}
             </h2>
             {isOnline && (colaboradores.find((c) => c.id === usuarioAtual.id) ?? usuarioAtual).statusOnline?.desde && (
-              <p className="text-sm mt-0.5" style={{ color: "#64748b" }}>
+              <p className="text-sm mt-0.5" style={{ color: "#9aa7ba" }}>
                 Desde {(colaboradores.find((c) => c.id === usuarioAtual.id) ?? usuarioAtual).statusOnline!.desde}
                 {(colaboradores.find((c) => c.id === usuarioAtual.id) ?? usuarioAtual).statusOnline?.ate
                   ? " · até " + (colaboradores.find((c) => c.id === usuarioAtual.id) ?? usuarioAtual).statusOnline!.ate
@@ -186,7 +186,7 @@ export default function AtividadePage() {
 
         {isOnline ? (
           <div className="mt-4 flex items-center gap-3 p-3 rounded-xl flex-wrap" style={{ background: "#10b98110" }}>
-            <p className="text-sm" style={{ color: "#64748b" }}>Disponível até:</p>
+            <p className="text-sm" style={{ color: "#9aa7ba" }}>Disponível até:</p>
             <input
               type="time"
               value={ateHora}
@@ -197,11 +197,11 @@ export default function AtividadePage() {
               className="text-sm font-bold px-3 py-1.5 rounded-xl outline-none"
               style={{ background: "#122039", color: "#10b981", border: "1px solid #10b98130", colorScheme: "dark" }}
             />
-            <p className="text-xs" style={{ color: "#475569" }}>Sua equipe verá que você está disponível</p>
+            <p className="text-xs" style={{ color: "#74859c" }}>Sua equipe verá que você está disponível</p>
           </div>
         ) : (
           <div className="mt-4 flex items-center gap-3 flex-wrap">
-            <p className="text-sm" style={{ color: "#64748b" }}>Ficarei online até:</p>
+            <p className="text-sm" style={{ color: "#9aa7ba" }}>Ficarei online até:</p>
             <input
               type="time"
               value={ateHora}
@@ -223,11 +223,11 @@ export default function AtividadePage() {
       {/* Equipe — status online com horário */}
       <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
         <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
-          <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#64748b" }}>
+          <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#9aa7ba" }}>
             Equipe &mdash;{" "}
             {colaboradores.filter((c) => c.statusOnline?.ativo && c.id !== usuarioAtual.id).length} online agora
           </p>
-          <div className="flex items-center gap-3 text-xs" style={{ color: "#475569" }}>
+          <div className="flex items-center gap-3 text-xs" style={{ color: "#74859c" }}>
             <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full inline-block" style={{ background: "#10b981" }} /> Online</span>
             <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full inline-block" style={{ background: "#f97316" }} /> Foco</span>
             <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full inline-block" style={{ background: "#334155" }} /> Offline</span>
@@ -255,7 +255,7 @@ export default function AtividadePage() {
                     {c.nome.split(" ")[0]}{emFoco ? " 🎯" : ""}
                   </span>
                   {online && c.statusOnline?.trabalhando && (
-                    <p className="text-xs mt-0.5 text-center" style={{ color: "#64748b" }}>
+                    <p className="text-xs mt-0.5 text-center" style={{ color: "#9aa7ba" }}>
                       {c.statusOnline.trabalhando}
                     </p>
                   )}
@@ -265,7 +265,7 @@ export default function AtividadePage() {
                     </span>
                   )}
                   {online && c.statusOnline?.ate && (
-                    <span className="text-xs" style={{ color: "#64748b" }}>
+                    <span className="text-xs" style={{ color: "#9aa7ba" }}>
                       até {c.statusOnline.ate}
                     </span>
                   )}
@@ -281,7 +281,7 @@ export default function AtividadePage() {
       {/* Filtro de pessoa (admin pode ver qualquer um) */}
       {isAdmin && (
         <div className="flex items-center gap-3 flex-wrap">
-          <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#64748b" }}>Ver atividade de:</span>
+          <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#9aa7ba" }}>Ver atividade de:</span>
           <div className="flex gap-2 flex-wrap">
             <button
               onClick={() => setFiltroPessoa("eu")}
@@ -328,7 +328,7 @@ export default function AtividadePage() {
               </span>
             )}
           </div>
-          <span className="text-xs" style={{ color: "#475569" }}>{atividadesHistorico.length} registros</span>
+          <span className="text-xs" style={{ color: "#74859c" }}>{atividadesHistorico.length} registros</span>
         </div>
 
         {/* Filtros periodo */}
@@ -349,7 +349,7 @@ export default function AtividadePage() {
 
         {/* Busca */}
         <div className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ background: "#1e3356", border: "1px solid #334155" }}>
-          <Search size={13} style={{ color: "#64748b" }} />
+          <Search size={13} style={{ color: "#9aa7ba" }} />
           <input
             value={buscaHistorico}
             onChange={(e) => setBuscaHistorico(e.target.value)}
@@ -358,7 +358,7 @@ export default function AtividadePage() {
             style={{ color: "#e8edf5" }}
           />
           {buscaHistorico && (
-            <button onClick={() => setBuscaHistorico("")}><X size={12} style={{ color: "#64748b" }} /></button>
+            <button onClick={() => setBuscaHistorico("")}><X size={12} style={{ color: "#9aa7ba" }} /></button>
           )}
         </div>
 
@@ -367,7 +367,7 @@ export default function AtividadePage() {
           <div className="py-10 text-center">
             <p className="text-3xl mb-2">🔍</p>
             <p className="text-sm font-medium text-white mb-1">Nenhuma atividade no periodo</p>
-            <p className="text-xs" style={{ color: "#64748b" }}>
+            <p className="text-xs" style={{ color: "#9aa7ba" }}>
               {buscaHistorico.trim()
                 ? "Tente outro termo de busca ou mude o filtro de periodo"
                 : "Atividades aparecem aqui conforme a pessoa completa acoes na plataforma"}
@@ -384,7 +384,7 @@ export default function AtividadePage() {
                 return (
                   <div key={a.id}>
                     {mostrarData && (
-                      <p className="text-xs font-semibold mt-3 mb-1 px-1" style={{ color: "#475569" }}>
+                      <p className="text-xs font-semibold mt-3 mb-1 px-1" style={{ color: "#74859c" }}>
                         {a.data === hoje2 ? "Hoje" : new Date(a.data + "T12:00:00").toLocaleDateString("pt-BR", { weekday: "short", day: "numeric", month: "short" })}
                       </p>
                     )}
@@ -393,7 +393,7 @@ export default function AtividadePage() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
                           <span className="text-xs font-semibold" style={{ color: cfg.cor }}>{cfg.label}</span>
-                          <span className="text-xs font-mono" style={{ color: "#475569" }}>{a.hora}</span>
+                          <span className="text-xs font-mono" style={{ color: "#74859c" }}>{a.hora}</span>
                         </div>
                         <p className="text-xs leading-snug truncate" style={{ color: "#94a3b8" }}>{a.descricao}</p>
                       </div>
@@ -416,7 +416,7 @@ export default function AtividadePage() {
           <p className="text-sm font-semibold" style={{ color: "#94a3b8" }}>
             Linha do Tempo — {pessoa.horarioInicio ?? "09:00"} até {pessoa.horarioFim ?? "18:00"}
             {filtroPessoa !== "eu" && (
-              <span style={{ color: "#64748b" }}> · {pessoa.nome.split(" ")[0]}</span>
+              <span style={{ color: "#9aa7ba" }}> · {pessoa.nome.split(" ")[0]}</span>
             )}
           </p>
         </div>
@@ -428,7 +428,7 @@ export default function AtividadePage() {
           >
             <p className="text-3xl mb-3">⚡</p>
             <p className="font-semibold text-white mb-1">Nenhuma atividade hoje ainda</p>
-            <p className="text-sm" style={{ color: "#64748b" }}>
+            <p className="text-sm" style={{ color: "#9aa7ba" }}>
               Complete rotinas, tarefas ou expectativas para registrar atividades.
             </p>
           </div>
@@ -473,7 +473,7 @@ export default function AtividadePage() {
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2 flex-wrap">
                                 <p className="text-xs font-semibold" style={{ color: cfg.cor }}>{cfg.label}</p>
-                                <span className="text-xs font-mono" style={{ color: "#64748b" }}>
+                                <span className="text-xs font-mono" style={{ color: "#9aa7ba" }}>
                                   {a.hora}{a.horaFim ? ` → ${a.horaFim}` : ""}
                                 </span>
                                 {a.xp != null && a.xp > 0 && (

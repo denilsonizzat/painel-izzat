@@ -28,7 +28,7 @@ export default function LoginPage() {
           </div>
           <h1 className="text-3xl font-bold text-white mb-1">Izzat Group</h1>
           <p className="text-sm" style={{ color: "#94a3b8" }}>{"Painel de Gestão da Equipe"}</p>
-          <p className="text-xs mt-1" style={{ color: "#475569" }}>{"Acompanhe rotinas, tarefas, progresso e equipe num só lugar"}</p>
+          <p className="text-xs mt-1" style={{ color: "#74859c" }}>{"Acompanhe rotinas, tarefas, progresso e equipe num só lugar"}</p>
         </div>
 
         <div className="rounded-2xl p-6" style={{ background: "#122039", border: "1px solid #1e3356" }}>
@@ -37,7 +37,7 @@ export default function LoginPage() {
               <Users size={18} style={{ color: "#c9a84c" }} />
               <h2 className="text-white font-semibold">{"Quem é você?"}</h2>
             </div>
-            <div className="flex items-center gap-3 text-xs" style={{ color: "#475569" }}>
+            <div className="flex items-center gap-3 text-xs" style={{ color: "#74859c" }}>
               <span className="flex items-center gap-1">
                 <span className="px-1.5 py-0.5 rounded text-xs" style={{ background: "#c9a84c20", color: "#c9a84c" }}>Admin</span>
                 <span>= gestor</span>
@@ -59,7 +59,7 @@ export default function LoginPage() {
                 <Avatar nome={c.nome} avatar={c.avatar} foto={c.foto} cor={c.cor} size={38} />
                 <div className="flex-1 min-w-0">
                   <p className="text-white font-medium text-sm">{c.nome}</p>
-                  <p className="text-xs" style={{ color: "#64748b" }}>{c.cargo}</p>
+                  <p className="text-xs" style={{ color: "#9aa7ba" }}>{c.cargo}</p>
                 </div>
                 {c.nivelAcesso === "admin" && (
                   <span className="text-xs px-2 py-0.5 rounded-full font-medium flex-shrink-0"

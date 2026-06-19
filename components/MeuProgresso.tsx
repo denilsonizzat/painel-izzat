@@ -26,7 +26,7 @@ export default function MeuProgresso() {
           </div>
           <div>
             <p className="text-white font-bold text-sm">{nivelInfo.nome}</p>
-            <p className="text-xs" style={{ color: "#64748b" }}>{usuarioAtual.xp || 0} XP acumulado</p>
+            <p className="text-xs" style={{ color: "#9aa7ba" }}>{usuarioAtual.xp || 0} XP acumulado</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -39,7 +39,7 @@ export default function MeuProgresso() {
           <div className="flex items-center gap-1 px-3 py-1.5 rounded-full" style={{ background: pctDia === 100 ? "#10b98115" : "#c9a84c15", border: `1px solid ${pctDia === 100 ? "#10b98130" : "#c9a84c30"}` }}>
             {pctDia === 100 ? <Star size={14} style={{ color: "#10b981" }} /> : <Zap size={14} style={{ color: "#c9a84c" }} />}
             <span className="text-sm font-bold" style={{ color: pctDia === 100 ? "#10b981" : "#c9a84c" }}>{pctDia}%</span>
-            <span className="text-xs" style={{ color: "#64748b" }}>do dia</span>
+            <span className="text-xs" style={{ color: "#9aa7ba" }}>do dia</span>
           </div>
         </div>
       </div>
@@ -48,8 +48,8 @@ export default function MeuProgresso() {
       {nivelInfo.proximo && (
         <>
           <div className="flex items-center justify-between mb-1">
-            <span className="text-xs" style={{ color: "#64748b" }}>Progresso para {nivelInfo.proximo.nome}</span>
-            <span className="text-xs" style={{ color: "#64748b" }}>{nivelInfo.proximo.xpMin - nivelInfo.xp} XP restantes</span>
+            <span className="text-xs" style={{ color: "#9aa7ba" }}>Progresso para {nivelInfo.proximo.nome}</span>
+            <span className="text-xs" style={{ color: "#9aa7ba" }}>{nivelInfo.proximo.xpMin - nivelInfo.xp} XP restantes</span>
           </div>
           <div className="h-2 rounded-full overflow-hidden" style={{ background: "#1e3356" }}>
             <div className="h-full rounded-full transition-all duration-500" style={{ width: `${nivelInfo.progresso}%`, background: `linear-gradient(90deg, ${nivelInfo.cor}, ${nivelInfo.proximo.cor})` }} />

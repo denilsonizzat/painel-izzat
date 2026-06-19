@@ -47,11 +47,11 @@ export default function RotinaDetalheModal({ rotinaId, onClose }: { rotinaId: st
                 <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ background: "#0ea5e920", color: "#0ea5e9" }}>
                   {LABEL_FREQUENCIA[rotina.frequencia]}
                 </span>
-                {loja && <span className="text-xs" style={{ color: "#64748b" }}>{loja.nome}</span>}
+                {loja && <span className="text-xs" style={{ color: "#9aa7ba" }}>{loja.nome}</span>}
               </div>
               <h2 className="text-white font-bold text-lg leading-tight">{rotina.titulo}</h2>
             </div>
-            <button onClick={onClose} className="p-1.5 rounded-xl flex-shrink-0" style={{ color: "#64748b" }}><X size={18} /></button>
+            <button onClick={onClose} className="p-1.5 rounded-xl flex-shrink-0" style={{ color: "#9aa7ba" }}><X size={18} /></button>
           </div>
 
           {/* Ações principais */}
@@ -94,7 +94,7 @@ export default function RotinaDetalheModal({ rotinaId, onClose }: { rotinaId: st
           <div>
             <div className="flex items-center justify-between mb-2">
               <label className="text-xs font-semibold" style={{ color: "#94a3b8" }}>
-                Subtarefas {subs.length > 0 && <span style={{ color: "#475569" }}>({subFeitas}/{subs.length})</span>}
+                Subtarefas {subs.length > 0 && <span style={{ color: "#74859c" }}>({subFeitas}/{subs.length})</span>}
               </label>
             </div>
 
@@ -105,7 +105,7 @@ export default function RotinaDetalheModal({ rotinaId, onClose }: { rotinaId: st
                   <div key={sub.id} className="rounded-xl" style={{ background: "#122039", border: "1px solid #1e3356" }}>
                     <div className="flex items-center gap-2 p-2.5">
                       <button onClick={() => marcarSubtarefa(rotina.id, sub.id, !sub.concluida)} className="flex-shrink-0" data-tip="Marcar como feita">
-                        {sub.concluida ? <CheckCircle2 size={18} style={{ color: "#10b981" }} /> : <Circle size={18} style={{ color: "#475569" }} />}
+                        {sub.concluida ? <CheckCircle2 size={18} style={{ color: "#10b981" }} /> : <Circle size={18} style={{ color: "#74859c" }} />}
                       </button>
                       <input
                         defaultValue={sub.titulo}
@@ -119,7 +119,7 @@ export default function RotinaDetalheModal({ rotinaId, onClose }: { rotinaId: st
                       <button onClick={() => abrirPomodoro(rotina.id, `${rotina.titulo} — ${sub.titulo}`)} className="flex-shrink-0 p-1 rounded-lg" style={{ color: "#3b82f6" }} data-tip="Iniciar foco só nesta subtarefa">
                         <Play size={14} />
                       </button>
-                      <button onClick={() => removeSub(sub.id)} className="flex-shrink-0 p-1 rounded-lg" style={{ color: "#475569" }} data-tip="Remover subtarefa">
+                      <button onClick={() => removeSub(sub.id)} className="flex-shrink-0 p-1 rounded-lg" style={{ color: "#74859c" }} data-tip="Remover subtarefa">
                         <Trash2 size={13} />
                       </button>
                     </div>

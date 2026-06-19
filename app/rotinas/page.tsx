@@ -213,10 +213,10 @@ export default function RotinasPage() {
               </div>
               <div>
                 <h1 style={{ color: "#e8edf5", fontWeight: 700, fontSize: 20, margin: 0 }}>Rotinas</h1>
-                <p style={{ color: "#64748b", fontSize: 12, margin: "2px 0 0" }}>
+                <p style={{ color: "#9aa7ba", fontSize: 12, margin: "2px 0 0" }}>
                   Habitos diarios que a equipe repete — cada um vale pontos ao ser marcado
                 </p>
-                <p style={{ color: "#475569", fontSize: 11, margin: "2px 0 0" }}>
+                <p style={{ color: "#74859c", fontSize: 11, margin: "2px 0 0" }}>
                   {todasRotinas.length} {todasRotinas.length === 1 ? "rotina" : "rotinas"} · {colaboradores.length} {colaboradores.length === 1 ? "colaborador" : "colaboradores"}
                 </p>
               </div>
@@ -321,7 +321,7 @@ export default function RotinasPage() {
           >
             <p style={{ fontSize: 32, marginBottom: 8 }}>🔄</p>
             <p style={{ color: "#e8edf5", fontWeight: 600, marginBottom: 6 }}>Nenhuma rotina cadastrada ainda</p>
-            <p style={{ color: "#475569", fontSize: 12, lineHeight: 1.6 }}>
+            <p style={{ color: "#74859c", fontSize: 12, lineHeight: 1.6 }}>
               Rotinas sao habitos diarios, semanais ou mensais que a equipe repete.<br />
               Cada rotina concluida vale pontos de XP. Clique em &quot;Nova Rotina&quot; para comecar.
             </p>
@@ -347,7 +347,7 @@ export default function RotinasPage() {
                   <span
                     style={{
                       background: "#1e3356",
-                      color: "#64748b",
+                      color: "#9aa7ba",
                       borderRadius: 6,
                       padding: "2px 8px",
                       fontSize: 11,
@@ -442,7 +442,7 @@ export default function RotinasPage() {
                               <span
                                 style={{
                                   background: "#47556915",
-                                  color: "#64748b",
+                                  color: "#9aa7ba",
                                   border: "1px solid #475569",
                                   borderRadius: 6,
                                   padding: "2px 7px",
@@ -473,7 +473,7 @@ export default function RotinasPage() {
                             )}
                           </div>
                           {rotina.subtarefas.length > 0 && (
-                            <p style={{ color: "#64748b", fontSize: 11, margin: "3px 0 0 0" }}>
+                            <p style={{ color: "#9aa7ba", fontSize: 11, margin: "3px 0 0 0" }}>
                               {rotina.subtarefas.length} subtarefa{rotina.subtarefas.length > 1 ? "s" : ""}
                             </p>
                           )}
@@ -515,7 +515,7 @@ export default function RotinasPage() {
                             }}
                           >
                             {inativa ? (
-                              <ToggleLeft size={22} style={{ color: "#475569" }} />
+                              <ToggleLeft size={22} style={{ color: "#74859c" }} />
                             ) : (
                               <ToggleRight size={22} style={{ color: "#10b981" }} />
                             )}
@@ -608,7 +608,7 @@ export default function RotinasPage() {
                 onClick={fecharModal}
                 style={{ background: "transparent", border: "none", cursor: "pointer", padding: 4 }}
               >
-                <X size={18} style={{ color: "#64748b" }} />
+                <X size={18} style={{ color: "#9aa7ba" }} />
               </button>
             </div>
 
@@ -717,7 +717,7 @@ export default function RotinasPage() {
                         onClick={() => removerSubtarefa(idx)}
                         style={{ background: "transparent", border: "none", cursor: "pointer", padding: 2 }}
                       >
-                        <X size={13} style={{ color: "#64748b" }} />
+                        <X size={13} style={{ color: "#9aa7ba" }} />
                       </button>
                     </div>
                   ))}
@@ -816,14 +816,14 @@ export default function RotinasPage() {
                     {FREQ_LABELS[verRotina.rotina.frequencia]}
                   </span>
                   {verRotina.rotina.ativa === false && (
-                    <span style={{ background: "#47556915", color: "#64748b", borderRadius: 6, padding: "2px 7px", fontSize: 10, fontWeight: 700, textTransform: "uppercase", border: "1px solid #475569" }}>INATIVA</span>
+                    <span style={{ background: "#47556915", color: "#9aa7ba", borderRadius: 6, padding: "2px 7px", fontSize: 10, fontWeight: 700, textTransform: "uppercase", border: "1px solid #475569" }}>INATIVA</span>
                   )}
                 </div>
                 <h2 style={{ color: "#e8edf5", fontWeight: 700, fontSize: 17, margin: 0 }}>{verRotina.rotina.titulo}</h2>
-                <p style={{ color: "#64748b", fontSize: 12, marginTop: 4 }}>{verRotina.colaboradorNome}</p>
+                <p style={{ color: "#9aa7ba", fontSize: 12, marginTop: 4 }}>{verRotina.colaboradorNome}</p>
               </div>
               <button onClick={() => setVerRotina(null)} style={{ background: "transparent", border: "none", cursor: "pointer", padding: 4, marginLeft: 8 }}>
-                <X size={18} style={{ color: "#64748b" }} />
+                <X size={18} style={{ color: "#9aa7ba" }} />
               </button>
             </div>
 
@@ -840,7 +840,7 @@ export default function RotinasPage() {
               if (!lj) return null;
               return (
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
-                  <span style={{ color: "#64748b", fontSize: 12 }}>Loja:</span>
+                  <span style={{ color: "#9aa7ba", fontSize: 12 }}>Loja:</span>
                   <span style={{ color: "#e8edf5", fontSize: 13, fontWeight: 600 }}>{lj.nome}</span>
                 </div>
               );
@@ -849,8 +849,8 @@ export default function RotinasPage() {
             {/* Subtarefas */}
             <div>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
-                <p style={{ color: "#64748b", fontSize: 12, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>Subtarefas</p>
-                <span style={{ color: "#64748b", fontSize: 12 }}>
+                <p style={{ color: "#9aa7ba", fontSize: 12, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>Subtarefas</p>
+                <span style={{ color: "#9aa7ba", fontSize: 12 }}>
                   {verRotina.rotina.subtarefas.filter((s) => s.concluida).length}/{verRotina.rotina.subtarefas.length} concluidas
                 </span>
               </div>
@@ -882,7 +882,7 @@ export default function RotinasPage() {
                   const cor = pct === 100 ? "#10b981" : pct >= 50 ? "#f59e0b" : "#ef4444";
                   return (
                     <>
-                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 6, color: "#64748b" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 6, color: "#9aa7ba" }}>
                         <span>Progresso</span><span style={{ color: cor, fontWeight: 700 }}>{pct}%</span>
                       </div>
                       <div style={{ height: 6, background: "#1e3356", borderRadius: 4, overflow: "hidden" }}>

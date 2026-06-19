@@ -92,7 +92,7 @@ export default function CustoTotalPage() {
             <Wallet size={22} style={{ color: "#c9a84c" }} />
             Custo Total — Grupo Izzat
           </h1>
-          <p className="text-xs mt-1.5" style={{ color: "#64748b" }}>
+          <p className="text-xs mt-1.5" style={{ color: "#9aa7ba" }}>
             Folha salarial + ferramentas do time + custos operacionais das lojas Izzat
           </p>
         </div>
@@ -114,19 +114,19 @@ export default function CustoTotalPage() {
         <p className="text-shimmer font-black mb-1" style={{ fontSize: 52, letterSpacing: "-2px", lineHeight: 1 }}>
           R$ {fmt(totalGeral)}
         </p>
-        <p className="text-xs mb-6" style={{ color: "#475569" }}>{mesLabel(mesSelecionado)}</p>
+        <p className="text-xs mb-6" style={{ color: "#74859c" }}>{mesLabel(mesSelecionado)}</p>
 
         {/* Legenda */}
         <div className="flex items-center justify-center gap-6 flex-wrap mb-5">
           <span className="flex items-center gap-2 text-xs">
             <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#10b981" }} />
-            <span style={{ color: "#64748b" }}>Time</span>
+            <span style={{ color: "#9aa7ba" }}>Time</span>
             <span className="font-bold" style={{ color: "#10b981" }}>R$ {fmt(totalFolha + totalFerramentas)}</span>
             <span className="px-1.5 py-0.5 rounded-full text-xs" style={{ background: "#10b98115", color: "#10b981" }}>{Math.round(pctTime + pctFerr)}%</span>
           </span>
           <span className="flex items-center gap-2 text-xs">
             <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#3b82f6" }} />
-            <span style={{ color: "#64748b" }}>Operações</span>
+            <span style={{ color: "#9aa7ba" }}>Operações</span>
             <span className="font-bold" style={{ color: "#3b82f6" }}>R$ {fmt(totalOperacoes)}</span>
             <span className="px-1.5 py-0.5 rounded-full text-xs" style={{ background: "#3b82f615", color: "#3b82f6" }}>{Math.round(pctOp)}%</span>
           </span>
@@ -155,12 +155,12 @@ export default function CustoTotalPage() {
           <div key={card.label} data-tip={card.dica} className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
             <div className="flex items-center gap-2 mb-1">
               <card.icon size={13} style={{ color: card.cor }} />
-              <p className="text-xs" style={{ color: "#64748b" }}>{card.label}</p>
+              <p className="text-xs" style={{ color: "#9aa7ba" }}>{card.label}</p>
             </div>
             <p className="text-xl font-bold" style={{ color: card.valor > 0 ? card.cor : "#334155" }}>
               R$ {fmt(card.valor)}
             </p>
-            <p className="text-xs mt-0.5" style={{ color: "#475569" }}>{card.sub}</p>
+            <p className="text-xs mt-0.5" style={{ color: "#74859c" }}>{card.sub}</p>
           </div>
         ))}
       </div>
@@ -177,12 +177,12 @@ export default function CustoTotalPage() {
             </div>
             <div className="text-left">
               <p className="text-sm font-bold text-white">Time — Folha Salarial</p>
-              <p className="text-xs" style={{ color: "#64748b" }}>{colaboradores.length} colaboradores · {semSalario > 0 ? `${semSalario} sem salário cadastrado` : "todos cadastrados"}</p>
+              <p className="text-xs" style={{ color: "#9aa7ba" }}>{colaboradores.length} colaboradores · {semSalario > 0 ? `${semSalario} sem salário cadastrado` : "todos cadastrados"}</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <p className="text-lg font-bold" style={{ color: "#10b981" }}>R$ {fmt(totalFolha)}</p>
-            {secaoAberta === "time" ? <ChevronUp size={16} style={{ color: "#64748b" }} /> : <ChevronDown size={16} style={{ color: "#64748b" }} />}
+            {secaoAberta === "time" ? <ChevronUp size={16} style={{ color: "#9aa7ba" }} /> : <ChevronDown size={16} style={{ color: "#9aa7ba" }} />}
           </div>
         </button>
 
@@ -194,7 +194,7 @@ export default function CustoTotalPage() {
                   <Avatar nome={c.nome} avatar={c.avatar} foto={c.foto} cor={c.cor} size={28} />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-white leading-tight">{c.nome}</p>
-                    <p className="text-xs" style={{ color: "#475569" }}>{c.cargo || "Sem cargo"}</p>
+                    <p className="text-xs" style={{ color: "#74859c" }}>{c.cargo || "Sem cargo"}</p>
                   </div>
                   {c.salario ? (
                     <span className="text-sm font-bold" style={{ color: "#10b981" }}>R$ {fmt(c.salario)}</span>
@@ -203,7 +203,7 @@ export default function CustoTotalPage() {
                       <AlertCircle size={11} /> Sem salário
                     </span>
                   )}
-                  <Link href={`/equipe/${c.id}`} className="p-1.5 rounded-lg hover:bg-white/10 transition-all" style={{ color: "#475569" }} data-tip="Editar no perfil">
+                  <Link href={`/equipe/${c.id}`} className="p-1.5 rounded-lg hover:bg-white/10 transition-all" style={{ color: "#74859c" }} data-tip="Editar no perfil">
                     <ExternalLink size={12} />
                   </Link>
                 </div>
@@ -231,12 +231,12 @@ export default function CustoTotalPage() {
             </div>
             <div className="text-left">
               <p className="text-sm font-bold text-white">Ferramentas do Time</p>
-              <p className="text-xs" style={{ color: "#64748b" }}>{ferramentas.length} ferramentas cadastradas</p>
+              <p className="text-xs" style={{ color: "#9aa7ba" }}>{ferramentas.length} ferramentas cadastradas</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <p className="text-lg font-bold" style={{ color: "#8b5cf6" }}>R$ {fmt(totalFerramentas)}</p>
-            {secaoAberta === "ferramentas" ? <ChevronUp size={16} style={{ color: "#64748b" }} /> : <ChevronDown size={16} style={{ color: "#64748b" }} />}
+            {secaoAberta === "ferramentas" ? <ChevronUp size={16} style={{ color: "#9aa7ba" }} /> : <ChevronDown size={16} style={{ color: "#9aa7ba" }} />}
           </div>
         </button>
 
@@ -251,7 +251,7 @@ export default function CustoTotalPage() {
                   <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: f.cor || "#8b5cf6" }} />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-white">{f.nome}</p>
-                    <p className="text-xs" style={{ color: "#475569" }}>
+                    <p className="text-xs" style={{ color: "#74859c" }}>
                       {f.tipo === "individual" ? "Individual" : "Compartilhada"} · {f.colaboradoresIds.length} {f.colaboradoresIds.length === 1 ? "pessoa" : "pessoas"}
                     </p>
                   </div>
@@ -266,12 +266,12 @@ export default function CustoTotalPage() {
                         onKeyDown={(e) => { if (e.key === "Enter") salvarEditFerr(f.id); if (e.key === "Escape") setEditandoFerrId(null); }}
                       />
                       <button onClick={() => salvarEditFerr(f.id)} className="p-1 rounded" style={{ color: "#10b981" }}><Check size={12} /></button>
-                      <button onClick={() => setEditandoFerrId(null)} className="p-1 rounded" style={{ color: "#64748b" }}><X size={12} /></button>
+                      <button onClick={() => setEditandoFerrId(null)} className="p-1 rounded" style={{ color: "#9aa7ba" }}><X size={12} /></button>
                     </div>
                   ) : (
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-bold" style={{ color: "#8b5cf6" }}>R$ {fmt(f.preco)}</span>
-                      <button onClick={() => iniciarEditFerr(f.id, f.preco)} className="p-1 rounded hover:bg-white/10" style={{ color: "#475569" }}>
+                      <button onClick={() => iniciarEditFerr(f.id, f.preco)} className="p-1 rounded hover:bg-white/10" style={{ color: "#74859c" }}>
                         <Pencil size={11} />
                       </button>
                     </div>
@@ -301,14 +301,14 @@ export default function CustoTotalPage() {
             </div>
             <div className="text-left">
               <p className="text-sm font-bold text-white">Operações — Lojas Izzat</p>
-              <p className="text-xs" style={{ color: "#64748b" }}>
+              <p className="text-xs" style={{ color: "#9aa7ba" }}>
                 {lojasIzzatTodas.length} lojas · fixo R$ {fmt(totalOpFixo)} + variável {mesLabel(mesSelecionado)} R$ {fmt(totalOpVar)}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <p className="text-lg font-bold" style={{ color: "#3b82f6" }}>R$ {fmt(totalOperacoes)}</p>
-            {secaoAberta === "operacoes" ? <ChevronUp size={16} style={{ color: "#64748b" }} /> : <ChevronDown size={16} style={{ color: "#64748b" }} />}
+            {secaoAberta === "operacoes" ? <ChevronUp size={16} style={{ color: "#9aa7ba" }} /> : <ChevronDown size={16} style={{ color: "#9aa7ba" }} />}
           </div>
         </button>
 
@@ -330,13 +330,13 @@ export default function CustoTotalPage() {
                     >
                       <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: loja.cor || "#64748b" }} />
                       <span className="text-sm font-semibold text-white flex-1 text-left">{loja.nome}</span>
-                      <span className="text-xs" style={{ color: "#475569" }}>
+                      <span className="text-xs" style={{ color: "#74859c" }}>
                         {gastosLoja.length === 0 ? "sem custos" : `${gastosLoja.length} lançamentos`}
                       </span>
                       <span className="text-sm font-bold ml-2" style={{ color: totalLoja > 0 ? "#3b82f6" : "#334155" }}>
                         R$ {fmt(totalLoja)}
                       </span>
-                      {expandida ? <ChevronUp size={12} style={{ color: "#64748b" }} /> : <ChevronDown size={12} style={{ color: "#64748b" }} />}
+                      {expandida ? <ChevronUp size={12} style={{ color: "#9aa7ba" }} /> : <ChevronDown size={12} style={{ color: "#9aa7ba" }} />}
                     </button>
 
                     {expandida && (
@@ -358,7 +358,7 @@ export default function CustoTotalPage() {
                               {g.tipo === "fixo" ? "F" : "V"}
                             </span>
                             <span className="text-xs text-white flex-1">{g.nome}</span>
-                            <span className="text-xs px-1.5 rounded-full" style={{ background: "#1e3356", color: "#64748b" }}>
+                            <span className="text-xs px-1.5 rounded-full" style={{ background: "#1e3356", color: "#9aa7ba" }}>
                               {CATEGORIA_GASTO_LABEL[g.categoria as CategoriaGastoOp]}
                             </span>
                             {editandoGastoId === g.id ? (
@@ -372,17 +372,17 @@ export default function CustoTotalPage() {
                                   onKeyDown={(e) => { if (e.key === "Enter") salvarEditGasto(g.id); if (e.key === "Escape") setEditandoGastoId(null); }}
                                 />
                                 <button onClick={() => salvarEditGasto(g.id)} className="p-0.5 rounded" style={{ color: "#10b981" }}><Check size={11} /></button>
-                                <button onClick={() => setEditandoGastoId(null)} className="p-0.5 rounded" style={{ color: "#64748b" }}><X size={11} /></button>
+                                <button onClick={() => setEditandoGastoId(null)} className="p-0.5 rounded" style={{ color: "#9aa7ba" }}><X size={11} /></button>
                               </div>
                             ) : (
                               <div className="flex items-center gap-1.5">
                                 <span className="text-xs font-bold" style={{ color: g.tipo === "fixo" ? "#10b981" : "#f59e0b" }}>
                                   R$ {fmt(g.valor)}
                                 </span>
-                                <button onClick={() => iniciarEditGasto(g)} className="p-0.5 rounded hover:bg-white/10" style={{ color: "#475569" }}>
+                                <button onClick={() => iniciarEditGasto(g)} className="p-0.5 rounded hover:bg-white/10" style={{ color: "#74859c" }}>
                                   <Pencil size={10} />
                                 </button>
-                                <button onClick={() => toggleGastoOp(g.id)} className="p-0.5 rounded hover:bg-white/10" style={{ color: "#475569" }} data-tip="Desativar">
+                                <button onClick={() => toggleGastoOp(g.id)} className="p-0.5 rounded hover:bg-white/10" style={{ color: "#74859c" }} data-tip="Desativar">
                                   <X size={10} />
                                 </button>
                               </div>
@@ -416,8 +416,8 @@ export default function CustoTotalPage() {
 
       {/* Footer contexto */}
       <div className="flex items-center gap-2 px-4 py-3 rounded-xl" style={{ background: "#0a1a2e", border: "1px solid #1e3356" }}>
-        <TrendingDown size={13} style={{ color: "#475569" }} />
-        <p className="text-xs" style={{ color: "#475569" }}>
+        <TrendingDown size={13} style={{ color: "#74859c" }} />
+        <p className="text-xs" style={{ color: "#74859c" }}>
           Partners não entram neste total — os custos operacionais deles são pagos pelos próprios parceiros.
           Ver em{" "}
           <Link href="/gastos-operacoes" className="hover:underline" style={{ color: "#3b82f6" }}>

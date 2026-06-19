@@ -39,7 +39,7 @@ export default function BotaoAtivarPush() {
         {estado === "ativando" ? "Ativando..." : "Ativar notificações no dispositivo"}
       </button>
       {estado === "erro" && (
-        <p className="text-xs mt-1.5 text-center" style={{ color: "#64748b" }}>
+        <p className="text-xs mt-1.5 text-center" style={{ color: "#9aa7ba" }}>
           {msg}{!vapidConfigurado() ? " (será ativado após publicar online)" : ""}
         </p>
       )}

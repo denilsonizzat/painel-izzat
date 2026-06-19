@@ -129,18 +129,28 @@ export default function DashboardPage() {
 
   if (isLoading) {
     return (
-      <div className="space-y-6 animate-pulse">
-        {/* Header skeleton */}
-        <div className="h-8 rounded-xl w-64" style={{ background: "#122039" }} />
-        {/* Stats cards skeleton */}
-        <div className="grid grid-cols-2 gap-3">
+      <div className="max-w-6xl mx-auto space-y-6">
+        {/* Header */}
+        <div className="space-y-2">
+          <div className="skeleton h-8 w-64" />
+          <div className="skeleton h-4 w-48" style={{ opacity: 0.7 }} />
+        </div>
+        {/* Stories row */}
+        <div className="skeleton h-24 rounded-2xl w-full" />
+        {/* 4 KPIs */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {[0, 1, 2, 3].map((i) => (
-            <div key={i} className="h-24 rounded-2xl" style={{ background: "#122039" }} />
+            <div key={i} className="skeleton h-28 rounded-2xl" />
           ))}
         </div>
-        {/* Content skeleton */}
-        <div className="h-48 rounded-2xl" style={{ background: "#122039" }} />
-        <div className="h-32 rounded-2xl" style={{ background: "#122039" }} />
+        {/* Acesso rápido */}
+        <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
+          {[0, 1, 2, 3, 4, 5, 6].map((i) => (
+            <div key={i} className="skeleton h-20 rounded-xl" />
+          ))}
+        </div>
+        {/* Conteúdo */}
+        <div className="skeleton h-32 rounded-2xl" />
       </div>
     );
   }
@@ -168,7 +178,7 @@ export default function DashboardPage() {
           <h1 className="font-extrabold text-white" style={{ fontSize: 28, letterSpacing: "-0.5px", lineHeight: 1.15 }}>
             {saudacao}, {usuarioAtual?.nome?.split(" ")[0]} 👋
           </h1>
-          <p className="text-sm mt-1.5" style={{ color: "#64748b" }}>
+          <p className="text-sm mt-1.5" style={{ color: "#9aa7ba" }}>
             {hoje.toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
           </p>
           <span className="text-xs mt-2 px-2.5 py-1 rounded-full inline-flex items-center gap-1 font-semibold"
@@ -262,13 +272,13 @@ export default function DashboardPage() {
                   {tarefasRevisao.slice(0, 3).map((t) => {
                     const quem = colaboradores.find((c) => c.id === t.atribuidoPara);
                     return (
-                      <p key={t.id} className="text-xs" style={{ color: "#64748b" }}>
-                        &bull; {t.titulo} <span style={{ color: "#475569" }}>— {quem?.nome.split(" ")[0]}</span>
+                      <p key={t.id} className="text-xs" style={{ color: "#9aa7ba" }}>
+                        &bull; {t.titulo} <span style={{ color: "#74859c" }}>— {quem?.nome.split(" ")[0]}</span>
                       </p>
                     );
                   })}
                   {tarefasRevisao.length > 3 && (
-                    <p className="text-xs" style={{ color: "#475569" }}>+ {tarefasRevisao.length - 3} mais...</p>
+                    <p className="text-xs" style={{ color: "#74859c" }}>+ {tarefasRevisao.length - 3} mais...</p>
                   )}
                 </div>
               </div>
@@ -432,7 +442,7 @@ export default function DashboardPage() {
             {checkinsHoje}/{totalColab} check-ins
           </span>
         </div>
-        <p className="text-xs mb-3" style={{ color: "#64748b" }}>
+        <p className="text-xs mb-3" style={{ color: "#9aa7ba" }}>
           Meta: toda equipe com check-in hoje
         </p>
         <div className="h-2.5 rounded-full overflow-hidden" style={{ background: "#1e3356" }}>
@@ -471,7 +481,7 @@ export default function DashboardPage() {
               </span>
             ) : (
               <span className="text-xs px-2 py-0.5 rounded-full"
-                style={{ background: "#1e3356", color: "#64748b" }}>
+                style={{ background: "#1e3356", color: "#9aa7ba" }}>
                 +100 XP
               </span>
             )}
@@ -517,8 +527,8 @@ export default function DashboardPage() {
             ))}
           </div>
           <div className="flex justify-between mt-1">
-            <span className="text-xs" style={{ color: "#475569" }}>Muito ruim</span>
-            <span className="text-xs" style={{ color: "#475569" }}>Excelente</span>
+            <span className="text-xs" style={{ color: "#74859c" }}>Muito ruim</span>
+            <span className="text-xs" style={{ color: "#74859c" }}>Excelente</span>
           </div>
         </div>
       )}
@@ -535,15 +545,15 @@ export default function DashboardPage() {
       {/* Resumo rapido admin */}
       {isAdmin && (
         <div className="rounded-xl px-4 py-3 flex flex-wrap gap-4" style={{ background: "#0d1928", border: "1px solid #1e3356" }}>
-          <span className="text-xs" style={{ color: "#64748b" }}>
+          <span className="text-xs" style={{ color: "#9aa7ba" }}>
             Voce gerencia <span className="font-bold text-white">{colaboradores.length} pessoas</span>
           </span>
           <span className="text-xs" style={{ color: "#334155" }}>·</span>
-          <span className="text-xs" style={{ color: "#64748b" }}>
+          <span className="text-xs" style={{ color: "#9aa7ba" }}>
             <span className="font-bold" style={{ color: "#10b981" }}>{emDia.length}</span> em dia com as rotinas
           </span>
           <span className="text-xs" style={{ color: "#334155" }}>·</span>
-          <span className="text-xs" style={{ color: "#64748b" }}>
+          <span className="text-xs" style={{ color: "#9aa7ba" }}>
             <span className="font-bold" style={{ color: tarefasAtrasadas > 0 ? "#ef4444" : "#10b981" }}>{tarefasAtrasadas}</span> tarefas atrasadas
           </span>
         </div>
@@ -556,11 +566,11 @@ export default function DashboardPage() {
             <TrendingUp size={18} style={{ color: "#c9a84c" }} />
             <h2 className="text-white font-semibold">{"Conclusão de Rotinas por Pessoa"}</h2>
           </div>
-          <p className="text-xs mb-3" style={{ color: "#64748b" }}>
+          <p className="text-xs mb-3" style={{ color: "#9aa7ba" }}>
             Quanto cada colaborador concluiu das rotinas de hoje. 100% = dia completo. Clique no avatar para ver o perfil.
           </p>
           {chartItems.length === 0 ? (
-            <p className="text-sm text-center py-4" style={{ color: "#475569" }}>Nenhum colaborador com rotinas cadastradas.</p>
+            <p className="text-sm text-center py-4" style={{ color: "#74859c" }}>Nenhum colaborador com rotinas cadastradas.</p>
           ) : (
             <VerticalBarChart items={chartItems} />
           )}
@@ -582,8 +592,8 @@ export default function DashboardPage() {
             </span>
           </div>
           {verProgTime
-            ? <ChevronUp size={16} style={{ color: "#64748b" }} />
-            : <ChevronDown size={16} style={{ color: "#64748b" }} />
+            ? <ChevronUp size={16} style={{ color: "#9aa7ba" }} />
+            : <ChevronDown size={16} style={{ color: "#9aa7ba" }} />
           }
         </button>
       )}
@@ -596,31 +606,31 @@ export default function DashboardPage() {
             <Star size={18} style={{ color: "#c9a84c" }} />
             <h2 className="text-white font-semibold">Semana Atual</h2>
           </div>
-          <p className="text-xs mb-4" style={{ color: "#475569" }}>Resumo de tarefas desta semana</p>
+          <p className="text-xs mb-4" style={{ color: "#74859c" }}>Resumo de tarefas desta semana</p>
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-sm" style={{ color: "#64748b" }}>Tarefas criadas</span>
+              <span className="text-sm" style={{ color: "#9aa7ba" }}>Tarefas criadas</span>
               <span className="text-sm font-bold text-white">{tarefasSemana.length}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm" style={{ color: "#64748b" }}>Concluidas</span>
+              <span className="text-sm" style={{ color: "#9aa7ba" }}>Concluidas</span>
               <span className="text-sm font-bold" style={{ color: "#10b981" }}>{concluidasSemana}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm" style={{ color: "#64748b" }}>{"Taxa conclusão"}</span>
+              <span className="text-sm" style={{ color: "#9aa7ba" }}>{"Taxa conclusão"}</span>
               <span className="text-sm font-bold" style={{ color: "#c9a84c" }}>
                 {tarefasSemana.length ? Math.round((concluidasSemana / tarefasSemana.length) * 100) : 0}%
               </span>
             </div>
             <div className="border-t pt-3" style={{ borderColor: "#1e3356" }}>
-              <p className="text-xs mb-2" style={{ color: "#64748b" }}>Em dia hoje ({emDia.length}/{colaboradores.length})</p>
+              <p className="text-xs mb-2" style={{ color: "#9aa7ba" }}>Em dia hoje ({emDia.length}/{colaboradores.length})</p>
               <div className="flex flex-wrap gap-1.5">
                 {emDia.map((c) => (
                   isAdmin
                     ? <Link key={c.id} href={`/equipe/${c.id}`}><Avatar nome={c.nome} avatar={c.avatar} foto={c.foto} cor={c.cor} size={28} /></Link>
                     : <div key={c.id}><Avatar nome={c.nome} avatar={c.avatar} foto={c.foto} cor={c.cor} size={28} /></div>
                 ))}
-                {emDia.length === 0 && <span className="text-xs" style={{ color: "#475569" }}>Nenhum ainda</span>}
+                {emDia.length === 0 && <span className="text-xs" style={{ color: "#74859c" }}>Nenhum ainda</span>}
               </div>
             </div>
           </div>
@@ -632,7 +642,7 @@ export default function DashboardPage() {
             <Zap size={18} style={{ color: "#c9a84c" }} />
             <h2 className="text-white font-semibold">Ranking XP</h2>
           </div>
-          <p className="text-xs mb-4" style={{ color: "#475569" }}>XP acumulado completando rotinas, tarefas e check-ins</p>
+          <p className="text-xs mb-4" style={{ color: "#74859c" }}>XP acumulado completando rotinas, tarefas e check-ins</p>
           <div className="space-y-3">
             {topXP.map((c, i) => {
               const nivelInfo = calcNivel(c.xp || 0);
@@ -671,11 +681,11 @@ export default function DashboardPage() {
             <Award size={18} style={{ color: "#c9a84c" }} />
             <h2 className="text-white font-semibold">Destaques da Semana</h2>
           </div>
-          <p className="text-xs mb-4" style={{ color: "#475569" }}>Reconhecimentos enviados entre colegas nos ultimos 7 dias</p>
+          <p className="text-xs mb-4" style={{ color: "#74859c" }}>Reconhecimentos enviados entre colegas nos ultimos 7 dias</p>
           {todosReconhecimentos.length === 0 ? (
             <div className="text-center py-6 space-y-2">
               <div className="text-3xl">🏅</div>
-              <p className="text-sm font-medium" style={{ color: "#475569" }}>Nenhum destaque esta semana</p>
+              <p className="text-sm font-medium" style={{ color: "#74859c" }}>Nenhum destaque esta semana</p>
               <p className="text-xs" style={{ color: "#334155" }}>{"Reconheça um colega visitando o perfil dele na seção Equipe."}</p>
             </div>
           ) : (
@@ -692,7 +702,7 @@ export default function DashboardPage() {
                       }
                     </div>
                     <p className="text-xs" style={{ color: "#94a3b8" }}>{r.mensagem}</p>
-                    <p className="text-xs mt-1" style={{ color: "#475569" }}>por {de?.nome.split(" ")[0]} &middot; {r.data}</p>
+                    <p className="text-xs mt-1" style={{ color: "#74859c" }}>por {de?.nome.split(" ")[0]} &middot; {r.data}</p>
                   </div>
                 );
               })}
@@ -726,7 +736,7 @@ export default function DashboardPage() {
                       </div>
                       <div className="flex items-center gap-2">
                         {atividadesCount > 0 && (
-                          <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#1e3356", color: "#64748b" }}>
+                          <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#1e3356", color: "#9aa7ba" }}>
                             {atividadesCount} ativ.
                           </span>
                         )}
@@ -768,7 +778,7 @@ export default function DashboardPage() {
                     </div>
                     <div>
                       <p className="text-sm font-medium" style={{ color: "#e8edf5" }}>{loja.nome}</p>
-                      <p className="text-xs" style={{ color: "#64748b" }}>
+                      <p className="text-xs" style={{ color: "#9aa7ba" }}>
                         {responsavel ? responsavel.nome.split(" ")[0] : "Sem responsavel"}
                       </p>
                     </div>
@@ -840,7 +850,7 @@ function KPICard({ icon, label, value, cor, dica, href }: { icon: React.ReactNod
         {href && <span className="text-xs opacity-0 group-hover:opacity-60 transition-all" style={{ color: cor, transform: "translateX(-4px)" }}>→</span>}
       </div>
       <p className="font-extrabold text-white" style={{ fontSize: 30, letterSpacing: "-0.5px", lineHeight: 1 }}>{value}</p>
-      <p className="text-xs mt-2 font-medium" style={{ color: "#64748b" }}>{label}</p>
+      <p className="text-xs mt-2 font-medium" style={{ color: "#9aa7ba" }}>{label}</p>
     </>
   );
   if (href) {

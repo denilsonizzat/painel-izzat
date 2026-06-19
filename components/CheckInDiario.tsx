@@ -72,12 +72,12 @@ export default function CheckInDiario() {
           <h2 className="text-lg font-bold text-white">
             Bom dia, {usuarioAtual.nome.split(" ")[0]}!
           </h2>
-          <p className="text-xs mt-0.5 capitalize" style={{ color: "#64748b" }}>{hoje}</p>
+          <p className="text-xs mt-0.5 capitalize" style={{ color: "#9aa7ba" }}>{hoje}</p>
         </div>
 
         {/* Humor */}
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "#64748b" }}>
+          <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "#9aa7ba" }}>
             Como voce esta chegando hoje?
           </p>
           <div className="flex gap-2 justify-between">
@@ -103,7 +103,7 @@ export default function CheckInDiario() {
 
         {/* Foco */}
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "#64748b" }}>
+          <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "#9aa7ba" }}>
             Qual sua prioridade #1 hoje? <span style={{ color: "#334155" }}>(opcional)</span>
           </p>
           <input

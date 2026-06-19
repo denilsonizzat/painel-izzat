@@ -159,11 +159,11 @@ export default function LojasPage() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="font-extrabold text-white" style={{ fontSize: 26, letterSpacing: "-0.3px" }}>Lojas</h1>
-          <p className="text-sm mt-0.5" style={{ color: "#64748b" }}>
+          <p className="text-sm mt-0.5" style={{ color: "#9aa7ba" }}>
             Acompanhe o status e risco operacional de cada loja do grupo
           </p>
           <div className="flex items-center gap-2 mt-1 flex-wrap">
-            <span className="text-xs" style={{ color: "#475569" }}>{lojasAtivas.length} lojas ativas</span>
+            <span className="text-xs" style={{ color: "#74859c" }}>{lojasAtivas.length} lojas ativas</span>
             <span style={{ color: "#334155" }}>·</span>
             <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#c9a84c15", color: "#c9a84c" }}>{izzatCount} Grupo Izzat</span>
             <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#3b82f615", color: "#3b82f6" }}>{partnerCount} Partners</span>
@@ -233,7 +233,7 @@ export default function LojasPage() {
 
         {/* Risco */}
         <div className="flex gap-2 flex-wrap items-center">
-          <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#475569" }}>Risco:</span>
+          <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#74859c" }}>Risco:</span>
           <span className="text-xs" data-tip="Risco e calculado com base em tarefas atrasadas e rotinas nao cumpridas da loja" style={{ color: "#334155", cursor: "help" }}>ⓘ</span>
           {([
             { v: "todos", label: "Todos", cor: "#64748b", bg: "#122039" },
@@ -360,7 +360,7 @@ export default function LojasPage() {
                         onClick={() => abrirEditar(loja)}
                         className="p-1.5 rounded-lg transition-colors hover:bg-slate-800"
                         data-tip="Editar loja"
-                        style={{ color: "#64748b" }}
+                        style={{ color: "#9aa7ba" }}
                       >
                         <Pencil size={13} />
                       </button>
@@ -389,7 +389,7 @@ export default function LojasPage() {
                       </button>
                       <button onClick={() => setArquivarConfirm(null)}
                         className="text-xs px-2.5 py-1 rounded-lg"
-                        style={{ background: "#122039", color: "#64748b" }}>
+                        style={{ background: "#122039", color: "#9aa7ba" }}>
                         Nao
                       </button>
                     </div>
@@ -403,11 +403,11 @@ export default function LojasPage() {
                       <Avatar nome={responsavel.nome} avatar={responsavel.avatar} foto={responsavel.foto} cor={responsavel.cor} size={26} />
                       <div>
                         <p className="text-sm text-white leading-tight">{responsavel.nome}</p>
-                        <p className="text-xs" style={{ color: "#64748b" }}>{responsavel.cargo}</p>
+                        <p className="text-xs" style={{ color: "#9aa7ba" }}>{responsavel.cargo}</p>
                       </div>
                     </>
                   ) : (
-                    <p className="text-sm" style={{ color: "#475569" }}>Sem responsavel</p>
+                    <p className="text-sm" style={{ color: "#74859c" }}>Sem responsavel</p>
                   )}
                 </div>
 
@@ -419,7 +419,7 @@ export default function LojasPage() {
                       <p className="text-xs font-medium" style={{ color: loja.donoParceiro ? "#e8edf5" : "#475569" }}>
                         {loja.donoParceiro || "A definir"}
                       </p>
-                      <p className="text-xs" style={{ color: "#64748b" }}>Dono</p>
+                      <p className="text-xs" style={{ color: "#9aa7ba" }}>Dono</p>
                     </div>
                     {loja.whatsappParceiro && (
                       <a href={`https://wa.me/${loja.whatsappParceiro.replace(/\D/g, "")}`}
@@ -437,17 +437,17 @@ export default function LojasPage() {
                 <div className="grid grid-cols-3 gap-2 mb-3">
                   <div className="rounded-xl p-2 text-center" style={{ background: "#1e3356" }}>
                     <p className="text-base font-bold text-white">{tarefasLoja.length}</p>
-                    <p className="text-xs" style={{ color: "#64748b" }}>Tarefas</p>
+                    <p className="text-xs" style={{ color: "#9aa7ba" }}>Tarefas</p>
                   </div>
                   <div className="rounded-xl p-2 text-center" style={{ background: "#1e3356" }}>
                     <p className="text-base font-bold" style={{ color: "#10b981" }}>{concluidas}</p>
-                    <p className="text-xs" style={{ color: "#64748b" }}>Feitas</p>
+                    <p className="text-xs" style={{ color: "#9aa7ba" }}>Feitas</p>
                   </div>
                   <div className="rounded-xl p-2 text-center" style={{ background: "#1e3356" }}>
                     <p className="text-base font-bold" style={{ color: atrasadas > 0 ? "#ef4444" : urgentes > 0 ? "#f59e0b" : "#475569" }}>
                       {atrasadas > 0 ? atrasadas : urgentes}
                     </p>
-                    <p className="text-xs" style={{ color: "#64748b" }}>{atrasadas > 0 ? "Atrasadas" : "Urgentes"}</p>
+                    <p className="text-xs" style={{ color: "#9aa7ba" }}>{atrasadas > 0 ? "Atrasadas" : "Urgentes"}</p>
                   </div>
                 </div>
 
@@ -455,7 +455,7 @@ export default function LojasPage() {
                 {tarefasLoja.length > 0 ? (
                   <div>
                     <div className="flex justify-between text-xs mb-1">
-                      <span style={{ color: "#64748b" }}>Progresso</span>
+                      <span style={{ color: "#9aa7ba" }}>Progresso</span>
                       <span style={{ color: corGrupo }}>{pct}%</span>
                     </div>
                     <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "#1e3356" }}>
@@ -463,7 +463,7 @@ export default function LojasPage() {
                     </div>
                   </div>
                 ) : (
-                  <p className="text-xs text-center" style={{ color: "#475569" }}>Nenhuma tarefa ativa</p>
+                  <p className="text-xs text-center" style={{ color: "#74859c" }}>Nenhuma tarefa ativa</p>
                 )}
               </div>
             </div>
@@ -475,14 +475,14 @@ export default function LojasPage() {
         <div className="rounded-2xl p-10 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
           <Store size={32} className="mx-auto mb-3" style={{ color: "#334155" }} />
           <p className="text-white font-medium mb-1">Nenhuma loja encontrada</p>
-          <p className="text-xs" style={{ color: "#64748b" }}>Ajuste os filtros ou crie uma nova loja.</p>
+          <p className="text-xs" style={{ color: "#9aa7ba" }}>Ajuste os filtros ou crie uma nova loja.</p>
         </div>
       )}
 
       {/* Lojas arquivadas */}
       {showArquivadas && lojasArqList.length > 0 && (
         <div className="space-y-3">
-          <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#475569" }}>
+          <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#74859c" }}>
             Lojas Arquivadas ({lojasArqList.length})
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -496,7 +496,7 @@ export default function LojasPage() {
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-white">{loja.nome}</p>
-                    <p className="text-xs" style={{ color: "#64748b" }}>
+                    <p className="text-xs" style={{ color: "#9aa7ba" }}>
                       {loja.grupo === "izzat" ? "Grupo Izzat" : "Partner"} &middot; {loja.mercado === "global" ? "Global" : "BR"}
                     </p>
                   </div>
@@ -551,7 +551,7 @@ export default function LojasPage() {
             {/* Header */}
             <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid #1e3356" }}>
               <h2 className="font-bold text-white text-sm">{editarModal ? "Editar Loja" : "Nova Loja"}</h2>
-              <button onClick={() => { setCriarModal(false); setEditarModal(null); }} style={{ color: "#64748b" }}>
+              <button onClick={() => { setCriarModal(false); setEditarModal(null); }} style={{ color: "#9aa7ba" }}>
                 <X size={16} />
               </button>
             </div>
@@ -655,7 +655,7 @@ export default function LojasPage() {
                 {/* Descricao */}
                 <div>
                   <label className="text-xs font-semibold block mb-1.5" style={{ color: "#94a3b8" }}>
-                    Descricao <span style={{ color: "#475569" }}>(opcional)</span>
+                    Descricao <span style={{ color: "#74859c" }}>(opcional)</span>
                   </label>
                   <textarea
                     value={form.descricao}

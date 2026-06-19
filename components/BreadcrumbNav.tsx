@@ -70,14 +70,14 @@ export default function BreadcrumbNav() {
           <span key={path + i} className="flex items-center gap-1">
             {i > 0 && <ChevronRight size={11} style={{ color: "#334155" }} />}
             {isLast ? (
-              <span className="text-xs font-medium" style={{ color: "#64748b" }}>
+              <span className="text-xs font-medium" style={{ color: "#9aa7ba" }}>
                 {label(path)}
               </span>
             ) : (
               <Link
                 href={path}
                 className="text-xs hover:opacity-80 transition-opacity"
-                style={{ color: "#475569" }}
+                style={{ color: "#74859c" }}
               >
                 {label(path)}
               </Link>

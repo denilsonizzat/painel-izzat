@@ -28,7 +28,7 @@ export default function AbaHoje() {
     <div className="space-y-5">
       <div className="p-3 rounded-xl" style={{ background: "#10b98110", border: "1px solid #10b98125", borderLeft: "3px solid #10b981" }}>
         <p className="text-xs font-bold uppercase tracking-wider" style={{ color: "#10b981" }}>O que você tem para hoje</p>
-        <p className="text-xs mt-0.5" style={{ color: "#475569" }}>
+        <p className="text-xs mt-0.5" style={{ color: "#74859c" }}>
           Rotinas que vencem hoje (de qualquer frequência) + tarefas avulsas pendentes. Atualiza sozinho todo dia.
         </p>
       </div>
@@ -57,7 +57,7 @@ export default function AbaHoje() {
                   onClick={() => concluirRotina(rotina.id)}
                   onKeyDown={(e) => { if (e.key === " " || e.key === "Enter") concluirRotina(rotina.id); }}
                   data-tip="Concluir rotina inteira">
-                  <Circle size={22} style={{ color: "#475569" }} />
+                  <Circle size={22} style={{ color: "#74859c" }} />
                 </span>
                 <button className="flex-1 min-w-0 text-left" onClick={() => setDetalheId(rotina.id)} data-tip="Abrir detalhes, subtarefas e descrição">
                   <div className="flex items-center gap-2 flex-wrap mb-0.5">
@@ -65,14 +65,14 @@ export default function AbaHoje() {
                     {atrasada && <span className="text-xs px-1.5 py-0.5 rounded-full font-bold" style={{ background: "#ef444420", color: "#ef4444" }}>Atrasada</span>}
                   </div>
                   <p className="text-white font-medium text-sm">{rotina.titulo}</p>
-                  {loja && <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>{loja.nome}</p>}
+                  {loja && <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>{loja.nome}</p>}
                 </button>
                 <div className="flex items-center gap-2 flex-shrink-0">
                   <button onClick={() => abrirPomodoro(rotina.id, rotina.titulo)} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold" style={{ background: "#3b82f615", color: "#3b82f6" }} data-tip="Iniciar um foco cronometrado de 25 min">
                     <Play size={13} /> Iniciar
                   </button>
-                  {rotina.subtarefas.length > 0 && <span className="text-xs" style={{ color: "#64748b" }}>{subFeitas}/{rotina.subtarefas.length}</span>}
-                  <button onClick={() => setDetalheId(rotina.id)} data-tip="Abrir detalhes"><ChevronRight size={16} style={{ color: "#64748b" }} /></button>
+                  {rotina.subtarefas.length > 0 && <span className="text-xs" style={{ color: "#9aa7ba" }}>{subFeitas}/{rotina.subtarefas.length}</span>}
+                  <button onClick={() => setDetalheId(rotina.id)} data-tip="Abrir detalhes"><ChevronRight size={16} style={{ color: "#9aa7ba" }} /></button>
                 </div>
               </div>
             );
@@ -92,18 +92,18 @@ export default function AbaHoje() {
             return (
               <div key={t.id} className="rounded-2xl p-4 flex items-center gap-3" style={{ background: "#122039", border: `1px solid ${atrasada ? "#ef444450" : "#1e3356"}` }}>
                 <button onClick={() => atualizarStatusTarefa(t.id, "concluida")} className="flex-shrink-0" data-tip="Concluir tarefa">
-                  <Circle size={22} style={{ color: "#475569" }} />
+                  <Circle size={22} style={{ color: "#74859c" }} />
                 </button>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap mb-0.5">
                     <span className="text-xs px-1.5 py-0.5 rounded-full font-medium" style={{ background: "#c9a84c20", color: "#c9a84c" }}>Avulsa</span>
                     {atrasada && <span className="text-xs px-1.5 py-0.5 rounded-full font-bold" style={{ background: "#ef444420", color: "#ef4444" }}>Atrasada</span>}
                     {t.dataLimite === hoje && !atrasada && <span className="text-xs px-1.5 py-0.5 rounded-full font-bold" style={{ background: "#f59e0b20", color: "#f59e0b" }}>Vence hoje</span>}
-                    {t.dataLimite && <span className="flex items-center gap-1 text-xs" style={{ color: "#64748b" }}><Clock size={11} /> {t.dataLimite}</span>}
+                    {t.dataLimite && <span className="flex items-center gap-1 text-xs" style={{ color: "#9aa7ba" }}><Clock size={11} /> {t.dataLimite}</span>}
                   </div>
                   <p className="text-white font-medium text-sm">{t.titulo}</p>
-                  {t.descricao && <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>{t.descricao}</p>}
-                  {loja && <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>{loja.nome}</p>}
+                  {t.descricao && <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>{t.descricao}</p>}
+                  {loja && <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>{loja.nome}</p>}
                 </div>
                 <button onClick={() => abrirPomodoro(t.id, t.titulo)} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold flex-shrink-0" style={{ background: "#3b82f615", color: "#3b82f6" }} data-tip="Iniciar foco cronometrado de 25 min">
                   <Play size={13} /> Iniciar

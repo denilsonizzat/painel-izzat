@@ -123,7 +123,7 @@ function KanbanCol({
         <col.icon size={13} style={{ color: col.cor, flexShrink: 0 }} />
         <div className="flex-1 min-w-0">
           <p className="text-xs font-bold leading-tight" style={{ color: col.cor }}>{col.label}</p>
-          <p className="text-xs leading-tight" style={{ color: "#475569" }}>{col.desc}</p>
+          <p className="text-xs leading-tight" style={{ color: "#74859c" }}>{col.desc}</p>
         </div>
         <span
           className="text-xs font-bold px-2 py-0.5 rounded-full flex-shrink-0"
@@ -394,7 +394,7 @@ function KanbanCard({
             {/* Distribuído para */}
             {jaDistribuido.length > 0 && (
               <div>
-                <p className="text-xs mb-1" style={{ color: "#475569" }}>Distribuído para:</p>
+                <p className="text-xs mb-1" style={{ color: "#74859c" }}>Distribuído para:</p>
                 <div className="flex flex-wrap gap-1">
                   {jaDistribuido.map((lid) => {
                     const l = todasLojas.find((x) => x.id === lid);
@@ -424,7 +424,7 @@ function KanbanCard({
                     <button
                       onClick={() => setConfirmDelete(false)}
                       className="text-xs px-2 py-0.5 rounded"
-                      style={{ background: "#1e3356", color: "#64748b" }}
+                      style={{ background: "#1e3356", color: "#9aa7ba" }}
                     >
                       Não
                     </button>
@@ -547,7 +547,7 @@ export default function CatalogoPage() {
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div>
           <h1 className="text-2xl font-bold text-white">Produtos</h1>
-          <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>
+          <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>
             Arraste os cards entre colunas para mover o produto no pipeline · {produtos.length} produto{produtos.length !== 1 ? "s" : ""}
           </p>
         </div>
@@ -570,8 +570,8 @@ export default function CatalogoPage() {
         {/* Tipo */}
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1 flex-shrink-0" data-tip="Filtra por origem do produto: Originais (testados na loja matriz) ou Cópias (distribuídos para lojas nichadas)">
-            <GitBranch size={10} style={{ color: "#475569" }} />
-            <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "#475569" }}>Tipo</span>
+            <GitBranch size={10} style={{ color: "#74859c" }} />
+            <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "#74859c" }}>Tipo</span>
           </div>
           {([
             { v: "todas", label: "Todos" },
@@ -598,8 +598,8 @@ export default function CatalogoPage() {
         {/* Loja */}
         <div className="flex items-center gap-2 flex-wrap">
           <div className="flex items-center gap-1 flex-shrink-0" data-tip="Filtra os produtos por loja">
-            <Store size={10} style={{ color: "#475569" }} />
-            <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "#475569" }}>Loja</span>
+            <Store size={10} style={{ color: "#74859c" }} />
+            <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "#74859c" }}>Loja</span>
           </div>
           <button
             onClick={() => setFiltroLoja("todas")}
@@ -638,7 +638,7 @@ export default function CatalogoPage() {
         {COLUNAS.map((col) => (
           <div key={col.id} className="flex items-center gap-1.5">
             <col.icon size={11} style={{ color: col.cor }} />
-            <span className="text-xs" style={{ color: "#64748b" }}>{col.label}</span>
+            <span className="text-xs" style={{ color: "#9aa7ba" }}>{col.label}</span>
             <span
               className="text-xs font-bold px-1.5 py-0 rounded-full"
               style={{ background: col.cor + "20", color: col.cor }}
@@ -690,7 +690,7 @@ export default function CatalogoPage() {
                 }}
               >
                 <p className="text-sm font-bold text-white">{activeProduct.nome}</p>
-                <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>
+                <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>
                   {todasLojas.find((l) => l.id === activeProduct.lojaId)?.nome ?? ""}
                 </p>
                 <div className="mt-2 h-1 rounded-full" style={{ background: "#1e3356" }}>
@@ -725,9 +725,9 @@ export default function CatalogoPage() {
                 <h2 className="font-bold text-white text-sm flex items-center gap-2">
                   <Share2 size={14} style={{ color: "#8b5cf6" }} /> Distribuir Produto
                 </h2>
-                <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>{distribuirModal.nome}</p>
+                <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>{distribuirModal.nome}</p>
               </div>
-              <button onClick={() => setDistribuirModal(null)} style={{ color: "#64748b" }}>
+              <button onClick={() => setDistribuirModal(null)} style={{ color: "#9aa7ba" }}>
                 <X size={16} />
               </button>
             </div>
@@ -740,7 +740,7 @@ export default function CatalogoPage() {
                 <p className="text-white font-bold">
                   Distribuído para {lojasDistribuir.length} {lojasDistribuir.length === 1 ? "loja" : "lojas"}!
                 </p>
-                <p className="text-xs text-center px-6" style={{ color: "#64748b" }}>
+                <p className="text-xs text-center px-6" style={{ color: "#9aa7ba" }}>
                   Cada cópia precisa ter o Link Shopify Produto atualizado na loja destino.
                 </p>
               </div>
@@ -790,7 +790,7 @@ export default function CatalogoPage() {
                     l.id !== distribuirModal.lojaId &&
                     !(distribuirModal.distribuidoPara ?? []).includes(l.id)
                 ).length === 0 && (
-                  <p className="text-xs text-center py-4" style={{ color: "#475569" }}>
+                  <p className="text-xs text-center py-4" style={{ color: "#74859c" }}>
                     Produto já distribuído para todas as lojas disponíveis.
                   </p>
                 )}

@@ -162,7 +162,7 @@ export default function ColaboradorPerfilPage() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Back */}
-      <Link href="/equipe" className="inline-flex items-center gap-2 text-sm transition-opacity hover:opacity-70" style={{ color: "#64748b" }}>
+      <Link href="/equipe" className="inline-flex items-center gap-2 text-sm transition-opacity hover:opacity-70" style={{ color: "#9aa7ba" }}>
         <ArrowLeft size={16} />
         Voltar para Equipe
       </Link>
@@ -187,11 +187,11 @@ export default function ColaboradorPerfilPage() {
                     </span>
                   )}
                   {pessoa.estado && (
-                    <span className="flex items-center gap-1 text-sm" style={{ color: "#64748b" }}>
+                    <span className="flex items-center gap-1 text-sm" style={{ color: "#9aa7ba" }}>
                       <MapPin size={14} /> {pessoa.estado}
                     </span>
                   )}
-                  <span className="flex items-center gap-1 text-sm" style={{ color: "#64748b" }}>
+                  <span className="flex items-center gap-1 text-sm" style={{ color: "#9aa7ba" }}>
                     <Clock size={14} /> {pessoa.horasDisponiveis}h/dia
                   </span>
                   {(() => {
@@ -199,7 +199,7 @@ export default function ColaboradorPerfilPage() {
                     if (!dn) return null;
                     const idade = calcIdade(dn);
                     return (
-                      <span className="text-sm" style={{ color: "#64748b" }}>
+                      <span className="text-sm" style={{ color: "#9aa7ba" }}>
                         {idade} anos
                       </span>
                     );
@@ -209,7 +209,7 @@ export default function ColaboradorPerfilPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1 text-sm transition-all hover:opacity-80 group"
-                    style={{ color: "#64748b" }}
+                    style={{ color: "#9aa7ba" }}
                     data-tip={`Enviar email para ${pessoa.nome}`}
                   >
                     <Mail size={13} className="group-hover:text-blue-400 transition-colors" />
@@ -222,10 +222,10 @@ export default function ColaboradorPerfilPage() {
                   <div className="mt-3 rounded-xl overflow-hidden" style={{ background: "#0d1f35", border: "1px solid #1e3356" }}>
                     {/* Linha salário */}
                     <div className="flex items-center gap-2 px-3 py-2">
-                      <span className="text-xs font-semibold uppercase tracking-wider flex-shrink-0 w-24" style={{ color: "#475569" }}>Salario</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider flex-shrink-0 w-24" style={{ color: "#74859c" }}>Salario</span>
                       {editandoSalario ? (
                         <>
-                          <span className="text-xs" style={{ color: "#64748b" }}>R$</span>
+                          <span className="text-xs" style={{ color: "#9aa7ba" }}>R$</span>
                           <input
                             value={salarioInput}
                             onChange={(e) => setSalarioInput(e.target.value)}
@@ -243,7 +243,7 @@ export default function ColaboradorPerfilPage() {
                             className="p-1.5 rounded-lg flex-shrink-0" style={{ background: "#10b98120", color: "#10b981" }}>
                             <Check size={13} />
                           </button>
-                          <button onClick={() => setEditandoSalario(false)} className="p-1.5 rounded-lg flex-shrink-0" style={{ color: "#64748b" }}>
+                          <button onClick={() => setEditandoSalario(false)} className="p-1.5 rounded-lg flex-shrink-0" style={{ color: "#9aa7ba" }}>
                             <X size={13} />
                           </button>
                         </>
@@ -268,7 +268,7 @@ export default function ColaboradorPerfilPage() {
                     {/* Linha ferramentas — só aparece se tiver alguma */}
                     {ferrsPessoa.length > 0 && (
                       <div className="flex items-center gap-2 px-3 py-2" style={{ borderTop: "1px solid #1e3356" }}>
-                        <span className="text-xs font-semibold uppercase tracking-wider flex-shrink-0 w-24" style={{ color: "#475569" }}>Ferramentas</span>
+                        <span className="text-xs font-semibold uppercase tracking-wider flex-shrink-0 w-24" style={{ color: "#74859c" }}>Ferramentas</span>
                         <span className="text-sm font-bold flex-1" style={{ color: "#3b82f6" }}>
                           R$ {custoFerrTotal.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                         </span>
@@ -289,7 +289,7 @@ export default function ColaboradorPerfilPage() {
                         <span className="text-sm font-black flex-1" style={{ color: "#c9a84c" }}>
                           R$ {custoTotal.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                         </span>
-                        <span className="text-xs" style={{ color: "#475569" }}>por mes</span>
+                        <span className="text-xs" style={{ color: "#74859c" }}>por mes</span>
                       </div>
                     )}
                   </div>
@@ -320,7 +320,7 @@ export default function ColaboradorPerfilPage() {
                       <button
                         onClick={() => { setTelefoneInput(pessoa.telefone || ""); setEditandoTelefone(true); }}
                         className="p-1.5 rounded-lg hover:bg-slate-800 transition-colors"
-                        style={{ color: "#475569" }}
+                        style={{ color: "#74859c" }}
                       >
                         <Edit2 size={12} />
                       </button>
@@ -348,7 +348,7 @@ export default function ColaboradorPerfilPage() {
                         <button
                           onClick={() => setEditandoTelefone(false)}
                           className="p-1.5 rounded-lg"
-                          style={{ color: "#64748b" }}
+                          style={{ color: "#9aa7ba" }}
                         >
                           <X size={14} />
                         </button>
@@ -357,7 +357,7 @@ export default function ColaboradorPerfilPage() {
                       <button
                         onClick={() => { setTelefoneInput(""); setEditandoTelefone(true); }}
                         className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl transition-all hover:opacity-80"
-                        style={{ background: "#1e3356", color: "#475569", border: "1px solid #334155" }}
+                        style={{ background: "#1e3356", color: "#74859c", border: "1px solid #334155" }}
                       >
                         <Phone size={12} />
                         Adicionar telefone
@@ -384,7 +384,7 @@ export default function ColaboradorPerfilPage() {
                         <button
                           onClick={() => { setGoogleChatInput(pessoa.googleChatLink || ""); setEditandoGoogleChat(true); }}
                           className="p-1.5 rounded-lg hover:bg-slate-800 transition-colors"
-                          style={{ color: "#475569" }}
+                          style={{ color: "#74859c" }}
                         >
                           <Edit2 size={12} />
                         </button>
@@ -411,7 +411,7 @@ export default function ColaboradorPerfilPage() {
                         <button
                           onClick={() => setEditandoGoogleChat(false)}
                           className="p-1.5 rounded-lg"
-                          style={{ color: "#64748b" }}
+                          style={{ color: "#9aa7ba" }}
                         >
                           <X size={14} />
                         </button>
@@ -420,7 +420,7 @@ export default function ColaboradorPerfilPage() {
                       <button
                         onClick={() => { setGoogleChatInput(""); setEditandoGoogleChat(true); }}
                         className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl transition-all hover:opacity-80"
-                        style={{ background: "#1e3356", color: "#475569", border: "1px solid #334155" }}
+                        style={{ background: "#1e3356", color: "#74859c", border: "1px solid #334155" }}
                       >
                         <MessageCircle size={12} />
                         Adicionar Google Chat
@@ -447,7 +447,7 @@ export default function ColaboradorPerfilPage() {
         <div className="mt-5 space-y-3">
           <div>
             <div className="flex justify-between text-sm mb-1.5">
-              <span style={{ color: "#64748b" }}>Rotinas hoje</span>
+              <span style={{ color: "#9aa7ba" }}>Rotinas hoje</span>
               <span className="font-bold" style={{ color: progressoCor }}>{pct}%</span>
             </div>
             <div className="h-2.5 rounded-full overflow-hidden" style={{ background: "#1e3356" }}>
@@ -456,7 +456,7 @@ export default function ColaboradorPerfilPage() {
           </div>
           <div>
             <div className="flex justify-between text-sm mb-1.5">
-              <span style={{ color: "#64748b" }}>Expectativas ({expCumpridas}/{pessoa.expectativas.length} cumpridas)</span>
+              <span style={{ color: "#9aa7ba" }}>Expectativas ({expCumpridas}/{pessoa.expectativas.length} cumpridas)</span>
               <span className="font-bold" style={{ color: expCor }}>{pctExp}%</span>
             </div>
             <div className="h-2.5 rounded-full overflow-hidden" style={{ background: "#1e3356" }}>
@@ -470,7 +470,7 @@ export default function ColaboradorPerfilPage() {
       <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
         <div className="flex items-center gap-2 mb-4">
           <Target size={16} style={{ color: "#c9a84c" }} />
-          <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#64748b" }}>
+          <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#9aa7ba" }}>
             Expectativas &mdash; O que se espera desta pessoa
           </p>
         </div>
@@ -530,7 +530,7 @@ export default function ColaboradorPerfilPage() {
                     : "🌊"}
                 </span>
                 <div>
-                  <p className="text-xs" style={{ color: "#64748b" }}>Estilo de trabalho</p>
+                  <p className="text-xs" style={{ color: "#9aa7ba" }}>Estilo de trabalho</p>
                   <p className="text-sm font-medium text-white">
                     {pessoa.formulario.sobreMim.estiloTrabalho === "autonomo" ? "Autônomo"
                       : pessoa.formulario.sobreMim.estiloTrabalho === "colaborativo" ? "Colaborativo"
@@ -541,13 +541,13 @@ export default function ColaboradorPerfilPage() {
             )}
             {pessoa.formulario.sobreMim.motivacao && (
               <div>
-                <p className="text-xs mb-1" style={{ color: "#64748b" }}>O que motiva</p>
+                <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>O que motiva</p>
                 <p className="text-sm text-white">{pessoa.formulario.sobreMim.motivacao}</p>
               </div>
             )}
             {pessoa.formulario.sobreMim.desafioAtual && (
               <div>
-                <p className="text-xs mb-1" style={{ color: "#64748b" }}>Maior desafio hoje</p>
+                <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Maior desafio hoje</p>
                 <p className="text-sm text-white">{pessoa.formulario.sobreMim.desafioAtual}</p>
               </div>
             )}
@@ -558,7 +558,7 @@ export default function ColaboradorPerfilPage() {
       <div className="grid md:grid-cols-2 gap-6">
         {/* Radar chart */}
         <div className="rounded-2xl p-5 flex flex-col items-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
-          <p className="text-xs font-semibold uppercase tracking-wider mb-4 self-start" style={{ color: "#64748b" }}>
+          <p className="text-xs font-semibold uppercase tracking-wider mb-4 self-start" style={{ color: "#9aa7ba" }}>
             Mapa de Habilidades
           </p>
           <RadarChart habilidades={pessoa.habilidades} cor={pessoa.cor} />
@@ -566,7 +566,7 @@ export default function ColaboradorPerfilPage() {
 
         {/* Habilidades bar chart */}
         <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
-          <p className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: "#64748b" }}>
+          <p className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: "#9aa7ba" }}>
             Todas as Habilidades
           </p>
           <div className="space-y-3">
@@ -588,7 +588,7 @@ export default function ColaboradorPerfilPage() {
       {/* Lojas */}
       {pessoa.lojas.length > 0 && (
         <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
-          <p className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: "#64748b" }}>
+          <p className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: "#9aa7ba" }}>
             Lojas Responsavel
           </p>
           <div className="grid sm:grid-cols-2 gap-3">
@@ -626,10 +626,10 @@ export default function ColaboradorPerfilPage() {
       {rotinasPessoa.length > 0 && (
         <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
           <div className="flex items-center justify-between mb-4">
-            <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#64748b" }}>
+            <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#9aa7ba" }}>
               Rotinas
             </p>
-            <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#1e3356", color: "#64748b" }}>
+            <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#1e3356", color: "#9aa7ba" }}>
               {rotinasPessoa.filter((r) => r.concluida).length}/{rotinasPessoa.length} hoje
             </span>
           </div>
@@ -664,13 +664,13 @@ export default function ColaboradorPerfilPage() {
                     >
                       {rotina.concluida
                         ? <CheckCircle2 size={18} style={{ color: "#10b981" }} />
-                        : <Circle size={18} style={{ color: "#475569" }} />}
+                        : <Circle size={18} style={{ color: "#74859c" }} />}
                     </span>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-white" style={{ textDecoration: rotina.concluida ? "line-through" : "none", opacity: rotina.concluida ? 0.6 : 1 }}>
                         {rotina.titulo}
                       </p>
-                      {lojaRotina && <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>{lojaRotina.nome}</p>}
+                      {lojaRotina && <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>{lojaRotina.nome}</p>}
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
                       <button
@@ -681,8 +681,8 @@ export default function ColaboradorPerfilPage() {
                       >
                         &#127813; Foco
                       </button>
-                      <span className="text-xs" style={{ color: "#64748b" }}>{subFeitas}/{rotina.subtarefas.length}</span>
-                      {aberta ? <ChevronUp size={14} style={{ color: "#64748b" }} /> : <ChevronDown size={14} style={{ color: "#64748b" }} />}
+                      <span className="text-xs" style={{ color: "#9aa7ba" }}>{subFeitas}/{rotina.subtarefas.length}</span>
+                      {aberta ? <ChevronUp size={14} style={{ color: "#9aa7ba" }} /> : <ChevronDown size={14} style={{ color: "#9aa7ba" }} />}
                     </div>
                   </button>
 
@@ -728,7 +728,7 @@ export default function ColaboradorPerfilPage() {
       {/* Tarefas */}
       {minhasTarefas.length > 0 && (
         <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
-          <p className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: "#64748b" }}>
+          <p className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: "#9aa7ba" }}>
             Tarefas ({minhasTarefas.length} total &middot; {tarefasAtivas.length} ativas)
           </p>
           <div className="space-y-2">
@@ -740,7 +740,7 @@ export default function ColaboradorPerfilPage() {
                   style={{ background: "#1e3356", borderLeft: `3px solid ${cor}` }}>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-white font-medium">{t.titulo}</p>
-                    {loja && <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>{loja.nome}</p>}
+                    {loja && <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>{loja.nome}</p>}
                   </div>
                   <span className="text-xs px-2 py-0.5 rounded-full ml-2 flex-shrink-0" style={{ background: "#122039", color: "#94a3b8" }}>
                     {STATUS_LABEL[t.status] || t.status}
@@ -758,7 +758,7 @@ export default function ColaboradorPerfilPage() {
           <span style={{ fontSize: 16 }}>📋</span>
           <div className="flex-1">
             <p className="text-sm font-semibold text-white">Formulario de perfil nao preenchido</p>
-            <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>Compartilhe seus sonhos, estilo de trabalho e bem-estar com o lider.</p>
+            <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>Compartilhe seus sonhos, estilo de trabalho e bem-estar com o lider.</p>
           </div>
           <Link href="/formulario" className="text-xs px-3 py-1.5 rounded-lg font-semibold transition-opacity hover:opacity-80 flex-shrink-0" style={{ background: "#c9a84c", color: "#0b1624" }}>
             Preencher
@@ -770,7 +770,7 @@ export default function ColaboradorPerfilPage() {
           <span style={{ fontSize: 16 }}>✓</span>
           <div className="flex-1">
             <p className="text-sm font-semibold" style={{ color: "#10b981" }}>Formulario preenchido</p>
-            <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>Suas respostas estao disponiveis para o gestor.</p>
+            <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>Suas respostas estao disponiveis para o gestor.</p>
           </div>
         </div>
       )}
@@ -779,7 +779,7 @@ export default function ColaboradorPerfilPage() {
         <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
           <div className="flex items-center gap-2 mb-5">
             <span style={{ fontSize: 16 }}>📋</span>
-            <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#64748b" }}>
+            <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#9aa7ba" }}>
               Formulario de Perfil
             </p>
             {pessoa.formulario.preenchidoEm && (
@@ -797,19 +797,19 @@ export default function ColaboradorPerfilPage() {
                 <div className="space-y-3">
                   {pessoa.formulario.sonho3anos && (
                     <div>
-                      <p className="text-xs mb-1" style={{ color: "#64748b" }}>Sonho em 3 anos</p>
+                      <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Sonho em 3 anos</p>
                       <p className="text-sm text-white leading-relaxed">{pessoa.formulario.sonho3anos}</p>
                     </div>
                   )}
                   {pessoa.formulario.sonho5anos && (
                     <div>
-                      <p className="text-xs mb-1" style={{ color: "#64748b" }}>Visao em 5 anos</p>
+                      <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Visao em 5 anos</p>
                       <p className="text-sm text-white leading-relaxed">{pessoa.formulario.sonho5anos}</p>
                     </div>
                   )}
                   {pessoa.formulario.oQueImpede && (
                     <div>
-                      <p className="text-xs mb-1" style={{ color: "#64748b" }}>O que impede hoje</p>
+                      <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>O que impede hoje</p>
                       <p className="text-sm text-white leading-relaxed">{pessoa.formulario.oQueImpede}</p>
                     </div>
                   )}
@@ -824,19 +824,19 @@ export default function ColaboradorPerfilPage() {
                 <div className="space-y-3">
                   {pessoa.formulario.porQueQuerTrabalhar && (
                     <div>
-                      <p className="text-xs mb-1" style={{ color: "#64748b" }}>Motivacao para entrar</p>
+                      <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Motivacao para entrar</p>
                       <p className="text-sm text-white leading-relaxed">{pessoa.formulario.porQueQuerTrabalhar}</p>
                     </div>
                   )}
                   {pessoa.formulario.comoEmpresaAjuda && (
                     <div>
-                      <p className="text-xs mb-1" style={{ color: "#64748b" }}>Como a empresa ajuda nos objetivos</p>
+                      <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Como a empresa ajuda nos objetivos</p>
                       <p className="text-sm text-white leading-relaxed">{pessoa.formulario.comoEmpresaAjuda}</p>
                     </div>
                   )}
                   {pessoa.formulario.areaAprender && (
                     <div>
-                      <p className="text-xs mb-1" style={{ color: "#64748b" }}>Area que quer aprender</p>
+                      <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Area que quer aprender</p>
                       <p className="text-sm font-medium" style={{ color: "#c9a84c" }}>{pessoa.formulario.areaAprender}</p>
                     </div>
                   )}
@@ -851,25 +851,25 @@ export default function ColaboradorPerfilPage() {
                 <div className="grid sm:grid-cols-2 gap-3">
                   {pessoa.formulario.reacaoFeedback && (
                     <div>
-                      <p className="text-xs mb-1" style={{ color: "#64748b" }}>Reacao a feedback</p>
+                      <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Reacao a feedback</p>
                       <p className="text-sm text-white">{pessoa.formulario.reacaoFeedback}</p>
                     </div>
                   )}
                   {pessoa.formulario.prefereComunicacao && (
                     <div>
-                      <p className="text-xs mb-1" style={{ color: "#64748b" }}>Prefere comunicacao via</p>
+                      <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Prefere comunicacao via</p>
                       <p className="text-sm text-white">{pessoa.formulario.prefereComunicacao}</p>
                     </div>
                   )}
                   {pessoa.formulario.motivadores && (
                     <div className="sm:col-span-2">
-                      <p className="text-xs mb-1" style={{ color: "#64748b" }}>O que motiva</p>
+                      <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>O que motiva</p>
                       <p className="text-sm text-white">{pessoa.formulario.motivadores}</p>
                     </div>
                   )}
                   {pessoa.formulario.desmotivadores && (
                     <div className="sm:col-span-2">
-                      <p className="text-xs mb-1" style={{ color: "#64748b" }}>O que desmotiva</p>
+                      <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>O que desmotiva</p>
                       <p className="text-sm text-white">{pessoa.formulario.desmotivadores}</p>
                     </div>
                   )}
@@ -884,19 +884,19 @@ export default function ColaboradorPerfilPage() {
                 <div className="space-y-3">
                   {pessoa.formulario.maiorForca && (
                     <div>
-                      <p className="text-xs mb-1" style={{ color: "#64748b" }}>Maior forca</p>
+                      <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Maior forca</p>
                       <p className="text-sm text-white">{pessoa.formulario.maiorForca}</p>
                     </div>
                   )}
                   {pessoa.formulario.aDesenvolver && (
                     <div>
-                      <p className="text-xs mb-1" style={{ color: "#64748b" }}>Ponto a desenvolver</p>
+                      <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Ponto a desenvolver</p>
                       <p className="text-sm text-white">{pessoa.formulario.aDesenvolver}</p>
                     </div>
                   )}
                   {pessoa.formulario.desafioSuperado && (
                     <div>
-                      <p className="text-xs mb-1" style={{ color: "#64748b" }}>Desafio ja superado</p>
+                      <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Desafio ja superado</p>
                       <p className="text-sm text-white leading-relaxed">{pessoa.formulario.desafioSuperado}</p>
                     </div>
                   )}
@@ -913,7 +913,7 @@ export default function ColaboradorPerfilPage() {
                     <div className="flex gap-4">
                       {pessoa.formulario.nivelEnergia && (
                         <div>
-                          <p className="text-xs mb-1" style={{ color: "#64748b" }}>Nivel de energia</p>
+                          <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Nivel de energia</p>
                           <div className="flex gap-1">
                             {[1,2,3,4,5].map((n) => (
                               <div key={n} className="w-5 h-5 rounded-full"
@@ -924,7 +924,7 @@ export default function ColaboradorPerfilPage() {
                       )}
                       {pessoa.formulario.ansiedadeNivel && (
                         <div>
-                          <p className="text-xs mb-1" style={{ color: "#64748b" }}>Nivel de ansiedade</p>
+                          <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Nivel de ansiedade</p>
                           <div className="flex gap-1">
                             {[1,2,3,4,5].map((n) => (
                               <div key={n} className="w-5 h-5 rounded-full"
@@ -939,7 +939,7 @@ export default function ColaboradorPerfilPage() {
                   )}
                   {pessoa.formulario.oQueDeveSaber && (
                     <div>
-                      <p className="text-xs mb-1" style={{ color: "#64748b" }}>O que o lider deve saber sobre mim</p>
+                      <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>O que o lider deve saber sobre mim</p>
                       <p className="text-sm text-white leading-relaxed">{pessoa.formulario.oQueDeveSaber}</p>
                     </div>
                   )}
@@ -960,7 +960,7 @@ export default function ColaboradorPerfilPage() {
       {isAdmin && !pessoa.formulario && (
         <div className="rounded-xl px-4 py-3 flex items-center gap-3" style={{ background: "#122039", border: "1px solid #1e3356" }}>
           <span style={{ fontSize: 16 }}>📋</span>
-          <p className="text-sm" style={{ color: "#475569" }}>
+          <p className="text-sm" style={{ color: "#74859c" }}>
             {pessoa.nome.split(" ")[0]} ainda nao preencheu o formulario de perfil.
           </p>
         </div>
@@ -972,7 +972,7 @@ export default function ColaboradorPerfilPage() {
           <div>
             <div className="flex items-center gap-2">
               <Award size={16} style={{ color: "#c9a84c" }} />
-              <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#64748b" }}>
+              <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#9aa7ba" }}>
                 Reconhecimentos ({pessoa.reconhecimentos?.length || 0})
               </p>
             </div>
@@ -992,7 +992,7 @@ export default function ColaboradorPerfilPage() {
         {(!pessoa.reconhecimentos || pessoa.reconhecimentos.length === 0) ? (
           <div className="text-center py-6">
             <Award size={28} className="mx-auto mb-2" style={{ color: "#1e3356" }} />
-            <p className="text-sm" style={{ color: "#475569" }}>Nenhum reconhecimento ainda.</p>
+            <p className="text-sm" style={{ color: "#74859c" }}>Nenhum reconhecimento ainda.</p>
             {podeReconhecer && (
               <button onClick={() => setReconhModal(true)} className="mt-2 text-sm transition-opacity hover:opacity-80" style={{ color: "#c9a84c" }}>
                 Seja o primeiro a reconhecer
@@ -1008,7 +1008,7 @@ export default function ColaboradorPerfilPage() {
                   <span className="text-2xl flex-shrink-0">{rec.emoji}</span>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-white leading-snug">{rec.mensagem}</p>
-                    <p className="text-xs mt-1" style={{ color: "#64748b" }}>
+                    <p className="text-xs mt-1" style={{ color: "#9aa7ba" }}>
                       por{" "}
                       {de ? (
                         <Link href={`/equipe/${de.id}`} className="hover:underline" style={{ color: "#94a3b8" }}>
@@ -1042,14 +1042,14 @@ export default function ColaboradorPerfilPage() {
                 <Avatar nome={pessoa.nome} avatar={pessoa.avatar} foto={pessoa.foto} cor={pessoa.cor} size={36} />
                 <div>
                   <h2 className="text-white font-bold">Reconhecer {pessoa.nome.split(" ")[0]}</h2>
-                  <p className="text-xs" style={{ color: "#64748b" }}>Visivel no perfil + +25 XP</p>
+                  <p className="text-xs" style={{ color: "#9aa7ba" }}>Visivel no perfil + +25 XP</p>
                 </div>
               </div>
-              <button onClick={() => setReconhModal(false)}><X size={20} style={{ color: "#64748b" }} /></button>
+              <button onClick={() => setReconhModal(false)}><X size={20} style={{ color: "#9aa7ba" }} /></button>
             </div>
 
             <div>
-              <p className="text-xs mb-2" style={{ color: "#64748b" }}>Escolha um emoji</p>
+              <p className="text-xs mb-2" style={{ color: "#9aa7ba" }}>Escolha um emoji</p>
               <div className="flex flex-wrap gap-2">
                 {EMOJIS_RECONH.map((e) => (
                   <button
@@ -1078,7 +1078,7 @@ export default function ColaboradorPerfilPage() {
             />
 
             <div className="flex items-center justify-between text-sm mb-3">
-              <span style={{ color: "#64748b" }}>Fichas disponíveis esta semana</span>
+              <span style={{ color: "#9aa7ba" }}>Fichas disponíveis esta semana</span>
               <div className="flex gap-1">
                 {[0, 1, 2].map((i) => (
                   <div
@@ -1094,7 +1094,7 @@ export default function ColaboradorPerfilPage() {
             </div>
 
             {fichasDisponiveis <= 0 ? (
-              <p className="text-xs text-center" style={{ color: "#64748b" }}>
+              <p className="text-xs text-center" style={{ color: "#9aa7ba" }}>
                 Você usou todas as fichas desta semana. Recarregam na próxima semana.
               </p>
             ) : (

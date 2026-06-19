@@ -52,17 +52,17 @@ export default function VagasPage() {
               {LABEL_FREQUENCIA[rotina.frequencia]}
             </span>
             {lojaNome(rotina.lojaId) && (
-              <span className="flex items-center gap-1 text-xs" style={{ color: "#64748b" }}>
+              <span className="flex items-center gap-1 text-xs" style={{ color: "#9aa7ba" }}>
                 <Store size={11} /> {lojaNome(rotina.lojaId)}
               </span>
             )}
           </div>
           <p className="text-white font-medium text-sm">{rotina.titulo}</p>
           {(rotina.motivoVaga || rotina.descricao) && (
-            <p className="text-xs mt-1" style={{ color: "#64748b" }}>{rotina.motivoVaga || rotina.descricao}</p>
+            <p className="text-xs mt-1" style={{ color: "#9aa7ba" }}>{rotina.motivoVaga || rotina.descricao}</p>
           )}
           {rotina.proximaOcorrencia && (
-            <p className="flex items-center gap-1 text-xs mt-1.5" style={{ color: "#475569" }}>
+            <p className="flex items-center gap-1 text-xs mt-1.5" style={{ color: "#74859c" }}>
               <CalendarClock size={11} /> Próxima: {fmtDataCurta(rotina.proximaOcorrencia)}
             </p>
           )}
@@ -80,7 +80,7 @@ export default function VagasPage() {
                 <option value="">Escolher responsável...</option>
                 {colaboradores.map((c) => <option key={c.id} value={c.id}>{c.nome}</option>)}
               </select>
-              <button onClick={() => setDelegandoId(null)} className="px-2 py-2 rounded-xl" style={{ color: "#64748b" }}><X size={14} /></button>
+              <button onClick={() => setDelegandoId(null)} className="px-2 py-2 rounded-xl" style={{ color: "#9aa7ba" }}><X size={14} /></button>
             </div>
           ) : (
             <div className="mt-3 flex items-center gap-2 flex-wrap">
@@ -119,7 +119,7 @@ export default function VagasPage() {
               <button
                 onClick={() => deletarRotina(rotina.id)}
                 className="flex items-center gap-1 px-2 py-1.5 rounded-xl text-xs"
-                style={{ background: "#1e3356", color: "#64748b" }}
+                style={{ background: "#1e3356", color: "#9aa7ba" }}
                 data-tip="Remover"
               >
                 <Trash2 size={12} />
@@ -139,7 +139,7 @@ export default function VagasPage() {
 
       <div>
         <h1 className="text-2xl font-bold text-white">Vagas & Pendências</h1>
-        <p className="text-sm mt-0.5" style={{ color: "#64748b" }}>
+        <p className="text-sm mt-0.5" style={{ color: "#9aa7ba" }}>
           Rotinas sem dono e necessidades de contratação do time
         </p>
       </div>
@@ -187,7 +187,7 @@ export default function VagasPage() {
           <p className="font-semibold text-white mb-1">
             {aba === "sem-responsavel" ? "Nenhuma rotina sem responsável" : "Nenhuma vaga aberta"}
           </p>
-          <p className="text-sm" style={{ color: "#64748b" }}>
+          <p className="text-sm" style={{ color: "#9aa7ba" }}>
             {aba === "sem-responsavel"
               ? "Todas as rotinas têm dono. Tudo certo na operação."
               : "Crie uma vaga quando identificar que precisa contratar alguém para uma função."}
@@ -204,7 +204,7 @@ export default function VagasPage() {
                 <Briefcase size={16} style={{ color: "#f59e0b" }} />
                 <h2 className="text-white font-bold">Nova vaga de contratação</h2>
               </div>
-              <button onClick={() => setModalAberto(false)} style={{ color: "#64748b" }}><X size={20} /></button>
+              <button onClick={() => setModalAberto(false)} style={{ color: "#9aa7ba" }}><X size={20} /></button>
             </div>
 
             <div>

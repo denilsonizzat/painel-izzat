@@ -4,7 +4,7 @@ export default function OfflinePage() {
     <div className="min-h-screen flex flex-col items-center justify-center" style={{ background: "#0b1624" }}>
       <div className="text-6xl mb-4">📡</div>
       <h1 className="text-2xl font-bold text-white mb-2">Sem conexao</h1>
-      <p className="text-sm" style={{ color: "#64748b" }}>
+      <p className="text-sm" style={{ color: "#9aa7ba" }}>
         Verifique sua internet e tente novamente.
       </p>
       <button

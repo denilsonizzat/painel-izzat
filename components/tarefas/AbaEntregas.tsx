@@ -30,7 +30,7 @@ export default function AbaEntregas() {
             <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "#10b981" }}>ENTREGAS DA SEMANA</span>
             <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#10b98120", color: "#10b981" }}>Compromissos até sexta</span>
           </div>
-          <p className="text-xs" style={{ color: "#475569" }}>
+          <p className="text-xs" style={{ color: "#74859c" }}>
             O que você se comprometeu a entregar esta semana. Registre e atualize o status.
           </p>
         </div>
@@ -65,14 +65,14 @@ export default function AbaEntregas() {
             }}
           />
           <button onClick={adicionar} className="px-3 py-1.5 rounded-lg text-xs font-medium" style={{ background: "#c9a84c", color: "#0b1624" }}>OK</button>
-          <button onClick={() => { setShowAdd(false); setNova(""); }} className="px-2 py-1.5 rounded-lg" style={{ color: "#64748b" }}><X size={14} /></button>
+          <button onClick={() => { setShowAdd(false); setNova(""); }} className="px-2 py-1.5 rounded-lg" style={{ color: "#9aa7ba" }}><X size={14} /></button>
         </div>
       )}
 
       {minhasEntregas.length === 0 && !showAdd && (
         <div className="rounded-2xl p-5 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
           <div className="text-2xl mb-2">📦</div>
-          <p className="text-sm font-medium" style={{ color: "#475569" }}>Nenhuma entrega desta semana ainda</p>
+          <p className="text-sm font-medium" style={{ color: "#74859c" }}>Nenhuma entrega desta semana ainda</p>
           <p className="text-xs mt-1 mb-3" style={{ color: "#334155" }}>
             Registre o que você se compromete a entregar até sexta-feira.
           </p>
@@ -93,7 +93,7 @@ export default function AbaEntregas() {
               {e.status === "entregue" && <CheckCircle2 size={16} style={{ color: "#10b981" }} />}
               {e.status === "em_andamento" && <Clock size={16} style={{ color: "#3b82f6" }} />}
               {e.status === "travado" && <AlertTriangle size={16} style={{ color: "#ef4444" }} />}
-              {e.status === "pendente" && <Circle size={16} style={{ color: "#64748b" }} />}
+              {e.status === "pendente" && <Circle size={16} style={{ color: "#9aa7ba" }} />}
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm" style={{ color: e.status === "entregue" ? "#64748b" : e.status === "travado" ? "#ef4444" : "#e8edf5", textDecoration: e.status === "entregue" ? "line-through" : "none" }}>
@@ -117,7 +117,7 @@ export default function AbaEntregas() {
                     }}
                   />
                   <button onClick={() => { atualizarStatusEntrega(e.id, "travado", motivoTravado || undefined); setTravandoId(null); setMotivoTravado(""); }} className="px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#ef444420", color: "#ef4444" }}>Confirmar</button>
-                  <button onClick={() => { setTravandoId(null); setMotivoTravado(""); }} className="px-2 py-1 rounded-lg" style={{ color: "#64748b" }}><X size={12} /></button>
+                  <button onClick={() => { setTravandoId(null); setMotivoTravado(""); }} className="px-2 py-1 rounded-lg" style={{ color: "#9aa7ba" }}><X size={12} /></button>
                 </div>
               )}
             </div>
