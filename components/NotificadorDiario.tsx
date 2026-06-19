@@ -15,7 +15,9 @@ export default function NotificadorDiario() {
   useEffect(() => {
     if (!usuarioAtual) return;
     const chave = `notif-rotinas-${usuarioAtual.id}-${hojeStr()}`;
+    // Marca a flag ANTES de adicionar — evita duplicar no double-invoke do React Strict Mode.
     if (localStorage.getItem(chave)) return;
+    localStorage.setItem(chave, "1");
 
     const minhas = rotinasDoColaborador(rotinas, usuarioAtual.id);
     const pendentesHoje = minhas.filter((r) => venceHoje(r) && !concluidaHoje(r));
@@ -28,7 +30,6 @@ export default function NotificadorDiario() {
       corpo: pendentesHoje.slice(0, 3).map((r) => r.titulo).join(" · ") + (pendentesHoje.length > 3 ? "…" : ""),
       href: "/tarefas",
     });
-    localStorage.setItem(chave, "1");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [usuarioAtual?.id]);
 

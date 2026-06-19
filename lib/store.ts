@@ -32,6 +32,7 @@ import {
   Frequencia,
 } from "./data";
 import { calcularProximaOcorrencia, hojeStr } from "./recorrencia";
+import { tocarSomNotificacao, tocarSomOnline } from "./som";
 
 function semanaAtual(): string {
   const d = new Date();
@@ -610,6 +611,7 @@ export const useAppStore = create<AppState>()(
       resetarRotinas: () => set({ rotinas: ROTINAS_MOCK }),
 
       setStatusOnline: (colaboradorId, ativo, ate, proximoDia) => {
+        const jaEstavaOnline = get().colaboradores.find((c) => c.id === colaboradorId)?.statusOnline?.ativo ?? false;
         const desde = ativo ? new Date().toTimeString().slice(0, 5) : undefined;
         set((state) => ({
           colaboradores: state.colaboradores.map((c) =>
@@ -621,6 +623,24 @@ export const useAppStore = create<AppState>()(
         }));
         const updated = get().colaboradores.find((c) => c.id === colaboradorId);
         if (updated && get().usuarioAtual?.id === colaboradorId) set({ usuarioAtual: updated });
+
+        // Avisa o time quando alguém ENTRA online (transição offline→online).
+        // (Cross-device passa a funcionar de verdade após o deploy com realtime.)
+        if (ativo && !jaEstavaOnline) {
+          const nome = updated?.nome.split(" ")[0] ?? "Alguém";
+          const ateTxt = ate ? ` · até ${ate}${proximoDia ? " (+1 dia)" : ""}` : "";
+          get().colaboradores
+            .filter((c) => c.id !== colaboradorId)
+            .forEach((c) => get().adicionarNotificacaoInApp({
+              paraId: c.id,
+              tipo: "online",
+              titulo: `${nome} está online`,
+              corpo: `${nome} ativou presença${ateTxt}.`,
+              href: `/equipe/${colaboradorId}`,
+            }));
+          // Som marcante de "online" (toca uma vez, para quem está usando agora).
+          tocarSomOnline();
+        }
       },
 
       adicionarAtividadeEntry: (entry) => {
@@ -666,11 +686,15 @@ export const useAppStore = create<AppState>()(
       adicionarNotificacaoInApp: (notif) => {
         const nova: NotificacaoInApp = {
           ...notif,
-          id: `n${Date.now()}`,
+          id: `n${Date.now()}${Math.random().toString(36).slice(2, 5)}`,
           lida: false,
           criadaEm: new Date().toISOString(),
         };
         set((state) => ({ notificacoesInApp: [nova, ...state.notificacoesInApp].slice(0, 50) }));
+        // Som: só toca para o destinatário logado. "online" tem som próprio (tocado em setStatusOnline).
+        if (notif.paraId === get().usuarioAtual?.id && notif.tipo !== "online") {
+          tocarSomNotificacao();
+        }
       },
 
       marcarNotificacaoLida: (notifId) => {

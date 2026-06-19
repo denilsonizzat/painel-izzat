@@ -6,7 +6,7 @@ import {
   LayoutDashboard, CheckSquare, Users, Store, ListTodo, LogOut, Menu, X,
   ClipboardList, Plus, Zap, Flame, Bell, Search, Activity, Power, RefreshCw,
   CalendarDays, ChevronLeft, ChevronRight, PanelLeftClose, DollarSign, Moon,
-  PackageSearch, BookMarked, Trophy, Receipt, Wallet, Briefcase,
+  PackageSearch, BookMarked, Trophy, Receipt, Wallet, Briefcase, AlertTriangle,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import Avatar from "./Avatar";
@@ -15,6 +15,29 @@ import { LOJAS, Prioridade, calcNivel } from "@/lib/data";
 import OnlineStatusModal from "./OnlineStatusModal";
 import BotaoAtivarPush from "./BotaoAtivarPush";
 import Tip from "./Tip";
+
+// Config visual das notificações por tipo (ícone + cor)
+const NOTIF_CFG: Record<string, { icon: typeof Bell; cor: string }> = {
+  online:          { icon: Power, cor: "#10b981" },
+  tarefa_nova:     { icon: ListTodo, cor: "#3b82f6" },
+  tarefa_atrasada: { icon: AlertTriangle, cor: "#ef4444" },
+  reconhecimento:  { icon: Trophy, cor: "#c9a84c" },
+  nivel_up:        { icon: Zap, cor: "#c9a84c" },
+  streak_risco:    { icon: Flame, cor: "#f59e0b" },
+  default:         { icon: Bell, cor: "#94a3b8" },
+};
+
+// Tempo relativo legível ("agora", "há 5 min", "há 2 h", "ontem")
+function tempoRelativo(iso: string): string {
+  const diff = Date.now() - new Date(iso).getTime();
+  const min = Math.floor(diff / 60000);
+  if (min < 1) return "agora";
+  if (min < 60) return `há ${min} min`;
+  const h = Math.floor(min / 60);
+  if (h < 24) return `há ${h} h`;
+  const d = Math.floor(h / 24);
+  return d === 1 ? "ontem" : `há ${d} dias`;
+}
 
 const NAV_SECTIONS = [
   {
@@ -256,30 +279,46 @@ export default function Sidebar() {
               )}
             </div>
             <BotaoAtivarPush />
-            <div className="max-h-56 overflow-y-auto" style={{ borderTop: "1px solid var(--border)" }}>
+            <div className="max-h-72 overflow-y-auto p-2 flex flex-col gap-1.5" style={{ borderTop: "1px solid var(--border)" }}>
               {minhasNotifs.length === 0 ? (
-                <p className="px-3 py-4 text-xs text-center" style={{ color: "#74859c" }}>
-                  Nenhuma notificacao
+                <p className="px-3 py-6 text-xs text-center" style={{ color: "#74859c" }}>
+                  Nenhuma notificação por aqui
                 </p>
               ) : (
-                minhasNotifs.slice(0, 10).map((n) => (
-                  <button
-                    key={n.id}
-                    onClick={() => {
-                      marcarNotificacaoLida(n.id);
-                      if (n.href) router.push(n.href);
-                      setNotifAberta(false);
-                      setMenuAberto(false);
-                    }}
-                    className="w-full px-3 py-2.5 text-left transition-opacity hover:opacity-80"
-                    style={{ background: n.lida ? "transparent" : "#1e335640", borderTop: "1px solid #1e3356" }}
-                  >
-                    <p className="text-xs font-medium" style={{ color: n.lida ? "#64748b" : "#e8edf5" }}>{n.titulo}</p>
-                    <p className="text-xs mt-0.5 leading-snug" style={{ color: "#74859c" }}>
-                      {n.corpo.length > 55 ? n.corpo.slice(0, 55) + "..." : n.corpo}
-                    </p>
-                  </button>
-                ))
+                minhasNotifs.slice(0, 12).map((n) => {
+                  const cfg = NOTIF_CFG[n.tipo] ?? NOTIF_CFG.default;
+                  const Icone = cfg.icon;
+                  return (
+                    <button
+                      key={n.id}
+                      onClick={() => {
+                        marcarNotificacaoLida(n.id);
+                        if (n.href) router.push(n.href);
+                        setNotifAberta(false);
+                        setMenuAberto(false);
+                      }}
+                      className="w-full flex items-start gap-2.5 p-2.5 rounded-xl text-left transition-all hover:opacity-90"
+                      style={{
+                        background: n.lida ? "transparent" : `${cfg.cor}12`,
+                        border: `1px solid ${n.lida ? "var(--border)" : cfg.cor + "33"}`,
+                      }}
+                    >
+                      <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style={{ background: cfg.cor + "22" }}>
+                        <Icone size={14} style={{ color: cfg.cor }} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <p className="text-xs font-semibold flex-1 truncate" style={{ color: n.lida ? "#9aa7ba" : "#e8edf5" }}>{n.titulo}</p>
+                          {!n.lida && <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: cfg.cor }} />}
+                        </div>
+                        <p className="text-xs mt-0.5 leading-snug" style={{ color: "#74859c" }}>
+                          {n.corpo.length > 60 ? n.corpo.slice(0, 60) + "…" : n.corpo}
+                        </p>
+                        <p className="text-xs mt-1" style={{ color: "#475569", fontSize: 10 }}>{tempoRelativo(n.criadaEm)}</p>
+                      </div>
+                    </button>
+                  );
+                })
               )}
             </div>
           </div>

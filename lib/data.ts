@@ -147,6 +147,7 @@ export interface Produto {
   dataCriacao: string;
   validado?: boolean;
   reprovado?: boolean;
+  emTeste?: boolean;           // movido manualmente para "Em Teste" (fixa mesmo incompleto)
   distribuidoPara?: string[];
   produtoOrigemId?: string;
 }
@@ -396,7 +397,7 @@ export interface Story {
 export interface NotificacaoInApp {
   id: string;
   paraId: string;
-  tipo: "reconhecimento" | "tarefa_nova" | "tarefa_atrasada" | "nivel_up" | "streak_risco";
+  tipo: "reconhecimento" | "tarefa_nova" | "tarefa_atrasada" | "nivel_up" | "streak_risco" | "online";
   titulo: string;
   corpo: string;
   lida: boolean;

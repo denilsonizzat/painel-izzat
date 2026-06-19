@@ -89,7 +89,7 @@ function getColuna(p: Produto): ColId {
   if (p.reprovado) return "reprovado";
   if ((p.distribuidoPara?.length ?? 0) > 0) return "distribuido";
   if (p.validado) return "validado";
-  if (produtoCompleto(p)) return "teste";
+  if (p.emTeste || produtoCompleto(p)) return "teste";
   return "cadastrando";
 }
 
@@ -516,11 +516,12 @@ export default function CatalogoPage() {
       setDistribuirModal(prod);
       setLojasDistribuir([]);
       setDistribuirSucesso(false);
-    } else if (targetCol === "teste" || targetCol === "cadastrando") {
-      // Voltar para Em Teste / Cadastrando de qualquer estágio (validado, reprovado,
-      // distribuído): limpa os flags. A coluna final (teste vs cadastrando) é
-      // decidida por getColuna conforme o produto está completo ou não.
-      editarProduto(prodId, { reprovado: false, validado: false, noAr: false, distribuidoPara: [] });
+    } else if (targetCol === "teste") {
+      // Fixa em "Em Teste" mesmo que falte campo (emTeste manual). Limpa os outros estágios.
+      editarProduto(prodId, { reprovado: false, validado: false, noAr: false, distribuidoPara: [], emTeste: true });
+    } else if (targetCol === "cadastrando") {
+      // Volta para "Cadastrando": remove o marcador manual de teste e os outros estágios.
+      editarProduto(prodId, { reprovado: false, validado: false, noAr: false, distribuidoPara: [], emTeste: false });
     }
   }
 
