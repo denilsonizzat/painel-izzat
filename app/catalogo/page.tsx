@@ -9,6 +9,7 @@ import {
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ProdutoFormModal from "@/components/ProdutoFormModal";
+import KanbanProdutosLoja from "@/components/KanbanProdutosLoja";
 import {
   DndContext, DragEndEvent, DragOverlay, DragStartEvent,
   useDroppable, useDraggable, PointerSensor, useSensor, useSensors,
@@ -464,6 +465,7 @@ export default function CatalogoPage() {
   const [lojasDistribuir, setLojasDistribuir] = useState<string[]>([]);
   const [distribuirSucesso, setDistribuirSucesso] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<"geral" | "porLoja">("geral");
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } })
@@ -637,6 +639,25 @@ export default function CatalogoPage() {
         </div>
       </div>
 
+      {/* Toggle de visão: Geral (pipeline único) x Por Loja (swimlanes) */}
+      <div className="flex gap-1 p-1 rounded-xl w-fit" style={{ background: "#0f1c30", border: "1px solid #1e3356" }}>
+        {([
+          { v: "geral" as const, label: "Geral", dica: "Pipeline único com todos os produtos" },
+          { v: "porLoja" as const, label: "Por Loja", dica: "Um pipeline separado por loja (status por loja)" },
+        ]).map((t) => (
+          <button
+            key={t.v}
+            onClick={() => setViewMode(t.v)}
+            data-tip={t.dica}
+            className="px-4 py-1.5 rounded-lg text-sm font-semibold transition-all"
+            style={{ background: viewMode === t.v ? "#c9a84c" : "transparent", color: viewMode === t.v ? "#0b1624" : "#94a3b8" }}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {viewMode === "geral" && (<>
       {/* Legenda de arrastar */}
       <div className="flex items-center gap-4 flex-wrap">
         {COLUNAS.map((col) => (
@@ -711,6 +732,31 @@ export default function CatalogoPage() {
           </DragOverlay>
         </DndContext>
       </div>
+      </>)}
+
+      {/* Visão Por Loja — swimlanes (reusa o kanban compacto de cada loja) */}
+      {viewMode === "porLoja" && (
+        <div className="space-y-4">
+          {todasLojas
+            .filter((l) => (filtroLoja === "todas" || l.id === filtroLoja) && produtos.some((p) => p.lojaId === l.id))
+            .map((l) => (
+              <div key={l.id} className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="w-2.5 h-2.5 rounded-full" style={{ background: l.cor || "#64748b" }} />
+                  <p className="text-sm font-bold text-white">{l.nome}</p>
+                </div>
+                <KanbanProdutosLoja lojaId={l.id} todasLojas={todasLojas} />
+              </div>
+            ))}
+          {todasLojas.filter((l) => (filtroLoja === "todas" || l.id === filtroLoja) && produtos.some((p) => p.lojaId === l.id)).length === 0 && (
+            <div className="rounded-2xl p-12 text-center" style={{ background: "linear-gradient(160deg, #14243f, #111e35)", border: "1px solid #1e3356" }}>
+              <div className="text-5xl mb-3 empty-icon inline-block">🏪</div>
+              <p className="font-bold text-white mb-1 text-lg">Nenhum produto por loja ainda</p>
+              <p className="text-sm" style={{ color: "#94a3b8" }}>Crie um produto no fluxo &quot;Direto nas lojas&quot; ou distribua um validado.</p>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Modal distribuir */}
       {distribuirModal && (
