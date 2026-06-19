@@ -49,8 +49,10 @@ function Card({ p, onEdit }: { p: Produto; onEdit: () => void }) {
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      className="rounded-xl p-3 cursor-grab active:cursor-grabbing"
+      onClick={onEdit}
+      className="rounded-xl p-3 cursor-pointer"
       style={{ background: "#0f1c30", border: "1px solid #1e3356", opacity: isDragging ? 0.4 : 1, touchAction: "none" }}
+      data-tip="Clique para editar · arraste para mover"
     >
       <div className="flex items-start justify-between gap-2">
         <p className="text-sm font-semibold text-white leading-tight">{p.nome}</p>

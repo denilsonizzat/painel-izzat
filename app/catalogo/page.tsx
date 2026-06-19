@@ -214,7 +214,7 @@ function KanbanCard({
       }}
       className="rounded-xl overflow-hidden select-none"
     >
-      <div className="rounded-xl overflow-hidden" style={{ background: "#122039", border: `1px solid ${borderColor}` }}>
+      <div className="rounded-xl overflow-hidden" style={{ background: "#122039", border: `1px solid ${borderColor}`, cursor: "pointer" }} onClick={onEdit} data-tip="Clique para editar · arraste para mover">
 
         {/* Linha superior: nome + menu */}
         <div className="flex items-start gap-2 px-3 pt-3 pb-2">
@@ -256,9 +256,10 @@ function KanbanCard({
           </div>
 
           <button
-            onClick={() => setExpandido((v) => !v)}
+            onClick={(e) => { e.stopPropagation(); setExpandido((v) => !v); }}
             className="flex-shrink-0 p-1 rounded-lg transition-all hover:bg-slate-800 mt-0.5"
             style={{ color: expandido ? "#94a3b8" : "#475569" }}
+            data-tip="Mais ações (validar, distribuir, no ar...)"
           >
             <MoreHorizontal size={13} />
           </button>
@@ -303,7 +304,7 @@ function KanbanCard({
 
         {/* Painel expandido */}
         {expandido && (
-          <div className="border-t px-3 pb-3 pt-2.5 space-y-2" style={{ borderColor: "#1e3356" }}>
+          <div className="border-t px-3 pb-3 pt-2.5 space-y-2" style={{ borderColor: "#1e3356" }} onClick={(e) => e.stopPropagation()}>
 
             {/* Ações rápidas */}
             <div className="flex flex-wrap gap-1.5">
