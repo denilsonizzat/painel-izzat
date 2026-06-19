@@ -34,6 +34,17 @@
   --t-fast:   150ms cubic-bezier(0.4, 0, 0.2, 1);
   --t-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
   --t-slow:   400ms cubic-bezier(0.4, 0, 0.2, 1);
+  /* Spring — leve overshoot, dá "assentamento" tátil (P0 refinamento) */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --t-spring: 220ms var(--ease-spring);
+
+  /* Escala de superfícies em camadas — profundidade por luz, não por traço */
+  --surface-1: #0f1c30; /* acima do bg */
+  --surface-2: #122039; /* card padrão */
+  --surface-3: #182b48; /* elevado / hover */
+
+  /* Gradiente sutil de card ("vidro" Apple) */
+  --card-gradient: linear-gradient(160deg, #14243f 0%, #111e35 100%);
 }
 
 /* ═══════════════════════════════════════════
@@ -50,13 +61,35 @@ body {
 }
 
 * { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
-/* Transição global em elementos interativos */
+/* Seleção de texto com a cor da marca */
+::selection { background: rgba(201, 168, 76, 0.28); color: #fff; }
+
+/* Transição global em elementos interativos — agora com spring (tátil) */
 button, a, input, select, textarea {
-  transition: all var(--t-fast);
+  transition: transform var(--t-spring), background-color var(--t-fast),
+    border-color var(--t-fast), box-shadow var(--t-fast), color var(--t-fast), opacity var(--t-fast), filter var(--t-fast);
 }
 button:active:not(:disabled) {
-  transform: scale(0.96);
+  transform: scale(0.95);
+}
+
+/* Foco de teclado consistente (acessibilidade premium) — anel dourado */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--gold);
+  border-radius: var(--r-sm);
+}
+
+/* Respeita quem prefere menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ═══════════════════════════════════════════
@@ -74,13 +107,26 @@ button:active:not(:disabled) {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--r-card);
-  transition: background var(--t-fast), border-color var(--t-fast), box-shadow var(--t-fast), transform var(--t-fast);
+  transition: background var(--t-normal), border-color var(--t-normal), box-shadow var(--t-normal), transform var(--t-spring);
 }
 .card-base:hover {
   background: var(--card-hover);
   border-color: var(--border-bright);
   box-shadow: var(--shadow-card-hover);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+}
+
+/* Card "premium": gradiente sutil + hover com elevação e brilho de acento */
+.card-premium {
+  background: var(--card-gradient);
+  border: 1px solid var(--border);
+  border-radius: var(--r-card);
+  transition: transform var(--t-spring), box-shadow var(--t-normal), border-color var(--t-normal);
+}
+.card-premium:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-bright);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.45);
 }
 .card-inner {
   background: #0a1a2e;
@@ -254,6 +300,34 @@ button:active:not(:disabled) {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+/* Refinamento P1/P2 */
+@keyframes pageFade {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes checkPop {
+  0%   { transform: scale(0.4); opacity: 0; }
+  60%  { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes xpFloat {
+  0%   { opacity: 0; transform: translateY(0) scale(0.8); }
+  20%  { opacity: 1; transform: translateY(-6px) scale(1); }
+  100% { opacity: 0; transform: translateY(-34px) scale(1); }
+}
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+/* Skeleton com brilho deslizante */
+.skeleton {
+  background: linear-gradient(90deg, #142136 0%, #1c2d49 50%, #142136 100%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s linear infinite;
+  border-radius: var(--r-ui);
+}
+/* Entrada suave de página/seção */
+.page-enter { animation: pageFade 0.28s var(--ease-spring) both; }
 @keyframes scaleIn {
   from { opacity: 0; transform: scale(0.96); }
   to   { opacity: 1; transform: scale(1); }
