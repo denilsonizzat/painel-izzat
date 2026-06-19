@@ -3,6 +3,7 @@ import { useAppStore } from "@/lib/store";
 import { LOJAS, CAMPOS_PRODUTO, Produto, LinkRapido, Frequencia } from "@/lib/data";
 import { LABEL_FREQUENCIA, ORDEM_FREQUENCIA } from "@/lib/recorrencia";
 import Tabs from "@/components/Tabs";
+import KanbanProdutosLoja from "@/components/KanbanProdutosLoja";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import {
@@ -872,6 +873,14 @@ export default function LojaPerfilPage() {
       {/* ── ABA PRODUTOS ── */}
       {abaAtiva === "produtos" && (
         <div className="space-y-4">
+          {/* Kanban desta loja (status por loja, arrastável) */}
+          <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+            <p className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+              <PackageSearch size={15} style={{ color: corGrupo }} /> Pipeline de produtos · {loja.nome}
+            </p>
+            <KanbanProdutosLoja lojaId={loja.id} todasLojas={[...LOJAS, ...lojasCustom]} />
+          </div>
+
           {/* Header aba com botao novo produto */}
           {isAdmin && (
             <div className="flex justify-end">
