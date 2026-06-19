@@ -143,6 +143,7 @@ interface AppState {
   restaurarLoja: (id: string) => void;
   produtos: Produto[];
   criarProduto: (dados: Omit<Produto, "id" | "dataCriacao" | "noAr">) => void;
+  criarProdutoEmLojas: (dados: Omit<Produto, "id" | "dataCriacao" | "noAr" | "lojaId">, lojaIds: string[]) => void;
   editarProduto: (id: string, updates: Partial<Omit<Produto, "id" | "dataCriacao">>) => void;
   deletarProduto: (id: string) => void;
   toggleProdutoNoAr: (id: string) => void;
@@ -865,6 +866,18 @@ export const useAppStore = create<AppState>()(
       criarProduto: (dados) => {
         const novo: Produto = { ...dados, id: `prod-${Date.now()}`, dataCriacao: new Date().toISOString().split("T")[0], noAr: false };
         set((s) => ({ produtos: [...s.produtos, novo] }));
+      },
+      // Fluxo "direto": cria uma cópia independente do produto em cada loja escolhida.
+      // Cada cópia tem status próprio (em teste/aprovado/reprovado por loja).
+      criarProdutoEmLojas: (dados, lojaIds) => {
+        const data = new Date().toISOString().split("T")[0];
+        const grupoId = `grp-${Date.now()}`;
+        const novos: Produto[] = lojaIds.map((lojaId, i) => ({
+          ...dados, lojaId, grupoId,
+          id: `prod-${Date.now()}-${i}`,
+          dataCriacao: data, noAr: false, emTeste: true,
+        }));
+        set((s) => ({ produtos: [...s.produtos, ...novos] }));
       },
       editarProduto: (id, updates) => set((s) => ({
         produtos: s.produtos.map((p) => p.id === id ? { ...p, ...updates } : p),

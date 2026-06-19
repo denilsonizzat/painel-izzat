@@ -150,6 +150,7 @@ export interface Produto {
   emTeste?: boolean;           // movido manualmente para "Em Teste" (fixa mesmo incompleto)
   distribuidoPara?: string[];
   produtoOrigemId?: string;
+  grupoId?: string;            // liga cópias do mesmo produto em lojas diferentes
 }
 
 export const CAMPOS_PRODUTO: { key: keyof Produto; label: string; tipo: "url" | "numero" | "moeda" | "pct" }[] = [

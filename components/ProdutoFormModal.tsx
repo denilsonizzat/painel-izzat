@@ -157,26 +157,44 @@ interface Props {
 }
 
 export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEditar, todasLojas }: Props) {
-  const { criarProduto, editarProduto } = useAppStore();
+  const { criarProduto, criarProdutoEmLojas, editarProduto } = useAppStore();
   const isEditing = !!produtoParaEditar;
+  // Fluxo só aparece ao criar no catálogo (sem loja pré-definida e sem edição)
+  const mostrarFluxo = !isEditing && !lojaIdInicial;
 
   const [form, setForm] = useState<FormState>(
     produtoParaEditar ? produtoToForm(produtoParaEditar) : { ...FORM_VAZIO, lojaId: lojaIdInicial ?? "" }
   );
+  const [fluxo, setFluxo] = useState<"central" | "direto">("central");
+  const [lojasDireto, setLojasDireto] = useState<string[]>([]);
   const [sucesso, setSucesso] = useState(false);
+
+  const toggleLojaDireto = (id: string) =>
+    setLojasDireto((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]);
 
   function setNum(key: keyof FormState, raw: string) {
     const v = raw === "" ? undefined : parseFloat(raw.replace(",", "."));
     setForm((f) => ({ ...f, [key]: isNaN(v as number) ? undefined : v }));
   }
 
+  // Validação do botão salvar conforme o fluxo escolhido
+  const podeSalvar = form.nome.trim() !== "" && (
+    isEditing ? true :
+    mostrarFluxo && fluxo === "direto" ? lojasDireto.length > 0 :
+    form.lojaId !== ""
+  );
+
   function handleSalvar() {
-    if (!form.nome.trim() || !form.lojaId) return;
-    const dados = formToProduto(form);
+    if (!podeSalvar) return;
     if (isEditing && produtoParaEditar) {
-      editarProduto(produtoParaEditar.id, dados);
+      editarProduto(produtoParaEditar.id, formToProduto(form));
+    } else if (mostrarFluxo && fluxo === "direto") {
+      // Cria 1 cópia independente em cada loja marcada
+      const { lojaId: _omit, ...dados } = formToProduto(form);
+      void _omit;
+      criarProdutoEmLojas(dados, lojasDireto);
     } else {
-      criarProduto(dados);
+      criarProduto(formToProduto(form));
     }
     setSucesso(true);
     setTimeout(() => { onClose(); }, 1400);
@@ -234,29 +252,82 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
               />
             </div>
 
-            {/* Loja */}
-            <div>
-              <label className="text-xs font-semibold block mb-1.5" style={{ color: "#94a3b8" }}>Loja *</label>
-              <div className="relative">
-                <select
-                  value={form.lojaId}
-                  onChange={(e) => setForm((f) => ({ ...f, lojaId: e.target.value }))}
-                  className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none appearance-none"
-                  style={{ background: "#122039", border: "1px solid #1e3356" }}
-                >
-                  <option value="" style={{ background: "#122039" }}>Selecionar loja...</option>
-                  {todasLojas.map((l) => (
-                    <option key={l.id} value={l.id} style={{ background: "#122039" }}>
-                      {l.nome}{l.id === "izzat-express" ? " ★ (teste)" : ""}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "#9aa7ba" }} />
+            {/* Fluxo de teste (só ao criar no catálogo) */}
+            {mostrarFluxo && (
+              <div>
+                <label className="text-xs font-semibold block mb-1.5" style={{ color: "#94a3b8" }}>Como vai testar? *</label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setFluxo("central")}
+                    className="text-left p-3 rounded-xl transition-all"
+                    style={{ background: fluxo === "central" ? "#c9a84c18" : "#122039", border: `1px solid ${fluxo === "central" ? "#c9a84c" : "#1e3356"}` }}
+                  >
+                    <p className="text-sm font-bold" style={{ color: fluxo === "central" ? "#c9a84c" : "#e8edf5" }}>Central</p>
+                    <p className="text-xs mt-0.5" style={{ color: "#74859c" }}>Testa na loja de teste → valida → distribui</p>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFluxo("direto")}
+                    className="text-left p-3 rounded-xl transition-all"
+                    style={{ background: fluxo === "direto" ? "#3b82f618" : "#122039", border: `1px solid ${fluxo === "direto" ? "#3b82f6" : "#1e3356"}` }}
+                  >
+                    <p className="text-sm font-bold" style={{ color: fluxo === "direto" ? "#3b82f6" : "#e8edf5" }}>Direto nas lojas</p>
+                    <p className="text-xs mt-0.5" style={{ color: "#74859c" }}>Cria já nas lojas escolhidas, testa em cada</p>
+                  </button>
+                </div>
               </div>
-              {form.lojaId === "izzat-express" && (
-                <p className="text-xs mt-1" style={{ color: "#c9a84c" }}>Loja de teste → valide → distribua para nichadas</p>
-              )}
-            </div>
+            )}
+
+            {/* Loja — central: 1 select · direto: várias lojas (chips) */}
+            {(!mostrarFluxo || fluxo === "central") ? (
+              <div>
+                <label className="text-xs font-semibold block mb-1.5" style={{ color: "#94a3b8" }}>Loja *</label>
+                <div className="relative">
+                  <select
+                    value={form.lojaId}
+                    onChange={(e) => setForm((f) => ({ ...f, lojaId: e.target.value }))}
+                    disabled={!!lojaIdInicial}
+                    className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none appearance-none disabled:opacity-70"
+                    style={{ background: "#122039", border: "1px solid #1e3356" }}
+                  >
+                    <option value="" style={{ background: "#122039" }}>Selecionar loja...</option>
+                    {todasLojas.map((l) => (
+                      <option key={l.id} value={l.id} style={{ background: "#122039" }}>
+                        {l.nome}{l.id === "izzat-express" ? " ★ (teste)" : ""}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "#9aa7ba" }} />
+                </div>
+                {form.lojaId === "izzat-express" && (
+                  <p className="text-xs mt-1" style={{ color: "#c9a84c" }}>Loja de teste → valide → distribua para nichadas</p>
+                )}
+              </div>
+            ) : (
+              <div>
+                <label className="text-xs font-semibold block mb-1.5" style={{ color: "#94a3b8" }}>
+                  Lojas para testar * <span style={{ color: "#74859c" }}>({lojasDireto.length} selecionada{lojasDireto.length !== 1 ? "s" : ""})</span>
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {todasLojas.map((l) => {
+                    const on = lojasDireto.includes(l.id);
+                    return (
+                      <button
+                        key={l.id}
+                        type="button"
+                        onClick={() => toggleLojaDireto(l.id)}
+                        className="px-3 py-1.5 rounded-full text-xs font-semibold transition-all"
+                        style={{ background: on ? "#3b82f622" : "#122039", color: on ? "#3b82f6" : "#94a3b8", border: `1px solid ${on ? "#3b82f6" : "#1e3356"}` }}
+                      >
+                        {l.nome}
+                      </button>
+                    );
+                  })}
+                </div>
+                <p className="text-xs mt-1.5" style={{ color: "#74859c" }}>Cria uma cópia independente em cada loja — status (aprovado/reprovado) é por loja.</p>
+              </div>
+            )}
 
             {/* ── FORNECEDORES ── */}
             <div>
@@ -469,11 +540,13 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
 
             <button
               onClick={handleSalvar}
-              disabled={!form.nome.trim() || !form.lojaId}
+              disabled={!podeSalvar}
               className="w-full py-3 rounded-2xl font-bold text-sm transition-all hover:opacity-90 disabled:opacity-40"
               style={{ background: "#c9a84c", color: "#0b1624" }}
             >
-              {isEditing ? "Salvar Alteracoes" : "Cadastrar Produto"}
+              {isEditing ? "Salvar Alteracoes"
+                : mostrarFluxo && fluxo === "direto" ? `Criar em ${lojasDireto.length || ""} loja${lojasDireto.length !== 1 ? "s" : ""}`
+                : "Cadastrar Produto"}
             </button>
           </div>
         )}
