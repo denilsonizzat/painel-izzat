@@ -2,6 +2,7 @@
 import { useAppStore } from "@/lib/store";
 import { LOJAS, CAMPOS_PRODUTO, Produto, LinkRapido, Frequencia } from "@/lib/data";
 import { LABEL_FREQUENCIA, ORDEM_FREQUENCIA } from "@/lib/recorrencia";
+import Tabs from "@/components/Tabs";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import {
@@ -856,24 +857,16 @@ export default function LojaPerfilPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 p-1 rounded-xl" style={{ background: "#122039", border: "1px solid #1e3356", width: "fit-content" }}>
-        {([
-          { v: "visao-geral", label: "Visao Geral", desc: "Resumo da loja: tarefas, rotinas, links, gastos e métricas" },
-          { v: "produtos", label: `Produtos (${produtosLoja.length})`, desc: "Catálogo de produtos desta loja no pipeline de validação" },
-        ] as const).map((tab) => (
-          <button
-            key={tab.v}
-            onClick={() => setAbaAtiva(tab.v)}
-            data-tip={tab.desc}
-            className="px-4 py-2 rounded-lg text-sm font-semibold transition-all"
-            style={{
-              background: abaAtiva === tab.v ? corGrupo : "transparent",
-              color: abaAtiva === tab.v ? (corGrupo === "#c9a84c" ? "#0b1624" : "#fff") : "#64748b",
-            }}
-          >
-            {tab.label}
-          </button>
-        ))}
+      <div style={{ maxWidth: 380 }}>
+        <Tabs
+          value={abaAtiva}
+          onChange={setAbaAtiva}
+          accent={corGrupo}
+          tabs={[
+            { id: "visao-geral", label: "Visão Geral", dica: "Resumo da loja: tarefas, rotinas, links, gastos e métricas" },
+            { id: "produtos", label: "Produtos", count: produtosLoja.length, dica: "Catálogo de produtos desta loja no pipeline de validação" },
+          ]}
+        />
       </div>
 
       {/* ── ABA PRODUTOS ── */}

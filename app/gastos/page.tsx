@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Avatar from "@/components/Avatar";
 import BackButton from "@/components/BackButton";
+import Tabs from "@/components/Tabs";
 import Link from "next/link";
 import {
   DollarSign, Users, TrendingUp, AlertCircle, Wrench, BarChart3,
@@ -227,27 +228,15 @@ export default function GastosPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 p-1 rounded-xl" style={{ background: "#0d1928", border: "1px solid #1e3356" }}>
-        {([
-          { id: "resumo", label: "Resumo Geral", icon: BarChart3, dica: "Visão consolidada dos custos da equipe: total de salários e ferramentas" },
-          { id: "pessoas", label: "Pessoas", icon: Users, dica: "Custo por colaborador (salário e encargos)" },
-          { id: "ferramentas", label: "Ferramentas", icon: Wrench, dica: "Custo das ferramentas e assinaturas usadas pelo time" },
-        ] as { id: Aba; label: string; icon: React.FC<{ size?: number }>; dica: string }[]).map(({ id, label, icon: Icon, dica }) => (
-          <button
-            key={id}
-            onClick={() => setAba(id)}
-            data-tip={dica}
-            className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-all"
-            style={{
-              background: aba === id ? "#c9a84c" : "transparent",
-              color: aba === id ? "#0b1624" : "#64748b",
-            }}
-          >
-            <Icon size={15} />
-            {label}
-          </button>
-        ))}
-      </div>
+      <Tabs
+        value={aba}
+        onChange={(v) => setAba(v)}
+        tabs={[
+          { id: "resumo" as Aba, label: "Resumo Geral", icon: BarChart3, dica: "Visão consolidada dos custos da equipe: total de salários e ferramentas" },
+          { id: "pessoas" as Aba, label: "Pessoas", icon: Users, dica: "Custo por colaborador (salário e encargos)" },
+          { id: "ferramentas" as Aba, label: "Ferramentas", icon: Wrench, dica: "Custo das ferramentas e assinaturas usadas pelo time" },
+        ]}
+      />
 
       {/* ─── ABA RESUMO ─── */}
       {aba === "resumo" && (

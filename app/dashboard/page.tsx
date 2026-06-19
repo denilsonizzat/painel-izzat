@@ -836,8 +836,8 @@ function KPICard({ icon, label, value, cor, dica, href }: { icon: React.ReactNod
         </div>
       )}
       <div className="flex items-center justify-between mb-4">
-        <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: `${cor}18`, color: cor }}>{icon}</div>
-        {href && <span className="text-xs opacity-0 group-hover:opacity-50 transition-opacity" style={{ color: cor }}>→</span>}
+        <div className="kpi-icon w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: `${cor}18`, color: cor, transition: "transform var(--t-spring)" }}>{icon}</div>
+        {href && <span className="text-xs opacity-0 group-hover:opacity-60 transition-all" style={{ color: cor, transform: "translateX(-4px)" }}>→</span>}
       </div>
       <p className="font-extrabold text-white" style={{ fontSize: 30, letterSpacing: "-0.5px", lineHeight: 1 }}>{value}</p>
       <p className="text-xs mt-2 font-medium" style={{ color: "#64748b" }}>{label}</p>
@@ -849,9 +849,9 @@ function KPICard({ icon, label, value, cor, dica, href }: { icon: React.ReactNod
         href={href}
         className="rounded-2xl p-4 relative group block"
         style={{
-          background: "#122039",
+          background: "linear-gradient(160deg, #14243f, #111e35)",
           border: `1px solid ${cor}30`,
-          transition: "all 150ms cubic-bezier(0.4,0,0.2,1)",
+          transition: "transform var(--t-spring), box-shadow var(--t-normal), border-color var(--t-normal)",
         }}
         onMouseEnter={(e) => {
           (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
@@ -869,7 +869,7 @@ function KPICard({ icon, label, value, cor, dica, href }: { icon: React.ReactNod
     );
   }
   return (
-    <div className="rounded-2xl p-4 relative group" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+    <div className="rounded-2xl p-4 relative group" style={{ background: "linear-gradient(160deg, #14243f, #111e35)", border: "1px solid #1e3356" }}>
       {inner}
     </div>
   );

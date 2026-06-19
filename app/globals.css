@@ -330,6 +330,8 @@ button:active:not(:disabled) {
 .page-enter { animation: pageFade 0.28s var(--ease-spring) both; }
 /* Barra de tempo do toast */
 @keyframes toastBar { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+/* KPI: ícone cresce sutilmente ao passar o mouse no card */
+.group:hover .kpi-icon { transform: scale(1.12); }
 @keyframes scaleIn {
   from { opacity: 0; transform: scale(0.96); }
   to   { opacity: 1; transform: scale(1); }
