@@ -40,13 +40,16 @@ function ToastItem({
 
   return (
     <div
-      className="pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg"
+      className="pointer-events-auto relative overflow-hidden flex items-center gap-3 px-4 py-3 rounded-2xl"
       style={{
-        background: config.bg,
-        border: `1px solid ${config.border}40`,
-        animation: "slideInRight 0.25s ease-out",
+        background: `linear-gradient(160deg, ${config.border}1a, ${config.bg})`,
+        border: `1px solid ${config.border}55`,
+        boxShadow: `0 12px 40px rgba(0,0,0,0.5), 0 0 24px ${config.border}22`,
+        animation: "slideInRight 0.34s var(--ease-spring, cubic-bezier(0.34,1.56,0.64,1))",
       }}
     >
+      {/* Barra que esvazia mostrando o tempo restante */}
+      <div style={{ position: "absolute", left: 0, bottom: 0, height: 2, width: "100%", background: config.border, transformOrigin: "left", animation: "toastBar 2.4s linear forwards" }} />
       <div
         className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
         style={{ background: config.border + "20" }}

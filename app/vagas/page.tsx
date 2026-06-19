@@ -5,6 +5,7 @@ import { LOJAS, Frequencia } from "@/lib/data";
 import { rotinasSemResponsavel, LABEL_FREQUENCIA, ORDEM_FREQUENCIA, fmtDataCurta } from "@/lib/recorrencia";
 import { UserPlus, Plus, X, Briefcase, AlertTriangle, Store, RefreshCw, Trash2, CalendarClock, Undo2 } from "lucide-react";
 import BackButton from "@/components/BackButton";
+import Tabs from "@/components/Tabs";
 
 type AbaVagas = "sem-responsavel" | "contratacao";
 
@@ -144,28 +145,15 @@ export default function VagasPage() {
       </div>
 
       {/* Abas */}
-      <div className="flex gap-2 p-1 rounded-2xl" style={{ background: "#0f1c30", border: "1px solid #1e3356" }}>
-        <button
-          onClick={() => setAba("sem-responsavel")}
-          className="flex-1 flex items-center justify-center gap-2 py-2.5 px-2 rounded-xl text-sm font-semibold transition-all"
-          style={{ background: aba === "sem-responsavel" ? "#ef4444" : "transparent", color: aba === "sem-responsavel" ? "#fff" : "#94a3b8" }}
-        >
-          <AlertTriangle size={14} /> Sem responsável
-          {orfas.length > 0 && (
-            <span className="px-1.5 rounded-full text-xs font-bold" style={{ background: aba === "sem-responsavel" ? "#ffffff30" : "#ef444430", color: aba === "sem-responsavel" ? "#fff" : "#ef4444" }}>{orfas.length}</span>
-          )}
-        </button>
-        <button
-          onClick={() => setAba("contratacao")}
-          className="flex-1 flex items-center justify-center gap-2 py-2.5 px-2 rounded-xl text-sm font-semibold transition-all"
-          style={{ background: aba === "contratacao" ? "#f59e0b" : "transparent", color: aba === "contratacao" ? "#0b1624" : "#94a3b8" }}
-        >
-          <Briefcase size={14} /> Vagas de contratação
-          {contratacoes.length > 0 && (
-            <span className="px-1.5 rounded-full text-xs font-bold" style={{ background: aba === "contratacao" ? "#00000020" : "#f59e0b30", color: aba === "contratacao" ? "#0b1624" : "#f59e0b" }}>{contratacoes.length}</span>
-          )}
-        </button>
-      </div>
+      <Tabs
+        value={aba}
+        onChange={setAba}
+        accent={aba === "sem-responsavel" ? "#ef4444" : "#f59e0b"}
+        tabs={[
+          { id: "sem-responsavel", label: "Sem responsável", icon: AlertTriangle, count: orfas.length, dica: "Rotinas que existem mas ninguém faz — delegue a alguém do time" },
+          { id: "contratacao", label: "Vagas de contratação", icon: Briefcase, count: contratacoes.length, dica: "Funções que a empresa precisa preencher (contratar)" },
+        ]}
+      />
 
       {/* Explicação contextual */}
       <div className="p-3 rounded-xl" style={{ background: (aba === "sem-responsavel" ? "#ef4444" : "#f59e0b") + "10", border: `1px solid ${(aba === "sem-responsavel" ? "#ef4444" : "#f59e0b")}25`, borderLeft: `3px solid ${aba === "sem-responsavel" ? "#ef4444" : "#f59e0b"}` }}>

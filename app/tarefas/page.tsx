@@ -10,6 +10,7 @@ import Image from "next/image";
 import { useNotifications } from "@/hooks/useNotifications";
 import AbaHoje from "@/components/tarefas/AbaHoje";
 import AbaRotinas from "@/components/tarefas/AbaRotinas";
+import Tabs from "@/components/Tabs";
 
 type AbaTarefas = "hoje" | "rotinas" | "avulsas";
 
@@ -230,31 +231,15 @@ export default function TarefasPage() {
       </div>
 
       {/* Abas */}
-      <div className="flex gap-2 p-1 rounded-2xl" style={{ background: "#0f1c30", border: "1px solid #1e3356" }}>
-        {([
-          { id: "hoje" as const, label: "Hoje", icon: Sparkles, desc: "Tudo que você tem para fazer hoje (rotinas do dia + avulsas)" },
-          { id: "rotinas" as const, label: "Rotinas", icon: RefreshCw, desc: "Suas rotinas por frequência (diária, semanal, mensal...)" },
-          { id: "avulsas" as const, label: "Avulsas", icon: ListTodo, desc: "Tarefas avulsas — delegadas pelo gestor ou criadas por você" },
-        ]).map((t) => {
-          const ativo = aba === t.id;
-          const Icon = t.icon;
-          return (
-            <button
-              key={t.id}
-              onClick={() => setAba(t.id)}
-              className="flex-1 flex items-center justify-center gap-2 py-2.5 px-2 rounded-xl text-sm font-semibold transition-all"
-              style={{
-                background: ativo ? "#c9a84c" : "transparent",
-                color: ativo ? "#0b1624" : "#94a3b8",
-              }}
-              data-tip={t.desc}
-            >
-              <Icon size={15} />
-              <span className="hidden sm:inline">{t.label}</span>
-            </button>
-          );
-        })}
-      </div>
+      <Tabs
+        value={aba}
+        onChange={setAba}
+        tabs={[
+          { id: "hoje", label: "Hoje", icon: Sparkles, dica: "Tudo que você tem para fazer hoje (rotinas do dia + avulsas)" },
+          { id: "rotinas", label: "Rotinas", icon: RefreshCw, dica: "Suas rotinas por frequência (diária, semanal, mensal...)" },
+          { id: "avulsas", label: "Avulsas", icon: ListTodo, dica: "Tarefas avulsas — delegadas pelo gestor ou criadas por você" },
+        ]}
+      />
 
       {/* Aba Hoje */}
       {aba === "hoje" && <AbaHoje />}
