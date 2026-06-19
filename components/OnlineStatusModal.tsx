@@ -17,7 +17,6 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
 
   const [inicioHora, setInicioHora] = useState(horaAtual);
   const [ateHora, setAteHora] = useState("18:00");
-  const [proximoDia, setProximoDia] = useState(false);
   const [foco, setFoco] = useState(false);
   const [trabalhando, setTrabalhando] = useState("");
 
@@ -26,23 +25,25 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
     setInicioHora(horaAtual());
     if (usuarioAtual?.statusOnline?.ate) {
       setAteHora(usuarioAtual.statusOnline.ate);
-      setProximoDia(usuarioAtual.statusOnline.proximoDia ?? false);
     } else if (usuarioAtual?.horarioFim) {
       setAteHora(usuarioAtual.horarioFim);
-      setProximoDia(false);
     }
     setFoco(usuarioAtual?.statusOnline?.foco ?? false);
     setTrabalhando(usuarioAtual?.statusOnline?.trabalhando ?? "");
   }, [aberto, usuarioAtual?.id]);
 
-  // Auto-suggest próximo dia when "até" is before "início"
-  useEffect(() => {
-    if (ateHora && inicioHora && ateHora < inicioHora) {
-      setProximoDia(true);
-    }
-  }, [ateHora, inicioHora]);
-
   if (!aberto || !usuarioAtual) return null;
+
+  // "Termina no dia seguinte" é AUTOMÁTICO: se a saída é igual/antes da entrada,
+  // o turno cruza a meia-noite (ex: 22:00 → 03:00). Sem toggle, sem fricção.
+  const proximoDia = !!ateHora && !!inicioHora && ateHora < inicioHora;
+
+  // Datas legíveis (hoje → amanhã quando cruza meia-noite)
+  const fmtDataDia = (offset: number) => {
+    const d = new Date();
+    d.setDate(d.getDate() + offset);
+    return d.toLocaleDateString("pt-BR", { weekday: "short", day: "2-digit", month: "2-digit" });
+  };
 
   const isOnline = usuarioAtual.statusOnline?.ativo ?? false;
 
@@ -72,13 +73,6 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
     }
   };
 
-  const handleProximoDiaChange = (val: boolean) => {
-    setProximoDia(val);
-    if (isOnline && usuarioAtual) {
-      setStatusOnline(usuarioAtual.id, true, ateHora, val);
-    }
-  };
-
   const duracaoLabel = (() => {
     if (!inicioHora || !ateHora) return null;
     const [ih, im] = inicioHora.split(":").map(Number);
@@ -93,17 +87,17 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: "#00000090" }}
+      className="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4"
+      style={{ background: "#00000090", backdropFilter: "blur(2px)" }}
       onClick={onFechar}
     >
       <div
-        className="w-full max-w-sm rounded-2xl p-6"
-        style={{ background: "#122039", border: `1px solid ${isOnline ? "#10b98140" : "#1e3356"}` }}
+        className="modal-card w-full max-w-sm rounded-2xl p-5 overflow-y-auto"
+        style={{ background: "#122039", border: `1px solid ${isOnline ? "#10b98140" : "#1e3356"}`, maxHeight: "88vh" }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-white font-bold text-lg">Status de Presença</h2>
             <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>
@@ -116,9 +110,9 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
         </div>
 
         {/* Status label */}
-        <div className="text-center mb-5">
+        <div className="text-center mb-4">
           <p
-            className="text-4xl font-black tracking-widest"
+            className="text-3xl font-black tracking-widest"
             style={{ color: isOnline ? (foco ? "#f97316" : "#10b981") : "#334155" }}
           >
             {isOnline ? (foco ? "NO FOCO" : "ONLINE") : "OFFLINE"}
@@ -134,7 +128,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
         </div>
 
         {/* Toggle */}
-        <div className="flex justify-center mb-5">
+        <div className="flex justify-center mb-4">
           <button
             onClick={handleToggle}
             className="relative transition-all hover:opacity-90 active:scale-95"
@@ -254,45 +248,21 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
             </div>
           </div>
 
-          {/* Próximo dia toggle */}
-          <div className="space-y-1.5">
-            <button
-              onClick={() => handleProximoDiaChange(!proximoDia)}
-              className="w-full flex items-center justify-between px-3 py-2 rounded-xl transition-all"
-              style={{
-                background: proximoDia ? "#8b5cf620" : "transparent",
-                border: `1px solid ${proximoDia ? "#8b5cf640" : "#1e3356"}`,
-              }}
-            >
-              <div className="flex items-center gap-2">
-                <Moon size={14} style={{ color: proximoDia ? "#8b5cf6" : "#64748b" }} />
-                <span className="text-sm font-medium" style={{ color: proximoDia ? "#8b5cf6" : "#64748b" }}>
-                  Termina no dia seguinte
-                </span>
-                <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#8b5cf620", color: "#8b5cf6" }}>
-                  +1 dia
-                </span>
-              </div>
-              <div
-                className="w-9 h-5 rounded-full relative transition-all"
-                style={{ background: proximoDia ? "#8b5cf6" : "#334155" }}
-              >
-                <div
-                  className="absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all"
-                  style={{ left: proximoDia ? "calc(100% - 18px)" : "2px" }}
-                />
-              </div>
-            </button>
-            <p className="text-xs px-1 leading-snug" style={{ color: "#74859c" }}>
-              Ative quando seu horario de trabalho passa da meia-noite — ex: entrada 22:00, saida 03:00 do dia seguinte.
-            </p>
-          </div>
+          {/* Indicador automático: vira o dia sozinho quando cruza a meia-noite */}
+          {proximoDia && (
+            <div className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ background: "#8b5cf615", border: "1px solid #8b5cf630" }}>
+              <Moon size={14} style={{ color: "#8b5cf6", flexShrink: 0 }} />
+              <span className="text-xs" style={{ color: "#c4b5fd" }}>
+                Vira a madrugada — <strong style={{ color: "#8b5cf6" }}>{fmtDataDia(0)}</strong> → <strong style={{ color: "#8b5cf6" }}>{fmtDataDia(1)}</strong>
+              </span>
+            </div>
+          )}
 
-          {/* Duração calculada */}
+          {/* Duração calculada (automática) */}
           {duracaoLabel && (
             <div className="flex items-center justify-center gap-1.5">
               <div className="h-px flex-1" style={{ background: "#1e3356" }} />
-              <span className="text-xs font-medium px-2" style={{ color: "#c9a84c" }}>
+              <span className="text-xs font-bold px-2" style={{ color: "#c9a84c" }}>
                 {duracaoLabel} de trabalho
               </span>
               <div className="h-px flex-1" style={{ background: "#1e3356" }} />
