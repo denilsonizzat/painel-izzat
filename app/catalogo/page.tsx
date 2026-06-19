@@ -516,8 +516,11 @@ export default function CatalogoPage() {
       setDistribuirModal(prod);
       setLojasDistribuir([]);
       setDistribuirSucesso(false);
-    } else if (targetCol === "teste" && prod.reprovado) {
-      editarProduto(prodId, { reprovado: false, validado: false, noAr: false });
+    } else if (targetCol === "teste" || targetCol === "cadastrando") {
+      // Voltar para Em Teste / Cadastrando de qualquer estágio (validado, reprovado,
+      // distribuído): limpa os flags. A coluna final (teste vs cadastrando) é
+      // decidida por getColuna conforme o produto está completo ou não.
+      editarProduto(prodId, { reprovado: false, validado: false, noAr: false, distribuidoPara: [] });
     }
   }
 
