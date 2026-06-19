@@ -193,12 +193,12 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4"
-      style={{ background: "#00000090" }}
+      className="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4"
+      style={{ background: "#00000090", backdropFilter: "blur(2px)" }}
       onClick={() => !sucesso && onClose()}
     >
       <div
-        className="w-full max-w-lg rounded-2xl overflow-hidden"
+        className="modal-card w-full max-w-lg rounded-2xl overflow-hidden"
         style={{ background: "#0b1624", border: "1px solid #1e3356", maxHeight: "92vh" }}
         onClick={(e) => e.stopPropagation()}
       >

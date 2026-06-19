@@ -328,6 +328,19 @@ button:active:not(:disabled) {
 }
 /* Entrada suave de página/seção */
 .page-enter { animation: pageFade 0.28s var(--ease-spring) both; }
+/* Modais — backdrop com fade, card com leve pop (spring) */
+.modal-backdrop { animation: fadeIn 0.18s ease both; }
+.modal-card { animation: modalPop 0.28s var(--ease-spring) both; }
+@keyframes modalPop {
+  from { opacity: 0; transform: translateY(10px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+/* Estado vazio — ícone com leve respiração */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50%      { transform: scale(1.06); opacity: 1; }
+}
+.empty-icon { animation: breathe 3s ease-in-out infinite; }
 /* Barra de tempo do toast */
 @keyframes toastBar { from { transform: scaleX(1); } to { transform: scaleX(0); } }
 /* KPI: ícone cresce sutilmente ao passar o mouse no card */

@@ -34,10 +34,10 @@ export default function AbaHoje() {
       </div>
 
       {total === 0 && (
-        <div className="rounded-2xl p-10 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
-          <div className="text-4xl mb-3">✅</div>
-          <p className="font-semibold text-white mb-1">Tudo certo por hoje!</p>
-          <p className="text-sm" style={{ color: "#64748b" }}>Nenhuma rotina ou tarefa pendente para hoje.</p>
+        <div className="rounded-2xl p-12 text-center" style={{ background: "linear-gradient(160deg, #14243f, #111e35)", border: "1px solid #1e3356" }}>
+          <div className="text-5xl mb-3 empty-icon inline-block">✅</div>
+          <p className="font-bold text-white mb-1 text-lg">Tudo certo por hoje!</p>
+          <p className="text-sm" style={{ color: "#94a3b8" }}>Nenhuma rotina ou tarefa pendente. Aproveite — ou adiante algo de amanhã.</p>
         </div>
       )}
 

@@ -37,8 +37,8 @@ export default function RotinaDetalheModal({ rotinaId, onClose }: { rotinaId: st
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" style={{ background: "#00000090" }} onClick={onClose}>
-      <div className="w-full max-w-lg rounded-2xl overflow-hidden" style={{ background: "#0b1624", border: "1px solid #1e3356", maxHeight: "90vh" }} onClick={(e) => e.stopPropagation()}>
+    <div className="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" style={{ background: "#00000090", backdropFilter: "blur(2px)" }} onClick={onClose}>
+      <div className="modal-card w-full max-w-lg rounded-2xl overflow-hidden" style={{ background: "#0b1624", border: "1px solid #1e3356", maxHeight: "90vh" }} onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="px-5 pt-5 pb-3" style={{ borderBottom: "1px solid #1e3356" }}>
           <div className="flex items-start justify-between gap-3">

@@ -1617,9 +1617,9 @@ export default function LojaPerfilPage() {
 
       {/* ── Modal Nova Rotina ── */}
       {modalRotina && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4"
-          style={{ background: "#00000090" }} onClick={() => !sucessoRotina && setModalRotina(false)}>
-          <div className="w-full max-w-md rounded-2xl overflow-hidden"
+        <div className="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4"
+          style={{ background: "#00000090", backdropFilter: "blur(2px)" }} onClick={() => !sucessoRotina && setModalRotina(false)}>
+          <div className="modal-card w-full max-w-md rounded-2xl overflow-hidden"
             style={{ background: "#0b1624", border: `1px solid ${corGrupo}40`, maxHeight: "90vh" }}
             onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid #1e3356" }}>
