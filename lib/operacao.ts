@@ -262,6 +262,80 @@ export function precoIdeal(custoTotal: number, margemDesejada: number, cfg: OpCo
   return { preco, taxas, lucro, margemReal: preco > 0 ? (lucro / preco) * 100 : 0, inviavel: false };
 }
 
+// ─── PREVISÃO DE FECHAMENTO (3 cenários) ───────────────────
+export interface Previsao { pessimista: number; realista: number; otimista: number; mediaDia: number; diasRestantes: number; atual: number; }
+export function preverFechamento(dias: DiaSerie[], mes: number, ano: number): Previsao | null {
+  const agora = new Date();
+  if (agora.getMonth() + 1 !== mes || agora.getFullYear() !== ano) return null;
+  const diaAtual = agora.getDate();
+  const ativos = dias.filter((d) => d.dia <= diaAtual && d.pedidos > 0);
+  if (ativos.length < 2) return null;
+  const ult7 = ativos.slice(-7);
+  const mediaDia = ult7.reduce((s, d) => s + d.faturamento, 0) / ult7.length;
+  const atual = dias.filter((d) => d.dia <= diaAtual).reduce((s, d) => s + d.faturamento, 0);
+  const restantes = new Date(ano, mes, 0).getDate() - diaAtual;
+  return {
+    pessimista: atual + mediaDia * 0.8 * restantes,
+    realista: atual + mediaDia * restantes,
+    otimista: atual + mediaDia * 1.2 * restantes,
+    mediaDia, diasRestantes: restantes, atual,
+  };
+}
+
+// ─── SIMULADOR DE ADS ──────────────────────────────────────
+export function simularAds(budget: number, roas: number, ticket: number, margem: number) {
+  const faturamento = budget * roas;
+  const pedidos = ticket > 0 ? Math.round(faturamento / ticket) : 0;
+  const lucro = faturamento * (margem / 100) - budget;
+  const roi = budget > 0 ? lucro / budget : 0;
+  const beRoas = margem > 0 ? 100 / margem : 0;
+  return { faturamento, pedidos, lucro, roi, beRoas };
+}
+
+// ─── LTV (acumulado de todos os meses) ─────────────────────
+export interface Ltv {
+  totalPedidos: number; totalFaturamento: number; totalLucro: number;
+  mesesAtivos: number; ticketMedio: number; lucroMes: number; pedidosMes: number; ltv12: number;
+}
+export async function calcularLtv(lojaId: string): Promise<Ltv> {
+  const { data, error } = await supabase.from("op_pedidos")
+    .select("data,custo_produto,frete,faturamento,status").eq("loja_id", lojaId);
+  if (error) throw error;
+  const ped = data || [];
+  let fat = 0, lucro = 0;
+  const meses = new Set<string>();
+  ped.forEach((p: { data: string; custo_produto: number; frete: number; faturamento: number; status: string }) => {
+    const reemb = p.status === "reembolso";
+    const c = (p.custo_produto || 0) + (p.frete || 0);
+    const rev = reemb ? 0 : (p.faturamento || 0);
+    fat += rev; lucro += rev - c;
+    if (rev > 0) meses.add(p.data.slice(0, 7));
+  });
+  const mesesAtivos = meses.size;
+  const totalPedidos = ped.length;
+  const ticketMedio = totalPedidos > 0 ? fat / totalPedidos : 0;
+  const pedidosMes = mesesAtivos > 0 ? totalPedidos / mesesAtivos : 0;
+  return {
+    totalPedidos, totalFaturamento: fat, totalLucro: lucro, mesesAtivos,
+    ticketMedio, lucroMes: mesesAtivos > 0 ? lucro / mesesAtivos : 0, pedidosMes,
+    ltv12: ticketMedio * pedidosMes * 12,
+  };
+}
+
+// ─── EXPORT CSV ────────────────────────────────────────────
+export function gerarCSV(pedidos: OpPedido[]): string {
+  const head = "Data,NumPedido,Fornecedor,Produto,CustoProduto,Frete,Faturamento,Lucro,Status,Notas";
+  const esc = (v: unknown) => '"' + String(v ?? "").replace(/"/g, '""') + '"';
+  const linhas = pedidos.map((p) => {
+    const rev = p.status === "reembolso" ? 0 : p.faturamento;
+    const lucro = rev - (p.custo_produto + p.frete);
+    return [p.data, esc(p.num_pedido), esc(p.fornecedor), esc(p.produto),
+      p.custo_produto.toFixed(2), p.frete.toFixed(2), p.faturamento.toFixed(2),
+      lucro.toFixed(2), esc(p.status || "completo"), esc(p.notas)].join(",");
+  });
+  return [head, ...linhas].join("\n");
+}
+
 export function calcularKpis(pedidos: OpPedido[], ads: OpAds[], cfg: OpConfig): KpisOperacao {
   let faturamento = 0, custo = 0;
   for (const p of pedidos) {
