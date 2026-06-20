@@ -143,6 +143,40 @@ export function notaGarimpo(respostas: Record<string, number>): { nota: number; 
   return { nota, subgrupos, veredito: vd };
 }
 
+// ─── PROJETADO × REAL ──────────────────────────────────────
+// Real vem do op_pedidos (módulo Operação). Match por nome do produto (texto).
+// Comparação em MARGEM BRUTA (faturamento − custo) — base justa, sem ADS (ADS é por loja, não por produto).
+export interface RealProduto {
+  nome: string; pedidos: number; faturamento: number; custo: number;
+  ticketMedio: number; margemBruta: number; lucroBruto: number;
+}
+export async function realPorProduto(lojaId: string): Promise<Record<string, RealProduto>> {
+  const { data, error } = await supabase.from("op_pedidos")
+    .select("produto,faturamento,custo_produto,frete,status").eq("loja_id", lojaId);
+  if (error) throw error;
+  const mapa: Record<string, RealProduto> = {};
+  (data || []).forEach((p: { produto?: string; faturamento: number; custo_produto: number; frete: number; status: string }) => {
+    const nome = (p.produto || "").trim();
+    if (!nome) return;
+    const chave = nome.toLowerCase();
+    if (!mapa[chave]) mapa[chave] = { nome, pedidos: 0, faturamento: 0, custo: 0, ticketMedio: 0, margemBruta: 0, lucroBruto: 0 };
+    const reemb = p.status === "reembolso";
+    mapa[chave].pedidos += 1;
+    mapa[chave].faturamento += reemb ? 0 : (p.faturamento || 0);
+    mapa[chave].custo += (p.custo_produto || 0) + (p.frete || 0);
+  });
+  Object.values(mapa).forEach((r) => {
+    r.ticketMedio = r.pedidos > 0 ? r.faturamento / r.pedidos : 0;
+    r.lucroBruto = r.faturamento - r.custo;
+    r.margemBruta = r.faturamento > 0 ? r.lucroBruto / r.faturamento : 0;
+  });
+  return mapa;
+}
+// Margem bruta projetada (país-independente): (markup − 1) / markup
+export function margemBrutaProjetada(markup: number): number {
+  return markup > 0 ? (markup - 1) / markup : 0;
+}
+
 // ═══════════════ CRUD Supabase ═══════════════
 export async function obterConfig(lojaId: string): Promise<PrecConfig> {
   const { data, error } = await supabase.from("prec_config").select("*").eq("loja_id", lojaId).maybeSingle();
