@@ -200,6 +200,68 @@ export function serieFornecedor(pedidos: OpPedido[]): FornecedorSerie[] {
     .sort((a, b) => b.faturamento - a.faturamento);
 }
 
+// ─── ABC DE PRODUTOS ───────────────────────────────────────
+export interface ProdutoSerie {
+  nome: string; faturamento: number; custo: number; lucro: number; pedidos: number; margem: number; abc: "A" | "B" | "C";
+}
+export function serieProduto(pedidos: OpPedido[]): ProdutoSerie[] {
+  const mapa: Record<string, Omit<ProdutoSerie, "abc" | "margem">> = {};
+  for (const p of pedidos) {
+    const nome = (p.produto || "").trim() || "(sem nome)";
+    if (!mapa[nome]) mapa[nome] = { nome, faturamento: 0, custo: 0, lucro: 0, pedidos: 0 };
+    const reembolso = p.status === "reembolso";
+    const c = (p.custo_produto || 0) + (p.frete || 0);
+    const rev = reembolso ? 0 : (p.faturamento || 0);
+    mapa[nome].faturamento += rev;
+    mapa[nome].custo += c;
+    mapa[nome].lucro += rev - c;
+    mapa[nome].pedidos += 1;
+  }
+  const lista = Object.values(mapa).sort((a, b) => b.faturamento - a.faturamento);
+  const totalRev = lista.reduce((s, p) => s + p.faturamento, 0);
+  let acc = 0;
+  return lista.map((p) => {
+    acc += p.faturamento;
+    const cumPct = totalRev > 0 ? (acc / totalRev) * 100 : 0;
+    const abc: "A" | "B" | "C" = cumPct <= 70 ? "A" : cumPct <= 90 ? "B" : "C";
+    return { ...p, margem: p.faturamento > 0 ? (p.lucro / p.faturamento) * 100 : 0, abc };
+  });
+}
+
+// ─── ALERTAS INTELIGENTES ──────────────────────────────────
+export interface Alerta { tipo: "danger" | "warn" | "success" | "info"; ico: string; msg: string; }
+export function gerarAlertas(k: KpisOperacao, pedidos: OpPedido[], meta: OpMeta | null): Alerta[] {
+  const a: Alerta[] = [];
+  if (k.roas > 0 && k.roas < 1.5) a.push({ tipo: "danger", ico: "🚨", msg: `ROAS baixo (${k.roas.toFixed(1)}x) — cada $1 em ADS volta menos de $1,50` });
+  if (k.margem < 0) a.push({ tipo: "danger", ico: "🔴", msg: `Margem negativa (${k.margem.toFixed(1)}%) — revise custos e ADS` });
+  if (k.lucroReal < 0) a.push({ tipo: "danger", ico: "💸", msg: `Lucro real negativo (${fmtMoney(k.lucroReal)}) após taxas` });
+  const reembolsos = pedidos.filter((p) => p.status === "reembolso");
+  const taxaReemb = k.pedidos > 0 ? (reembolsos.length / k.pedidos) * 100 : 0;
+  if (taxaReemb > 10) a.push({ tipo: "danger", ico: "↩️", msg: `Taxa de reembolso alta: ${taxaReemb.toFixed(1)}% (${reembolsos.length}/${k.pedidos})` });
+  else if (taxaReemb > 5) a.push({ tipo: "warn", ico: "↩️", msg: `Reembolsos em atenção: ${taxaReemb.toFixed(1)}%` });
+  const disputas = pedidos.filter((p) => p.status === "disputa").length;
+  if (disputas > 0) a.push({ tipo: "warn", ico: "⚖️", msg: `${disputas} pedido(s) em disputa` });
+  if (meta && meta.meta_faturamento > 0) {
+    const pct = (k.faturamento / meta.meta_faturamento) * 100;
+    if (pct >= 100) a.push({ tipo: "success", ico: "🏆", msg: `Meta de faturamento batida! ${pct.toFixed(0)}%` });
+  }
+  if (k.roas >= 3) a.push({ tipo: "success", ico: "🚀", msg: `ROAS excelente: ${k.roas.toFixed(1)}x` });
+  return a;
+}
+function fmtMoney(n: number) { return "$" + (n || 0).toFixed(2); }
+
+// ─── CALCULADORA DE PREÇO IDEAL ────────────────────────────
+export function precoIdeal(custoTotal: number, margemDesejada: number, cfg: OpConfig): { preco: number; taxas: number; lucro: number; margemReal: number; inviavel: boolean } {
+  const taxaTotal = (cfg.gateway_fee + cfg.shopify_fee + cfg.imposto) / 100;
+  const margem = margemDesejada / 100;
+  const denom = 1 - taxaTotal - margem;
+  if (denom <= 0.01) return { preco: 0, taxas: 0, lucro: 0, margemReal: 0, inviavel: true };
+  const preco = custoTotal / denom;
+  const taxas = preco * taxaTotal;
+  const lucro = preco - custoTotal - taxas;
+  return { preco, taxas, lucro, margemReal: preco > 0 ? (lucro / preco) * 100 : 0, inviavel: false };
+}
+
 export function calcularKpis(pedidos: OpPedido[], ads: OpAds[], cfg: OpConfig): KpisOperacao {
   let faturamento = 0, custo = 0;
   for (const p of pedidos) {
