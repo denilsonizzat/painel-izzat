@@ -82,6 +82,74 @@ export interface KpisOperacao {
   lucroReal: number; margemReal: number;
 }
 
+// ─── SÉRIES PARA GRÁFICOS ──────────────────────────────────
+export interface DiaSerie {
+  dia: number; rotulo: string; faturamento: number; custo: number; ads: number; lucro: number; pedidos: number;
+}
+export function serieDiaria(pedidos: OpPedido[], ads: OpAds[], mes: number, ano: number): DiaSerie[] {
+  const ultimoDia = new Date(ano, mes, 0).getDate();
+  const dias: DiaSerie[] = [];
+  for (let d = 1; d <= ultimoDia; d++) {
+    dias.push({ dia: d, rotulo: String(d).padStart(2, "0"), faturamento: 0, custo: 0, ads: 0, lucro: 0, pedidos: 0 });
+  }
+  for (const p of pedidos) {
+    const d = parseInt(p.data.slice(8, 10), 10);
+    const slot = dias[d - 1];
+    if (!slot) continue;
+    const reembolso = p.status === "reembolso";
+    const c = (p.custo_produto || 0) + (p.frete || 0);
+    slot.custo += c;
+    slot.faturamento += reembolso ? 0 : (p.faturamento || 0);
+    slot.pedidos += 1;
+  }
+  for (const a of ads) {
+    const d = parseInt(a.data.slice(8, 10), 10);
+    const slot = dias[d - 1];
+    if (slot) slot.ads += a.valor || 0;
+  }
+  for (const s of dias) s.lucro = s.faturamento - s.custo - s.ads;
+  return dias;
+}
+
+export interface SemanaSerie {
+  semana: number; periodo: string; faturamento: number; custo: number; ads: number; lucro: number; pedidos: number;
+}
+export function serieSemanal(dias: DiaSerie[]): SemanaSerie[] {
+  const faixas = [[1, 7], [8, 14], [15, 21], [22, 31]];
+  return faixas.map(([ini, fim], i) => {
+    const ds = dias.filter((d) => d.dia >= ini && d.dia <= fim);
+    return {
+      semana: i + 1, periodo: `${ini}–${Math.min(fim, dias.length)}`,
+      faturamento: ds.reduce((s, d) => s + d.faturamento, 0),
+      custo: ds.reduce((s, d) => s + d.custo, 0),
+      ads: ds.reduce((s, d) => s + d.ads, 0),
+      lucro: ds.reduce((s, d) => s + d.lucro, 0),
+      pedidos: ds.reduce((s, d) => s + d.pedidos, 0),
+    };
+  });
+}
+
+export interface FornecedorSerie {
+  nome: string; faturamento: number; custo: number; lucro: number; pedidos: number; margem: number;
+}
+export function serieFornecedor(pedidos: OpPedido[]): FornecedorSerie[] {
+  const mapa: Record<string, FornecedorSerie> = {};
+  for (const p of pedidos) {
+    const nome = p.fornecedor || "—";
+    if (!mapa[nome]) mapa[nome] = { nome, faturamento: 0, custo: 0, lucro: 0, pedidos: 0, margem: 0 };
+    const reembolso = p.status === "reembolso";
+    const c = (p.custo_produto || 0) + (p.frete || 0);
+    const rev = reembolso ? 0 : (p.faturamento || 0);
+    mapa[nome].faturamento += rev;
+    mapa[nome].custo += c;
+    mapa[nome].lucro += rev - c;
+    mapa[nome].pedidos += 1;
+  }
+  return Object.values(mapa)
+    .map((s) => ({ ...s, margem: s.faturamento > 0 ? (s.lucro / s.faturamento) * 100 : 0 }))
+    .sort((a, b) => b.faturamento - a.faturamento);
+}
+
 export function calcularKpis(pedidos: OpPedido[], ads: OpAds[], cfg: OpConfig): KpisOperacao {
   let faturamento = 0, custo = 0;
   for (const p of pedidos) {
