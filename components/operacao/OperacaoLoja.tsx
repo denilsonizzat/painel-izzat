@@ -4,10 +4,11 @@ import {
   listarPedidos, criarPedido, editarPedido, deletarPedido,
   listarAds, criarAds, deletarAds,
   obterConfig, salvarConfig, calcularKpis,
+  serieDiaria, serieSemanal, serieFornecedor,
   OpPedido, OpAds, OpConfig, KpisOperacao,
 } from "@/lib/operacao";
 import { supabaseConfigurado } from "@/lib/supabase";
-import { Plus, Trash2, Pencil, X, TrendingUp, ListOrdered, Megaphone, Settings, DollarSign } from "lucide-react";
+import { Plus, Trash2, Pencil, X, TrendingUp, ListOrdered, Megaphone, Settings, DollarSign, BarChart3 } from "lucide-react";
 
 const MESES = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 const FORNECEDORES = ["AliExpress", "Wiio", "DV", "3Cliques"];
@@ -16,7 +17,7 @@ const fmt$ = (n: number) => "$" + (n || 0).toFixed(2);
 const fmtPct = (n: number) => (n || 0).toFixed(1) + "%";
 const hoje = () => new Date().toISOString().slice(0, 10);
 
-type SubAba = "kpis" | "pedidos" | "ads" | "config";
+type SubAba = "kpis" | "graficos" | "pedidos" | "ads" | "config";
 
 export default function OperacaoLoja({ lojaId, lojaNome }: { lojaId: string; lojaNome: string }) {
   const agora = new Date();
@@ -69,6 +70,7 @@ export default function OperacaoLoja({ lojaId, lojaNome }: { lojaId: string; loj
       <div className="flex gap-1 p-1 rounded-xl" style={{ background: "#0f1c30", border: "1px solid #1e3356" }}>
         {([
           { id: "kpis" as const, label: "Resumo", icon: TrendingUp },
+          { id: "graficos" as const, label: "Gráficos", icon: BarChart3 },
           { id: "pedidos" as const, label: `Pedidos${pedidos.length ? ` (${pedidos.length})` : ""}`, icon: ListOrdered },
           { id: "ads" as const, label: "ADS", icon: Megaphone },
           { id: "config" as const, label: "Taxas", icon: Settings },
@@ -90,6 +92,7 @@ export default function OperacaoLoja({ lojaId, lojaNome }: { lojaId: string; loj
       {!carregando && kpis && cfg && (
         <>
           {sub === "kpis" && <AbaKpis kpis={kpis} cfg={cfg} />}
+          {sub === "graficos" && <AbaGraficos pedidos={pedidos} ads={ads} mes={mes} ano={ano} />}
           {sub === "pedidos" && <AbaPedidos lojaId={lojaId} pedidos={pedidos} onMudou={carregar} />}
           {sub === "ads" && <AbaAds lojaId={lojaId} ads={ads} onMudou={carregar} />}
           {sub === "config" && <AbaConfig cfg={cfg} onSalvar={async (c) => { await salvarConfig(c); carregar(); }} />}
@@ -144,6 +147,95 @@ function Linha({ label, valor, negativo }: { label: string; valor: string; negat
     <div className="flex justify-between py-1" style={{ borderBottom: "1px solid #1e335655" }}>
       <span>{label}</span>
       <span style={{ color: negativo ? "#ef4444" : "#e8edf5", fontWeight: 600 }}>{valor}</span>
+    </div>
+  );
+}
+
+// ─── GRÁFICOS ──────────────────────────────────────────────
+function AbaGraficos({ pedidos, ads, mes, ano }: { pedidos: OpPedido[]; ads: OpAds[]; mes: number; ano: number }) {
+  const dias = serieDiaria(pedidos, ads, mes, ano);
+  const semanas = serieSemanal(dias);
+  const fornecedores = serieFornecedor(pedidos);
+  const temDado = pedidos.length > 0 || ads.length > 0;
+
+  if (!temDado) {
+    return <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Sem dados para gráficos neste mês. Adicione pedidos/ADS.</div>;
+  }
+
+  const maxDia = Math.max(1, ...dias.map((d) => Math.max(d.faturamento, d.lucro, d.ads)));
+  const maxSem = Math.max(1, ...semanas.map((s) => Math.max(s.faturamento, s.lucro)));
+  const maxForn = Math.max(1, ...fornecedores.map((f) => f.faturamento));
+
+  const Card = ({ title, children }: { title: string; children: React.ReactNode }) => (
+    <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#9aa7ba" }}>{title}</p>
+      {children}
+    </div>
+  );
+
+  return (
+    <div className="space-y-4">
+      {/* Legenda */}
+      <div className="flex gap-4 text-xs" style={{ color: "#9aa7ba" }}>
+        <span className="flex items-center gap-1.5"><i style={{ width: 10, height: 10, borderRadius: 2, background: "#3b82f6", display: "inline-block" }} /> Faturamento</span>
+        <span className="flex items-center gap-1.5"><i style={{ width: 10, height: 10, borderRadius: 2, background: "#10b981", display: "inline-block" }} /> Lucro</span>
+        <span className="flex items-center gap-1.5"><i style={{ width: 10, height: 10, borderRadius: 2, background: "#f59e0b", display: "inline-block" }} /> ADS</span>
+      </div>
+
+      {/* Evolução diária */}
+      <Card title={`Evolução diária — ${MESES[mes - 1]}`}>
+        <div className="flex items-end gap-0.5" style={{ height: 160 }}>
+          {dias.map((d) => {
+            const temD = d.faturamento > 0 || d.ads > 0;
+            return (
+              <div key={d.dia} className="flex-1 flex flex-col items-center justify-end gap-px group relative" style={{ height: "100%" }} title={`${d.rotulo}: Fat ${fmt$(d.faturamento)} · Lucro ${fmt$(d.lucro)} · ADS ${fmt$(d.ads)}`}>
+                <div className="w-full flex items-end justify-center gap-px" style={{ height: "100%" }}>
+                  <div style={{ width: "32%", height: `${(d.faturamento / maxDia) * 100}%`, background: "#3b82f6", borderRadius: "2px 2px 0 0", minHeight: d.faturamento > 0 ? 2 : 0 }} />
+                  <div style={{ width: "32%", height: `${(Math.max(d.lucro, 0) / maxDia) * 100}%`, background: d.lucro >= 0 ? "#10b981" : "#ef4444", borderRadius: "2px 2px 0 0", minHeight: d.lucro > 0 ? 2 : 0 }} />
+                  <div style={{ width: "32%", height: `${(d.ads / maxDia) * 100}%`, background: "#f59e0b", borderRadius: "2px 2px 0 0", minHeight: d.ads > 0 ? 2 : 0 }} />
+                </div>
+                {temD && d.dia % 5 === 0 && <span style={{ fontSize: 8, color: "#74859c" }}>{d.dia}</span>}
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+
+      {/* Semanal */}
+      <Card title="Resultado por semana">
+        <div className="space-y-2.5">
+          {semanas.map((s) => (
+            <div key={s.semana}>
+              <div className="flex justify-between text-xs mb-1">
+                <span style={{ color: "#9aa7ba" }}>Sem {s.semana} <span style={{ color: "#74859c" }}>({s.periodo}) · {s.pedidos}p</span></span>
+                <span style={{ color: s.lucro >= 0 ? "#10b981" : "#ef4444", fontWeight: 700 }}>{fmt$(s.lucro)}</span>
+              </div>
+              <div style={{ height: 6, background: "#1e3356", borderRadius: 99, overflow: "hidden", display: "flex" }}>
+                <div style={{ width: `${(s.faturamento / maxSem) * 100}%`, background: "#3b82f6", height: "100%" }} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+      {/* Fornecedores */}
+      {fornecedores.length > 0 && (
+        <Card title="Por fornecedor">
+          <div className="space-y-3">
+            {fornecedores.map((f) => (
+              <div key={f.nome}>
+                <div className="flex justify-between text-xs mb-1">
+                  <span className="text-white font-semibold">{f.nome} <span style={{ color: "#74859c", fontWeight: 400 }}>· {f.pedidos}p · margem {fmtPct(f.margem)}</span></span>
+                  <span style={{ color: "#e8edf5", fontWeight: 700 }}>{fmt$(f.faturamento)}</span>
+                </div>
+                <div style={{ height: 6, background: "#1e3356", borderRadius: 99, overflow: "hidden" }}>
+                  <div style={{ width: `${(f.faturamento / maxForn) * 100}%`, background: "linear-gradient(90deg,#3b82f6,#8b5cf6)", height: "100%", borderRadius: 99 }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+      )}
     </div>
   );
 }
