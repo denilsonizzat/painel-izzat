@@ -5,10 +5,11 @@ import {
   listarAds, criarAds, deletarAds,
   obterConfig, salvarConfig, calcularKpis,
   serieDiaria, serieSemanal, serieFornecedor,
-  OpPedido, OpAds, OpConfig, KpisOperacao,
+  obterMeta, salvarMeta, listarAnoResumo,
+  OpPedido, OpAds, OpConfig, KpisOperacao, OpMeta, MesResumo,
 } from "@/lib/operacao";
 import { supabaseConfigurado } from "@/lib/supabase";
-import { Plus, Trash2, Pencil, X, TrendingUp, ListOrdered, Megaphone, Settings, DollarSign, BarChart3 } from "lucide-react";
+import { Plus, Trash2, Pencil, X, TrendingUp, ListOrdered, Megaphone, Settings, DollarSign, BarChart3, Target, CalendarRange } from "lucide-react";
 
 const MESES = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 const FORNECEDORES = ["AliExpress", "Wiio", "DV", "3Cliques"];
@@ -17,7 +18,7 @@ const fmt$ = (n: number) => "$" + (n || 0).toFixed(2);
 const fmtPct = (n: number) => (n || 0).toFixed(1) + "%";
 const hoje = () => new Date().toISOString().slice(0, 10);
 
-type SubAba = "kpis" | "graficos" | "pedidos" | "ads" | "config";
+type SubAba = "kpis" | "graficos" | "metas" | "anual" | "pedidos" | "ads" | "config";
 
 export default function OperacaoLoja({ lojaId, lojaNome }: { lojaId: string; lojaNome: string }) {
   const agora = new Date();
@@ -28,18 +29,21 @@ export default function OperacaoLoja({ lojaId, lojaNome }: { lojaId: string; loj
   const [ads, setAds] = useState<OpAds[]>([]);
   const [cfg, setCfg] = useState<OpConfig | null>(null);
   const [kpis, setKpis] = useState<KpisOperacao | null>(null);
+  const [meta, setMeta] = useState<OpMeta | null>(null);
+  const [anual, setAnual] = useState<MesResumo[] | null>(null);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
 
   const carregar = useCallback(async () => {
     setCarregando(true); setErro("");
     try {
-      const [ps, as, cf] = await Promise.all([
+      const [ps, as, cf, mt] = await Promise.all([
         listarPedidos(lojaId, mes, ano),
         listarAds(lojaId, mes, ano),
         obterConfig(lojaId),
+        obterMeta(lojaId, mes, ano).catch(() => null),
       ]);
-      setPedidos(ps); setAds(as); setCfg(cf);
+      setPedidos(ps); setAds(as); setCfg(cf); setMeta(mt);
       setKpis(calcularKpis(ps, as, cf));
     } catch (e) {
       setErro(String((e as { message?: string })?.message || e));
@@ -49,6 +53,14 @@ export default function OperacaoLoja({ lojaId, lojaNome }: { lojaId: string; loj
   }, [lojaId, mes, ano]);
 
   useEffect(() => { carregar(); }, [carregar]);
+  // Anual: carrega só quando abre a aba (1x por loja/ano)
+  useEffect(() => {
+    if (sub === "anual" && !anual) {
+      listarAnoResumo(lojaId, ano).then(setAnual).catch((e) => setErro(String(e?.message || e)));
+    }
+  }, [sub, anual, lojaId, ano]);
+  // Reset anual ao trocar de loja
+  useEffect(() => { setAnual(null); }, [lojaId]);
 
   if (!supabaseConfigurado()) {
     return <div className="rounded-2xl p-6 text-center" style={{ background: "#122039", border: "1px solid #ef444440", color: "#ef4444" }}>
@@ -71,6 +83,8 @@ export default function OperacaoLoja({ lojaId, lojaNome }: { lojaId: string; loj
         {([
           { id: "kpis" as const, label: "Resumo", icon: TrendingUp },
           { id: "graficos" as const, label: "Gráficos", icon: BarChart3 },
+          { id: "metas" as const, label: "Metas", icon: Target },
+          { id: "anual" as const, label: "Anual", icon: CalendarRange },
           { id: "pedidos" as const, label: `Pedidos${pedidos.length ? ` (${pedidos.length})` : ""}`, icon: ListOrdered },
           { id: "ads" as const, label: "ADS", icon: Megaphone },
           { id: "config" as const, label: "Taxas", icon: Settings },
@@ -93,6 +107,8 @@ export default function OperacaoLoja({ lojaId, lojaNome }: { lojaId: string; loj
         <>
           {sub === "kpis" && <AbaKpis kpis={kpis} cfg={cfg} />}
           {sub === "graficos" && <AbaGraficos pedidos={pedidos} ads={ads} mes={mes} ano={ano} />}
+          {sub === "metas" && <AbaMetas kpis={kpis} meta={meta} lojaId={lojaId} mes={mes} ano={ano} onSalvar={carregar} />}
+          {sub === "anual" && <AbaAnual anual={anual} ano={ano} />}
           {sub === "pedidos" && <AbaPedidos lojaId={lojaId} pedidos={pedidos} onMudou={carregar} />}
           {sub === "ads" && <AbaAds lojaId={lojaId} ads={ads} onMudou={carregar} />}
           {sub === "config" && <AbaConfig cfg={cfg} onSalvar={async (c) => { await salvarConfig(c); carregar(); }} />}
@@ -236,6 +252,123 @@ function AbaGraficos({ pedidos, ads, mes, ano }: { pedidos: OpPedido[]; ads: OpA
           </div>
         </Card>
       )}
+    </div>
+  );
+}
+
+// ─── METAS ─────────────────────────────────────────────────
+function AbaMetas({ kpis: k, meta, lojaId, mes, ano, onSalvar }: { kpis: KpisOperacao; meta: OpMeta | null; lojaId: string; mes: number; ano: number; onSalvar: () => void }) {
+  const m = meta || { loja_id: lojaId, mes, ano, meta_faturamento: 0, meta_lucro: 0, meta_pedidos: 0 };
+  const [edit, setEdit] = useState(false);
+  const [f, setF] = useState({ fat: String(m.meta_faturamento || ""), lucro: String(m.meta_lucro || ""), peds: String(m.meta_pedidos || "") });
+  const [salvando, setSalvando] = useState(false);
+  const [erro, setErro] = useState("");
+  const inp = { background: "#1e3356", border: "1px solid #334155", color: "#e8edf5", borderRadius: 10, padding: "8px 10px", width: "100%", outline: "none", fontSize: 14, fontWeight: 700, textAlign: "right" } as React.CSSProperties;
+
+  async function salvar() {
+    setSalvando(true); setErro("");
+    try {
+      await salvarMeta({ loja_id: lojaId, mes, ano, meta_faturamento: parseFloat(f.fat) || 0, meta_lucro: parseFloat(f.lucro) || 0, meta_pedidos: parseInt(f.peds) || 0 });
+      setEdit(false); onSalvar();
+    } catch (e) { setErro(String((e as { message?: string })?.message || e)); }
+    finally { setSalvando(false); }
+  }
+
+  const Barra = ({ label, atual, alvo, fmt }: { label: string; atual: number; alvo: number; fmt: (n: number) => string }) => {
+    const pct = alvo > 0 ? Math.min((atual / alvo) * 100, 100) : 0;
+    const cor = pct >= 100 ? "#10b981" : pct >= 60 ? "#3b82f6" : pct >= 30 ? "#f59e0b" : "#ef4444";
+    return (
+      <div className="mb-4">
+        <div className="flex justify-between text-sm mb-1.5">
+          <span style={{ color: "#9aa7ba" }}>{label}</span>
+          <span style={{ color: alvo > 0 ? cor : "#74859c", fontWeight: 700 }}>{alvo > 0 ? `${fmt(atual)} / ${fmt(alvo)} · ${pct.toFixed(0)}%` : "sem meta"}</span>
+        </div>
+        <div style={{ height: 8, background: "#1e3356", borderRadius: 99, overflow: "hidden" }}>
+          <div style={{ width: `${pct}%`, height: "100%", background: cor, borderRadius: 99, transition: "width .6s" }} />
+        </div>
+      </div>
+    );
+  };
+
+  if (edit) {
+    return (
+      <div className="rounded-2xl p-5 space-y-3" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <p className="text-sm font-bold text-white">Definir metas — {MESES[mes - 1]} {ano}</p>
+        <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Meta faturamento ($)</label><input type="number" value={f.fat} onChange={(e) => setF({ ...f, fat: e.target.value })} style={inp} /></div>
+        <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Meta lucro ($)</label><input type="number" value={f.lucro} onChange={(e) => setF({ ...f, lucro: e.target.value })} style={inp} /></div>
+        <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Meta pedidos</label><input type="number" value={f.peds} onChange={(e) => setF({ ...f, peds: e.target.value })} style={inp} /></div>
+        {erro && <p className="text-xs" style={{ color: "#ef4444" }}>Erro: {erro} {erro.includes("op_metas") && "→ rode supabase-metas.sql"}</p>}
+        <div className="flex gap-2">
+          <button onClick={() => setEdit(false)} className="flex-1 py-2.5 rounded-xl font-bold text-sm" style={{ background: "#1e3356", color: "#94a3b8" }}>Cancelar</button>
+          <button onClick={salvar} disabled={salvando} className="flex-1 py-2.5 rounded-xl font-bold text-sm disabled:opacity-40" style={{ background: "#c9a84c", color: "#0b1624" }}>{salvando ? "Salvando..." : "Salvar metas"}</button>
+        </div>
+      </div>
+    );
+  }
+
+  const semMeta = !m.meta_faturamento && !m.meta_lucro && !m.meta_pedidos;
+  return (
+    <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="flex items-center justify-between mb-4">
+        <p className="text-sm font-bold text-white">Metas — {MESES[mes - 1]} {ano}</p>
+        <button onClick={() => { setF({ fat: String(m.meta_faturamento || ""), lucro: String(m.meta_lucro || ""), peds: String(m.meta_pedidos || "") }); setEdit(true); }} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold" style={{ background: "#c9a84c", color: "#0b1624" }}><Pencil size={12} /> {semMeta ? "Definir" : "Editar"}</button>
+      </div>
+      {semMeta ? (
+        <p className="text-sm text-center py-6" style={{ color: "#74859c" }}>Nenhuma meta definida para este mês.</p>
+      ) : (
+        <>
+          <Barra label="Faturamento" atual={k.faturamento} alvo={m.meta_faturamento} fmt={fmt$} />
+          <Barra label="Lucro bruto" atual={k.lucroBruto} alvo={m.meta_lucro} fmt={fmt$} />
+          <Barra label="Pedidos" atual={k.pedidos} alvo={m.meta_pedidos} fmt={(n) => String(Math.round(n))} />
+        </>
+      )}
+    </div>
+  );
+}
+
+// ─── ANUAL (12 meses) ──────────────────────────────────────
+function AbaAnual({ anual, ano }: { anual: MesResumo[] | null; ano: number }) {
+  if (!anual) return <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Carregando ano...</div>;
+  const tot = anual.reduce((a, m) => ({ fat: a.fat + m.faturamento, lucro: a.lucro + m.lucro, ads: a.ads + m.ads, peds: a.peds + m.pedidos }), { fat: 0, lucro: 0, ads: 0, peds: 0 });
+  const maxFat = Math.max(1, ...anual.map((m) => Math.max(m.faturamento, m.meta)));
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <MiniCard label="Faturamento ano" valor={fmt$(tot.fat)} cor="#3b82f6" />
+        <MiniCard label="Lucro ano" valor={fmt$(tot.lucro)} cor={tot.lucro >= 0 ? "#10b981" : "#ef4444"} />
+        <MiniCard label="ADS ano" valor={fmt$(tot.ads)} cor="#f59e0b" />
+        <MiniCard label="Pedidos ano" valor={String(tot.peds)} cor="#8b5cf6" />
+      </div>
+      <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#9aa7ba" }}>Faturamento por mês — {ano}</p>
+        <div className="space-y-2">
+          {anual.map((m) => {
+            const pctMeta = m.meta > 0 ? (m.faturamento / m.meta) * 100 : 0;
+            const bateu = m.meta > 0 && m.faturamento >= m.meta;
+            return (
+              <div key={m.mes}>
+                <div className="flex justify-between text-xs mb-1">
+                  <span style={{ color: "#9aa7ba", width: 32 }}>{MESES[m.mes - 1]}{bateu ? " 🏆" : ""}</span>
+                  <span style={{ color: m.lucro >= 0 ? "#10b981" : "#ef4444", fontWeight: 600 }}>{m.faturamento > 0 ? fmt$(m.faturamento) : "—"}{m.meta > 0 ? ` · ${pctMeta.toFixed(0)}% meta` : ""}</span>
+                </div>
+                <div style={{ height: 6, background: "#1e3356", borderRadius: 99, overflow: "hidden", position: "relative" }}>
+                  <div style={{ width: `${Math.min((m.faturamento / maxFat) * 100, 100)}%`, height: "100%", background: bateu ? "#10b981" : "#3b82f6", borderRadius: 99 }} />
+                  {m.meta > 0 && <div style={{ position: "absolute", top: 0, bottom: 0, left: `${Math.min((m.meta / maxFat) * 100, 100)}%`, width: 2, background: "#d4b896" }} />}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <p className="text-xs mt-3" style={{ color: "#74859c" }}>Linha dourada = meta do mês</p>
+      </div>
+    </div>
+  );
+}
+function MiniCard({ label, valor, cor }: { label: string; valor: string; cor: string }) {
+  return (
+    <div className="rounded-2xl p-3" style={{ background: "linear-gradient(160deg, #14243f, #111e35)", border: `1px solid ${cor}30` }}>
+      <p className="text-xs" style={{ color: "#9aa7ba" }}>{label}</p>
+      <p className="font-extrabold mt-1" style={{ fontSize: 17, color: cor }}>{valor}</p>
     </div>
   );
 }

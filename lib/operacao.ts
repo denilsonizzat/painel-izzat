@@ -61,6 +61,56 @@ export async function deletarAds(id: number) {
   if (error) throw error;
 }
 
+// ─── METAS ─────────────────────────────────────────────────
+export interface OpMeta {
+  loja_id: string; mes: number; ano: number;
+  meta_faturamento: number; meta_lucro: number; meta_pedidos: number;
+}
+export async function obterMeta(lojaId: string, mes: number, ano: number): Promise<OpMeta> {
+  const { data, error } = await supabase.from("op_metas").select("*")
+    .eq("loja_id", lojaId).eq("mes", mes).eq("ano", ano).maybeSingle();
+  if (error) throw error;
+  return data || { loja_id: lojaId, mes, ano, meta_faturamento: 0, meta_lucro: 0, meta_pedidos: 0 };
+}
+export async function salvarMeta(m: OpMeta) {
+  const { error } = await supabase.from("op_metas").upsert(m);
+  if (error) throw error;
+}
+
+// ─── RESUMO ANUAL (12 meses) ───────────────────────────────
+export interface MesResumo {
+  mes: number; faturamento: number; custo: number; ads: number; lucro: number; pedidos: number; meta: number;
+}
+export async function listarAnoResumo(lojaId: string, ano: number): Promise<MesResumo[]> {
+  const ini = `${ano}-01-01`, fim = `${ano}-12-31`;
+  const [pRes, aRes, mRes] = await Promise.all([
+    supabase.from("op_pedidos").select("data,custo_produto,frete,faturamento,status").eq("loja_id", lojaId).gte("data", ini).lte("data", fim),
+    supabase.from("op_ads").select("data,valor").eq("loja_id", lojaId).gte("data", ini).lte("data", fim),
+    supabase.from("op_metas").select("mes,meta_faturamento").eq("loja_id", lojaId).eq("ano", ano),
+  ]);
+  if (pRes.error) throw pRes.error;
+  if (aRes.error) throw aRes.error;
+  const metasMap: Record<number, number> = {};
+  (mRes.data || []).forEach((m: { mes: number; meta_faturamento: number }) => { metasMap[m.mes] = m.meta_faturamento; });
+  const meses: MesResumo[] = Array.from({ length: 12 }, (_, i) => ({
+    mes: i + 1, faturamento: 0, custo: 0, ads: 0, lucro: 0, pedidos: 0, meta: metasMap[i + 1] || 0,
+  }));
+  (pRes.data || []).forEach((p: { data: string; custo_produto: number; frete: number; faturamento: number; status: string }) => {
+    const m = parseInt(p.data.slice(5, 7), 10) - 1;
+    if (m < 0 || m > 11) return;
+    const c = (p.custo_produto || 0) + (p.frete || 0);
+    meses[m].custo += c;
+    meses[m].faturamento += p.status === "reembolso" ? 0 : (p.faturamento || 0);
+    meses[m].pedidos += 1;
+  });
+  (aRes.data || []).forEach((a: { data: string; valor: number }) => {
+    const m = parseInt(a.data.slice(5, 7), 10) - 1;
+    if (m >= 0 && m <= 11) meses[m].ads += a.valor || 0;
+  });
+  meses.forEach((m) => { m.lucro = m.faturamento - m.custo - m.ads; });
+  return meses;
+}
+
 // ─── CONFIG ────────────────────────────────────────────────
 export async function obterConfig(lojaId: string): Promise<OpConfig> {
   const { data, error } = await supabase.from("op_config").select("*").eq("loja_id", lojaId).maybeSingle();
