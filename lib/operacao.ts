@@ -8,10 +8,16 @@ const CONFIG_PADRAO: Omit<OpConfig, "loja_id"> = {
   gateway_fee: 2.9, shopify_fee: 0.5, imposto: 6.0, ads_budget: 30, margem_alvo: 20,
 };
 
+// Intervalo [primeiro, último] dia do mês (último dia varia: 28/29/30/31)
+function intervaloMes(mes: number, ano: number): [string, string] {
+  const mm = String(mes).padStart(2, "0");
+  const ultimoDia = new Date(ano, mes, 0).getDate();
+  return [`${ano}-${mm}-01`, `${ano}-${mm}-${String(ultimoDia).padStart(2, "0")}`];
+}
+
 // ─── PEDIDOS ───────────────────────────────────────────────
 export async function listarPedidos(lojaId: string, mes: number, ano: number): Promise<OpPedido[]> {
-  const ini = `${ano}-${String(mes).padStart(2, "0")}-01`;
-  const fim = `${ano}-${String(mes).padStart(2, "0")}-31`;
+  const [ini, fim] = intervaloMes(mes, ano);
   const { data, error } = await supabase
     .from("op_pedidos").select("*")
     .eq("loja_id", lojaId).gte("data", ini).lte("data", fim)
@@ -34,8 +40,7 @@ export async function deletarPedido(id: number) {
 
 // ─── ADS ───────────────────────────────────────────────────
 export async function listarAds(lojaId: string, mes: number, ano: number): Promise<OpAds[]> {
-  const ini = `${ano}-${String(mes).padStart(2, "0")}-01`;
-  const fim = `${ano}-${String(mes).padStart(2, "0")}-31`;
+  const [ini, fim] = intervaloMes(mes, ano);
   const { data, error } = await supabase
     .from("op_ads").select("*")
     .eq("loja_id", lojaId).gte("data", ini).lte("data", fim)
