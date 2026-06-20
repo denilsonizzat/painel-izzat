@@ -7,10 +7,11 @@ import {
   serieDiaria, serieSemanal, serieFornecedor,
   obterMeta, salvarMeta, listarAnoResumo,
   serieProduto, gerarAlertas, precoIdeal,
-  OpPedido, OpAds, OpConfig, KpisOperacao, OpMeta, MesResumo, Alerta,
+  preverFechamento, simularAds, calcularLtv, gerarCSV,
+  OpPedido, OpAds, OpConfig, KpisOperacao, OpMeta, MesResumo, Alerta, Ltv,
 } from "@/lib/operacao";
 import { supabaseConfigurado } from "@/lib/supabase";
-import { Plus, Trash2, Pencil, X, TrendingUp, ListOrdered, Megaphone, Settings, DollarSign, BarChart3, Target, CalendarRange } from "lucide-react";
+import { Plus, Trash2, Pencil, X, TrendingUp, ListOrdered, Megaphone, Settings, DollarSign, BarChart3, Target, CalendarRange, Download } from "lucide-react";
 
 const MESES = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 const FORNECEDORES = ["AliExpress", "Wiio", "DV", "3Cliques"];
@@ -109,7 +110,7 @@ export default function OperacaoLoja({ lojaId, lojaNome }: { lojaId: string; loj
           {sub === "kpis" && <AbaKpis kpis={kpis} cfg={cfg} alertas={gerarAlertas(kpis, pedidos, meta)} />}
           {sub === "graficos" && <AbaGraficos pedidos={pedidos} ads={ads} mes={mes} ano={ano} />}
           {sub === "metas" && <AbaMetas kpis={kpis} meta={meta} lojaId={lojaId} mes={mes} ano={ano} onSalvar={carregar} />}
-          {sub === "anual" && <AbaAnual anual={anual} ano={ano} />}
+          {sub === "anual" && <AbaAnual anual={anual} ano={ano} lojaId={lojaId} />}
           {sub === "pedidos" && <AbaPedidos lojaId={lojaId} pedidos={pedidos} onMudou={carregar} />}
           {sub === "ads" && <AbaAds lojaId={lojaId} ads={ads} onMudou={carregar} />}
           {sub === "config" && <AbaConfig cfg={cfg} onSalvar={async (c) => { await salvarConfig(c); carregar(); }} />}
@@ -186,6 +187,9 @@ function AbaGraficos({ pedidos, ads, mes, ano }: { pedidos: OpPedido[]; ads: OpA
   const produtos = serieProduto(pedidos).filter((p) => p.nome !== "(sem nome)");
   const temDado = pedidos.length > 0 || ads.length > 0;
   const corABC = { A: "#10b981", B: "#3b82f6", C: "#74859c" };
+  const prev = preverFechamento(dias, mes, ano);
+  const primDiaSemana = new Date(ano, mes - 1, 1).getDay(); // 0=Dom
+  const maxLucroDia = Math.max(1, ...dias.filter((d) => d.lucro > 0).map((d) => d.lucro));
 
   if (!temDado) {
     return <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Sem dados para gráficos neste mês. Adicione pedidos/ADS.</div>;
@@ -211,6 +215,27 @@ function AbaGraficos({ pedidos, ads, mes, ano }: { pedidos: OpPedido[]; ads: OpA
         <span className="flex items-center gap-1.5"><i style={{ width: 10, height: 10, borderRadius: 2, background: "#f59e0b", display: "inline-block" }} /> ADS</span>
       </div>
 
+      {/* Previsão de fechamento */}
+      {prev && (
+        <Card title="Previsão de fechamento do mês">
+          <div className="grid grid-cols-3 gap-2">
+            <div className="text-center rounded-xl p-3" style={{ background: "#0f1c30" }}>
+              <p className="text-xs" style={{ color: "#74859c" }}>Pessimista</p>
+              <p className="font-extrabold mt-1" style={{ fontSize: 16, color: "#f59e0b" }}>{fmt$(prev.pessimista)}</p>
+            </div>
+            <div className="text-center rounded-xl p-3" style={{ background: "#0f1c30", border: "1px solid #3b82f640" }}>
+              <p className="text-xs" style={{ color: "#74859c" }}>Realista</p>
+              <p className="font-extrabold mt-1" style={{ fontSize: 16, color: "#3b82f6" }}>{fmt$(prev.realista)}</p>
+            </div>
+            <div className="text-center rounded-xl p-3" style={{ background: "#0f1c30" }}>
+              <p className="text-xs" style={{ color: "#74859c" }}>Otimista</p>
+              <p className="font-extrabold mt-1" style={{ fontSize: 16, color: "#10b981" }}>{fmt$(prev.otimista)}</p>
+            </div>
+          </div>
+          <p className="text-xs mt-2 text-center" style={{ color: "#74859c" }}>Média/dia {fmt$(prev.mediaDia)} · {prev.diasRestantes} dias restantes · atual {fmt$(prev.atual)}</p>
+        </Card>
+      )}
+
       {/* Evolução diária */}
       <Card title={`Evolução diária — ${MESES[mes - 1]}`}>
         <div className="flex items-end gap-0.5" style={{ height: 160 }}>
@@ -227,6 +252,36 @@ function AbaGraficos({ pedidos, ads, mes, ano }: { pedidos: OpPedido[]; ads: OpA
               </div>
             );
           })}
+        </div>
+      </Card>
+
+      {/* Calendário heatmap */}
+      <Card title="Calendário de lucro (heatmap)">
+        <div className="grid grid-cols-7 gap-1 mb-1">
+          {["D", "S", "T", "Q", "Q", "S", "S"].map((w, i) => <div key={i} className="text-center" style={{ fontSize: 9, color: "#74859c" }}>{w}</div>)}
+        </div>
+        <div className="grid grid-cols-7 gap-1">
+          {Array.from({ length: primDiaSemana }).map((_, i) => <div key={`e${i}`} />)}
+          {dias.map((d) => {
+            const temD = d.faturamento > 0 || d.ads > 0;
+            let bg = "#0f1c30";
+            if (temD) {
+              if (d.lucro > maxLucroDia * 0.5) bg = "#10b981";
+              else if (d.lucro > 0) bg = "rgba(16,185,129,.35)";
+              else bg = "rgba(239,68,68,.3)";
+            }
+            return (
+              <div key={d.dia} title={`${d.rotulo}: lucro ${fmt$(d.lucro)} · ${d.pedidos}p`}
+                className="rounded-md flex items-center justify-center" style={{ aspectRatio: "1", background: bg, fontSize: 9, color: temD ? "#fff" : "#475569" }}>
+                {d.dia}
+              </div>
+            );
+          })}
+        </div>
+        <div className="flex gap-3 mt-2" style={{ fontSize: 9, color: "#74859c" }}>
+          <span className="flex items-center gap-1"><i style={{ width: 9, height: 9, borderRadius: 2, background: "#10b981", display: "inline-block" }} /> lucro alto</span>
+          <span className="flex items-center gap-1"><i style={{ width: 9, height: 9, borderRadius: 2, background: "rgba(16,185,129,.35)", display: "inline-block" }} /> lucro</span>
+          <span className="flex items-center gap-1"><i style={{ width: 9, height: 9, borderRadius: 2, background: "rgba(239,68,68,.3)", display: "inline-block" }} /> prejuízo</span>
         </div>
       </Card>
 
@@ -365,12 +420,26 @@ function AbaMetas({ kpis: k, meta, lojaId, mes, ano, onSalvar }: { kpis: KpisOpe
 }
 
 // ─── ANUAL (12 meses) ──────────────────────────────────────
-function AbaAnual({ anual, ano }: { anual: MesResumo[] | null; ano: number }) {
+function AbaAnual({ anual, ano, lojaId }: { anual: MesResumo[] | null; ano: number; lojaId: string }) {
+  const [ltv, setLtv] = useState<Ltv | null>(null);
+  useEffect(() => { setLtv(null); calcularLtv(lojaId).then(setLtv).catch(() => {}); }, [lojaId]);
   if (!anual) return <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Carregando ano...</div>;
   const tot = anual.reduce((a, m) => ({ fat: a.fat + m.faturamento, lucro: a.lucro + m.lucro, ads: a.ads + m.ads, peds: a.peds + m.pedidos }), { fat: 0, lucro: 0, ads: 0, peds: 0 });
   const maxFat = Math.max(1, ...anual.map((m) => Math.max(m.faturamento, m.meta)));
   return (
     <div className="space-y-4">
+      {ltv && ltv.totalPedidos > 0 && (
+        <div className="rounded-2xl p-4" style={{ background: "linear-gradient(135deg, rgba(168,180,232,.06), rgba(168,180,232,.02))", border: "1px solid #a8b4e825" }}>
+          <p className="text-sm font-bold text-white mb-1">LTV — visão de todos os meses</p>
+          <p className="text-xs mb-3" style={{ color: "#74859c" }}>{ltv.totalPedidos} pedidos em {ltv.mesesAtivos} mês(es) ativos</p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <MiniCard label="Ticket médio" valor={fmt$(ltv.ticketMedio)} cor="#3b82f6" />
+            <MiniCard label="Lucro/mês" valor={fmt$(ltv.lucroMes)} cor={ltv.lucroMes >= 0 ? "#10b981" : "#ef4444"} />
+            <MiniCard label="Pedidos/mês" valor={ltv.pedidosMes.toFixed(1)} cor="#8b5cf6" />
+            <MiniCard label="LTV 12m proj." valor={fmt$(ltv.ltv12)} cor="#a8b4e8" />
+          </div>
+        </div>
+      )}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <MiniCard label="Faturamento ano" valor={fmt$(tot.fat)} cor="#3b82f6" />
         <MiniCard label="Lucro ano" valor={fmt$(tot.lucro)} cor={tot.lucro >= 0 ? "#10b981" : "#ef4444"} />
@@ -444,11 +513,28 @@ function AbaPedidos({ lojaId, pedidos, onMudou }: { lojaId: string; pedidos: OpP
 
   const inp = { background: "#1e3356", border: "1px solid #334155", color: "#e8edf5", borderRadius: 10, padding: "8px 10px", width: "100%", outline: "none", fontSize: 13 } as React.CSSProperties;
 
+  function exportarCSV() {
+    const csv = gerarCSV(pedidos);
+    const blob = new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = `pedidos_${lojaId}.csv`;
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 500);
+  }
+
   return (
     <div className="space-y-3">
-      <button onClick={abrirNovo} className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold" style={{ background: "#c9a84c", color: "#0b1624" }}>
-        <Plus size={14} /> Novo pedido
-      </button>
+      <div className="flex items-center gap-2">
+        <button onClick={abrirNovo} className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold" style={{ background: "#c9a84c", color: "#0b1624" }}>
+          <Plus size={14} /> Novo pedido
+        </button>
+        {pedidos.length > 0 && (
+          <button onClick={exportarCSV} className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold" style={{ background: "#1e3356", color: "#94a3b8" }}>
+            <Download size={14} /> CSV
+          </button>
+        )}
+      </div>
 
       {pedidos.length === 0 && <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Nenhum pedido neste mês.</div>}
 
@@ -511,8 +597,10 @@ function AbaAds({ lojaId, ads, onMudou }: { lojaId: string; ads: OpAds[]; onMudo
   const [form, setForm] = useState(false);
   const [f, setF] = useState({ data: hoje(), valor: "", plataforma: "Meta" });
   const [salvando, setSalvando] = useState(false);
+  const [sim, setSim] = useState({ budget: "", roas: "3", ticket: "", margem: "" });
   const total = ads.reduce((s, a) => s + a.valor, 0);
   const inp = { background: "#1e3356", border: "1px solid #334155", color: "#e8edf5", borderRadius: 10, padding: "8px 10px", width: "100%", outline: "none", fontSize: 13 } as React.CSSProperties;
+  const simR = (parseFloat(sim.budget) || 0) > 0 ? simularAds(parseFloat(sim.budget) || 0, parseFloat(sim.roas) || 0, parseFloat(sim.ticket) || 0, parseFloat(sim.margem) || 0) : null;
 
   async function salvar() {
     if (!f.data || !f.valor) return;
@@ -528,6 +616,27 @@ function AbaAds({ lojaId, ads, onMudou }: { lojaId: string; ads: OpAds[]; onMudo
         <p className="text-sm" style={{ color: "#9aa7ba" }}>Total no mês: <b style={{ color: "#f59e0b" }}>{fmt$(total)}</b></p>
         <button onClick={() => setForm(true)} className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold" style={{ background: "#c9a84c", color: "#0b1624" }}><Plus size={14} /> Novo gasto</button>
       </div>
+      {/* Simulador ADS */}
+      <div className="rounded-2xl p-4" style={{ background: "linear-gradient(135deg, rgba(139,92,246,.06), rgba(139,92,246,.02))", border: "1px solid #8b5cf625" }}>
+        <p className="text-sm font-bold text-white mb-1">Simulador de ADS</p>
+        <p className="text-xs mb-3" style={{ color: "#74859c" }}>E se eu investir X em ADS?</p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Budget ($)</label><input type="number" value={sim.budget} onChange={(e) => setSim({ ...sim, budget: e.target.value })} placeholder="0" style={inp} /></div>
+          <div><label className="text-xs" style={{ color: "#9aa7ba" }}>ROAS alvo</label><input type="number" value={sim.roas} onChange={(e) => setSim({ ...sim, roas: e.target.value })} placeholder="3" style={inp} /></div>
+          <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Ticket ($)</label><input type="number" value={sim.ticket} onChange={(e) => setSim({ ...sim, ticket: e.target.value })} placeholder="0" style={inp} /></div>
+          <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Margem %</label><input type="number" value={sim.margem} onChange={(e) => setSim({ ...sim, margem: e.target.value })} placeholder="0" style={inp} /></div>
+        </div>
+        {simR && (
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3">
+            <div className="text-center rounded-lg p-2" style={{ background: "#0f1c30" }}><p className="text-xs" style={{ color: "#74859c" }}>Faturamento</p><p className="font-bold" style={{ color: "#3b82f6" }}>{fmt$(simR.faturamento)}</p></div>
+            <div className="text-center rounded-lg p-2" style={{ background: "#0f1c30" }}><p className="text-xs" style={{ color: "#74859c" }}>Pedidos</p><p className="font-bold text-white">{simR.pedidos}</p></div>
+            <div className="text-center rounded-lg p-2" style={{ background: "#0f1c30" }}><p className="text-xs" style={{ color: "#74859c" }}>Lucro</p><p className="font-bold" style={{ color: simR.lucro >= 0 ? "#10b981" : "#ef4444" }}>{fmt$(simR.lucro)}</p></div>
+            <div className="text-center rounded-lg p-2" style={{ background: "#0f1c30" }}><p className="text-xs" style={{ color: "#74859c" }}>ROI</p><p className="font-bold" style={{ color: simR.roi >= 0 ? "#10b981" : "#ef4444" }}>{(simR.roi * 100).toFixed(0)}%</p></div>
+          </div>
+        )}
+        {simR && <p className="text-xs mt-2" style={{ color: "#74859c" }}>Break-even ROAS: {simR.beRoas > 0 ? simR.beRoas.toFixed(1) + "x" : "—"} · {simR.lucro >= 0 ? "rentável ✅" : "prejuízo ⚠️"}</p>}
+      </div>
+
       {ads.length === 0 && <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Nenhum gasto de ADS neste mês.</div>}
       <div className="space-y-2">
         {ads.map((a) => (
