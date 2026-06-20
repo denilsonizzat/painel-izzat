@@ -6,7 +6,7 @@ import {
   LayoutDashboard, CheckSquare, Users, Store, ListTodo, LogOut, Menu, X,
   ClipboardList, Plus, Zap, Flame, Bell, Search, Activity, Power, RefreshCw,
   CalendarDays, ChevronLeft, ChevronRight, PanelLeftClose, DollarSign, Moon,
-  PackageSearch, BookMarked, Trophy, Receipt, Wallet, Briefcase, AlertTriangle,
+  PackageSearch, BookMarked, Trophy, Receipt, Wallet, Briefcase, AlertTriangle, TrendingUp,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import Avatar from "./Avatar";
@@ -77,8 +77,9 @@ const NAV_SECTIONS = [
     emoji: "🎛️",
     items: [],
     adminItems: [
+      { href: "/operacao", label: "Operação", icon: TrendingUp, desc: "Pedidos, ADS e P&L real por loja — custos reais da operação (produto, frete, taxas, processamento)" },
       { href: "/gastos", label: "Custos da Equipe", icon: DollarSign, desc: "Salários e custos relacionados à mão de obra do time" },
-      { href: "/gastos-operacoes", label: "Custos Operacionais", icon: Receipt, desc: "Custos de operação por loja: ads, ferramentas, IA e plataforma" },
+      { href: "/gastos-operacoes", label: "Custos Operacionais", icon: Receipt, desc: "Custos fixos por loja: ads, ferramentas, IA e plataforma" },
       { href: "/custo-total", label: "Custo Total", icon: Wallet, desc: "Soma dos custos da equipe + operações = quanto custa manter o grupo Izzat" },
       { href: "/vagas", label: "Vagas & Pendências", icon: Briefcase, desc: "Rotinas sem responsável e necessidades de contratação do grupo" },
     ],

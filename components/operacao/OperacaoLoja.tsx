@@ -1,0 +1,323 @@
+"use client";
+import { useState, useEffect, useCallback } from "react";
+import {
+  listarPedidos, criarPedido, editarPedido, deletarPedido,
+  listarAds, criarAds, deletarAds,
+  obterConfig, salvarConfig, calcularKpis,
+  OpPedido, OpAds, OpConfig, KpisOperacao,
+} from "@/lib/operacao";
+import { supabaseConfigurado } from "@/lib/supabase";
+import { Plus, Trash2, Pencil, X, TrendingUp, ListOrdered, Megaphone, Settings, DollarSign } from "lucide-react";
+
+const MESES = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+const FORNECEDORES = ["AliExpress", "Wiio", "DV", "3Cliques"];
+const PLATAFORMAS = ["Meta", "Google", "TikTok", "Outro"];
+const fmt$ = (n: number) => "$" + (n || 0).toFixed(2);
+const fmtPct = (n: number) => (n || 0).toFixed(1) + "%";
+const hoje = () => new Date().toISOString().slice(0, 10);
+
+type SubAba = "kpis" | "pedidos" | "ads" | "config";
+
+export default function OperacaoLoja({ lojaId, lojaNome }: { lojaId: string; lojaNome: string }) {
+  const agora = new Date();
+  const [mes, setMes] = useState(agora.getMonth() + 1);
+  const [ano] = useState(agora.getFullYear());
+  const [sub, setSub] = useState<SubAba>("kpis");
+  const [pedidos, setPedidos] = useState<OpPedido[]>([]);
+  const [ads, setAds] = useState<OpAds[]>([]);
+  const [cfg, setCfg] = useState<OpConfig | null>(null);
+  const [kpis, setKpis] = useState<KpisOperacao | null>(null);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState("");
+
+  const carregar = useCallback(async () => {
+    setCarregando(true); setErro("");
+    try {
+      const [ps, as, cf] = await Promise.all([
+        listarPedidos(lojaId, mes, ano),
+        listarAds(lojaId, mes, ano),
+        obterConfig(lojaId),
+      ]);
+      setPedidos(ps); setAds(as); setCfg(cf);
+      setKpis(calcularKpis(ps, as, cf));
+    } catch (e) {
+      setErro(String((e as { message?: string })?.message || e));
+    } finally {
+      setCarregando(false);
+    }
+  }, [lojaId, mes, ano]);
+
+  useEffect(() => { carregar(); }, [carregar]);
+
+  if (!supabaseConfigurado()) {
+    return <div className="rounded-2xl p-6 text-center" style={{ background: "#122039", border: "1px solid #ef444440", color: "#ef4444" }}>
+      Supabase não configurado (faltam as variáveis de ambiente).
+    </div>;
+  }
+
+  return (
+    <div className="space-y-4">
+      {/* Cabeçalho: mês + sub-abas */}
+      <div className="flex items-center justify-between flex-wrap gap-2">
+        <div className="flex items-center gap-2">
+          <button onClick={() => setMes((m) => m > 1 ? m - 1 : 12)} className="w-8 h-8 rounded-lg" style={{ background: "#1e3356", color: "#94a3b8" }}>‹</button>
+          <span className="text-sm font-bold text-white" style={{ minWidth: 90, textAlign: "center" }}>{MESES[mes - 1]} {ano}</span>
+          <button onClick={() => setMes((m) => m < 12 ? m + 1 : 1)} className="w-8 h-8 rounded-lg" style={{ background: "#1e3356", color: "#94a3b8" }}>›</button>
+        </div>
+      </div>
+
+      <div className="flex gap-1 p-1 rounded-xl" style={{ background: "#0f1c30", border: "1px solid #1e3356" }}>
+        {([
+          { id: "kpis" as const, label: "Resumo", icon: TrendingUp },
+          { id: "pedidos" as const, label: `Pedidos${pedidos.length ? ` (${pedidos.length})` : ""}`, icon: ListOrdered },
+          { id: "ads" as const, label: "ADS", icon: Megaphone },
+          { id: "config" as const, label: "Taxas", icon: Settings },
+        ]).map((t) => {
+          const Icon = t.icon; const ativo = sub === t.id;
+          return (
+            <button key={t.id} onClick={() => setSub(t.id)}
+              className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold transition-all"
+              style={{ background: ativo ? "#c9a84c" : "transparent", color: ativo ? "#0b1624" : "#94a3b8" }}>
+              <Icon size={13} /> <span className="hidden sm:inline">{t.label}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {erro && <div className="rounded-xl p-3 text-sm" style={{ background: "#ef444415", color: "#ef4444" }}>Erro: {erro}</div>}
+      {carregando && <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Carregando...</div>}
+
+      {!carregando && kpis && cfg && (
+        <>
+          {sub === "kpis" && <AbaKpis kpis={kpis} cfg={cfg} />}
+          {sub === "pedidos" && <AbaPedidos lojaId={lojaId} pedidos={pedidos} onMudou={carregar} />}
+          {sub === "ads" && <AbaAds lojaId={lojaId} ads={ads} onMudou={carregar} />}
+          {sub === "config" && <AbaConfig cfg={cfg} onSalvar={async (c) => { await salvarConfig(c); carregar(); }} />}
+        </>
+      )}
+    </div>
+  );
+}
+
+// ─── RESUMO (KPIs + P&L) ───────────────────────────────────
+function AbaKpis({ kpis: k, cfg }: { kpis: KpisOperacao; cfg: OpConfig }) {
+  const Card = ({ label, valor, cor, sub }: { label: string; valor: string; cor: string; sub?: string }) => (
+    <div className="rounded-2xl p-4" style={{ background: "linear-gradient(160deg, #14243f, #111e35)", border: `1px solid ${cor}30` }}>
+      <p className="text-xs" style={{ color: "#9aa7ba" }}>{label}</p>
+      <p className="font-extrabold mt-1" style={{ fontSize: 22, color: cor, letterSpacing: "-0.5px" }}>{valor}</p>
+      {sub && <p className="text-xs mt-0.5" style={{ color: "#74859c" }}>{sub}</p>}
+    </div>
+  );
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <Card label="Faturamento" valor={fmt$(k.faturamento)} cor="#3b82f6" sub={`${k.pedidos} pedidos`} />
+        <Card label="Lucro Bruto" valor={fmt$(k.lucroBruto)} cor={k.lucroBruto >= 0 ? "#10b981" : "#ef4444"} sub={`Margem ${fmtPct(k.margem)}`} />
+        <Card label="ADS" valor={fmt$(k.ads)} cor="#f59e0b" sub={`ROAS ${k.roas.toFixed(1)}x`} />
+        <Card label="Custo (produto+frete)" valor={fmt$(k.custo)} cor="#8b5cf6" />
+        <Card label="Ticket Médio" valor={fmt$(k.ticketMedio)} cor="#3b82f6" />
+        <Card label="CAC" valor={fmt$(k.cac)} cor="#0ea5e9" sub="custo por pedido" />
+      </div>
+
+      {/* P&L real */}
+      <div className="rounded-2xl p-5" style={{ background: "linear-gradient(135deg, rgba(16,185,129,.06), rgba(16,185,129,.02))", border: "1px solid #10b98125" }}>
+        <div className="flex items-center gap-2 mb-3">
+          <DollarSign size={15} style={{ color: "#10b981" }} />
+          <p className="text-sm font-bold text-white">Lucro Real (após taxas)</p>
+        </div>
+        <p className="font-extrabold mb-1" style={{ fontSize: 32, color: k.lucroReal >= 0 ? "#10b981" : "#ef4444", letterSpacing: "-1px", lineHeight: 1 }}>{fmt$(k.lucroReal)}</p>
+        <p className="text-xs mb-3" style={{ color: "#74859c" }}>Margem real: {fmtPct(k.margemReal)} · Meta: {fmtPct(cfg.margem_alvo)}{k.margemReal >= cfg.margem_alvo ? " ✅" : " ⚠️"}</p>
+        <div className="space-y-1.5 text-xs" style={{ color: "#9aa7ba" }}>
+          <Linha label="Faturamento" valor={fmt$(k.faturamento)} />
+          <Linha label={`Custo + Frete`} valor={"-" + fmt$(k.custo)} negativo />
+          <Linha label="ADS" valor={"-" + fmt$(k.ads)} negativo />
+          <Linha label={`Gateway (${cfg.gateway_fee}%)`} valor={"-" + fmt$(k.gateway)} negativo />
+          <Linha label={`Shopify (${cfg.shopify_fee}%)`} valor={"-" + fmt$(k.taxaShopify)} negativo />
+          <Linha label={`Imposto (${cfg.imposto}%)`} valor={"-" + fmt$(k.imposto)} negativo />
+        </div>
+      </div>
+    </div>
+  );
+}
+function Linha({ label, valor, negativo }: { label: string; valor: string; negativo?: boolean }) {
+  return (
+    <div className="flex justify-between py-1" style={{ borderBottom: "1px solid #1e335655" }}>
+      <span>{label}</span>
+      <span style={{ color: negativo ? "#ef4444" : "#e8edf5", fontWeight: 600 }}>{valor}</span>
+    </div>
+  );
+}
+
+// ─── PEDIDOS ───────────────────────────────────────────────
+function AbaPedidos({ lojaId, pedidos, onMudou }: { lojaId: string; pedidos: OpPedido[]; onMudou: () => void }) {
+  const [form, setForm] = useState(false);
+  const [editId, setEditId] = useState<number | null>(null);
+  const vazio = { data: hoje(), num_pedido: "", fornecedor: "AliExpress", custo_produto: "", frete: "", faturamento: "", produto: "", status: "", notas: "" };
+  const [f, setF] = useState<Record<string, string>>(vazio);
+  const [salvando, setSalvando] = useState(false);
+
+  function abrirNovo() { setEditId(null); setF(vazio); setForm(true); }
+  function abrirEdit(p: OpPedido) {
+    setEditId(p.id!);
+    setF({ data: p.data, num_pedido: p.num_pedido || "", fornecedor: p.fornecedor || "AliExpress",
+      custo_produto: String(p.custo_produto), frete: String(p.frete), faturamento: String(p.faturamento),
+      produto: p.produto || "", status: p.status || "", notas: p.notas || "" });
+    setForm(true);
+  }
+  async function salvar() {
+    if (!f.data || !f.faturamento) return;
+    setSalvando(true);
+    const dados = {
+      loja_id: lojaId, data: f.data, num_pedido: f.num_pedido, fornecedor: f.fornecedor,
+      custo_produto: parseFloat(f.custo_produto) || 0, frete: parseFloat(f.frete) || 0,
+      faturamento: parseFloat(f.faturamento) || 0, produto: f.produto, status: f.status, notas: f.notas,
+    };
+    try {
+      if (editId) await editarPedido(editId, dados); else await criarPedido(dados);
+      setForm(false); onMudou();
+    } finally { setSalvando(false); }
+  }
+  async function excluir(id: number) { await deletarPedido(id); onMudou(); }
+
+  const inp = { background: "#1e3356", border: "1px solid #334155", color: "#e8edf5", borderRadius: 10, padding: "8px 10px", width: "100%", outline: "none", fontSize: 13 } as React.CSSProperties;
+
+  return (
+    <div className="space-y-3">
+      <button onClick={abrirNovo} className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold" style={{ background: "#c9a84c", color: "#0b1624" }}>
+        <Plus size={14} /> Novo pedido
+      </button>
+
+      {pedidos.length === 0 && <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Nenhum pedido neste mês.</div>}
+
+      <div className="space-y-2">
+        {pedidos.map((p) => {
+          const lucro = (p.status === "reembolso" ? 0 : p.faturamento) - (p.custo_produto + p.frete);
+          return (
+            <div key={p.id} className="rounded-xl p-3 flex items-center gap-3" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#3b82f620", color: "#3b82f6" }}>{p.fornecedor}</span>
+                  {p.status === "reembolso" && <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#ef444420", color: "#ef4444" }}>Reembolso</span>}
+                  {p.status === "disputa" && <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#f59e0b20", color: "#f59e0b" }}>Disputa</span>}
+                  <span className="text-xs" style={{ color: "#74859c" }}>{p.data.slice(8, 10)}/{p.data.slice(5, 7)}</span>
+                </div>
+                <p className="text-sm text-white mt-0.5">{p.produto || p.num_pedido || "—"}</p>
+              </div>
+              <div className="text-right flex-shrink-0">
+                <p className="text-sm font-bold" style={{ color: "#e8edf5" }}>{fmt$(p.faturamento)}</p>
+                <p className="text-xs" style={{ color: lucro >= 0 ? "#10b981" : "#ef4444" }}>{fmt$(lucro)}</p>
+              </div>
+              <button onClick={() => abrirEdit(p)} className="p-1.5 rounded-lg" style={{ color: "#74859c" }}><Pencil size={13} /></button>
+              <button onClick={() => excluir(p.id!)} className="p-1.5 rounded-lg" style={{ color: "#74859c" }}><Trash2 size={13} /></button>
+            </div>
+          );
+        })}
+      </div>
+
+      {form && (
+        <div className="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" style={{ background: "#00000090", backdropFilter: "blur(2px)" }} onClick={() => setForm(false)}>
+          <div className="modal-card w-full max-w-md rounded-2xl p-5 space-y-3 overflow-y-auto" style={{ background: "#122039", border: "1px solid #1e3356", maxHeight: "88vh" }} onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between">
+              <h3 className="text-white font-bold">{editId ? "Editar pedido" : "Novo pedido"}</h3>
+              <button onClick={() => setForm(false)} style={{ color: "#74859c" }}><X size={18} /></button>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Data</label><input type="date" value={f.data} onChange={(e) => setF({ ...f, data: e.target.value })} style={{ ...inp, colorScheme: "dark" }} /></div>
+              <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Nº pedido</label><input value={f.num_pedido} onChange={(e) => setF({ ...f, num_pedido: e.target.value })} placeholder="Opcional" style={inp} /></div>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Fornecedor</label><select value={f.fornecedor} onChange={(e) => setF({ ...f, fornecedor: e.target.value })} style={inp}>{FORNECEDORES.map((s) => <option key={s} value={s}>{s}</option>)}</select></div>
+              <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Produto</label><input value={f.produto} onChange={(e) => setF({ ...f, produto: e.target.value })} placeholder="Nome/SKU" style={inp} /></div>
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Custo prod.</label><input type="number" value={f.custo_produto} onChange={(e) => setF({ ...f, custo_produto: e.target.value })} placeholder="0.00" style={inp} /></div>
+              <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Frete</label><input type="number" value={f.frete} onChange={(e) => setF({ ...f, frete: e.target.value })} placeholder="0.00" style={inp} /></div>
+              <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Faturamento *</label><input type="number" value={f.faturamento} onChange={(e) => setF({ ...f, faturamento: e.target.value })} placeholder="0.00" style={inp} /></div>
+            </div>
+            <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Status</label><select value={f.status} onChange={(e) => setF({ ...f, status: e.target.value })} style={inp}><option value="">Completo</option><option value="reembolso">Reembolso</option><option value="disputa">Disputa</option></select></div>
+            <button onClick={salvar} disabled={salvando || !f.data || !f.faturamento} className="w-full py-2.5 rounded-xl font-bold text-sm disabled:opacity-40" style={{ background: "#c9a84c", color: "#0b1624" }}>{salvando ? "Salvando..." : "Salvar"}</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── ADS ───────────────────────────────────────────────────
+function AbaAds({ lojaId, ads, onMudou }: { lojaId: string; ads: OpAds[]; onMudou: () => void }) {
+  const [form, setForm] = useState(false);
+  const [f, setF] = useState({ data: hoje(), valor: "", plataforma: "Meta" });
+  const [salvando, setSalvando] = useState(false);
+  const total = ads.reduce((s, a) => s + a.valor, 0);
+  const inp = { background: "#1e3356", border: "1px solid #334155", color: "#e8edf5", borderRadius: 10, padding: "8px 10px", width: "100%", outline: "none", fontSize: 13 } as React.CSSProperties;
+
+  async function salvar() {
+    if (!f.data || !f.valor) return;
+    setSalvando(true);
+    try { await criarAds({ loja_id: lojaId, data: f.data, valor: parseFloat(f.valor) || 0, plataforma: f.plataforma }); setForm(false); setF({ data: hoje(), valor: "", plataforma: "Meta" }); onMudou(); }
+    finally { setSalvando(false); }
+  }
+  async function excluir(id: number) { await deletarAds(id); onMudou(); }
+
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
+        <p className="text-sm" style={{ color: "#9aa7ba" }}>Total no mês: <b style={{ color: "#f59e0b" }}>{fmt$(total)}</b></p>
+        <button onClick={() => setForm(true)} className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold" style={{ background: "#c9a84c", color: "#0b1624" }}><Plus size={14} /> Novo gasto</button>
+      </div>
+      {ads.length === 0 && <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Nenhum gasto de ADS neste mês.</div>}
+      <div className="space-y-2">
+        {ads.map((a) => (
+          <div key={a.id} className="rounded-xl p-3 flex items-center gap-3" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+            <div className="flex-1">
+              <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#8b5cf620", color: "#8b5cf6" }}>{a.plataforma}</span>
+              <span className="text-xs ml-2" style={{ color: "#74859c" }}>{a.data.slice(8, 10)}/{a.data.slice(5, 7)}</span>
+            </div>
+            <p className="text-sm font-bold" style={{ color: "#f59e0b" }}>{fmt$(a.valor)}</p>
+            <button onClick={() => excluir(a.id!)} className="p-1.5 rounded-lg" style={{ color: "#74859c" }}><Trash2 size={13} /></button>
+          </div>
+        ))}
+      </div>
+      {form && (
+        <div className="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" style={{ background: "#00000090", backdropFilter: "blur(2px)" }} onClick={() => setForm(false)}>
+          <div className="modal-card w-full max-w-sm rounded-2xl p-5 space-y-3" style={{ background: "#122039", border: "1px solid #1e3356" }} onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between"><h3 className="text-white font-bold">Novo gasto ADS</h3><button onClick={() => setForm(false)} style={{ color: "#74859c" }}><X size={18} /></button></div>
+            <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Valor *</label><input type="number" value={f.valor} onChange={(e) => setF({ ...f, valor: e.target.value })} placeholder="0.00" style={{ ...inp, fontSize: 22, fontWeight: 800, textAlign: "center" }} /></div>
+            <div className="grid grid-cols-2 gap-2">
+              <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Data</label><input type="date" value={f.data} onChange={(e) => setF({ ...f, data: e.target.value })} style={{ ...inp, colorScheme: "dark" }} /></div>
+              <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Plataforma</label><select value={f.plataforma} onChange={(e) => setF({ ...f, plataforma: e.target.value })} style={inp}>{PLATAFORMAS.map((p) => <option key={p} value={p}>{p}</option>)}</select></div>
+            </div>
+            <button onClick={salvar} disabled={salvando || !f.valor} className="w-full py-2.5 rounded-xl font-bold text-sm disabled:opacity-40" style={{ background: "#c9a84c", color: "#0b1624" }}>{salvando ? "Salvando..." : "Salvar"}</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── CONFIG (taxas) ────────────────────────────────────────
+function AbaConfig({ cfg, onSalvar }: { cfg: OpConfig; onSalvar: (c: OpConfig) => Promise<void> }) {
+  const [c, setC] = useState<OpConfig>(cfg);
+  const [salvando, setSalvando] = useState(false);
+  const inp = { background: "#1e3356", border: "1px solid #334155", color: "#e8edf5", borderRadius: 10, padding: "8px 10px", width: 90, outline: "none", fontSize: 14, fontWeight: 700, textAlign: "right" } as React.CSSProperties;
+  const Row = ({ label, sub, campo, unidade }: { label: string; sub: string; campo: keyof OpConfig; unidade: string }) => (
+    <div className="flex items-center justify-between py-3" style={{ borderBottom: "1px solid #1e3356" }}>
+      <div><p className="text-sm text-white">{label}</p><p className="text-xs" style={{ color: "#74859c" }}>{sub}</p></div>
+      <div className="flex items-center gap-1">
+        <input type="number" step="0.1" value={String(c[campo])} onChange={(e) => setC({ ...c, [campo]: parseFloat(e.target.value) || 0 })} style={inp} />
+        <span style={{ color: "#74859c", fontSize: 13 }}>{unidade}</span>
+      </div>
+    </div>
+  );
+  return (
+    <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <p className="text-sm font-bold text-white mb-2">Taxas desta loja</p>
+      <Row label="Gateway de pagamento" sub="Stripe/PayPal sobre o faturamento" campo="gateway_fee" unidade="%" />
+      <Row label="Taxa Shopify" sub="Transação do plano" campo="shopify_fee" unidade="%" />
+      <Row label="Imposto" sub="Reserva fiscal sobre faturamento" campo="imposto" unidade="%" />
+      <Row label="Orçamento ADS/dia" sub="Meta de gasto diário" campo="ads_budget" unidade="$" />
+      <Row label="Margem alvo" sub="Margem líquida mínima desejada" campo="margem_alvo" unidade="%" />
+      <button onClick={async () => { setSalvando(true); try { await onSalvar(c); } finally { setSalvando(false); } }} disabled={salvando} className="w-full mt-4 py-2.5 rounded-xl font-bold text-sm disabled:opacity-40" style={{ background: "#c9a84c", color: "#0b1624" }}>{salvando ? "Salvando..." : "Salvar taxas"}</button>
+    </div>
+  );
+}
