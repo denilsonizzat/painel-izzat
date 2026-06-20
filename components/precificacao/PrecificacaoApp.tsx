@@ -10,15 +10,16 @@ import {
   listarFornecedores, salvarFornecedores, listarCustos, salvarCustos,
   calcularPreco, markupDoPais, scorePreco, veredito, calcularOfertas,
   CRITERIOS_GARIMPO, notaGarimpo, CONFIG_PADRAO,
+  realPorProduto, margemBrutaProjetada, RealProduto,
 } from "@/lib/precificacao";
-import { Target, Calculator, ListChecks, Clock, Globe, Settings, Plus, Trash2, Send } from "lucide-react";
+import { Target, Calculator, ListChecks, Clock, Globe, Settings, Plus, Trash2, Send, GitCompare } from "lucide-react";
 
 const fmt$ = (n: number) => "$" + (n || 0).toFixed(2);
 const pct = (n: number) => (n * 100).toFixed(1) + "%";
 const COR_VEREDITO: Record<string, string> = { "LANÇAR": "#10b981", "TESTAR": "#f59e0b", "NÃO LANÇAR": "#ef4444" };
 const inp = { background: "#1e3356", border: "1px solid #334155", color: "#e8edf5", borderRadius: 9, padding: "8px 10px", width: "100%", outline: "none", fontSize: 13 } as React.CSSProperties;
 
-type Aba = "avaliar" | "motor" | "decisao" | "lista" | "paises" | "taxas";
+type Aba = "avaliar" | "motor" | "decisao" | "projreal" | "lista" | "paises" | "taxas";
 
 export default function PrecificacaoApp({ lojaId, lojaNome }: { lojaId: string; lojaNome: string }) {
   const [aba, setAba] = useState<Aba>("avaliar");
@@ -46,6 +47,7 @@ export default function PrecificacaoApp({ lojaId, lojaNome }: { lojaId: string; 
     { id: "avaliar", label: "Avaliar", icon: Target },
     { id: "motor", label: "Motor de Preços", icon: Calculator },
     { id: "decisao", label: "Decisão", icon: ListChecks },
+    { id: "projreal", label: "Projetado × Real", icon: GitCompare },
     { id: "lista", label: "Lista de espera", icon: Clock },
     { id: "paises", label: "Países", icon: Globe },
     { id: "taxas", label: "Taxas", icon: Settings },
@@ -73,6 +75,7 @@ export default function PrecificacaoApp({ lojaId, lojaNome }: { lojaId: string; 
           {aba === "avaliar" && <AbaAvaliar lojaId={lojaId} onCriou={() => { carregar(); setAba("motor"); }} />}
           {aba === "motor" && <AbaMotor lojaId={lojaId} config={config} paises={paises} produtos={produtos} onMudou={carregar} />}
           {aba === "decisao" && <AbaDecisao config={config} paises={paises} produtos={produtos} onMudou={carregar} />}
+          {aba === "projreal" && <AbaProjReal lojaId={lojaId} config={config} produtos={produtos} />}
           {aba === "lista" && <AbaLista lojaId={lojaId} produtos={produtos} config={config} paises={paises} onMudou={carregar} />}
           {aba === "paises" && <AbaPaises lojaId={lojaId} paises={paises} onMudou={carregar} />}
           {aba === "taxas" && <AbaTaxas config={config} onSalvar={async (c) => { await salvarConfig(c); carregar(); }} />}
@@ -343,6 +346,61 @@ function AbaDecisao({ config, paises, produtos, onMudou }: { config: PrecConfig;
           </tbody>
         </table>
       </div>
+    </div>
+  );
+}
+
+// ─── PROJETADO × REAL (real vem do op_pedidos do operacional) ─
+function AbaProjReal({ lojaId, config, produtos }: { lojaId: string; config: PrecConfig; produtos: PrecProduto[] }) {
+  const [real, setReal] = useState<Record<string, RealProduto>>({});
+  const [carregando, setCarregando] = useState(true);
+  useEffect(() => { realPorProduto(lojaId).then(setReal).catch(() => {}).finally(() => setCarregando(false)); }, [lojaId]);
+
+  if (carregando) return <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Carregando vendas reais...</div>;
+
+  const projGross = margemBrutaProjetada(config.markup); // base markup, país-independente
+  const linhas = produtos.map((p) => {
+    const r = real[p.nome.trim().toLowerCase()];
+    return { prod: p, real: r };
+  });
+  const comVenda = linhas.filter((l) => l.real && l.real.pedidos > 0);
+
+  return (
+    <div className="space-y-3">
+      <div className="rounded-xl p-3 text-xs" style={{ background: "#3b82f615", border: "1px solid #3b82f630", color: "#9aa7ba" }}>
+        Comparação em <b style={{ color: "#e8edf5" }}>margem bruta</b> (faturamento − custo), por produto, casando pelo nome com os pedidos reais do módulo <b style={{ color: "#e8edf5" }}>Operação</b>. ADS/taxas por produto exigem atribuição (fase futura) — aqui o real não desconta anúncio.
+      </div>
+      {comVenda.length === 0 && <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Nenhum produto da precificação tem venda real registrada na Operação (casamento por nome). Lance pedidos no módulo Operação com o mesmo nome do produto.</div>}
+      {comVenda.length > 0 && (
+        <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead><tr style={{ color: "#74859c", textAlign: "left" }}>
+                <th className="p-2">Produto</th><th className="p-2">Pedidos</th><th className="p-2">Faturamento</th>
+                <th className="p-2">Margem bruta projetada</th><th className="p-2">Margem bruta real</th><th className="p-2">Gap</th>
+              </tr></thead>
+              <tbody>
+                {comVenda.map((l) => {
+                  const realGross = l.real!.margemBruta;
+                  const gap = realGross - projGross;
+                  const cor = gap >= -0.05 ? "#10b981" : gap >= -0.15 ? "#f59e0b" : "#ef4444";
+                  return (
+                    <tr key={l.prod.id} style={{ borderTop: "1px solid #1e3356" }}>
+                      <td className="p-2 text-white font-semibold">{l.prod.nome}</td>
+                      <td className="p-2" style={{ color: "#9aa7ba" }}>{l.real!.pedidos}</td>
+                      <td className="p-2" style={{ color: "#9aa7ba" }}>{fmt$(l.real!.faturamento)}</td>
+                      <td className="p-2" style={{ color: "#9aa7ba" }}>{pct(projGross)}</td>
+                      <td className="p-2 font-bold" style={{ color: cor }}>{pct(realGross)}</td>
+                      <td className="p-2 font-bold" style={{ color: cor }}>{gap >= 0 ? "+" : ""}{(gap * 100).toFixed(1)} pts</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          <p className="p-3 text-xs" style={{ color: "#74859c" }}>Verde = real perto/acima do projetado · Vermelho = real bem abaixo (custo subiu, vendeu mais barato, ou reembolso).</p>
+        </div>
+      )}
     </div>
   );
 }
