@@ -6,7 +6,7 @@ import {
   LayoutDashboard, CheckSquare, Users, Store, ListTodo, LogOut, Menu, X,
   ClipboardList, Plus, Zap, Flame, Bell, Search, Activity, Power, RefreshCw,
   CalendarDays, ChevronLeft, ChevronRight, PanelLeftClose, DollarSign, Moon,
-  PackageSearch, BookMarked, Trophy, Receipt, Wallet, Briefcase, AlertTriangle, TrendingUp,
+  PackageSearch, BookMarked, Trophy, Receipt, Wallet, Briefcase, AlertTriangle, TrendingUp, Calculator,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import Avatar from "./Avatar";
@@ -71,6 +71,14 @@ const NAV_SECTIONS = [
     adminItems: [
       { href: "/catalogo", label: "Produtos", icon: PackageSearch, desc: "Kanban de produtos: pipeline de validação do cadastro até a distribuição" },
     ],
+  },
+  {
+    label: "Precificação",
+    emoji: "🧮",
+    items: [
+      { href: "/precificacao", label: "Precificação", icon: Calculator, desc: "Avaliar produto (garimpo) → precificar por mercado → decidir → enviar pra esteira de produtos" },
+    ],
+    adminItems: [],
   },
   {
     label: "Controle Geral",

@@ -386,6 +386,11 @@ export default function LojaPerfilPage() {
                   </button>
                 </>
               )}
+              <Link href={`/precificacao?loja=${loja.id}`}
+                className="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold transition-all hover:opacity-90"
+                style={{ background: "#1e3356", border: "1px solid #334155", color: "#94a3b8" }}>
+                🧮 Precificar produto
+              </Link>
               {/* LinkRapido dropdown */}
               <div className="relative" ref={linksDropdownRef}>
                 <button
