@@ -19,6 +19,7 @@ export const AJUDA: Record<string, { t: string; oque: string; calc?: string; ex?
   cac: { t: "CAC", oque: "Custo de aquisição de cliente — quanto você gasta em anúncio por venda.", calc: "gasto ADS ÷ pedidos", ex: "$150 em ADS / 10 pedidos = $15 por cliente.", sig: "Se o CAC passa o lucro por compra, você subsidia a venda — só compensa se houver recompra." },
   ltv: { t: "LTV", oque: "Valor do cliente ao longo da vida (lucro total que ele gera).", calc: "lucro por compra × compras esperadas (1/(1−recompra))", ex: "Lucro $10, recompra 20% → 1,25 compras → LTV $12,50.", sig: "LTV alto justifica CAC maior. Recompra muda tudo." },
   payback: { t: "Payback", oque: "Quantas compras o cliente precisa fazer pra cobrir o CAC.", calc: "CAC ÷ lucro por compra", ex: "CAC $15, lucro $10/compra → 1,5 compras.", sig: "≤1 = lucra já na 1ª venda. >1 = depende de recompra pra pagar a aquisição." },
+  chargeback: { t: "Chargeback (disputa)", oque: "Cliente contesta a cobrança no banco. Vem do status 'disputa' nos pedidos.", calc: "disputas ÷ total de pedidos", ex: "3 disputas em 200 pedidos = 1,5%.", sig: "Acima de ~1% o gateway pode BLOQUEAR sua conta — risco existencial. Cada disputa perde o produto + taxa do gateway." },
 };
 
 export function PrecTip({ k }: { k: string }) {

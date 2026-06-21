@@ -12,15 +12,16 @@ import {
   CRITERIOS_GARIMPO, notaGarimpo, CONFIG_PADRAO,
   realPorProduto, margemBrutaProjetada, RealProduto, reembolsoPorPrazo,
   unitEconomics, ancoraReal, AncoraReal,
+  riscoChargeback, RiscoChargeback,
 } from "@/lib/precificacao";
-import { Target, Calculator, ListChecks, Clock, Globe, Settings, Plus, Trash2, Send, GitCompare, Repeat } from "lucide-react";
+import { Target, Calculator, ListChecks, Clock, Globe, Settings, Plus, Trash2, Send, GitCompare, Repeat, ShieldAlert } from "lucide-react";
 
 const fmt$ = (n: number) => "$" + (n || 0).toFixed(2);
 const pct = (n: number) => (n * 100).toFixed(1) + "%";
 const COR_VEREDITO: Record<string, string> = { "LANÇAR": "#10b981", "TESTAR": "#f59e0b", "NÃO LANÇAR": "#ef4444" };
 const inp = { background: "#1e3356", border: "1px solid #334155", color: "#e8edf5", borderRadius: 9, padding: "8px 10px", width: "100%", outline: "none", fontSize: 13 } as React.CSSProperties;
 
-type Aba = "avaliar" | "motor" | "decisao" | "projreal" | "unit" | "lista" | "paises" | "taxas";
+type Aba = "avaliar" | "motor" | "decisao" | "projreal" | "unit" | "risco" | "lista" | "paises" | "taxas";
 
 export default function PrecificacaoApp({ lojaId, lojaNome }: { lojaId: string; lojaNome: string }) {
   const [aba, setAba] = useState<Aba>("avaliar");
@@ -50,6 +51,7 @@ export default function PrecificacaoApp({ lojaId, lojaNome }: { lojaId: string; 
     { id: "decisao", label: "Decisão", icon: ListChecks },
     { id: "projreal", label: "Projetado × Real", icon: GitCompare },
     { id: "unit", label: "Unit Economics", icon: Repeat },
+    { id: "risco", label: "Risco", icon: ShieldAlert },
     { id: "lista", label: "Lista de espera", icon: Clock },
     { id: "paises", label: "Países", icon: Globe },
     { id: "taxas", label: "Taxas", icon: Settings },
@@ -79,6 +81,7 @@ export default function PrecificacaoApp({ lojaId, lojaNome }: { lojaId: string; 
           {aba === "decisao" && <AbaDecisao config={config} paises={paises} produtos={produtos} onMudou={carregar} />}
           {aba === "projreal" && <AbaProjReal lojaId={lojaId} config={config} produtos={produtos} />}
           {aba === "unit" && <AbaUnit lojaId={lojaId} config={config} />}
+          {aba === "risco" && <AbaRisco lojaId={lojaId} />}
           {aba === "lista" && <AbaLista lojaId={lojaId} produtos={produtos} config={config} paises={paises} onMudou={carregar} />}
           {aba === "paises" && <AbaPaises lojaId={lojaId} paises={paises} onMudou={carregar} />}
           {aba === "taxas" && <AbaTaxas config={config} onSalvar={async (c) => { await salvarConfig(c); carregar(); }} />}
@@ -460,6 +463,81 @@ function AbaUnit({ lojaId, config }: { lojaId: string; config: PrecConfig }) {
         <Card label="CAC" valor={fmt$(cac)} c="#f59e0b" sub="custo por cliente" />
       </div>
       <p className="text-xs" style={{ color: "#74859c" }}>LTV = lucro/compra × compras esperadas (1/(1−recompra)). Payback em nº de compras pra cobrir o CAC. LTV:CAC ≥3 é o alvo saudável.</p>
+    </div>
+  );
+}
+
+// ─── RISCO / CHARGEBACK (do op_pedidos status "disputa") ──
+function AbaRisco({ lojaId }: { lojaId: string }) {
+  const [r, setR] = useState<RiscoChargeback | null>(null);
+  const [carregando, setCarregando] = useState(true);
+  const [fee, setFee] = useState("15");
+  useEffect(() => { riscoChargeback(lojaId).then(setR).catch(() => {}).finally(() => setCarregando(false)); }, [lojaId]);
+  if (carregando) return <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Carregando risco...</div>;
+  if (!r || r.total === 0) return <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Sem pedidos na Operação ainda. Marque pedidos com status <b>disputa</b> no operacional pra acompanhar o risco.</div>;
+
+  const taxa = r.taxaDisputa * 100;
+  const nivel = taxa < 0.5 ? { c: "#10b981", t: "Saudável", d: "bem abaixo do limite de bloqueio (1%)" } : taxa < 1 ? { c: "#f59e0b", t: "Atenção", d: "aproximando do limite de 1%" } : { c: "#ef4444", t: "Crítico", d: "acima de 1% — risco de bloqueio do gateway!" };
+  const feeN = parseFloat(fee) || 0;
+  const impactoTotal = r.custoPerdidoDisputa + r.disputas * feeN;
+
+  const Card = ({ label, valor, c, sub }: { label: string; valor: string; c: string; sub?: string }) => (
+    <div className="rounded-2xl p-4" style={{ background: "linear-gradient(160deg,#14243f,#111e35)", border: `1px solid ${c}30` }}>
+      <p className="text-xs" style={{ color: "#9aa7ba" }}>{label}</p>
+      <p className="font-extrabold mt-1" style={{ fontSize: 20, color: c }}>{valor}</p>
+      {sub && <p className="text-xs mt-0.5" style={{ color: "#74859c" }}>{sub}</p>}
+    </div>
+  );
+
+  return (
+    <div className="space-y-4">
+      {/* Medidor de risco */}
+      <div className="rounded-2xl p-5" style={{ background: `linear-gradient(135deg, ${nivel.c}10, ${nivel.c}03)`, border: `1px solid ${nivel.c}30` }}>
+        <p className="text-xs font-bold uppercase tracking-wider flex items-center" style={{ color: "#9aa7ba" }}>Taxa de disputa (chargeback)<PrecTip k="chargeback" /></p>
+        <p className="font-extrabold my-1" style={{ fontSize: 40, color: nivel.c, lineHeight: 1 }}>{taxa.toFixed(2)}%</p>
+        <p className="text-sm font-bold" style={{ color: nivel.c }}>{nivel.t}</p>
+        <p className="text-xs" style={{ color: "#74859c" }}>{nivel.d}</p>
+        <div className="mt-3" style={{ height: 8, background: "#1e3356", borderRadius: 99, overflow: "hidden", position: "relative" }}>
+          <div style={{ width: `${Math.min(taxa / 2 * 100, 100)}%`, height: "100%", background: nivel.c, borderRadius: 99 }} />
+          <div style={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: 2, background: "#ef4444" }} title="limite 1%" />
+        </div>
+        <p className="text-xs mt-1" style={{ color: "#74859c" }}>Linha vermelha = 1% (limite que bloqueia o gateway)</p>
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <Card label="Pedidos" valor={String(r.total)} c="#3b82f6" />
+        <Card label="Disputas" valor={String(r.disputas)} c={nivel.c} sub={`${(r.taxaDisputa * 100).toFixed(2)}%`} />
+        <Card label="Reembolsos" valor={String(r.reembolsos)} c="#f59e0b" sub={`${(r.taxaReembolso * 100).toFixed(2)}%`} />
+        <Card label="Impacto $" valor={fmt$(impactoTotal)} c="#ef4444" sub="custo perdido + taxas" />
+      </div>
+
+      <div className="rounded-2xl p-4 flex items-center gap-3" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <span className="text-sm" style={{ color: "#9aa7ba" }}>Taxa do gateway por chargeback ($)</span>
+        <input type="number" value={fee} onChange={(e) => setFee(e.target.value)} style={{ ...inp, width: 90 }} />
+        <span className="text-xs" style={{ color: "#74859c" }}>cada disputa = custo do produto perdido + esta taxa</span>
+      </div>
+
+      {r.porProduto.length > 0 && (
+        <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+          <div className="p-3 text-sm font-bold text-white">Disputas por produto</div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead><tr style={{ color: "#74859c", textAlign: "left" }}><th className="p-2">Produto</th><th className="p-2">Pedidos</th><th className="p-2">Disputas</th><th className="p-2">Taxa</th></tr></thead>
+              <tbody>
+                {r.porProduto.map((p, i) => (
+                  <tr key={i} style={{ borderTop: "1px solid #1e3356" }}>
+                    <td className="p-2 text-white font-semibold">{p.nome}</td>
+                    <td className="p-2" style={{ color: "#9aa7ba" }}>{p.pedidos}</td>
+                    <td className="p-2" style={{ color: "#9aa7ba" }}>{p.disputas}</td>
+                    <td className="p-2 font-bold" style={{ color: p.taxa >= 0.01 ? "#ef4444" : "#f59e0b" }}>{(p.taxa * 100).toFixed(1)}%</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="p-3 text-xs" style={{ color: "#74859c" }}>Priorize investigar os produtos no topo — alta disputa pode derrubar a conta toda.</p>
+        </div>
+      )}
     </div>
   );
 }

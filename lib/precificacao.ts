@@ -221,6 +221,41 @@ export async function ancoraReal(lojaId: string): Promise<AncoraReal> {
   return { pedidos: n, ticketMedio: n > 0 ? fat / n : 0, adsTotal, cacReal: n > 0 ? adsTotal / n : 0 };
 }
 
+// ─── CHARGEBACK / RISCO (do op_pedidos: status "disputa") ──
+export interface RiscoChargeback {
+  total: number; disputas: number; reembolsos: number;
+  taxaDisputa: number; taxaReembolso: number; custoPerdidoDisputa: number;
+  porProduto: { nome: string; pedidos: number; disputas: number; taxa: number }[];
+}
+export async function riscoChargeback(lojaId: string): Promise<RiscoChargeback> {
+  const { data, error } = await supabase.from("op_pedidos")
+    .select("produto,custo_produto,frete,status").eq("loja_id", lojaId);
+  if (error) throw error;
+  const rows = (data || []) as { produto?: string; custo_produto: number; frete: number; status: string }[];
+  const total = rows.length;
+  const disputas = rows.filter((r) => r.status === "disputa").length;
+  const reembolsos = rows.filter((r) => r.status === "reembolso").length;
+  const custoPerdidoDisputa = rows.filter((r) => r.status === "disputa").reduce((s, r) => s + (r.custo_produto || 0) + (r.frete || 0), 0);
+  const mapa: Record<string, { nome: string; pedidos: number; disputas: number }> = {};
+  rows.forEach((r) => {
+    const nome = (r.produto || "").trim() || "(sem nome)";
+    const k = nome.toLowerCase();
+    if (!mapa[k]) mapa[k] = { nome, pedidos: 0, disputas: 0 };
+    mapa[k].pedidos += 1;
+    if (r.status === "disputa") mapa[k].disputas += 1;
+  });
+  const porProduto = Object.values(mapa)
+    .map((p) => ({ ...p, taxa: p.pedidos > 0 ? p.disputas / p.pedidos : 0 }))
+    .filter((p) => p.disputas > 0)
+    .sort((a, b) => b.taxa - a.taxa);
+  return {
+    total, disputas, reembolsos,
+    taxaDisputa: total > 0 ? disputas / total : 0,
+    taxaReembolso: total > 0 ? reembolsos / total : 0,
+    custoPerdidoDisputa, porProduto,
+  };
+}
+
 // ═══════════════ CRUD Supabase ═══════════════
 export async function obterConfig(lojaId: string): Promise<PrecConfig> {
   const { data, error } = await supabase.from("prec_config").select("*").eq("loja_id", lojaId).maybeSingle();
