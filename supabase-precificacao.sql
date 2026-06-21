@@ -76,3 +76,6 @@ create policy "prec_paises_all"  on prec_paises            for all using (true) 
 create policy "prec_prod_all"    on prec_produtos          for all using (true) with check (true);
 create policy "prec_forn_all"    on prec_fornecedores_prod for all using (true) with check (true);
 create policy "prec_custos_all"  on prec_custos            for all using (true) with check (true);
+
+-- Fase 2: imposto de importacao (duty) por pais
+alter table prec_paises add column if not exists duty numeric not null default 0;

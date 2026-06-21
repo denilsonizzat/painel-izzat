@@ -12,6 +12,7 @@ export interface PrecConfig {
 export interface PrecPais {
   id?: number; loja_id: string; cod: string; nome: string;
   moeda: string; cambio: number; imposto: number; tier: string; markup_override?: number | null;
+  duty?: number; // imposto de importação (% do custo)
 }
 export type StatusProduto = "avaliando" | "aprovado" | "lista_espera" | "enviado";
 export interface PrecProduto {
@@ -53,36 +54,49 @@ export interface ResultadoPreco {
   taxas: number; mkt: number; imposto: number; reembolso: number;
 }
 
-export function calcularPreco(custoTotal: number, imposto: number, cfg: PrecConfig, markupForcado?: number): ResultadoPreco {
+// opts: duty = imposto de importação (% do custo, absorvido por você); reembolso = % efetivo (override do prazo)
+export interface OpcoesPreco { duty?: number; reembolso?: number }
+export function calcularPreco(custoTotal: number, imposto: number, cfg: PrecConfig, markupForcado?: number, opts?: OpcoesPreco): ResultadoPreco {
   const taxas = (cfg.gateway_fee + cfg.shopify_fee) / 100;
   const mkt = cfg.mkt / 100;
   const imp = imposto / 100;
-  const reemb = cfg.reembolso / 100;
+  const reemb = (opts?.reembolso ?? cfg.reembolso) / 100;
+  const duty = (opts?.duty ?? 0) / 100;
   const markup = markupForcado ?? cfg.markup;
   const preco = custoTotal * markup;
-  const margemReal = 1 - taxas - mkt - imp - (1 + reemb) / markup;
+  // duty e reembolso são % do custo → entram como (duty+reemb)/markup junto com o custo (1/markup)
+  const margemReal = 1 - taxas - mkt - imp - (1 + reemb + duty) / markup;
   const lucro = preco * margemReal;
-  const cpaMax = preco * (1 - taxas) - custoTotal;
+  const cpaMax = preco * (1 - taxas) - custoTotal * (1 + duty);
   const beroas = cpaMax > 0 ? preco / cpaMax : 0;
   return { custoTotal, markup, preco, margemReal, lucro, cpaMax, beroas, taxas, mkt, imposto: imp, reembolso: reemb };
 }
 
-// Markup sugerido pra atingir a margem mínima dado o imposto: markup = 1.05/(0.70 − imposto − margemAlvo)
-// (0.70 = 1 − taxas − mkt com os defaults; recalculado a partir da config)
-export function markupSugerido(imposto: number, cfg: PrecConfig): number {
+// Reembolso efetivo cresce com o prazo de entrega (prazo longo = mais devolução/chargeback)
+export function reembolsoPorPrazo(base: number, prazoDias: number): number {
+  if (!prazoDias || prazoDias <= 10) return base;
+  if (prazoDias <= 20) return base + 3;
+  if (prazoDias <= 30) return base + 8;
+  return base + 15;
+}
+
+// Markup sugerido pra bater a margem mínima: markup = (1+reemb+duty)/((1−taxas−mkt) − imposto − margemAlvo)
+export function markupSugerido(imposto: number, cfg: PrecConfig, opts?: OpcoesPreco): number {
   const taxas = (cfg.gateway_fee + cfg.shopify_fee) / 100;
   const mkt = cfg.mkt / 100;
+  const reemb = (opts?.reembolso ?? cfg.reembolso) / 100;
+  const duty = (opts?.duty ?? 0) / 100;
   const denom = (1 - taxas - mkt) - imposto / 100 - cfg.margem_min / 100;
   if (denom <= 0.01) return 0; // inviável
-  return (1 + cfg.reembolso / 100) / denom;
+  return (1 + reemb + duty) / denom;
 }
 
 // Markup efetivo do país: override > sugerido (se base não bate a margem) > base
-export function markupDoPais(pais: PrecPais, cfg: PrecConfig): { markup: number; ajustado: boolean } {
+export function markupDoPais(pais: PrecPais, cfg: PrecConfig, opts?: OpcoesPreco): { markup: number; ajustado: boolean } {
   if (pais.markup_override && pais.markup_override > 0) return { markup: pais.markup_override, ajustado: true };
-  const base = calcularPreco(1, pais.imposto, cfg).margemReal; // margem com markup base
+  const base = calcularPreco(1, pais.imposto, cfg, undefined, opts).margemReal;
   if (base >= cfg.margem_min / 100) return { markup: cfg.markup, ajustado: false };
-  const sug = markupSugerido(pais.imposto, cfg);
+  const sug = markupSugerido(pais.imposto, cfg, opts);
   return sug > 0 ? { markup: sug, ajustado: true } : { markup: cfg.markup, ajustado: false };
 }
 

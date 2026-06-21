@@ -14,6 +14,8 @@ export const AJUDA: Record<string, { t: string; oque: string; calc?: string; ex?
   tier: { t: "Tier de mercado", oque: "Classificação por prioridade estratégica.", ex: "A (foco): EUA/CA/UK/AU/IE. B (possível): SG/HK/UAE/SA/JP.", sig: "Foco no Tier A; Tier B quando fizer sentido." },
   nota_garimpo: { t: "Nota de Garimpo", oque: "Nota 0-100 que diz se vale testar o produto, ANTES de precificar.", calc: "Soma ponderada de 10 critérios (mercado, produto, viabilidade).", sig: "70+ vale testar; 45-69 com cautela; abaixo procure outro." },
   ofertas: { t: "Ofertas (bundles)", oque: "1un, 2un e Kit 3+1 (paga 3, leva 4).", sig: "O Kit tem markup menor (dá 1 grátis) mas costuma gerar mais lucro por venda." },
+  duty: { t: "Duty (imposto de importação)", oque: "Taxa de importação por país sobre o custo do produto, absorvida por você.", calc: "desconta (duty% do custo) da margem", ex: "Duty 10% num custo $27,50 → ~$2,75 a menos de margem.", sig: "Configurável por país. Mercados com duty alto pedem markup maior." },
+  prazo: { t: "Prazo → reembolso", oque: "Prazo de entrega longo gera mais devolução e chargeback.", calc: "≤10d: base · 11-20d: +3pts · 21-30d: +8 · >30d: +15", ex: "Reembolso base 5%, prazo 28d → 13% efetivo.", sig: "O reembolso efetivo do titular entra na margem. Fornecedor rápido protege o lucro." },
 };
 
 export function PrecTip({ k }: { k: string }) {
