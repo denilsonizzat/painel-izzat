@@ -10,7 +10,7 @@ import {
   listarFornecedores, salvarFornecedores, listarCustos, salvarCustos,
   calcularPreco, markupDoPais, scorePreco, veredito, calcularOfertas,
   CRITERIOS_GARIMPO, notaGarimpo, CONFIG_PADRAO,
-  realPorProduto, margemBrutaProjetada, RealProduto,
+  realPorProduto, margemBrutaProjetada, RealProduto, reembolsoPorPrazo,
 } from "@/lib/precificacao";
 import { Target, Calculator, ListChecks, Clock, Globe, Settings, Plus, Trash2, Send, GitCompare } from "lucide-react";
 
@@ -245,7 +245,10 @@ function AbaMotor({ lojaId, config, paises, produtos, onMudou }: { lojaId: strin
 
       {/* Tabela por país */}
       <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
-        <div className="p-3 text-sm font-bold text-white">Preço por mercado (custo por país; vazio usa o titular)</div>
+        <div className="p-3">
+          <p className="text-sm font-bold text-white">Preço por mercado <span style={{ color: "#74859c", fontWeight: 400, fontSize: 11 }}>(custo vazio usa o titular)</span></p>
+          <p className="text-xs mt-0.5 flex items-center flex-wrap" style={{ color: "#74859c" }}>Reembolso efetivo: {reembolsoPorPrazo(config.reembolso, titular?.prazo ?? 0)}% (prazo do titular {titular?.prazo ?? 0}d)<PrecTip k="prazo" /> · duty por país desconta da margem<PrecTip k="duty" /></p>
+        </div>
         <div className="overflow-x-auto">
           <table className="w-full text-xs" style={{ borderCollapse: "collapse" }}>
             <thead>
@@ -260,8 +263,9 @@ function AbaMotor({ lojaId, config, paises, produtos, onMudou }: { lojaId: strin
             <tbody>
               {paises.map((pa) => {
                 const ct = custoPais(pa.cod);
-                const { markup, ajustado } = markupDoPais(pa, config);
-                const r = calcularPreco(ct, pa.imposto, config, markup);
+                const opts = { duty: pa.duty ?? 0, reembolso: reembolsoPorPrazo(config.reembolso, titular?.prazo ?? 0) };
+                const { markup, ajustado } = markupDoPais(pa, config, opts);
+                const r = calcularPreco(ct, pa.imposto, config, markup, opts);
                 const sc = scorePreco(r, config);
                 const vd = veredito(r, sc, config);
                 const c = custos[pa.cod] || { custo: "", frete: "" };
@@ -302,12 +306,14 @@ function AbaDecisao({ config, paises, produtos, onMudou }: { config: PrecConfig;
         const tit = forns.find((f) => f.titular) || forns[0];
         if (!tit) continue;
         const custoTit = tit.custo + tit.frete;
+        const opts = { reembolso: reembolsoPorPrazo(config.reembolso, tit.prazo ?? 0) };
         for (const pa of paises) {
           const cu = custos.find((c) => c.pais_cod === pa.cod);
           const ct = cu ? cu.custo_produto + cu.frete : custoTit;
           if (ct <= 0) continue;
-          const { markup } = markupDoPais(pa, config);
-          const r = calcularPreco(ct, pa.imposto, config, markup);
+          const o = { ...opts, duty: pa.duty ?? 0 };
+          const { markup } = markupDoPais(pa, config, o);
+          const r = calcularPreco(ct, pa.imposto, config, markup, o);
           const sc = scorePreco(r, config);
           out.push({ prod, pais: pa, preco: r.preco, margem: r.margemReal, cpa: r.cpaMax, score: sc, vd: veredito(r, sc, config) });
         }
@@ -481,7 +487,7 @@ function AbaPaises({ lojaId, paises, onMudou }: { lojaId: string; paises: PrecPa
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-xs">
-          <thead><tr style={{ color: "#74859c", textAlign: "left" }}><th className="p-2">Cód</th><th className="p-2">Nome</th><th className="p-2">Moeda</th><th className="p-2">Câmbio</th><th className="p-2">Imposto %</th><th className="p-2">Tier</th><th className="p-2"></th></tr></thead>
+          <thead><tr style={{ color: "#74859c", textAlign: "left" }}><th className="p-2">Cód</th><th className="p-2">Nome</th><th className="p-2">Moeda</th><th className="p-2">Câmbio</th><th className="p-2">Imposto %</th><th className="p-2">Duty %</th><th className="p-2">Tier</th><th className="p-2"></th></tr></thead>
           <tbody>
             {paises.map((pa) => {
               const e = edit[pa.id!] || pa;
@@ -493,7 +499,8 @@ function AbaPaises({ lojaId, paises, onMudou }: { lojaId: string; paises: PrecPa
                   <td className="p-1"><input value={e.nome} onChange={(ev) => set({ nome: ev.target.value })} style={{ ...inp, padding: "4px 6px" }} /></td>
                   <td className="p-1"><input value={e.moeda} onChange={(ev) => set({ moeda: ev.target.value })} style={{ ...inp, width: 60, padding: "4px 6px" }} /></td>
                   <td className="p-1"><input type="number" value={e.cambio} onChange={(ev) => set({ cambio: parseFloat(ev.target.value) || 0 })} style={{ ...inp, width: 70, padding: "4px 6px" }} /></td>
-                  <td className="p-1"><input type="number" value={e.imposto} onChange={(ev) => set({ imposto: parseFloat(ev.target.value) || 0 })} style={{ ...inp, width: 60, padding: "4px 6px" }} /></td>
+                  <td className="p-1"><input type="number" value={e.imposto} onChange={(ev) => set({ imposto: parseFloat(ev.target.value) || 0 })} style={{ ...inp, width: 56, padding: "4px 6px" }} /></td>
+                  <td className="p-1"><input type="number" value={e.duty ?? 0} onChange={(ev) => set({ duty: parseFloat(ev.target.value) || 0 })} style={{ ...inp, width: 56, padding: "4px 6px" }} /></td>
                   <td className="p-1"><select value={e.tier} onChange={(ev) => set({ tier: ev.target.value })} style={{ ...inp, width: 54, padding: "4px 6px" }}><option>A</option><option>B</option></select></td>
                   <td className="p-1 flex gap-1">
                     {mudou && <button onClick={() => salvar(e)} className="px-2 py-1 rounded text-xs font-bold" style={{ background: "#10b98120", color: "#10b981" }}>Salvar</button>}
