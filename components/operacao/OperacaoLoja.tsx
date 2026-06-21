@@ -8,19 +8,21 @@ import {
   obterMeta, salvarMeta, listarAnoResumo,
   serieProduto, gerarAlertas, precoIdeal,
   preverFechamento, simularAds, calcularLtv, gerarCSV,
-  OpPedido, OpAds, OpConfig, KpisOperacao, OpMeta, MesResumo, Alerta, Ltv,
+  serieCanal, fluxoCaixa,
+  OpPedido, OpAds, OpConfig, KpisOperacao, OpMeta, MesResumo, Alerta, Ltv, CanalSerie, FluxoCaixa,
 } from "@/lib/operacao";
 import { supabaseConfigurado } from "@/lib/supabase";
-import { Plus, Trash2, Pencil, X, TrendingUp, ListOrdered, Megaphone, Settings, DollarSign, BarChart3, Target, CalendarRange, Download } from "lucide-react";
+import { Plus, Trash2, Pencil, X, TrendingUp, ListOrdered, Megaphone, Settings, DollarSign, BarChart3, Target, CalendarRange, Download, Share2, Wallet } from "lucide-react";
 
 const MESES = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 const FORNECEDORES = ["AliExpress", "Wiio", "DV", "3Cliques"];
 const PLATAFORMAS = ["Meta", "Google", "TikTok", "Outro"];
+const CANAIS = ["Meta", "TikTok", "Google", "Organico", "Direto", "Email", "Outro"];
 const fmt$ = (n: number) => "$" + (n || 0).toFixed(2);
 const fmtPct = (n: number) => (n || 0).toFixed(1) + "%";
 const hoje = () => new Date().toISOString().slice(0, 10);
 
-type SubAba = "kpis" | "graficos" | "metas" | "anual" | "pedidos" | "ads" | "config";
+type SubAba = "kpis" | "graficos" | "canais" | "caixa" | "metas" | "anual" | "pedidos" | "ads" | "config";
 
 export default function OperacaoLoja({ lojaId, lojaNome }: { lojaId: string; lojaNome: string }) {
   const agora = new Date();
@@ -85,6 +87,8 @@ export default function OperacaoLoja({ lojaId, lojaNome }: { lojaId: string; loj
         {([
           { id: "kpis" as const, label: "Resumo", icon: TrendingUp },
           { id: "graficos" as const, label: "Gráficos", icon: BarChart3 },
+          { id: "canais" as const, label: "Canais", icon: Share2 },
+          { id: "caixa" as const, label: "Caixa", icon: Wallet },
           { id: "metas" as const, label: "Metas", icon: Target },
           { id: "anual" as const, label: "Anual", icon: CalendarRange },
           { id: "pedidos" as const, label: `Pedidos${pedidos.length ? ` (${pedidos.length})` : ""}`, icon: ListOrdered },
@@ -109,6 +113,8 @@ export default function OperacaoLoja({ lojaId, lojaNome }: { lojaId: string; loj
         <>
           {sub === "kpis" && <AbaKpis kpis={kpis} cfg={cfg} alertas={gerarAlertas(kpis, pedidos, meta)} />}
           {sub === "graficos" && <AbaGraficos pedidos={pedidos} ads={ads} mes={mes} ano={ano} />}
+          {sub === "canais" && <AbaCanais pedidos={pedidos} ads={ads} />}
+          {sub === "caixa" && <AbaCaixa pedidos={pedidos} ads={ads} />}
           {sub === "metas" && <AbaMetas kpis={kpis} meta={meta} lojaId={lojaId} mes={mes} ano={ano} onSalvar={carregar} />}
           {sub === "anual" && <AbaAnual anual={anual} ano={ano} lojaId={lojaId} />}
           {sub === "pedidos" && <AbaPedidos lojaId={lojaId} pedidos={pedidos} onMudou={carregar} />}
@@ -481,10 +487,102 @@ function MiniCard({ label, valor, cor }: { label: string; valor: string; cor: st
 }
 
 // ─── PEDIDOS ───────────────────────────────────────────────
+// ─── ANÁLISE DE CANAIS ─────────────────────────────────────
+function AbaCanais({ pedidos, ads }: { pedidos: OpPedido[]; ads: OpAds[] }) {
+  const canais = serieCanal(pedidos, ads);
+  if (canais.length === 0) return <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Sem dados. Lance pedidos com canal e gastos de ADS no mês.</div>;
+  const corCanal: Record<string, string> = { Meta: "#3b82f6", TikTok: "#ec4899", Google: "#10b981", Organico: "#c9a84c", Direto: "#94a3b8", Email: "#8b5cf6" };
+  return (
+    <div className="space-y-3">
+      <div className="rounded-xl p-3 text-xs" style={{ background: "#3b82f615", border: "1px solid #3b82f630", color: "#9aa7ba" }}>
+        ROAS e recompra por canal de venda. Gasto vem do ADS (plataforma); receita e recompra vêm do canal marcado em cada pedido.
+      </div>
+      <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs">
+            <thead><tr style={{ color: "#74859c", textAlign: "left" }}>
+              <th className="p-2">Canal</th><th className="p-2">Gasto</th><th className="p-2">Receita</th><th className="p-2">Pedidos</th>
+              <th className="p-2">ROAS</th><th className="p-2">CPA</th><th className="p-2">Ticket</th><th className="p-2">Recompra</th><th className="p-2">% receita</th>
+            </tr></thead>
+            <tbody>
+              {canais.map((c) => (
+                <tr key={c.canal} style={{ borderTop: "1px solid #1e3356" }}>
+                  <td className="p-2 font-semibold" style={{ color: corCanal[c.canal] || "#e8edf5" }}>{c.canal}</td>
+                  <td className="p-2" style={{ color: "#9aa7ba" }}>{c.gasto > 0 ? fmt$(c.gasto) : "—"}</td>
+                  <td className="p-2 text-white">{fmt$(c.receita)}</td>
+                  <td className="p-2" style={{ color: "#9aa7ba" }}>{c.pedidos}</td>
+                  <td className="p-2 font-bold" style={{ color: c.gasto === 0 ? "#74859c" : c.roas >= 3 ? "#10b981" : c.roas >= 1.5 ? "#f59e0b" : "#ef4444" }}>{c.gasto > 0 ? c.roas.toFixed(2) + "×" : "—"}</td>
+                  <td className="p-2" style={{ color: "#c9a84c" }}>{c.cpa > 0 ? fmt$(c.cpa) : "—"}</td>
+                  <td className="p-2" style={{ color: "#9aa7ba" }}>{fmt$(c.ticket)}</td>
+                  <td className="p-2" style={{ color: c.recompraPct >= 20 ? "#10b981" : "#9aa7ba" }}>{fmtPct(c.recompraPct)}</td>
+                  <td className="p-2" style={{ color: "#9aa7ba" }}>{fmtPct(c.pctReceita)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {canais.filter((c) => c.gasto > 0).map((c) => (
+          <div key={c.canal} className="rounded-xl p-3 flex items-center justify-between" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+            <span className="text-sm font-semibold" style={{ color: corCanal[c.canal] || "#e8edf5" }}>{c.canal}</span>
+            <div className="flex-1 mx-3" style={{ height: 6, background: "#1e3356", borderRadius: 99 }}>
+              <div style={{ width: `${Math.min(c.roas / 4 * 100, 100)}%`, height: "100%", borderRadius: 99, background: c.roas >= 3 ? "#10b981" : c.roas >= 1.5 ? "#f59e0b" : "#ef4444" }} />
+            </div>
+            <span className="text-xs font-bold" style={{ color: "#e8edf5" }}>ROAS {c.roas.toFixed(1)}×</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── FLUXO DE CAIXA (BRL) ──────────────────────────────────
+function AbaCaixa({ pedidos, ads }: { pedidos: OpPedido[]; ads: OpAds[] }) {
+  const [cambio, setCambio] = useState(5.4);
+  const [moeda, setMoeda] = useState<"BRL" | "USD">("BRL");
+  useEffect(() => {
+    fetch("/api/cambio").then((r) => r.json()).then((j) => { if (j.ok && j.rates?.BRL) setCambio(j.rates.BRL); }).catch(() => {});
+  }, []);
+  const fx = fluxoCaixa(pedidos, ads, cambio);
+  const m = (usd: number, brl: number) => moeda === "BRL" ? "R$ " + brl.toFixed(2) : "$" + usd.toFixed(2);
+  const Card = ({ label, usd, brl, c, sub }: { label: string; usd: number; brl: number; c: string; sub?: string }) => (
+    <div className="rounded-2xl p-4" style={{ background: "linear-gradient(160deg,#14243f,#111e35)", border: `1px solid ${c}30` }}>
+      <p className="text-xs" style={{ color: "#9aa7ba" }}>{label}</p>
+      <p className="font-extrabold mt-1" style={{ fontSize: 20, color: c }}>{m(usd, brl)}</p>
+      {sub && <p className="text-xs mt-0.5" style={{ color: "#74859c" }}>{sub}</p>}
+    </div>
+  );
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between flex-wrap gap-2">
+        <div className="rounded-xl p-3 text-xs flex-1" style={{ background: "#3b82f615", border: "1px solid #3b82f630", color: "#9aa7ba" }}>
+          Descasamento: você paga fornecedor + ADS à vista, mas a Shopify libera o faturamento em ~7 dias. Câmbio do dia: R$ {cambio.toFixed(2)}/US$.
+        </div>
+        <div className="flex gap-1 p-1 rounded-lg" style={{ background: "#0f1c30" }}>
+          {(["BRL", "USD"] as const).map((x) => (
+            <button key={x} onClick={() => setMoeda(x)} className="px-3 py-1.5 rounded-md text-xs font-bold" style={{ background: moeda === x ? "#c9a84c" : "transparent", color: moeda === x ? "#0b1624" : "#94a3b8" }}>{x}</button>
+          ))}
+        </div>
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <Card label="Saldo em caixa" usd={fx.saldoUSD} brl={fx.saldoBRL} c={fx.saldoUSD >= 0 ? "#10b981" : "#ef4444"} sub="recebido − pago" />
+        <Card label="Já recebido" usd={fx.recebidoUSD} brl={fx.recebidoBRL} c="#3b82f6" sub="liberado (>7d)" />
+        <Card label="A receber (retido)" usd={fx.aReceberUSD} brl={fx.aReceberBRL} c="#f59e0b" sub="Shopify libera em ~7d" />
+        <Card label="Pago à vista" usd={fx.pagoUSD} brl={fx.pagoBRL} c="#ef4444" sub="fornecedor + ADS" />
+      </div>
+      <div className="rounded-2xl p-4 grid grid-cols-2 gap-3" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div><p className="text-xs" style={{ color: "#74859c" }}>Custo de produto/frete</p><p className="text-sm font-bold text-white">{m(fx.custoUSD, fx.custoUSD * cambio)}</p></div>
+        <div><p className="text-xs" style={{ color: "#74859c" }}>Gasto com ADS</p><p className="text-sm font-bold text-white">{m(fx.adsUSD, fx.adsUSD * cambio)}</p></div>
+      </div>
+    </div>
+  );
+}
+
 function AbaPedidos({ lojaId, pedidos, onMudou }: { lojaId: string; pedidos: OpPedido[]; onMudou: () => void }) {
   const [form, setForm] = useState(false);
   const [editId, setEditId] = useState<number | null>(null);
-  const vazio = { data: hoje(), num_pedido: "", fornecedor: "AliExpress", custo_produto: "", frete: "", faturamento: "", produto: "", status: "", notas: "" };
+  const vazio = { data: hoje(), num_pedido: "", fornecedor: "AliExpress", custo_produto: "", frete: "", faturamento: "", produto: "", status: "", canal: "", tipo_cliente: "novo", notas: "" };
   const [f, setF] = useState<Record<string, string>>(vazio);
   const [salvando, setSalvando] = useState(false);
 
@@ -493,7 +591,7 @@ function AbaPedidos({ lojaId, pedidos, onMudou }: { lojaId: string; pedidos: OpP
     setEditId(p.id!);
     setF({ data: p.data, num_pedido: p.num_pedido || "", fornecedor: p.fornecedor || "AliExpress",
       custo_produto: String(p.custo_produto), frete: String(p.frete), faturamento: String(p.faturamento),
-      produto: p.produto || "", status: p.status || "", notas: p.notas || "" });
+      produto: p.produto || "", status: p.status || "", canal: p.canal || "", tipo_cliente: p.tipo_cliente || "novo", notas: p.notas || "" });
     setForm(true);
   }
   async function salvar() {
@@ -502,7 +600,8 @@ function AbaPedidos({ lojaId, pedidos, onMudou }: { lojaId: string; pedidos: OpP
     const dados = {
       loja_id: lojaId, data: f.data, num_pedido: f.num_pedido, fornecedor: f.fornecedor,
       custo_produto: parseFloat(f.custo_produto) || 0, frete: parseFloat(f.frete) || 0,
-      faturamento: parseFloat(f.faturamento) || 0, produto: f.produto, status: f.status, notas: f.notas,
+      faturamento: parseFloat(f.faturamento) || 0, produto: f.produto, status: f.status,
+      canal: f.canal, tipo_cliente: f.tipo_cliente, notas: f.notas,
     };
     try {
       if (editId) await editarPedido(editId, dados); else await criarPedido(dados);
@@ -582,6 +681,10 @@ function AbaPedidos({ lojaId, pedidos, onMudou }: { lojaId: string; pedidos: OpP
               <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Custo prod.</label><input type="number" value={f.custo_produto} onChange={(e) => setF({ ...f, custo_produto: e.target.value })} placeholder="0.00" style={inp} /></div>
               <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Frete</label><input type="number" value={f.frete} onChange={(e) => setF({ ...f, frete: e.target.value })} placeholder="0.00" style={inp} /></div>
               <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Faturamento *</label><input type="number" value={f.faturamento} onChange={(e) => setF({ ...f, faturamento: e.target.value })} placeholder="0.00" style={inp} /></div>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Canal da venda</label><select value={f.canal} onChange={(e) => setF({ ...f, canal: e.target.value })} style={inp}><option value="">—</option>{CANAIS.map((s) => <option key={s} value={s}>{s}</option>)}</select></div>
+              <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Cliente</label><select value={f.tipo_cliente} onChange={(e) => setF({ ...f, tipo_cliente: e.target.value })} style={inp}><option value="novo">Novo</option><option value="recorrente">Recorrente</option></select></div>
             </div>
             <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Status</label><select value={f.status} onChange={(e) => setF({ ...f, status: e.target.value })} style={inp}><option value="">Completo</option><option value="reembolso">Reembolso</option><option value="disputa">Disputa</option></select></div>
             <button onClick={salvar} disabled={salvando || !f.data || !f.faturamento} className="w-full py-2.5 rounded-xl font-bold text-sm disabled:opacity-40" style={{ background: "#c9a84c", color: "#0b1624" }}>{salvando ? "Salvando..." : "Salvar"}</button>
