@@ -336,6 +336,69 @@ export function gerarCSV(pedidos: OpPedido[]): string {
   return [head, ...linhas].join("\n");
 }
 
+// ─── ANÁLISE DE CANAIS (marketing) ─────────────────────────
+export interface CanalSerie {
+  canal: string; gasto: number; receita: number; pedidos: number;
+  novos: number; recorrentes: number; recompraPct: number;
+  roas: number; cpa: number; ticket: number; pctReceita: number;
+}
+const MAP_PLATAFORMA_CANAL: Record<string, string> = { Meta: "Meta", Google: "Google", TikTok: "TikTok" };
+export function serieCanal(pedidos: OpPedido[], ads: OpAds[]): CanalSerie[] {
+  const mapa: Record<string, CanalSerie> = {};
+  const novo = (c: string) => (mapa[c] ??= { canal: c, gasto: 0, receita: 0, pedidos: 0, novos: 0, recorrentes: 0, recompraPct: 0, roas: 0, cpa: 0, ticket: 0, pctReceita: 0 });
+  for (const p of pedidos) {
+    const canal = (p.canal || "").trim() || "Não atribuído";
+    const m = novo(canal);
+    const reembolso = p.status === "reembolso";
+    m.receita += reembolso ? 0 : (p.faturamento || 0);
+    m.pedidos += 1;
+    if (p.tipo_cliente === "recorrente") m.recorrentes += 1; else m.novos += 1;
+  }
+  for (const a of ads) {
+    const canal = MAP_PLATAFORMA_CANAL[a.plataforma || ""] || (a.plataforma || "Outro");
+    novo(canal).gasto += a.valor || 0;
+  }
+  const totalReceita = Object.values(mapa).reduce((s, c) => s + c.receita, 0);
+  return Object.values(mapa).map((c) => ({
+    ...c,
+    roas: c.gasto > 0 ? c.receita / c.gasto : 0,
+    cpa: c.pedidos > 0 && c.gasto > 0 ? c.gasto / c.pedidos : 0,
+    ticket: c.pedidos > 0 ? c.receita / c.pedidos : 0,
+    recompraPct: c.pedidos > 0 ? (c.recorrentes / c.pedidos) * 100 : 0,
+    pctReceita: totalReceita > 0 ? (c.receita / totalReceita) * 100 : 0,
+  })).sort((a, b) => b.receita - a.receita);
+}
+
+// ─── FLUXO DE CAIXA (BRL, descasamento Shopify ~7d) ─────────
+export interface FluxoCaixa {
+  cambio: number;
+  recebidoUSD: number; aReceberUSD: number; pagoUSD: number; saldoUSD: number;
+  recebidoBRL: number; aReceberBRL: number; pagoBRL: number; saldoBRL: number;
+  custoUSD: number; adsUSD: number;
+}
+// recebido = faturamento já liberado (pedido com >= diasRepasse dias); aReceber = retido pela Shopify
+export function fluxoCaixa(pedidos: OpPedido[], ads: OpAds[], cambioBRL: number, diasRepasse = 7): FluxoCaixa {
+  const limite = new Date(); limite.setDate(limite.getDate() - diasRepasse);
+  const limiteStr = limite.toISOString().slice(0, 10);
+  let recebido = 0, aReceber = 0, custo = 0;
+  for (const p of pedidos) {
+    const reembolso = p.status === "reembolso";
+    const rev = reembolso ? 0 : (p.faturamento || 0);
+    custo += (p.custo_produto || 0) + (p.frete || 0);
+    if (p.data <= limiteStr) recebido += rev; else aReceber += rev;
+  }
+  const adsTotal = ads.reduce((s, a) => s + (a.valor || 0), 0);
+  const pago = custo + adsTotal;            // pago à vista
+  const saldo = recebido - pago;            // caixa hoje (sem contar o retido)
+  const c = cambioBRL || 1;
+  return {
+    cambio: c,
+    recebidoUSD: recebido, aReceberUSD: aReceber, pagoUSD: pago, saldoUSD: saldo,
+    recebidoBRL: recebido * c, aReceberBRL: aReceber * c, pagoBRL: pago * c, saldoBRL: saldo * c,
+    custoUSD: custo, adsUSD: adsTotal,
+  };
+}
+
 export function calcularKpis(pedidos: OpPedido[], ads: OpAds[], cfg: OpConfig): KpisOperacao {
   let faturamento = 0, custo = 0;
   for (const p of pedidos) {

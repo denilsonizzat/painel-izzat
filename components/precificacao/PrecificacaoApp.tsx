@@ -2,7 +2,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useAppStore } from "@/lib/store";
 import { supabaseConfigurado } from "@/lib/supabase";
-import { PrecTip } from "./PrecTip";
+import { PrecTip, AJUDA } from "./PrecTip";
 import {
   PrecConfig, PrecPais, PrecProduto, PrecFornecedor, PrecCusto,
   obterConfig, salvarConfig, listarPaises, seedPaises, salvarPais, deletarPais,
@@ -14,17 +14,17 @@ import {
   unitEconomics, ancoraReal, AncoraReal,
   riscoChargeback, RiscoChargeback,
 } from "@/lib/precificacao";
-import { Target, Calculator, ListChecks, Clock, Globe, Settings, Plus, Trash2, Send, GitCompare, Repeat, ShieldAlert } from "lucide-react";
+import { Target, Calculator, ListChecks, Clock, Globe, Settings, Plus, Trash2, Send, GitCompare, Repeat, ShieldAlert, Compass, HelpCircle, ArrowRight } from "lucide-react";
 
 const fmt$ = (n: number) => "$" + (n || 0).toFixed(2);
 const pct = (n: number) => (n * 100).toFixed(1) + "%";
 const COR_VEREDITO: Record<string, string> = { "LANÇAR": "#10b981", "TESTAR": "#f59e0b", "NÃO LANÇAR": "#ef4444" };
 const inp = { background: "#1e3356", border: "1px solid #334155", color: "#e8edf5", borderRadius: 9, padding: "8px 10px", width: "100%", outline: "none", fontSize: 13 } as React.CSSProperties;
 
-type Aba = "avaliar" | "motor" | "decisao" | "projreal" | "unit" | "risco" | "lista" | "paises" | "taxas";
+type Aba = "guia" | "avaliar" | "motor" | "decisao" | "projreal" | "unit" | "risco" | "lista" | "paises" | "taxas" | "ajuda";
 
 export default function PrecificacaoApp({ lojaId, lojaNome }: { lojaId: string; lojaNome: string }) {
-  const [aba, setAba] = useState<Aba>("avaliar");
+  const [aba, setAba] = useState<Aba>("guia");
   const [config, setConfig] = useState<PrecConfig | null>(null);
   const [paises, setPaises] = useState<PrecPais[]>([]);
   const [produtos, setProdutos] = useState<PrecProduto[]>([]);
@@ -46,6 +46,7 @@ export default function PrecificacaoApp({ lojaId, lojaNome }: { lojaId: string; 
   if (!supabaseConfigurado()) return <div className="rounded-2xl p-6 text-center" style={{ background: "#122039", color: "#ef4444" }}>Supabase não configurado.</div>;
 
   const TABS: { id: Aba; label: string; icon: typeof Target }[] = [
+    { id: "guia", label: "Comece aqui", icon: Compass },
     { id: "avaliar", label: "Avaliar", icon: Target },
     { id: "motor", label: "Motor de Preços", icon: Calculator },
     { id: "decisao", label: "Decisão", icon: ListChecks },
@@ -55,6 +56,7 @@ export default function PrecificacaoApp({ lojaId, lojaNome }: { lojaId: string; 
     { id: "lista", label: "Lista de espera", icon: Clock },
     { id: "paises", label: "Países", icon: Globe },
     { id: "taxas", label: "Taxas", icon: Settings },
+    { id: "ajuda", label: "Ajuda", icon: HelpCircle },
   ];
 
   return (
@@ -76,6 +78,8 @@ export default function PrecificacaoApp({ lojaId, lojaNome }: { lojaId: string; 
 
       {!carregando && config && (
         <>
+          {aba === "guia" && <AbaGuia onIr={setAba} produtos={produtos} />}
+          {aba === "ajuda" && <AbaAjuda />}
           {aba === "avaliar" && <AbaAvaliar lojaId={lojaId} onCriou={() => { carregar(); setAba("motor"); }} />}
           {aba === "motor" && <AbaMotor lojaId={lojaId} config={config} paises={paises} produtos={produtos} onMudou={carregar} />}
           {aba === "decisao" && <AbaDecisao config={config} paises={paises} produtos={produtos} onMudou={carregar} />}
@@ -357,6 +361,62 @@ function AbaDecisao({ config, paises, produtos, onMudou }: { config: PrecConfig;
             ))}
           </tbody>
         </table>
+      </div>
+    </div>
+  );
+}
+
+// ─── COMECE AQUI (trilha guiada) ───────────────────────────
+function AbaGuia({ onIr, produtos }: { onIr: (a: Aba) => void; produtos: PrecProduto[] }) {
+  const passos = [
+    { n: 1, ir: "avaliar" as Aba, t: "Avaliar o produto", d: "Responda 10 perguntas e veja a Nota de Garimpo. Decide se vale testar ANTES de gastar tempo precificando.", cta: "Avaliar produto" },
+    { n: 2, ir: "motor" as Aba, t: "Precificar por mercado", d: "Coloque os fornecedores (titular + reservas) e o custo. Veja preço, margem e veredito em cada país.", cta: "Abrir motor" },
+    { n: 3, ir: "decisao" as Aba, t: "Decidir", d: "Veja o ranking produto × mercado por score e aprove os que valem a pena.", cta: "Ver decisão" },
+    { n: 4, ir: "lista" as Aba, t: "Enviar pra esteira", d: "Os aprovados vão pro catálogo de produtos da loja pra começar os testes.", cta: "Lista de espera" },
+  ];
+  return (
+    <div className="space-y-4">
+      <div className="rounded-2xl p-5" style={{ background: "linear-gradient(135deg,#1a2c4a,#111e35)", border: "1px solid #c9a84c30" }}>
+        <h2 className="text-lg font-bold text-white">Bem-vindo à Precificação 👋</h2>
+        <p className="text-sm mt-1" style={{ color: "#9aa7ba" }}>O caminho pra decidir se um produto vale a pena, em 4 passos. {produtos.length > 0 ? `Você já tem ${produtos.length} produto(s) em andamento.` : "Comece avaliando seu primeiro produto."}</p>
+      </div>
+      <div className="grid sm:grid-cols-2 gap-3">
+        {passos.map((p) => (
+          <div key={p.n} className="rounded-2xl p-4 flex flex-col" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="flex items-center justify-center rounded-full font-extrabold" style={{ width: 28, height: 28, background: "#c9a84c", color: "#0b1624", fontSize: 14 }}>{p.n}</span>
+              <h3 className="text-white font-bold">{p.t}</h3>
+            </div>
+            <p className="text-sm flex-1" style={{ color: "#9aa7ba" }}>{p.d}</p>
+            <button onClick={() => onIr(p.ir)} className="mt-3 flex items-center justify-center gap-1.5 py-2 rounded-xl text-sm font-bold" style={{ background: "#1e3356", color: "#c9a84c" }}>
+              {p.cta} <ArrowRight size={14} />
+            </button>
+          </div>
+        ))}
+      </div>
+      <p className="text-xs text-center" style={{ color: "#74859c" }}>Dúvida em algum termo? Toque no ícone <b>(i)</b> em qualquer tela, ou abra a aba <b>Ajuda</b>.</p>
+    </div>
+  );
+}
+
+// ─── CENTRAL DE AJUDA (glossário completo) ─────────────────
+function AbaAjuda() {
+  return (
+    <div className="space-y-3">
+      <div className="rounded-2xl p-4" style={{ background: "linear-gradient(135deg,#1a2c4a,#111e35)", border: "1px solid #c9a84c30" }}>
+        <h2 className="text-lg font-bold text-white">Central de Ajuda</h2>
+        <p className="text-sm mt-0.5" style={{ color: "#9aa7ba" }}>Todos os termos da precificação explicados. Os mesmos aparecem no ícone (i) de cada tela.</p>
+      </div>
+      <div className="grid sm:grid-cols-2 gap-3">
+        {Object.values(AJUDA).map((h) => (
+          <div key={h.t} className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+            <h3 className="font-bold" style={{ color: "#e8c462" }}>{h.t}</h3>
+            <p className="text-sm mt-1" style={{ color: "#e8edf5" }}>{h.oque}</p>
+            {h.calc && <p className="text-xs mt-2 font-mono" style={{ background: "#c9a84c12", borderLeft: "2px solid #c9a84c", padding: "5px 8px", borderRadius: 6, color: "#9aa7ba" }}>{h.calc}</p>}
+            {h.ex && <p className="text-xs mt-1.5" style={{ color: "#9aa7ba" }}>Ex: {h.ex}</p>}
+            {h.sig && <p className="text-xs mt-1.5" style={{ color: "#74859c" }}>{h.sig}</p>}
+          </div>
+        ))}
       </div>
     </div>
   );

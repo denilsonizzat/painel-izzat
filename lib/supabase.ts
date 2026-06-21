@@ -24,6 +24,8 @@ export interface OpPedido {
   faturamento: number;
   produto?: string;
   status?: string;         // "" | "reembolso" | "disputa"
+  canal?: string;          // Meta | TikTok | Google | Organico | Direto | Email | Outro
+  tipo_cliente?: string;   // novo | recorrente
   notas?: string;
   criado_em?: string;
 }
