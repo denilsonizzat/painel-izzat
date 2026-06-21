@@ -16,6 +16,9 @@ export const AJUDA: Record<string, { t: string; oque: string; calc?: string; ex?
   ofertas: { t: "Ofertas (bundles)", oque: "1un, 2un e Kit 3+1 (paga 3, leva 4).", sig: "O Kit tem markup menor (dá 1 grátis) mas costuma gerar mais lucro por venda." },
   duty: { t: "Duty (imposto de importação)", oque: "Taxa de importação por país sobre o custo do produto, absorvida por você.", calc: "desconta (duty% do custo) da margem", ex: "Duty 10% num custo $27,50 → ~$2,75 a menos de margem.", sig: "Configurável por país. Mercados com duty alto pedem markup maior." },
   prazo: { t: "Prazo → reembolso", oque: "Prazo de entrega longo gera mais devolução e chargeback.", calc: "≤10d: base · 11-20d: +3pts · 21-30d: +8 · >30d: +15", ex: "Reembolso base 5%, prazo 28d → 13% efetivo.", sig: "O reembolso efetivo do titular entra na margem. Fornecedor rápido protege o lucro." },
+  cac: { t: "CAC", oque: "Custo de aquisição de cliente — quanto você gasta em anúncio por venda.", calc: "gasto ADS ÷ pedidos", ex: "$150 em ADS / 10 pedidos = $15 por cliente.", sig: "Se o CAC passa o lucro por compra, você subsidia a venda — só compensa se houver recompra." },
+  ltv: { t: "LTV", oque: "Valor do cliente ao longo da vida (lucro total que ele gera).", calc: "lucro por compra × compras esperadas (1/(1−recompra))", ex: "Lucro $10, recompra 20% → 1,25 compras → LTV $12,50.", sig: "LTV alto justifica CAC maior. Recompra muda tudo." },
+  payback: { t: "Payback", oque: "Quantas compras o cliente precisa fazer pra cobrir o CAC.", calc: "CAC ÷ lucro por compra", ex: "CAC $15, lucro $10/compra → 1,5 compras.", sig: "≤1 = lucra já na 1ª venda. >1 = depende de recompra pra pagar a aquisição." },
 };
 
 export function PrecTip({ k }: { k: string }) {

@@ -11,15 +11,16 @@ import {
   calcularPreco, markupDoPais, scorePreco, veredito, calcularOfertas,
   CRITERIOS_GARIMPO, notaGarimpo, CONFIG_PADRAO,
   realPorProduto, margemBrutaProjetada, RealProduto, reembolsoPorPrazo,
+  unitEconomics, ancoraReal, AncoraReal,
 } from "@/lib/precificacao";
-import { Target, Calculator, ListChecks, Clock, Globe, Settings, Plus, Trash2, Send, GitCompare } from "lucide-react";
+import { Target, Calculator, ListChecks, Clock, Globe, Settings, Plus, Trash2, Send, GitCompare, Repeat } from "lucide-react";
 
 const fmt$ = (n: number) => "$" + (n || 0).toFixed(2);
 const pct = (n: number) => (n * 100).toFixed(1) + "%";
 const COR_VEREDITO: Record<string, string> = { "LANÇAR": "#10b981", "TESTAR": "#f59e0b", "NÃO LANÇAR": "#ef4444" };
 const inp = { background: "#1e3356", border: "1px solid #334155", color: "#e8edf5", borderRadius: 9, padding: "8px 10px", width: "100%", outline: "none", fontSize: 13 } as React.CSSProperties;
 
-type Aba = "avaliar" | "motor" | "decisao" | "projreal" | "lista" | "paises" | "taxas";
+type Aba = "avaliar" | "motor" | "decisao" | "projreal" | "unit" | "lista" | "paises" | "taxas";
 
 export default function PrecificacaoApp({ lojaId, lojaNome }: { lojaId: string; lojaNome: string }) {
   const [aba, setAba] = useState<Aba>("avaliar");
@@ -48,6 +49,7 @@ export default function PrecificacaoApp({ lojaId, lojaNome }: { lojaId: string; 
     { id: "motor", label: "Motor de Preços", icon: Calculator },
     { id: "decisao", label: "Decisão", icon: ListChecks },
     { id: "projreal", label: "Projetado × Real", icon: GitCompare },
+    { id: "unit", label: "Unit Economics", icon: Repeat },
     { id: "lista", label: "Lista de espera", icon: Clock },
     { id: "paises", label: "Países", icon: Globe },
     { id: "taxas", label: "Taxas", icon: Settings },
@@ -76,6 +78,7 @@ export default function PrecificacaoApp({ lojaId, lojaNome }: { lojaId: string; 
           {aba === "motor" && <AbaMotor lojaId={lojaId} config={config} paises={paises} produtos={produtos} onMudou={carregar} />}
           {aba === "decisao" && <AbaDecisao config={config} paises={paises} produtos={produtos} onMudou={carregar} />}
           {aba === "projreal" && <AbaProjReal lojaId={lojaId} config={config} produtos={produtos} />}
+          {aba === "unit" && <AbaUnit lojaId={lojaId} config={config} />}
           {aba === "lista" && <AbaLista lojaId={lojaId} produtos={produtos} config={config} paises={paises} onMudou={carregar} />}
           {aba === "paises" && <AbaPaises lojaId={lojaId} paises={paises} onMudou={carregar} />}
           {aba === "taxas" && <AbaTaxas config={config} onSalvar={async (c) => { await salvarConfig(c); carregar(); }} />}
@@ -407,6 +410,56 @@ function AbaProjReal({ lojaId, config, produtos }: { lojaId: string; config: Pre
           <p className="p-3 text-xs" style={{ color: "#74859c" }}>Verde = real perto/acima do projetado · Vermelho = real bem abaixo (custo subiu, vendeu mais barato, ou reembolso).</p>
         </div>
       )}
+    </div>
+  );
+}
+
+// ─── UNIT ECONOMICS (CAC / LTV / Payback) ─────────────────
+function AbaUnit({ lojaId, config }: { lojaId: string; config: PrecConfig }) {
+  const [anc, setAnc] = useState<AncoraReal | null>(null);
+  const [f, setF] = useState({ ticket: "", margem: String(config.margem_min), cac: "", recompra: "15" });
+  useEffect(() => {
+    ancoraReal(lojaId).then((a) => {
+      setAnc(a);
+      setF((cur) => ({ ...cur, ticket: a.ticketMedio > 0 ? a.ticketMedio.toFixed(2) : "", cac: a.cacReal > 0 ? a.cacReal.toFixed(2) : "" }));
+    }).catch(() => {});
+  }, [lojaId]);
+
+  const ticket = parseFloat(f.ticket) || 0, margem = parseFloat(f.margem) || 0, cac = parseFloat(f.cac) || 0, recompra = parseFloat(f.recompra) || 0;
+  const u = unitEconomics(ticket, margem, cac, recompra);
+  const cor = (b: boolean) => (b ? "#10b981" : "#ef4444");
+
+  const Card = ({ label, valor, c, sub, tip }: { label: string; valor: string; c: string; sub?: string; tip?: string }) => (
+    <div className="rounded-2xl p-4" style={{ background: "linear-gradient(160deg,#14243f,#111e35)", border: `1px solid ${c}30` }}>
+      <p className="text-xs flex items-center" style={{ color: "#9aa7ba" }}>{label}{tip && <PrecTip k={tip} />}</p>
+      <p className="font-extrabold mt-1" style={{ fontSize: 22, color: c }}>{valor}</p>
+      {sub && <p className="text-xs mt-0.5" style={{ color: "#74859c" }}>{sub}</p>}
+    </div>
+  );
+
+  return (
+    <div className="space-y-4">
+      {anc && (
+        <div className="rounded-xl p-3 text-xs flex items-center flex-wrap gap-x-4 gap-y-1" style={{ background: "#3b82f615", border: "1px solid #3b82f630", color: "#9aa7ba" }}>
+          <span>Âncora real (Operação): <b style={{ color: "#e8edf5" }}>{anc.pedidos}</b> pedidos · ticket <b style={{ color: "#e8edf5" }}>{fmt$(anc.ticketMedio)}</b> · CAC real <b style={{ color: "#e8edf5" }}>{fmt$(anc.cacReal)}</b> (ADS÷pedidos)</span>
+          <span style={{ color: "#74859c" }}>Sem ID de cliente, recompra é estimativa — ajuste abaixo.</span>
+        </div>
+      )}
+      <div className="rounded-2xl p-4 grid grid-cols-2 sm:grid-cols-4 gap-3" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Ticket médio $</label><input type="number" value={f.ticket} onChange={(e) => setF({ ...f, ticket: e.target.value })} style={inp} /></div>
+        <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Margem líquida %</label><input type="number" value={f.margem} onChange={(e) => setF({ ...f, margem: e.target.value })} style={inp} /></div>
+        <div><label className="text-xs flex items-center" style={{ color: "#9aa7ba" }}>CAC $<PrecTip k="cac" /></label><input type="number" value={f.cac} onChange={(e) => setF({ ...f, cac: e.target.value })} style={inp} /></div>
+        <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Recompra %</label><input type="number" value={f.recompra} onChange={(e) => setF({ ...f, recompra: e.target.value })} style={inp} /></div>
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <Card label="Lucro por compra" valor={fmt$(u.lucroPorCompra)} c="#3b82f6" sub={`${margem}% de ${fmt$(ticket)}`} />
+        <Card label="LTV" valor={fmt$(u.ltv)} c="#10b981" sub={`~${u.comprasEsperadas.toFixed(1)} compras/cliente`} tip="ltv" />
+        <Card label="Payback" valor={u.lucroPorCompra > 0 ? u.paybackCompras.toFixed(2) + " compras" : "—"} c={cor(u.paybackCompras <= 1 && u.lucroPorCompra > 0)} sub={u.paybackCompras <= 1 ? "recupera na 1ª venda" : "precisa de recompra"} tip="payback" />
+        <Card label="Lucro na 1ª compra" valor={fmt$(u.lucro1aCompra)} c={cor(u.lucro1aCompra >= 0)} sub={u.lucro1aCompra >= 0 ? "lucra já na aquisição" : "subsidia a aquisição"} />
+        <Card label="LTV : CAC" valor={cac > 0 ? u.ltvCac.toFixed(2) + "×" : "—"} c={cor(u.ltvCac >= 3)} sub={u.ltvCac >= 3 ? "saudável (≥3×)" : u.ltvCac >= 1 ? "ok, espaço pra melhorar" : "ruim (<1×)"} />
+        <Card label="CAC" valor={fmt$(cac)} c="#f59e0b" sub="custo por cliente" />
+      </div>
+      <p className="text-xs" style={{ color: "#74859c" }}>LTV = lucro/compra × compras esperadas (1/(1−recompra)). Payback em nº de compras pra cobrir o CAC. LTV:CAC ≥3 é o alvo saudável.</p>
     </div>
   );
 }

@@ -191,6 +191,36 @@ export function margemBrutaProjetada(markup: number): number {
   return markup > 0 ? (markup - 1) / markup : 0;
 }
 
+// ─── UNIT ECONOMICS (CAC / LTV / Payback) ─────────────────
+export interface UnitEcon {
+  lucroPorCompra: number; comprasEsperadas: number; ltv: number;
+  paybackCompras: number; ltvCac: number; lucro1aCompra: number;
+}
+// margem em % (margem líquida); recompra em % (prob. de comprar de novo)
+export function unitEconomics(ticket: number, margemPct: number, cac: number, recompraPct: number): UnitEcon {
+  const lucroPorCompra = ticket * (margemPct / 100);
+  const r = Math.min(Math.max(recompraPct, 0), 95) / 100; // teto 95% pra não explodir
+  const comprasEsperadas = 1 / (1 - r);
+  const ltv = lucroPorCompra * comprasEsperadas;
+  const paybackCompras = lucroPorCompra > 0 ? cac / lucroPorCompra : 0;
+  const ltvCac = cac > 0 ? ltv / cac : 0;
+  return { lucroPorCompra, comprasEsperadas, ltv, paybackCompras, ltvCac, lucro1aCompra: lucroPorCompra - cac };
+}
+// Âncora real do operacional: ticket médio (op_pedidos) e CAC real (op_ads ÷ pedidos)
+export interface AncoraReal { pedidos: number; ticketMedio: number; adsTotal: number; cacReal: number; }
+export async function ancoraReal(lojaId: string): Promise<AncoraReal> {
+  const [pRes, aRes] = await Promise.all([
+    supabase.from("op_pedidos").select("faturamento,status").eq("loja_id", lojaId),
+    supabase.from("op_ads").select("valor").eq("loja_id", lojaId),
+  ]);
+  const peds = (pRes.data || []) as { faturamento: number; status: string }[];
+  const ads = (aRes.data || []) as { valor: number }[];
+  const fat = peds.reduce((s, p) => s + (p.status === "reembolso" ? 0 : (p.faturamento || 0)), 0);
+  const adsTotal = ads.reduce((s, a) => s + (a.valor || 0), 0);
+  const n = peds.length;
+  return { pedidos: n, ticketMedio: n > 0 ? fat / n : 0, adsTotal, cacReal: n > 0 ? adsTotal / n : 0 };
+}
+
 // ═══════════════ CRUD Supabase ═══════════════
 export async function obterConfig(lojaId: string): Promise<PrecConfig> {
   const { data, error } = await supabase.from("prec_config").select("*").eq("loja_id", lojaId).maybeSingle();
