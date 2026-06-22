@@ -256,18 +256,18 @@ export default function Sidebar() {
         {/* Collapse toggle button — always visible */}
         <button
           onClick={() => { setSidebarColapsada(!sidebarColapsada); setHoverExpand(false); }}
-          className="mt-3 w-full flex items-center rounded-xl py-2 px-2 transition-all hover:opacity-90"
+          className="mt-3 w-full flex items-center rounded-xl py-2.5 px-2 transition-all hover:opacity-90"
           style={{
-            background: sidebarColapsada ? "var(--gold-dim)" : "#1e335640",
-            color: sidebarColapsada ? "var(--gold)" : "#94a3b8",
+            background: sidebarColapsada ? "var(--gold-dim)" : "#1e335655",
+            color: sidebarColapsada ? "var(--gold-br)" : "#9aa7ba",
             justifyContent: "center",
-            border: sidebarColapsada ? "1px solid #c9a84c40" : "1px solid transparent",
+            border: sidebarColapsada ? "1px solid #c9a44250" : "1px solid #1e3356",
           }}
           data-tip={sidebarColapsada ? "Fixar menu aberto" : "Recolher menu (passa o mouse para abrir)"}
         >
-          {sidebarColapsada ? <ChevronRight size={16} /> : (
-            <span className="flex items-center gap-1.5 text-xs font-medium">
-              <PanelLeftClose size={14} />
+          {sidebarColapsada ? <ChevronRight size={18} /> : (
+            <span className="flex items-center gap-2 text-[13px] font-semibold">
+              <PanelLeftClose size={16} />
               Recolher menu
             </span>
           )}
@@ -439,15 +439,16 @@ export default function Sidebar() {
                       href={href}
                       onClick={() => setMenuAberto(false)}
                       data-tour={href === "/meu-dia" ? "meu-dia" : undefined}
-                      className="flex items-center rounded-xl text-sm font-medium relative"
+                      className="flex items-center rounded-xl font-semibold relative"
                       style={{
+                        fontSize: "14.5px",
                         background: ativo ? "var(--gold-dim)" : "transparent",
-                        color: ativo ? "var(--gold)" : "var(--text-dim)",
-                        padding: isCollapsed ? "10px 0" : "10px 12px",
+                        color: ativo ? "var(--gold-br)" : "var(--text-dim)",
+                        padding: isCollapsed ? "11px 0" : "11px 13px",
                         justifyContent: isCollapsed ? "center" : "flex-start",
                         gap: isCollapsed ? 0 : 12,
                         transition: "all 150ms cubic-bezier(0.4,0,0.2,1)",
-                        boxShadow: ativo ? "0 0 0 1px #c9a84c20 inset" : "none",
+                        boxShadow: ativo ? "0 0 0 1px #c9a44230 inset" : "none",
                       }}
                       onMouseEnter={(e) => {
                         if (!ativo) {
@@ -463,7 +464,7 @@ export default function Sidebar() {
                       }}
                     >
                       <div className="relative flex-shrink-0">
-                        <Icon size={17} />
+                        <Icon size={18} />
                         {badge > 0 && isCollapsed && (
                           <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full flex items-center justify-center"
                             style={{ background: "#f59e0b", color: "#000", fontSize: 8, fontWeight: 700 }}>

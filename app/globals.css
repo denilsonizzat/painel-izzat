@@ -420,6 +420,47 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 /* ═══════════════════════════════════════════
+   BIG APP — barras com trilho recuado + gradiente vivo
+   ═══════════════════════════════════════════ */
+:root {
+  --grad-gold:  linear-gradient(90deg, #C9A442, #E8C462);
+  --grad-green: linear-gradient(90deg, #27A06B, #46D69B);
+  --grad-blue:  linear-gradient(90deg, #2C5E8C, #4D9DE0);
+  --grad-red:   linear-gradient(90deg, #C0343B, #F2545B);
+  --grad-btn-gold: linear-gradient(90deg, #C07E1F, #E8A33D);
+}
+/* Trilho recuado (a "sombra dentro" do BIG APP) */
+.hbar-track {
+  background: var(--bg);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.45);
+}
+.hbar-fill {
+  height: 100%;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding: 0 11px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #0A1626;
+  font-variant-numeric: tabular-nums;
+  transition: width 0.5s var(--ease-spring);
+  min-width: 38px;
+  white-space: nowrap;
+}
+/* Número grande em ouro vivo (gradiente) — tira o "desbotado" */
+.num-gold {
+  background: linear-gradient(180deg, #E8C462, #C9A442);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ═══════════════════════════════════════════
    TYPOGRAPHY OVERRIDES — eleva todos os h1 de página
    Sem tocar cada arquivo individualmente
    ═══════════════════════════════════════════ */
