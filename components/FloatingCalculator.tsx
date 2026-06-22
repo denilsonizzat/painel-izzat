@@ -102,7 +102,7 @@ export default function FloatingCalculator() {
     return (
       <button onClick={() => setAberto(true)} title="Calculadora"
         className="fixed z-40 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-105"
-        style={{ right: 18, bottom: 150, width: 46, height: 46, background: "var(--grad-btn-gold)", color: "#0b1624" }}>
+        style={{ left: 18, bottom: 18, width: 46, height: 46, background: "var(--grad-btn-gold)", color: "#0b1624" }}>
         <Calculator size={20} />
       </button>
     );

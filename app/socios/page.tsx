@@ -167,7 +167,8 @@ function Remuneracao({ socios, ganhos, colaboradores, carregando, mesLabel, nome
         <Kpi label="Total a pagar" valor={carregando ? "..." : fmt(totFixo + totVar)} cor="#46d69b" />
       </div>
       <div className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
-        <table className="w-full text-xs">
+        <div className="overflow-x-auto">
+        <table className="w-full text-xs" style={{ minWidth: 420 }}>
           <thead><tr style={{ color: "#74859c", textAlign: "left" }}><th className="p-3">Pessoa</th><th className="p-3">Fixo</th><th className="p-3">Variável</th><th className="p-3">Total</th></tr></thead>
           <tbody>
             {linhas.map((l, i) => (
@@ -181,6 +182,7 @@ function Remuneracao({ socios, ganhos, colaboradores, carregando, mesLabel, nome
             {linhas.length === 0 && <tr><td colSpan={4} className="p-6 text-center" style={{ color: "#74859c" }}>Sem dados. Cadastre salários (Custos da Equipe) e sócios.</td></tr>}
           </tbody>
         </table>
+        </div>
       </div>
       <p className="text-xs" style={{ color: "#74859c" }}>Visão separada do &quot;Custo Total&quot; atual. Junta o fixo (salário) + o variável (% das lojas). Mesma pessoa vinculada aparece numa linha só.</p>
     </div>

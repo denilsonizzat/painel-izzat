@@ -265,7 +265,7 @@ export default function Sidebar() {
         {/* Collapse toggle button — always visible */}
         <button
           onClick={() => { setSidebarColapsada(!sidebarColapsada); setHoverExpand(false); }}
-          className="mt-3 w-full flex items-center rounded-xl py-2.5 px-2 transition-all hover:opacity-90"
+          className="mt-3 w-full hidden md:flex items-center rounded-xl py-2.5 px-2 transition-all hover:opacity-90"
           style={{
             background: sidebarColapsada ? "var(--gold-dim)" : "#1e335655",
             color: sidebarColapsada ? "var(--gold-br)" : "#9aa7ba",
@@ -641,7 +641,7 @@ export default function Sidebar() {
                 <Power size={17} style={{ color: isOnline ? "#10b981" : "#64748b" }} />
                 {isOnline && <div className="absolute bottom-1 right-1 w-2 h-2 rounded-full" style={{ background: "#10b981" }} />}
               </button>
-              <button onClick={() => setNotifAberta((v) => !v)} className="relative p-1.5">
+              <button onClick={() => { setMenuAberto(true); setNotifAberta(true); }} className="relative p-1.5">
                 <Bell size={18} style={{ color: naoLidas > 0 ? "#c9a84c" : "#64748b" }} />
                 {naoLidas > 0 && (
                   <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full text-xs flex items-center justify-center font-bold"
@@ -661,8 +661,8 @@ export default function Sidebar() {
       {/* Mobile menu overlay */}
       {menuAberto && (
         <div className="md:hidden fixed inset-0 z-40" onClick={() => setMenuAberto(false)} style={{ background: "#00000080" }}>
-          <div className="w-64 h-full" style={{ background: "var(--card)" }} onClick={(e) => e.stopPropagation()}>
-            <div className="pt-16"><SidebarContent /></div>
+          <div className="absolute left-0 w-72 max-w-[85vw]" style={{ top: 56, bottom: 0, background: "var(--card)", borderRight: "1px solid var(--border)" }} onClick={(e) => e.stopPropagation()}>
+            <SidebarContent />
           </div>
         </div>
       )}
