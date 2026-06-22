@@ -198,7 +198,7 @@ export default function VagasPage() {
       {/* Modal nova vaga */}
       {modalAberto && (
         <div className="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" style={{ background: "#00000080", backdropFilter: "blur(2px)" }} onClick={() => setModalAberto(false)}>
-          <div className="modal-card w-full max-w-md rounded-2xl p-6 space-y-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }} onClick={(e) => e.stopPropagation()}>
+          <div className="modal-card w-full max-w-md rounded-2xl p-6 space-y-4 overflow-y-auto" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)", maxHeight: "90vh" }} onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Briefcase size={16} style={{ color: "#f59e0b" }} />

@@ -738,7 +738,7 @@ export default function TarefasPage() {
       {/* ── Modal: Tarefa Rápida ── */}
       {rapidaAberto && (
         <div className="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" style={{ background: "#00000080", backdropFilter: "blur(2px)" }} onClick={() => setRapidaAberto(false)}>
-          <div className="modal-card w-full max-w-md rounded-2xl p-6 space-y-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }} onClick={(e) => e.stopPropagation()}>
+          <div className="modal-card w-full max-w-md rounded-2xl p-6 space-y-4 overflow-y-auto" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)", maxHeight: "90vh" }} onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "#c9a84c20" }}>

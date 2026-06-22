@@ -83,7 +83,7 @@ export default function OperacaoLoja({ lojaId, lojaNome }: { lojaId: string; loj
         </div>
       </div>
 
-      <div className="flex gap-1 p-1 rounded-xl" style={{ background: "#0f1c30", border: "1px solid rgba(201,164,66,.16)" }}>
+      <div className="flex gap-1 p-1 rounded-xl overflow-x-auto" style={{ background: "#0f1c30", border: "1px solid rgba(201,164,66,.16)" }}>
         {([
           { id: "kpis" as const, label: "Resumo", icon: TrendingUp },
           { id: "graficos" as const, label: "Gráficos", icon: BarChart3 },
@@ -98,9 +98,9 @@ export default function OperacaoLoja({ lojaId, lojaNome }: { lojaId: string; loj
           const Icon = t.icon; const ativo = sub === t.id;
           return (
             <button key={t.id} onClick={() => setSub(t.id)}
-              className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold transition-all"
+              className="flex-shrink-0 sm:flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-lg text-xs font-semibold transition-all whitespace-nowrap"
               style={{ background: ativo ? "#c9a84c" : "transparent", color: ativo ? "#0b1624" : "#94a3b8" }}>
-              <Icon size={13} /> <span className="hidden sm:inline">{t.label}</span>
+              <Icon size={14} /> <span>{t.label}</span>
             </button>
           );
         })}
@@ -771,7 +771,7 @@ function AbaAds({ lojaId, ads, onMudou }: { lojaId: string; ads: OpAds[]; onMudo
       </div>
       {form && (
         <div className="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" style={{ background: "#00000090", backdropFilter: "blur(2px)" }} onClick={() => setForm(false)}>
-          <div className="modal-card w-full max-w-sm rounded-2xl p-5 space-y-3" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }} onClick={(e) => e.stopPropagation()}>
+          <div className="modal-card w-full max-w-sm rounded-2xl p-5 space-y-3 overflow-y-auto" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)", maxHeight: "90vh" }} onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between"><h3 className="text-white font-bold">Novo gasto ADS</h3><button onClick={() => setForm(false)} style={{ color: "#74859c" }}><X size={18} /></button></div>
             <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Valor *</label><input type="number" value={f.valor} onChange={(e) => setF({ ...f, valor: e.target.value })} placeholder="0.00" style={{ ...inp, fontSize: 22, fontWeight: 800, textAlign: "center" }} /></div>
             <div className="grid grid-cols-2 gap-2">

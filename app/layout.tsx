@@ -32,6 +32,10 @@ export const metadata: Metadata = {
   title: "Painel Izzat Group",
   description: "Gestão de equipe e lojas — Izzat Group",
   manifest: "/manifest.webmanifest",
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/lojas/izzat-group.png" }],
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
