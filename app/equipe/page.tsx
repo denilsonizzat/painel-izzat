@@ -199,8 +199,9 @@ export default function EquipePage() {
         <div className="mt-8">
           <h2 className="text-lg font-bold text-white mb-4">Mapa de Reconhecimentos</h2>
           <div className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
+            <div className="overflow-x-auto">
             <div className="grid grid-cols-4 px-4 py-2 text-xs font-semibold uppercase tracking-wider"
-              style={{ color: "#9aa7ba", borderBottom: "1px solid rgba(201,164,66,.16)" }}>
+              style={{ color: "#9aa7ba", borderBottom: "1px solid rgba(201,164,66,.16)", minWidth: 480 }}>
               <span>De</span>
               <span>Para</span>
               <span>Mensagem</span>
@@ -225,7 +226,7 @@ export default function EquipePage() {
 
               return todos.map((r) => (
                 <div key={r.id} className="grid grid-cols-4 px-4 py-3 text-sm items-center"
-                  style={{ borderBottom: "1px solid rgba(201,164,66,.16)30" }}>
+                  style={{ borderBottom: "1px solid rgba(201,164,66,.16)30", minWidth: 480 }}>
                   <span style={{ color: "#94a3b8" }}>{r.deColab?.nome.split(" ")[0] ?? "—"}</span>
                   <span className="font-medium text-white">{r.paraColab.nome.split(" ")[0]}</span>
                   <span style={{ color: "#94a3b8" }} className="truncate">{r.emoji} {r.mensagem}</span>
@@ -233,6 +234,7 @@ export default function EquipePage() {
                 </div>
               ));
             })()}
+            </div>
           </div>
         </div>
       )}

@@ -599,7 +599,7 @@ export default function DashboardPage() {
       )}
 
       {(isAdmin || verProgTime) && (
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Resumo semanal */}
         <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <div className="flex items-center gap-2 mb-1">
@@ -712,7 +712,7 @@ export default function DashboardPage() {
       </div>
       )} {/* end (isAdmin || verProgTime) */}
 
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="grid md:grid-cols-2 gap-6">
         {/* Progresso da Equipe — admin only */}
         {isAdmin && (
           <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>

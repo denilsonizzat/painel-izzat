@@ -86,7 +86,7 @@ export default function CustoTotalPage() {
     <div className="flex flex-col gap-6 max-w-4xl">
 
       {/* Header */}
-      <div className="flex items-start justify-between gap-4 animate-fade-in-up">
+      <div className="flex flex-wrap items-start justify-between gap-4 animate-fade-in-up">
         <div>
           <h1 className="font-extrabold text-white flex items-center gap-2.5" style={{ fontSize: 26, letterSpacing: "-0.3px" }}>
             <Wallet size={22} style={{ color: "#c9a84c" }} />
@@ -109,9 +109,9 @@ export default function CustoTotalPage() {
       </div>
 
       {/* Hero — total */}
-      <div className="rounded-2xl p-8 text-center gradient-hero-gold" style={{ background: "#112239", border: "1px solid #c9a84c25" }} data-tip="Quanto custa manter o grupo Izzat por mês. Fórmula: Folha Salarial + Ferramentas do Time + Custos Operacionais das lojas Izzat. Não inclui lojas Partners.">
+      <div className="rounded-2xl p-5 sm:p-8 text-center gradient-hero-gold" style={{ background: "#112239", border: "1px solid #c9a84c25" }} data-tip="Quanto custa manter o grupo Izzat por mês. Fórmula: Folha Salarial + Ferramentas do Time + Custos Operacionais das lojas Izzat. Não inclui lojas Partners.">
         <p className="text-section-label mb-3">CUSTO TOTAL MENSAL</p>
-        <p className="text-shimmer font-black mb-1" style={{ fontSize: 52, letterSpacing: "-2px", lineHeight: 1 }}>
+        <p className="text-shimmer font-black mb-1" style={{ fontSize: "clamp(2rem, 8vw, 3.25rem)", letterSpacing: "-2px", lineHeight: 1 }}>
           R$ {fmt(totalGeral)}
         </p>
         <p className="text-xs mb-6" style={{ color: "#74859c" }}>{mesLabel(mesSelecionado)}</p>
@@ -146,13 +146,13 @@ export default function CustoTotalPage() {
       </div>
 
       {/* Cards resumo */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-3 gap-2 sm:gap-3">
         {[
           { label: "Folha Salarial", valor: totalFolha, sub: `${colaboradores.filter(c => c.salario).length}/${colaboradores.length} cadastrados`, cor: "#10b981", icon: Users, dica: "Soma dos salários cadastrados de todo o time" },
           { label: "Ferramentas Time", valor: totalFerramentas, sub: `${ferramentas.length} ferramentas`, cor: "#8b5cf6", icon: Wrench, dica: "Custo mensal das ferramentas e assinaturas do time" },
           { label: "Custos Op. Izzat", valor: totalOperacoes, sub: `${gastosIzzat.length} lançamentos`, cor: "#3b82f6", icon: Building2, dica: "Custos operacionais das lojas do grupo Izzat (não inclui Partners)" },
         ].map((card) => (
-          <div key={card.label} data-tip={card.dica} className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
+          <div key={card.label} data-tip={card.dica} className="rounded-2xl p-3 sm:p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
             <div className="flex items-center gap-2 mb-1">
               <card.icon size={13} style={{ color: card.cor }} />
               <p className="text-xs" style={{ color: "#9aa7ba" }}>{card.label}</p>
