@@ -16,6 +16,7 @@ import {
 import { CategoriaGastoOp, CATEGORIA_GASTO_LABEL, GastoOperacional, TipoCusto } from "@/lib/data";
 import Avatar from "@/components/Avatar";
 import Link from "next/link";
+import ConexoesModal from "@/components/integracoes/ConexoesModal";
 import Image from "next/image";
 import ProdutoFormModal from "@/components/ProdutoFormModal";
 
@@ -78,6 +79,7 @@ export default function LojaPerfilPage() {
   const [distribuirSucesso, setDistribuirSucesso] = useState(false);
   const [criarProdutoModalAberto, setCriarProdutoModalAberto] = useState(false);
   const [produtoEditandoLoja, setProdutoEditandoLoja] = useState<Produto | null>(null);
+  const [conexoesAberto, setConexoesAberto] = useState(false);
 
   // links rápidos
   const linksDropdownRef = useRef<HTMLDivElement>(null);
@@ -391,6 +393,11 @@ export default function LojaPerfilPage() {
                 style={{ background: "#1e3356", border: "1px solid #334155", color: "#94a3b8" }}>
                 🧮 Precificar produto
               </Link>
+              <button onClick={() => setConexoesAberto(true)}
+                className="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold transition-all hover:opacity-90"
+                style={{ background: "#1e3356", border: "1px solid #334155", color: "#94a3b8" }}>
+                🔗 Conexões
+              </button>
               {/* LinkRapido dropdown */}
               <div className="relative" ref={linksDropdownRef}>
                 <button
@@ -1145,6 +1152,7 @@ export default function LojaPerfilPage() {
               onClose={() => setProdutoEditandoLoja(null)}
             />
           )}
+          <ConexoesModal lojaId={loja.id} lojaNome={loja.nome} aberto={conexoesAberto} onFechar={() => setConexoesAberto(false)} />
 
           {/* Modal distribuir */}
           {distribuirModal && (
