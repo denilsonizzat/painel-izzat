@@ -55,8 +55,12 @@ Fonte: **Manrope** (corpo) + **Bricolage Grotesque** (títulos h1/h2/h3/.text-kp
 ## Menu (Sidebar `components/Sidebar.tsx`)
 Seções: Principal (Dashboard/Tarefas) · Equipe (Atividade/Regras/Equipe/Rotinas/Semana — adminItems) · Lojas (Lojas + Produtos) · **Precificação** (visível a todos) · **Ferramentas** (todos) · Controle Geral (admin: Operação/Integrações/Custos Equipe/Custos Operacionais/Custo Total/Vagas) · Pessoal (Sono/Desafios).
 
-## EM ANDAMENTO (não terminado) — Remuneração Variável / Sócios-gestores
+## FEITO (2026-06-22) — Remuneração Variável / Sócios-gestores ✅ no ar
 **Conceito:** além do salário FIXO (colaborador), modelo VARIÁVEL: pessoa experiente vira "sócio-administrador" de UMA loja (cuida como dona: Insta, campanhas, otimização) sem ônus (não investe/não banca prejuízo). Ganha **% do lucro OU do faturamento** (configurável por pessoa/loja), fixa na %, varia com resultado. Ex: 30% do lucro; loja R$100k→R$30k.
+
+**Implementado:** `lib/data.ts` tipo `SocioGestor` (id, nome, contato?, colaboradorId?(vínculo opcional), lojaId, base:'lucro'|'faturamento', percentual, ativo, criadoEm). Store: `socios[]` + `criarSocio`/`editarSocio`/`deletarSocio` + `deletarLoja` (remove sócios órfãos). `lib/socios.ts`: `calcularGanhoSocio`/`calcularGanhosMes` puxam P&L da Operação (`calcularKpis` → lucroReal/faturamento do mês); prejuízo→ganho 0. Página `/socios` (Sidebar Controle Geral "Sócios & Variável"): aba **Sócios** (CRUD + ganho do mês + total variável, mês selecionável) + aba **Remuneração** (consolida fixo+variável por pessoa; vínculo na mesma linha; sócio externo linha própria; SEPARADA do Custo Total atual). Valores rotulados R$ (caveat: op_pedidos pode estar em USD — usuário pensa em BRL; não há conversão; revisar moeda quando definir).
+
+### DECISÕES fechadas (do conceito original):
 **Decisões fechadas (perguntas respondidas):**
 1. Base % = **configurável por pessoa/loja** (lucro OU faturamento).
 2. Valor (lucro/faturamento) **puxa do módulo Operação** (P&L já existe por loja/mês); auto quando API entrar.
@@ -81,12 +85,13 @@ interface SocioGestor {
 ```
 Cálculo do ganho do mês = base==="lucro" ? max(0, lucroReal) : faturamento — do op_pedidos/op_ads daquela loja/mês (reusar calcularKpis de lib/operacao: kpis.lucroReal e kpis.faturamento). × percentual/100.
 
-**A construir (ordem):**
-1. Store: slice `socios` + CRUD + `deletarLoja`. (`lib/store.ts` — ver interface ~linha 60-145, ações ~854-861; adicionar aditivo, não quebrar persist/version).
-2. Custos da Equipe (`/gastos` ou `app/gastos`): nova aba "Sócios/Variável" (lista sócios, mês selecionável, puxa Operação → % → soma) + nova aba "Remuneração" (fixo+variável consolidado). NÃO mexer no "Custo Total" atual.
-3. Página da Loja (`app/lojas/[id]/page.tsx`): bloco "Sócio-administrador" (cadastra/edita, separado do "responsável"). Já tem botões "Precificar produto"+"Conexões" no header (estado `conexoesAberto`).
-4. Equipe: marcar/separar sócios dos colaboradores (aba/seção própria).
-5. Aba Lojas: UI add/editar/remover loja (store já tem criar/editar).
+**Feito:** store `socios`+CRUD+`deletarLoja`; lib/socios.ts; página `/socios` (abas Sócios + Remuneração); item no Sidebar.
+
+**Falta (pequeno, próximo passo):**
+1. Bloco "Sócio-administrador" INLINE na página da Loja (`app/lojas/[id]/page.tsx`) — hoje cadastra via select de loja no `/socios`. Separar visualmente do "responsável" (que é fixo). Header da loja já tem botões "Precificar produto"+"Conexões" (estado `conexoesAberto`).
+2. Equipe: marcar/separar sócios dos colaboradores (seção própria na aba Equipe).
+3. Aba Lojas: UI add/editar/REMOVER loja (store já tem `criarLoja`/`editarLoja`/`deletarLoja`; falta só a tela).
+4. Moeda: definir se variável é BRL ou USD (op_pedidos vs salário BRL) — sem conversão hoje.
 
 ## Pendências gerais (Fase futura)
 - Ligar API Shopify (pull pedidos→op_pedidos, token server-side) depois Meta (CSV primeiro). 
