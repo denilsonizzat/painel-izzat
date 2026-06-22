@@ -113,7 +113,7 @@ export default function FloatingCalculator() {
       <div className="rounded-2xl overflow-hidden shadow-2xl" style={{ background: "#0e1d33", border: "1px solid #c9a44240", boxShadow: "0 16px 44px rgba(0,0,0,.55)" }}>
         {/* barra de título (arrastar) */}
         <div onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp}
-          className="flex items-center justify-between px-3 py-2 cursor-move" style={{ background: "#112239", borderBottom: "1px solid #1e3356", touchAction: "none" }}>
+          className="flex items-center justify-between px-3 py-2 cursor-move" style={{ background: "#112239", borderBottom: "1px solid rgba(201,164,66,.16)", touchAction: "none" }}>
           <span className="flex items-center gap-1.5 text-xs font-bold" style={{ color: "#e8c462" }}><GripHorizontal size={13} /> Calculadora</span>
           <div className="flex items-center gap-1">
             <button onClick={() => setMin(!min)} style={{ color: "#74859c" }}><Minus size={15} /></button>
@@ -131,7 +131,7 @@ export default function FloatingCalculator() {
 
             {modo === "basica" ? (
               <>
-                <div className="rounded-xl px-3 py-3 mb-3 text-right" style={{ background: "#0b1624", border: "1px solid #1e3356" }}>
+                <div className="rounded-xl px-3 py-3 mb-3 text-right" style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}>
                   <p className="text-2xl font-extrabold tabular-nums truncate" style={{ color: "#e8edf5" }}>{display}</p>
                 </div>
                 <div className="grid grid-cols-4 gap-1.5">
@@ -148,7 +148,7 @@ export default function FloatingCalculator() {
                 {([["Custo $", pCusto, setPCusto], ["Markup ×", pMarkup, setPMarkup], ["Taxas %", pTaxas, setPTaxas], ["Imposto %", pImposto, setPImposto]] as const).map(([lbl, val, set]) => (
                   <div key={lbl} className="flex items-center justify-between gap-2">
                     <span className="text-xs" style={{ color: "#9aa7ba" }}>{lbl}</span>
-                    <input type="number" value={val} onChange={(e) => set(e.target.value)} className="text-right" style={{ background: "#0b1624", border: "1px solid #1e3356", color: "#e8edf5", borderRadius: 8, padding: "5px 8px", width: 100, fontSize: 13, outline: "none" }} />
+                    <input type="number" value={val} onChange={(e) => set(e.target.value)} className="text-right" style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)", color: "#e8edf5", borderRadius: 8, padding: "5px 8px", width: 100, fontSize: 13, outline: "none" }} />
                   </div>
                 ))}
                 <div className="rounded-xl p-3 mt-2 space-y-1.5" style={{ background: "#0b1624", border: "1px solid #c9a44230" }}>

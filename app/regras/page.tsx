@@ -117,7 +117,7 @@ export default function RegrasPage() {
             data-tip={`${r.label}: ${r.desc} Clique para filtrar só estas regras.`}
             className="rounded-2xl p-4 text-left transition-all hover:scale-[1.02]"
             style={{
-              background: filtroRigidez === r.value ? r.bg : "#122039",
+              background: filtroRigidez === r.value ? r.bg : "#112239",
               border: `2px solid ${filtroRigidez === r.value ? r.cor : "#1e3356"}`,
             }}
           >
@@ -136,7 +136,7 @@ export default function RegrasPage() {
         <button
           onClick={() => setFiltroCategoria("todos")}
           className="px-3 py-1.5 rounded-full text-xs font-semibold transition-all"
-          style={{ background: filtroCategoria === "todos" ? "#c9a84c" : "#122039", color: filtroCategoria === "todos" ? "#0b1624" : "#64748b", border: `1px solid ${filtroCategoria === "todos" ? "#c9a84c" : "#1e3356"}` }}
+          style={{ background: filtroCategoria === "todos" ? "#c9a84c" : "#112239", color: filtroCategoria === "todos" ? "#0b1624" : "#64748b", border: `1px solid ${filtroCategoria === "todos" ? "#c9a84c" : "#1e3356"}` }}
         >
           Todas
         </button>
@@ -145,7 +145,7 @@ export default function RegrasPage() {
             key={c.value}
             onClick={() => setFiltroCategoria(filtroCategoria === c.value ? "todos" : c.value)}
             className="px-3 py-1.5 rounded-full text-xs font-semibold transition-all flex items-center gap-1"
-            style={{ background: filtroCategoria === c.value ? c.cor + "25" : "#122039", color: filtroCategoria === c.value ? c.cor : "#64748b", border: `1px solid ${filtroCategoria === c.value ? c.cor : "#1e3356"}` }}
+            style={{ background: filtroCategoria === c.value ? c.cor + "25" : "#112239", color: filtroCategoria === c.value ? c.cor : "#64748b", border: `1px solid ${filtroCategoria === c.value ? c.cor : "#1e3356"}` }}
           >
             {c.emoji} {c.label}
           </button>
@@ -154,7 +154,7 @@ export default function RegrasPage() {
           <button
             onClick={() => setMostrarInativas(!mostrarInativas)}
             className="ml-auto px-3 py-1.5 rounded-full text-xs transition-all"
-            style={{ background: mostrarInativas ? "#1e3356" : "#122039", color: "#74859c", border: "1px solid #1e3356" }}
+            style={{ background: mostrarInativas ? "#1e3356" : "#112239", color: "#74859c", border: "1px solid rgba(201,164,66,.16)" }}
           >
             {mostrarInativas ? "Ocultar inativas" : "Ver inativas"}
           </button>
@@ -162,7 +162,7 @@ export default function RegrasPage() {
       </div>
 
       {/* Legenda */}
-      <div className="flex items-center gap-4 px-4 py-2 rounded-xl" style={{ background: "#0d1928", border: "1px solid #1e3356" }}>
+      <div className="flex items-center gap-4 px-4 py-2 rounded-xl" style={{ background: "#0d1928", border: "1px solid rgba(201,164,66,.16)" }}>
         <div className="flex items-center gap-1.5">
           <ShieldAlert size={12} style={{ color: "#ef4444" }} />
           <span className="text-xs" style={{ color: "#9aa7ba" }}>Inegociável = sem exceções</span>
@@ -180,7 +180,7 @@ export default function RegrasPage() {
       {/* Lista de regras */}
       <div className="space-y-3">
         {regras.length === 0 && (
-          <div className="rounded-2xl p-10 text-center space-y-2" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+          <div className="rounded-2xl p-10 text-center space-y-2" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
             <div className="text-4xl">📋</div>
             <p className="text-white font-medium">Nenhuma regra encontrada</p>
             <p className="text-sm" style={{ color: "#74859c" }}>
@@ -199,7 +199,7 @@ export default function RegrasPage() {
               key={regra.id}
               className="rounded-2xl overflow-hidden"
               style={{
-                background: "#122039",
+                background: "#112239",
                 border: `1px solid ${regra.ativa ? rigidez.cor + "35" : "#1e3356"}`,
                 opacity: regra.ativa ? 1 : 0.5,
               }}
@@ -306,7 +306,7 @@ export default function RegrasPage() {
           style={{ background: "#00000085" }}
           onClick={() => setModalAberto(false)}>
           <div className="w-full max-w-lg rounded-2xl p-6 space-y-5 my-4"
-            style={{ background: "#122039", border: "1px solid #1e3356" }}
+            style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
             onClick={(e) => e.stopPropagation()}>
 
             <div className="flex items-center justify-between">
@@ -349,7 +349,7 @@ export default function RegrasPage() {
                 onChange={(e) => upd("titulo", e.target.value)}
                 placeholder="Ex: Shopify só manual"
                 className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none"
-                style={{ background: "#0b1624", border: "1px solid #1e3356" }}
+                style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}
               />
             </div>
 
@@ -362,7 +362,7 @@ export default function RegrasPage() {
                 placeholder="Explique o que é a regra, por que existe e como aplicar..."
                 rows={3}
                 className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none resize-none"
-                style={{ background: "#0b1624", border: "1px solid #1e3356" }}
+                style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}
               />
             </div>
 

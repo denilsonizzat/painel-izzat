@@ -67,7 +67,7 @@ export default function OperacaoLoja({ lojaId, lojaNome }: { lojaId: string; loj
   useEffect(() => { setAnual(null); }, [lojaId]);
 
   if (!supabaseConfigurado()) {
-    return <div className="rounded-2xl p-6 text-center" style={{ background: "#122039", border: "1px solid #ef444440", color: "#ef4444" }}>
+    return <div className="rounded-2xl p-6 text-center" style={{ background: "#112239", border: "1px solid #ef444440", color: "#ef4444" }}>
       Supabase não configurado (faltam as variáveis de ambiente).
     </div>;
   }
@@ -83,7 +83,7 @@ export default function OperacaoLoja({ lojaId, lojaNome }: { lojaId: string; loj
         </div>
       </div>
 
-      <div className="flex gap-1 p-1 rounded-xl" style={{ background: "#0f1c30", border: "1px solid #1e3356" }}>
+      <div className="flex gap-1 p-1 rounded-xl" style={{ background: "#0f1c30", border: "1px solid rgba(201,164,66,.16)" }}>
         {([
           { id: "kpis" as const, label: "Resumo", icon: TrendingUp },
           { id: "graficos" as const, label: "Gráficos", icon: BarChart3 },
@@ -107,7 +107,7 @@ export default function OperacaoLoja({ lojaId, lojaNome }: { lojaId: string; loj
       </div>
 
       {erro && <div className="rounded-xl p-3 text-sm" style={{ background: "#ef444415", color: "#ef4444" }}>Erro: {erro}</div>}
-      {carregando && <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Carregando...</div>}
+      {carregando && <div className="rounded-2xl p-8 text-center" style={{ background: "#112239", color: "#74859c" }}>Carregando...</div>}
 
       {!carregando && kpis && cfg && (
         <>
@@ -178,7 +178,7 @@ function AbaKpis({ kpis: k, cfg, alertas }: { kpis: KpisOperacao; cfg: OpConfig;
 }
 function Linha({ label, valor, negativo }: { label: string; valor: string; negativo?: boolean }) {
   return (
-    <div className="flex justify-between py-1" style={{ borderBottom: "1px solid #1e335655" }}>
+    <div className="flex justify-between py-1" style={{ borderBottom: "1px solid rgba(201,164,66,.16)55" }}>
       <span>{label}</span>
       <span style={{ color: negativo ? "#ef4444" : "#e8edf5", fontWeight: 600 }}>{valor}</span>
     </div>
@@ -198,7 +198,7 @@ function AbaGraficos({ pedidos, ads, mes, ano }: { pedidos: OpPedido[]; ads: OpA
   const maxLucroDia = Math.max(1, ...dias.filter((d) => d.lucro > 0).map((d) => d.lucro));
 
   if (!temDado) {
-    return <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Sem dados para gráficos neste mês. Adicione pedidos/ADS.</div>;
+    return <div className="rounded-2xl p-8 text-center" style={{ background: "#112239", color: "#74859c" }}>Sem dados para gráficos neste mês. Adicione pedidos/ADS.</div>;
   }
 
   const maxDia = Math.max(1, ...dias.map((d) => Math.max(d.faturamento, d.lucro, d.ads)));
@@ -206,7 +206,7 @@ function AbaGraficos({ pedidos, ads, mes, ano }: { pedidos: OpPedido[]; ads: OpA
   const maxForn = Math.max(1, ...fornecedores.map((f) => f.faturamento));
 
   const Card = ({ title, children }: { title: string; children: React.ReactNode }) => (
-    <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+    <div className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
       <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#9aa7ba" }}>{title}</p>
       {children}
     </div>
@@ -391,7 +391,7 @@ function AbaMetas({ kpis: k, meta, lojaId, mes, ano, onSalvar }: { kpis: KpisOpe
 
   if (edit) {
     return (
-      <div className="rounded-2xl p-5 space-y-3" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl p-5 space-y-3" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <p className="text-sm font-bold text-white">Definir metas — {MESES[mes - 1]} {ano}</p>
         <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Meta faturamento ($)</label><input type="number" value={f.fat} onChange={(e) => setF({ ...f, fat: e.target.value })} style={inp} /></div>
         <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Meta lucro ($)</label><input type="number" value={f.lucro} onChange={(e) => setF({ ...f, lucro: e.target.value })} style={inp} /></div>
@@ -407,7 +407,7 @@ function AbaMetas({ kpis: k, meta, lojaId, mes, ano, onSalvar }: { kpis: KpisOpe
 
   const semMeta = !m.meta_faturamento && !m.meta_lucro && !m.meta_pedidos;
   return (
-    <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+    <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
       <div className="flex items-center justify-between mb-4">
         <p className="text-sm font-bold text-white">Metas — {MESES[mes - 1]} {ano}</p>
         <button onClick={() => { setF({ fat: String(m.meta_faturamento || ""), lucro: String(m.meta_lucro || ""), peds: String(m.meta_pedidos || "") }); setEdit(true); }} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold" style={{ background: "#c9a84c", color: "#0b1624" }}><Pencil size={12} /> {semMeta ? "Definir" : "Editar"}</button>
@@ -429,7 +429,7 @@ function AbaMetas({ kpis: k, meta, lojaId, mes, ano, onSalvar }: { kpis: KpisOpe
 function AbaAnual({ anual, ano, lojaId }: { anual: MesResumo[] | null; ano: number; lojaId: string }) {
   const [ltv, setLtv] = useState<Ltv | null>(null);
   useEffect(() => { setLtv(null); calcularLtv(lojaId).then(setLtv).catch(() => {}); }, [lojaId]);
-  if (!anual) return <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Carregando ano...</div>;
+  if (!anual) return <div className="rounded-2xl p-8 text-center" style={{ background: "#112239", color: "#74859c" }}>Carregando ano...</div>;
   const tot = anual.reduce((a, m) => ({ fat: a.fat + m.faturamento, lucro: a.lucro + m.lucro, ads: a.ads + m.ads, peds: a.peds + m.pedidos }), { fat: 0, lucro: 0, ads: 0, peds: 0 });
   const maxFat = Math.max(1, ...anual.map((m) => Math.max(m.faturamento, m.meta)));
   return (
@@ -452,7 +452,7 @@ function AbaAnual({ anual, ano, lojaId }: { anual: MesResumo[] | null; ano: numb
         <MiniCard label="ADS ano" valor={fmt$(tot.ads)} cor="#f59e0b" />
         <MiniCard label="Pedidos ano" valor={String(tot.peds)} cor="#8b5cf6" />
       </div>
-      <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#9aa7ba" }}>Faturamento por mês — {ano}</p>
         <div className="space-y-2">
           {anual.map((m) => {
@@ -490,14 +490,14 @@ function MiniCard({ label, valor, cor }: { label: string; valor: string; cor: st
 // ─── ANÁLISE DE CANAIS ─────────────────────────────────────
 function AbaCanais({ pedidos, ads }: { pedidos: OpPedido[]; ads: OpAds[] }) {
   const canais = serieCanal(pedidos, ads);
-  if (canais.length === 0) return <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Sem dados. Lance pedidos com canal e gastos de ADS no mês.</div>;
+  if (canais.length === 0) return <div className="rounded-2xl p-8 text-center" style={{ background: "#112239", color: "#74859c" }}>Sem dados. Lance pedidos com canal e gastos de ADS no mês.</div>;
   const corCanal: Record<string, string> = { Meta: "#3b82f6", TikTok: "#ec4899", Google: "#10b981", Organico: "#c9a84c", Direto: "#94a3b8", Email: "#8b5cf6" };
   return (
     <div className="space-y-3">
       <div className="rounded-xl p-3 text-xs" style={{ background: "#3b82f615", border: "1px solid #3b82f630", color: "#9aa7ba" }}>
         ROAS e recompra por canal de venda. Gasto vem do ADS (plataforma); receita e recompra vêm do canal marcado em cada pedido.
       </div>
-      <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
             <thead><tr style={{ color: "#74859c", textAlign: "left" }}>
@@ -506,7 +506,7 @@ function AbaCanais({ pedidos, ads }: { pedidos: OpPedido[]; ads: OpAds[] }) {
             </tr></thead>
             <tbody>
               {canais.map((c) => (
-                <tr key={c.canal} style={{ borderTop: "1px solid #1e3356" }}>
+                <tr key={c.canal} style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
                   <td className="p-2 font-semibold" style={{ color: corCanal[c.canal] || "#e8edf5" }}>{c.canal}</td>
                   <td className="p-2" style={{ color: "#9aa7ba" }}>{c.gasto > 0 ? fmt$(c.gasto) : "—"}</td>
                   <td className="p-2 text-white">{fmt$(c.receita)}</td>
@@ -536,7 +536,7 @@ function AbaCanais({ pedidos, ads }: { pedidos: OpPedido[]; ads: OpAds[] }) {
 function BarCard({ titulo, sub, linhas }: { titulo: string; sub: string; linhas: { lbl: string; val: number; txt: string }[] }) {
   const max = Math.max(...linhas.map((l) => l.val), 0.0001);
   return (
-    <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+    <div className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
       <p className="text-sm font-bold text-white">{titulo}</p>
       <p className="text-xs mb-3" style={{ color: "#74859c" }}>{sub}</p>
       <div className="space-y-3">
@@ -587,7 +587,7 @@ function AbaCaixa({ pedidos, ads }: { pedidos: OpPedido[]; ads: OpAds[] }) {
         <Card label="A receber (retido)" usd={fx.aReceberUSD} brl={fx.aReceberBRL} c="#f59e0b" sub="Shopify libera em ~7d" />
         <Card label="Pago à vista" usd={fx.pagoUSD} brl={fx.pagoBRL} c="#ef4444" sub="fornecedor + ADS" />
       </div>
-      <div className="rounded-2xl p-4 grid grid-cols-2 gap-3" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl p-4 grid grid-cols-2 gap-3" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <div><p className="text-xs" style={{ color: "#74859c" }}>Custo de produto/frete</p><p className="text-sm font-bold text-white">{m(fx.custoUSD, fx.custoUSD * cambio)}</p></div>
         <div><p className="text-xs" style={{ color: "#74859c" }}>Gasto com ADS</p><p className="text-sm font-bold text-white">{m(fx.adsUSD, fx.adsUSD * cambio)}</p></div>
       </div>
@@ -651,13 +651,13 @@ function AbaPedidos({ lojaId, pedidos, onMudou }: { lojaId: string; pedidos: OpP
         )}
       </div>
 
-      {pedidos.length === 0 && <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Nenhum pedido neste mês.</div>}
+      {pedidos.length === 0 && <div className="rounded-2xl p-8 text-center" style={{ background: "#112239", color: "#74859c" }}>Nenhum pedido neste mês.</div>}
 
       <div className="space-y-2">
         {pedidos.map((p) => {
           const lucro = (p.status === "reembolso" ? 0 : p.faturamento) - (p.custo_produto + p.frete);
           return (
-            <div key={p.id} className="rounded-xl p-3 flex items-center gap-3" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+            <div key={p.id} className="rounded-xl p-3 flex items-center gap-3" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#3b82f620", color: "#3b82f6" }}>{p.fornecedor}</span>
@@ -680,7 +680,7 @@ function AbaPedidos({ lojaId, pedidos, onMudou }: { lojaId: string; pedidos: OpP
 
       {form && (
         <div className="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" style={{ background: "#00000090", backdropFilter: "blur(2px)" }} onClick={() => setForm(false)}>
-          <div className="modal-card w-full max-w-md rounded-2xl p-5 space-y-3 overflow-y-auto" style={{ background: "#122039", border: "1px solid #1e3356", maxHeight: "88vh" }} onClick={(e) => e.stopPropagation()}>
+          <div className="modal-card w-full max-w-md rounded-2xl p-5 space-y-3 overflow-y-auto" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)", maxHeight: "88vh" }} onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <h3 className="text-white font-bold">{editId ? "Editar pedido" : "Novo pedido"}</h3>
               <button onClick={() => setForm(false)} style={{ color: "#74859c" }}><X size={18} /></button>
@@ -756,10 +756,10 @@ function AbaAds({ lojaId, ads, onMudou }: { lojaId: string; ads: OpAds[]; onMudo
         {simR && <p className="text-xs mt-2" style={{ color: "#74859c" }}>Break-even ROAS: {simR.beRoas > 0 ? simR.beRoas.toFixed(1) + "x" : "—"} · {simR.lucro >= 0 ? "rentável ✅" : "prejuízo ⚠️"}</p>}
       </div>
 
-      {ads.length === 0 && <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Nenhum gasto de ADS neste mês.</div>}
+      {ads.length === 0 && <div className="rounded-2xl p-8 text-center" style={{ background: "#112239", color: "#74859c" }}>Nenhum gasto de ADS neste mês.</div>}
       <div className="space-y-2">
         {ads.map((a) => (
-          <div key={a.id} className="rounded-xl p-3 flex items-center gap-3" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+          <div key={a.id} className="rounded-xl p-3 flex items-center gap-3" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
             <div className="flex-1">
               <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#8b5cf620", color: "#8b5cf6" }}>{a.plataforma}</span>
               <span className="text-xs ml-2" style={{ color: "#74859c" }}>{a.data.slice(8, 10)}/{a.data.slice(5, 7)}</span>
@@ -771,7 +771,7 @@ function AbaAds({ lojaId, ads, onMudou }: { lojaId: string; ads: OpAds[]; onMudo
       </div>
       {form && (
         <div className="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" style={{ background: "#00000090", backdropFilter: "blur(2px)" }} onClick={() => setForm(false)}>
-          <div className="modal-card w-full max-w-sm rounded-2xl p-5 space-y-3" style={{ background: "#122039", border: "1px solid #1e3356" }} onClick={(e) => e.stopPropagation()}>
+          <div className="modal-card w-full max-w-sm rounded-2xl p-5 space-y-3" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }} onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between"><h3 className="text-white font-bold">Novo gasto ADS</h3><button onClick={() => setForm(false)} style={{ color: "#74859c" }}><X size={18} /></button></div>
             <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Valor *</label><input type="number" value={f.valor} onChange={(e) => setF({ ...f, valor: e.target.value })} placeholder="0.00" style={{ ...inp, fontSize: 22, fontWeight: 800, textAlign: "center" }} /></div>
             <div className="grid grid-cols-2 gap-2">
@@ -797,7 +797,7 @@ function AbaConfig({ cfg, onSalvar }: { cfg: OpConfig; onSalvar: (c: OpConfig) =
   const margemUsada = parseFloat(calc.margem) || c.margem_alvo;
   const pc = custoTotal > 0 ? precoIdeal(custoTotal, margemUsada, c) : null;
   const Row = ({ label, sub, campo, unidade }: { label: string; sub: string; campo: keyof OpConfig; unidade: string }) => (
-    <div className="flex items-center justify-between py-3" style={{ borderBottom: "1px solid #1e3356" }}>
+    <div className="flex items-center justify-between py-3" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
       <div><p className="text-sm text-white">{label}</p><p className="text-xs" style={{ color: "#74859c" }}>{sub}</p></div>
       <div className="flex items-center gap-1">
         <input type="number" step="0.1" value={String(c[campo])} onChange={(e) => setC({ ...c, [campo]: parseFloat(e.target.value) || 0 })} style={inp} />
@@ -807,7 +807,7 @@ function AbaConfig({ cfg, onSalvar }: { cfg: OpConfig; onSalvar: (c: OpConfig) =
   );
   return (
     <div className="space-y-4">
-      <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <p className="text-sm font-bold text-white mb-2">Taxas desta loja</p>
         <Row label="Gateway de pagamento" sub="Stripe/PayPal sobre o faturamento" campo="gateway_fee" unidade="%" />
         <Row label="Taxa Shopify" sub="Transação do plano" campo="shopify_fee" unidade="%" />

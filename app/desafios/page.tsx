@@ -393,7 +393,7 @@ function DetalheDesafio({
   const totalPossivel = getDias(desafio.dataInicio, todayOrFim).length;
 
   return (
-    <div className="mt-4 space-y-5 pt-4" style={{ borderTop: "1px solid #1e3356" }}>
+    <div className="mt-4 space-y-5 pt-4" style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
       {/* My stats strip */}
       <div className="grid grid-cols-3 gap-3">
         <div className="rounded-xl p-3 text-center" style={{ background: "#1e335640" }}>
@@ -607,19 +607,19 @@ export default function DesafiosPage() {
 
       {/* Stats banner */}
       <div className="grid grid-cols-3 gap-3">
-        <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }} data-tip="Quantos check-ins você fez nos desafios esta semana">
+        <div className="rounded-2xl p-4 text-center" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }} data-tip="Quantos check-ins você fez nos desafios esta semana">
           <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Minha semana</p>
           <p className="text-2xl font-black text-white">{meusCheckInsSemana}</p>
           <p className="text-xs mt-0.5" style={{ color: "#74859c" }}>check-ins</p>
         </div>
-        <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }} data-tip="Sua maior sequência de dias seguidos fazendo check-in num desafio">
+        <div className="rounded-2xl p-4 text-center" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }} data-tip="Sua maior sequência de dias seguidos fazendo check-in num desafio">
           <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Streak ativo</p>
           <p className="text-2xl font-black" style={{ color: meuMelhorStreak > 0 ? "#f59e0b" : "#334155" }}>
             {meuMelhorStreak > 0 ? "🔥" : "💤"} {meuMelhorStreak}
           </p>
           <p className="text-xs mt-0.5" style={{ color: "#74859c" }}>dias seguidos</p>
         </div>
-        <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }} data-tip="Quantos membros do time já fizeram check-in hoje">
+        <div className="rounded-2xl p-4 text-center" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }} data-tip="Quantos membros do time já fizeram check-in hoje">
           <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Time hoje</p>
           <p className="text-2xl font-black text-white">{membrosComCheckInHoje}</p>
           <p className="text-xs mt-0.5" style={{ color: "#74859c" }}>/ {colaboradores.length} membros</p>
@@ -641,7 +641,7 @@ export default function DesafiosPage() {
               data-tip={f.dica}
               className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all"
               style={{
-                background: filtro === f.key ? `${f.cor}20` : "#122039",
+                background: filtro === f.key ? `${f.cor}20` : "#112239",
                 border: `1px solid ${filtro === f.key ? f.cor : "#1e3356"}`,
                 color: filtro === f.key ? f.cor : "#64748b",
               }}
@@ -657,7 +657,7 @@ export default function DesafiosPage() {
 
       {/* Challenge cards */}
       {desafiosFiltrados.length === 0 ? (
-        <div className="rounded-2xl p-10 text-center" style={{ background: "#122039", border: "1px dashed #1e3356" }}>
+        <div className="rounded-2xl p-10 text-center" style={{ background: "#112239", border: "1px dashed #1e3356" }}>
           <p className="text-4xl mb-3">🏁</p>
           <p className="font-bold text-white mb-1">Nenhum desafio aqui</p>
           <p className="text-sm" style={{ color: "#74859c" }}>
@@ -698,7 +698,7 @@ export default function DesafiosPage() {
                 key={desafio.id}
                 className="rounded-2xl overflow-hidden"
                 style={{
-                  background: "#122039",
+                  background: "#112239",
                   border: `1px solid ${isSelected ? catCfg.cor + "50" : "#1e3356"}`,
                   opacity: !desafio.ativo ? 0.6 : 1,
                 }}
@@ -790,7 +790,7 @@ export default function DesafiosPage() {
                   )}
 
                   {/* Bottom row: streak + check-in button */}
-                  <div className="flex items-center justify-between mt-4 pt-3" style={{ borderTop: "1px solid #1e3356" }}>
+                  <div className="flex items-center justify-between mt-4 pt-3" style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
                     <div className="flex items-center gap-3">
                       {meuStreak > 0 && (
                         <span className="flex items-center gap-1 text-sm font-bold" style={{ color: "#f59e0b" }}>
@@ -852,7 +852,7 @@ export default function DesafiosPage() {
       {/* Weekly ranking + Feed */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Weekly ranking */}
-        <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <div className="flex items-center gap-2 mb-4">
             <Trophy size={16} style={{ color: "#c9a84c" }} />
             <p className="text-sm font-bold text-white">Ranking da Semana</p>
@@ -886,7 +886,7 @@ export default function DesafiosPage() {
         </div>
 
         {/* Feed */}
-        <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <span style={{ fontSize: 16 }}>📡</span>

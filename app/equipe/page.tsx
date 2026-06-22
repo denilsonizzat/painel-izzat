@@ -98,7 +98,7 @@ export default function EquipePage() {
               key={c.id}
               href={`/equipe/${c.id}`}
               className="block rounded-2xl p-4 transition-all hover:opacity-90 hover:scale-[1.01]"
-              style={{ background: "#122039", border: `1px solid ${c.cor}30` }}
+              style={{ background: "#112239", border: `1px solid ${c.cor}30` }}
             >
               <div className="flex items-center gap-3 mb-3">
                 <Avatar nome={c.nome} avatar={c.avatar} foto={c.foto} cor={c.cor} size={48} />
@@ -181,7 +181,7 @@ export default function EquipePage() {
           <button
             onClick={() => setNovoMembro(true)}
             className="rounded-2xl p-4 flex flex-col items-center justify-center gap-3 transition-all hover:opacity-80 border-dashed"
-            style={{ background: "#122039", border: "2px dashed #1e3356", minHeight: 200 }}
+            style={{ background: "#112239", border: "2px dashed #1e3356", minHeight: 200 }}
           >
             <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: "#1e3356" }}>
               <UserPlus size={22} style={{ color: "#74859c" }} />
@@ -198,9 +198,9 @@ export default function EquipePage() {
       {usuarioAtual?.nivelAcesso === "admin" && (
         <div className="mt-8">
           <h2 className="text-lg font-bold text-white mb-4">Mapa de Reconhecimentos</h2>
-          <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+          <div className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
             <div className="grid grid-cols-4 px-4 py-2 text-xs font-semibold uppercase tracking-wider"
-              style={{ color: "#9aa7ba", borderBottom: "1px solid #1e3356" }}>
+              style={{ color: "#9aa7ba", borderBottom: "1px solid rgba(201,164,66,.16)" }}>
               <span>De</span>
               <span>Para</span>
               <span>Mensagem</span>
@@ -225,7 +225,7 @@ export default function EquipePage() {
 
               return todos.map((r) => (
                 <div key={r.id} className="grid grid-cols-4 px-4 py-3 text-sm items-center"
-                  style={{ borderBottom: "1px solid #1e335630" }}>
+                  style={{ borderBottom: "1px solid rgba(201,164,66,.16)30" }}>
                   <span style={{ color: "#94a3b8" }}>{r.deColab?.nome.split(" ")[0] ?? "—"}</span>
                   <span className="font-medium text-white">{r.paraColab.nome.split(" ")[0]}</span>
                   <span style={{ color: "#94a3b8" }} className="truncate">{r.emoji} {r.mensagem}</span>
@@ -242,7 +242,7 @@ export default function EquipePage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: "#00000090" }}
           onClick={() => setNovoMembro(false)}>
           <div className="w-full max-w-md rounded-2xl p-6 animate-fade-in-up"
-            style={{ background: "#122039", border: "1px solid #1e3356" }}
+            style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
             onClick={(e) => e.stopPropagation()}>
 
             <div className="flex items-center justify-between mb-5">
@@ -269,7 +269,7 @@ export default function EquipePage() {
                   onChange={(e) => setForm({ ...form, nome: e.target.value })}
                   placeholder="Nome completo"
                   className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none"
-                  style={{ background: "#0b1624", border: "1px solid #1e3356" }}
+                  style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}
                   onKeyDown={(e) => e.key === "Enter" && handleCriar()}
                 />
               </div>
@@ -281,7 +281,7 @@ export default function EquipePage() {
                   onChange={(e) => setForm({ ...form, cargo: e.target.value })}
                   placeholder="Ex: Designer, Atendimento, Gestor..."
                   className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none"
-                  style={{ background: "#0b1624", border: "1px solid #1e3356" }}
+                  style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}
                 />
               </div>
 
@@ -293,7 +293,7 @@ export default function EquipePage() {
                   placeholder="email@exemplo.com"
                   type="email"
                   className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none"
-                  style={{ background: "#0b1624", border: "1px solid #1e3356" }}
+                  style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}
                 />
               </div>
 

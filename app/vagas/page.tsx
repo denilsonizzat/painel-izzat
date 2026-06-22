@@ -45,7 +45,7 @@ export default function VagasPage() {
   function CardVaga({ rotina, tipo }: { rotina: typeof vagas[0]; tipo: AbaVagas }) {
     const cor = tipo === "sem-responsavel" ? "#ef4444" : "#f59e0b";
     return (
-      <div className="rounded-2xl p-4" style={{ background: "#122039", border: `1px solid ${cor}30` }}>
+      <div className="rounded-2xl p-4" style={{ background: "#112239", border: `1px solid ${cor}30` }}>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap mb-1">
             <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#1e3356", color: "#94a3b8" }}>
@@ -182,7 +182,7 @@ export default function VagasPage() {
 
       {/* Vazio */}
       {lista.length === 0 && (
-        <div className="rounded-2xl p-10 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-10 text-center" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <div className="text-4xl mb-3">{aba === "sem-responsavel" ? "✅" : "💼"}</div>
           <p className="font-semibold text-white mb-1">
             {aba === "sem-responsavel" ? "Nenhuma rotina sem responsável" : "Nenhuma vaga aberta"}
@@ -198,7 +198,7 @@ export default function VagasPage() {
       {/* Modal nova vaga */}
       {modalAberto && (
         <div className="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" style={{ background: "#00000080", backdropFilter: "blur(2px)" }} onClick={() => setModalAberto(false)}>
-          <div className="modal-card w-full max-w-md rounded-2xl p-6 space-y-4" style={{ background: "#122039", border: "1px solid #1e3356" }} onClick={(e) => e.stopPropagation()}>
+          <div className="modal-card w-full max-w-md rounded-2xl p-6 space-y-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }} onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Briefcase size={16} style={{ color: "#f59e0b" }} />

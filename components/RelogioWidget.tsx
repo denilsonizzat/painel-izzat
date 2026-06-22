@@ -233,7 +233,7 @@ export default function RelogioWidget() {
     : null;
 
   return (
-    <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+    <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
       <div className="flex items-center justify-between flex-wrap gap-4">
         {/* Relogio */}
         <div>

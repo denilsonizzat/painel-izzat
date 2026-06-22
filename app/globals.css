@@ -8,9 +8,9 @@
   /* Core palette — extraída do BIG APP (premium navy + dourado) */
   --bg:          #0A1626;
   --card:        #112239;
-  --card-hover:  #162843;
-  --border:      #1e3356;
-  --border-bright: #2a4a7a;
+  --card-hover:  #16294a;
+  --border:      rgba(201,164,66,.16);   /* hairline dourada do BIG APP */
+  --border-bright: rgba(201,164,66,.34);
   --gold:        #C9A442;
   --gold-br:     #E8C462;   /* dourado brilhante (destaques) */
   --gold-dim:    #C9A44222;

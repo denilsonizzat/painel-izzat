@@ -202,24 +202,24 @@ export default function SonoPage() {
 
       {/* Cards de stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="rounded-xl p-3.5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Media de sono</p>
           <p className="text-lg font-black mt-0.5" style={{ color: corHoras(mediaHoras) }}>
             {comDados.length > 0 ? hToStr(mediaHoras) : "—"}
           </p>
           <p className="text-xs mt-0.5" style={{ color: "#334155" }}>ultimos {periodo} dias</p>
         </div>
-        <div className="rounded-xl p-3.5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Media dormir</p>
           <p className="text-lg font-black mt-0.5" style={{ color: "#8b5cf6" }}>{mediaDormir}</p>
           <p className="text-xs mt-0.5" style={{ color: "#334155" }}>horario medio</p>
         </div>
-        <div className="rounded-xl p-3.5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Media acordar</p>
           <p className="text-lg font-black mt-0.5" style={{ color: "#f59e0b" }}>{mediaAcordar}</p>
           <p className="text-xs mt-0.5" style={{ color: "#334155" }}>horario medio</p>
         </div>
-        <div className="rounded-xl p-3.5" style={{ background: "#122039", border: `1px solid ${corConsistencia}25` }}>
+        <div className="rounded-xl p-3.5" style={{ background: "#112239", border: `1px solid ${corConsistencia}25` }}>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Consistencia</p>
           <p className="text-lg font-black mt-0.5" style={{ color: corConsistencia }}>
             {comDados.length >= 2 ? `${consistencia}%` : "—"}
@@ -229,8 +229,8 @@ export default function SonoPage() {
       </div>
 
       {/* Selector de periodo + Grafico */}
-      <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
-        <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: "1px solid #1e3356" }}>
+      <div className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
+        <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
           <div className="flex items-center gap-2" data-tip="Gráfico das horas dormidas ao longo do tempo">
             <TrendingUp size={15} style={{ color: "#8b5cf6" }} />
             <p className="text-sm font-semibold text-white">Evolucao do Sono</p>
@@ -288,7 +288,7 @@ export default function SonoPage() {
                 {/* Pontos */}
                 {pontos.map((p, i) => p.y !== null && (
                   <g key={i}>
-                    <circle cx={p.x} cy={p.y!} r="5" fill={corHoras(p.h)} stroke="#122039" strokeWidth="1.5" />
+                    <circle cx={p.x} cy={p.y!} r="5" fill={corHoras(p.h)} stroke="#112239" strokeWidth="1.5" />
                     <text x={p.x} y={svgH - 6} textAnchor="middle" fontSize="9" fill="#475569">
                       {periodo <= 14 ? fmtDia(p.data) : fmtData(p.data)}
                     </text>
@@ -311,8 +311,8 @@ export default function SonoPage() {
 
       {/* Historico */}
       {registros.length > 0 && (
-        <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
-          <div className="flex items-center gap-2 px-5 py-4" style={{ borderBottom: "1px solid #1e3356" }}>
+        <div className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
+          <div className="flex items-center gap-2 px-5 py-4" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
             <Calendar size={14} style={{ color: "#9aa7ba" }} />
             <p className="text-sm font-semibold text-white">Historico</p>
             <span className="text-xs px-2 py-0.5 rounded-full ml-auto" style={{ background: "#1e3356", color: "#9aa7ba" }}>
@@ -325,7 +325,7 @@ export default function SonoPage() {
               const cor = corMin(min);
               return (
                 <div key={r.id} className="flex items-center gap-4 px-5 py-3"
-                  style={{ borderTop: idx > 0 ? "1px solid #1e335640" : "none" }}>
+                  style={{ borderTop: idx > 0 ? "1px solid rgba(201,164,66,.16)40" : "none" }}>
                   <div className="text-center flex-shrink-0" style={{ minWidth: 44 }}>
                     <p className="text-xs font-bold" style={{ color: "#9aa7ba" }}>{fmtDia(r.data)}</p>
                     <p className="text-xs" style={{ color: "#74859c" }}>{fmtData(r.data)}</p>
@@ -355,7 +355,7 @@ export default function SonoPage() {
       )}
 
       {registros.length === 0 && (
-        <div className="rounded-2xl p-10 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-10 text-center" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <div className="text-5xl mb-3">🌙</div>
           <p className="font-semibold text-white mb-1">Nenhum registro ainda</p>
           <p className="text-sm mb-4" style={{ color: "#9aa7ba" }}>
@@ -374,7 +374,7 @@ export default function SonoPage() {
           style={{ background: "rgba(0,0,0,0.75)" }}
           onClick={() => !savedFeedback && setShowForm(false)}>
           <div className="w-full max-w-sm rounded-2xl overflow-hidden"
-            style={{ background: "#122039", border: "1px solid #8b5cf640" }}
+            style={{ background: "#112239", border: "1px solid #8b5cf640" }}
             onClick={(e) => e.stopPropagation()}>
 
             {savedFeedback ? (
@@ -389,7 +389,7 @@ export default function SonoPage() {
               </div>
             ) : (
               <>
-                <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid #1e3356" }}>
+                <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
                   <div className="flex items-center gap-2">
                     <Moon size={16} style={{ color: "#8b5cf6" }} />
                     <h2 className="font-bold text-white">Registrar Sono</h2>

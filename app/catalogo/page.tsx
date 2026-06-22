@@ -214,7 +214,7 @@ function KanbanCard({
       }}
       className="rounded-xl overflow-hidden select-none"
     >
-      <div className="rounded-xl overflow-hidden" style={{ background: "#122039", border: `1px solid ${borderColor}`, cursor: "pointer" }} onClick={onEdit} data-tip="Clique para editar · arraste para mover">
+      <div className="rounded-xl overflow-hidden" style={{ background: "#112239", border: `1px solid ${borderColor}`, cursor: "pointer" }} onClick={onEdit} data-tip="Clique para editar · arraste para mover">
 
         {/* Linha superior: nome + menu */}
         <div className="flex items-start gap-2 px-3 pt-3 pb-2">
@@ -572,7 +572,7 @@ export default function CatalogoPage() {
       {/* Barra de filtros compacta */}
       <div
         className="rounded-2xl px-4 py-2.5 flex items-center gap-4 flex-wrap"
-        style={{ background: "#0a1a2e", border: "1px solid #1e3356" }}
+        style={{ background: "#0a1a2e", border: "1px solid rgba(201,164,66,.16)" }}
       >
         {/* Tipo */}
         <div className="flex items-center gap-2">
@@ -590,7 +590,7 @@ export default function CatalogoPage() {
               onClick={() => setFiltroOrigem(f.v)}
               className="px-2.5 py-0.5 rounded-full text-xs font-semibold transition-all"
               style={{
-                background: filtroOrigem === f.v ? "#c9a84c22" : "#122039",
+                background: filtroOrigem === f.v ? "#c9a84c22" : "#112239",
                 color: filtroOrigem === f.v ? "#c9a84c" : "#475569",
                 border: `1px solid ${filtroOrigem === f.v ? "#c9a84c50" : "#1e3356"}`,
               }}
@@ -612,7 +612,7 @@ export default function CatalogoPage() {
             onClick={() => setFiltroLoja("todas")}
             className="px-2.5 py-0.5 rounded-full text-xs font-semibold transition-all"
             style={{
-              background: filtroLoja === "todas" ? "#33415560" : "#122039",
+              background: filtroLoja === "todas" ? "#33415560" : "#112239",
               color: filtroLoja === "todas" ? "#cbd5e1" : "#475569",
               border: `1px solid ${filtroLoja === "todas" ? "#475569" : "#1e3356"}`,
             }}
@@ -628,7 +628,7 @@ export default function CatalogoPage() {
                 onClick={() => setFiltroLoja(l.id)}
                 className="px-2.5 py-0.5 rounded-full text-xs font-semibold transition-all"
                 style={{
-                  background: ativo ? cor + "22" : "#122039",
+                  background: ativo ? cor + "22" : "#112239",
                   color: ativo ? cor : "#475569",
                   border: `1px solid ${ativo ? cor + "60" : "#1e3356"}`,
                 }}
@@ -641,7 +641,7 @@ export default function CatalogoPage() {
       </div>
 
       {/* Toggle de visão: Geral (pipeline único) x Por Loja (swimlanes) */}
-      <div className="flex gap-1 p-1 rounded-xl w-fit" style={{ background: "#0f1c30", border: "1px solid #1e3356" }}>
+      <div className="flex gap-1 p-1 rounded-xl w-fit" style={{ background: "#0f1c30", border: "1px solid rgba(201,164,66,.16)" }}>
         {([
           { v: "geral" as const, label: "Geral", dica: "Pipeline único com todos os produtos" },
           { v: "porLoja" as const, label: "Por Loja", dica: "Um pipeline separado por loja (status por loja)" },
@@ -741,7 +741,7 @@ export default function CatalogoPage() {
           {todasLojas
             .filter((l) => (filtroLoja === "todas" || l.id === filtroLoja) && produtos.some((p) => p.lojaId === l.id))
             .map((l) => (
-              <div key={l.id} className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+              <div key={l.id} className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
                 <div className="flex items-center gap-2 mb-3">
                   <span className="w-2.5 h-2.5 rounded-full" style={{ background: l.cor || "#64748b" }} />
                   <p className="text-sm font-bold text-white">{l.nome}</p>
@@ -750,7 +750,7 @@ export default function CatalogoPage() {
               </div>
             ))}
           {todasLojas.filter((l) => (filtroLoja === "todas" || l.id === filtroLoja) && produtos.some((p) => p.lojaId === l.id)).length === 0 && (
-            <div className="rounded-2xl p-12 text-center" style={{ background: "linear-gradient(160deg, #14243f, #111e35)", border: "1px solid #1e3356" }}>
+            <div className="rounded-2xl p-12 text-center" style={{ background: "linear-gradient(160deg, #14243f, #111e35)", border: "1px solid rgba(201,164,66,.16)" }}>
               <div className="text-5xl mb-3 empty-icon inline-block">🏪</div>
               <p className="font-bold text-white mb-1 text-lg">Nenhum produto por loja ainda</p>
               <p className="text-sm" style={{ color: "#94a3b8" }}>Crie um produto no fluxo &quot;Direto nas lojas&quot; ou distribua um validado.</p>
@@ -771,7 +771,7 @@ export default function CatalogoPage() {
             style={{ background: "#0b1624", border: "1px solid #8b5cf640", maxHeight: "90vh" }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid #1e3356" }}>
+            <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
               <div>
                 <h2 className="font-bold text-white text-sm flex items-center gap-2">
                   <Share2 size={14} style={{ color: "#8b5cf6" }} /> Distribuir Produto
@@ -815,7 +815,7 @@ export default function CatalogoPage() {
                           onClick={() => toggleLojaDistribuir(l.id)}
                           className="w-full flex items-center gap-3 p-3 rounded-xl transition-all text-left"
                           style={{
-                            background: selecionada ? "#8b5cf620" : "#122039",
+                            background: selecionada ? "#8b5cf620" : "#112239",
                             border: `1px solid ${selecionada ? "#8b5cf660" : "#1e3356"}`,
                           }}
                         >

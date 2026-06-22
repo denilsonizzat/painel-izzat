@@ -205,22 +205,22 @@ export default function GastosPage() {
 
       {/* Cards secundários */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="rounded-xl p-3.5" style={{ background: "#122039", border: "1px solid #10b98125" }}>
+        <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid #10b98125" }}>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Folha Salarial</p>
           <p className="text-lg font-black mt-0.5" style={{ color: "#10b981" }}>R$ {fmt(totalSalarios)}</p>
           <p className="text-xs mt-0.5" style={{ color: "#334155" }}>{comSalario.length}/{colaboradores.length} cadastrados</p>
         </div>
-        <div className="rounded-xl p-3.5" style={{ background: "#122039", border: "1px solid #3b82f625" }}>
+        <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid #3b82f625" }}>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Ferramentas</p>
           <p className="text-lg font-black mt-0.5" style={{ color: "#3b82f6" }}>R$ {fmt(totalFerramentas)}</p>
           <p className="text-xs mt-0.5" style={{ color: "#334155" }}>{ferramentas.length} ferramentas</p>
         </div>
-        <div className="rounded-xl p-3.5" style={{ background: "#122039", border: "1px solid #8b5cf625" }}>
+        <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid #8b5cf625" }}>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Media Salarial</p>
           <p className="text-lg font-black mt-0.5" style={{ color: "#8b5cf6" }}>R$ {fmt(mediaSalario)}</p>
           <p className="text-xs mt-0.5" style={{ color: "#334155" }}>{comSalario.length} pessoas</p>
         </div>
-        <div className="rounded-xl p-3.5" style={{ background: semSalario.length > 0 ? "#122039" : "#0d1928", border: semSalario.length > 0 ? "1px solid #f59e0b25" : "1px solid #1e3356" }}>
+        <div className="rounded-xl p-3.5" style={{ background: semSalario.length > 0 ? "#112239" : "#0d1928", border: semSalario.length > 0 ? "1px solid #f59e0b25" : "1px solid rgba(201,164,66,.16)" }}>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Sem Salario</p>
           <p className="text-lg font-black mt-0.5" style={{ color: semSalario.length > 0 ? "#f59e0b" : "#334155" }}>{semSalario.length}</p>
           <p className="text-xs mt-0.5" style={{ color: "#334155" }}>colaboradores</p>
@@ -242,7 +242,7 @@ export default function GastosPage() {
       {aba === "resumo" && (
         <div className="space-y-5">
           {/* Custo por área */}
-          <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+          <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
             <div className="flex items-center gap-2 mb-5">
               <TrendingUp size={16} style={{ color: "#c9a84c" }} />
               <h2 className="text-white font-semibold">Custo Salarial por Area</h2>
@@ -280,8 +280,8 @@ export default function GastosPage() {
           </div>
 
           {/* Custo por pessoa (salário + ferramentas) */}
-          <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
-            <div className="px-5 py-4" style={{ borderBottom: "1px solid #1e3356" }}>
+          <div className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
+            <div className="px-5 py-4" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
               <div className="flex items-center gap-2">
                 <Users size={15} style={{ color: "#c9a84c" }} />
                 <h2 className="text-white font-semibold text-sm">Custo Total por Pessoa</h2>
@@ -301,7 +301,7 @@ export default function GastosPage() {
                   const pct = totalGeral > 0 ? (total / totalGeral) * 100 : 0;
                   const ferrsPessoa = ferramentas.filter((f) => f.colaboradoresIds.includes(c.id));
                   return (
-                    <div key={c.id} className="flex items-center gap-3 px-5 py-3" style={{ borderTop: idx === 0 ? "none" : "1px solid #1e335640" }}>
+                    <div key={c.id} className="flex items-center gap-3 px-5 py-3" style={{ borderTop: idx === 0 ? "none" : "1px solid rgba(201,164,66,.16)40" }}>
                       <Link href={`/equipe/${c.id}#custo`} className="flex items-center gap-3 flex-1 min-w-0 hover:opacity-80">
                         <Avatar nome={c.nome} avatar={c.avatar} foto={c.foto} cor={c.cor} size={32} />
                         <div className="min-w-0">
@@ -327,7 +327,7 @@ export default function GastosPage() {
                   );
                 })}
             </div>
-            <div className="px-5 py-3 flex items-center justify-between" style={{ borderTop: "1px solid #1e3356", background: "#0d1928" }}>
+            <div className="px-5 py-3 flex items-center justify-between" style={{ borderTop: "1px solid rgba(201,164,66,.16)", background: "#0d1928" }}>
               <span className="text-sm font-bold text-white">Total Geral</span>
               <span className="text-base font-black" style={{ color: "#c9a84c" }}>R$ {fmt(totalGeral)}</span>
             </div>
@@ -338,9 +338,9 @@ export default function GastosPage() {
       {/* ─── ABA PESSOAS ─── */}
       {aba === "pessoas" && (
         <div className="space-y-5">
-          <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+          <div className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
             {/* Controles */}
-            <div className="flex flex-wrap items-center gap-3 px-5 py-4" style={{ borderBottom: "1px solid #1e3356" }}>
+            <div className="flex flex-wrap items-center gap-3 px-5 py-4" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
               <div className="flex items-center gap-2">
                 <Users size={15} style={{ color: "#c9a84c" }} />
                 <span className="text-white font-semibold text-sm">Salarios</span>
@@ -368,7 +368,7 @@ export default function GastosPage() {
             </div>
 
             {filtroArea !== "todas" && (
-              <div className="px-5 py-2.5 flex items-center gap-3" style={{ background: "#0d1928", borderBottom: "1px solid #1e3356" }}>
+              <div className="px-5 py-2.5 flex items-center gap-3" style={{ background: "#0d1928", borderBottom: "1px solid rgba(201,164,66,.16)" }}>
                 <span className="text-xs font-semibold text-white">{filtroArea}</span>
                 <span style={{ color: "#334155" }}>·</span>
                 <span className="text-xs font-bold" style={{ color: "#10b981" }}>R$ {fmt(totalFiltrado)}</span>
@@ -381,7 +381,7 @@ export default function GastosPage() {
             )}
 
             <div className="grid px-5 py-2.5 text-xs font-semibold uppercase tracking-wider"
-              style={{ gridTemplateColumns: "1fr auto auto auto", color: "#74859c", borderBottom: "1px solid #1e3356" }}>
+              style={{ gridTemplateColumns: "1fr auto auto auto", color: "#74859c", borderBottom: "1px solid rgba(201,164,66,.16)" }}>
               <span>Colaborador</span>
               <span className="w-32 text-center">Area</span>
               <span className="w-36 text-right">Salario Mensal</span>
@@ -396,7 +396,7 @@ export default function GastosPage() {
                 const editando = editandoSalId === c.id;
                 return (
                   <div key={c.id} className="grid items-center px-5 py-3"
-                    style={{ gridTemplateColumns: "1fr auto auto auto", borderTop: idx === 0 ? "none" : "1px solid #1e335640", background: editando ? "#0d1f35" : "transparent" }}>
+                    style={{ gridTemplateColumns: "1fr auto auto auto", borderTop: idx === 0 ? "none" : "1px solid rgba(201,164,66,.16)40", background: editando ? "#0d1f35" : "transparent" }}>
                     <Link href={`/equipe/${c.id}`} className="flex items-center gap-3 min-w-0 hover:opacity-80">
                       <Avatar nome={c.nome} avatar={c.avatar} foto={c.foto} cor={c.cor} size={32} />
                       <div className="min-w-0">
@@ -441,7 +441,7 @@ export default function GastosPage() {
               })}
             </div>
 
-            <div className="grid items-center px-5 py-4" style={{ gridTemplateColumns: "1fr auto auto auto", borderTop: "1px solid #1e3356", background: "#0d1928" }}>
+            <div className="grid items-center px-5 py-4" style={{ gridTemplateColumns: "1fr auto auto auto", borderTop: "1px solid rgba(201,164,66,.16)", background: "#0d1928" }}>
               <span className="text-sm font-bold text-white">Total {filtroArea !== "todas" ? `— ${filtroArea}` : ""}</span>
               <div className="w-32" />
               <div className="w-36 text-right">
@@ -452,7 +452,7 @@ export default function GastosPage() {
           </div>
 
           {semSalario.length > 0 && (
-            <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #f59e0b30" }}>
+            <div className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid #f59e0b30" }}>
               <div className="flex items-center gap-2 mb-3">
                 <AlertCircle size={15} style={{ color: "#f59e0b" }} />
                 <p className="text-sm font-semibold" style={{ color: "#f59e0b" }}>
@@ -486,7 +486,7 @@ export default function GastosPage() {
           </div>
 
           {ferramentas.length === 0 && (
-            <div className="rounded-2xl p-10 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+            <div className="rounded-2xl p-10 text-center" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
               <div className="text-4xl mb-3">🔧</div>
               <p className="font-semibold text-white mb-1">Nenhuma ferramenta cadastrada</p>
               <p className="text-sm" style={{ color: "#9aa7ba" }}>
@@ -505,7 +505,7 @@ export default function GastosPage() {
             const naoVinculados = colaboradores.filter((c) => !f.colaboradoresIds.includes(c.id));
             const vinculados = colaboradores.filter((c) => f.colaboradoresIds.includes(c.id));
             return (
-              <div key={f.id} className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: `1px solid ${cor}30` }}>
+              <div key={f.id} className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: `1px solid ${cor}30` }}>
                 {/* Header da ferramenta */}
                 <div className="p-4">
                   <div className="flex items-start justify-between gap-3">
@@ -582,7 +582,7 @@ export default function GastosPage() {
 
                   {/* Dropdown para vincular */}
                   {vinculando && naoVinculados.length > 0 && (
-                    <div className="mt-2 p-2 rounded-xl flex flex-wrap gap-1.5" style={{ background: "#0d1928", border: "1px solid #1e3356" }}>
+                    <div className="mt-2 p-2 rounded-xl flex flex-wrap gap-1.5" style={{ background: "#0d1928", border: "1px solid rgba(201,164,66,.16)" }}>
                       <span className="text-xs w-full mb-1" style={{ color: "#9aa7ba" }}>Clique para vincular:</span>
                       {naoVinculados.map((c) => (
                         <button key={c.id} onClick={() => vincularFerramenta(f.id, c.id)}
@@ -603,7 +603,7 @@ export default function GastosPage() {
           })}
 
           {ferramentas.length > 0 && (
-            <div className="rounded-xl px-4 py-3 flex items-center justify-between" style={{ background: "#0d1928", border: "1px solid #1e3356" }}>
+            <div className="rounded-xl px-4 py-3 flex items-center justify-between" style={{ background: "#0d1928", border: "1px solid rgba(201,164,66,.16)" }}>
               <span className="text-sm font-bold text-white">Total Ferramentas</span>
               <span className="text-base font-black" style={{ color: "#3b82f6" }}>R$ {fmt(totalFerramentas)}</span>
             </div>
@@ -622,9 +622,9 @@ export default function GastosPage() {
           : precoNum;
         return (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,0.75)" }}>
-            <div className="w-full max-w-lg rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356", maxHeight: "90vh", overflowY: "auto" }}>
+            <div className="w-full max-w-lg rounded-2xl overflow-hidden" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)", maxHeight: "90vh", overflowY: "auto" }}>
               {/* Header modal */}
-              <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: "1px solid #1e3356" }}>
+              <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
                 <h2 className="text-white font-bold">{editFerr ? "Editar Ferramenta" : "Nova Ferramenta"}</h2>
                 <button onClick={() => setModalFerr(false)} className="p-1.5 rounded-lg hover:opacity-70" style={{ color: "#9aa7ba" }}><X size={18} /></button>
               </div>
@@ -719,7 +719,7 @@ export default function GastosPage() {
 
                 {/* Preview de custo dinâmico */}
                 {precoNum > 0 && (
-                  <div className="rounded-xl px-4 py-3 flex items-center justify-between" style={{ background: "#0d1928", border: "1px solid #1e3356" }}>
+                  <div className="rounded-xl px-4 py-3 flex items-center justify-between" style={{ background: "#0d1928", border: "1px solid rgba(201,164,66,.16)" }}>
                     <div>
                       <p className="text-xs" style={{ color: "#9aa7ba" }}>Custo mensal estimado</p>
                       {form.tipo === "compartilhada" && formPessoas.length > 1 && (

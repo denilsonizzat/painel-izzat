@@ -98,7 +98,7 @@ export default function CustoTotalPage() {
         </div>
         <select
           className="px-3 py-2 rounded-xl text-sm text-white outline-none flex-shrink-0"
-          style={{ background: "#122039", border: "1px solid #1e3356" }}
+          style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
           value={mesSelecionado}
           onChange={(e) => setMesSelecionado(e.target.value)}
         >
@@ -109,7 +109,7 @@ export default function CustoTotalPage() {
       </div>
 
       {/* Hero — total */}
-      <div className="rounded-2xl p-8 text-center gradient-hero-gold" style={{ background: "#122039", border: "1px solid #c9a84c25" }} data-tip="Quanto custa manter o grupo Izzat por mês. Fórmula: Folha Salarial + Ferramentas do Time + Custos Operacionais das lojas Izzat. Não inclui lojas Partners.">
+      <div className="rounded-2xl p-8 text-center gradient-hero-gold" style={{ background: "#112239", border: "1px solid #c9a84c25" }} data-tip="Quanto custa manter o grupo Izzat por mês. Fórmula: Folha Salarial + Ferramentas do Time + Custos Operacionais das lojas Izzat. Não inclui lojas Partners.">
         <p className="text-section-label mb-3">CUSTO TOTAL MENSAL</p>
         <p className="text-shimmer font-black mb-1" style={{ fontSize: 52, letterSpacing: "-2px", lineHeight: 1 }}>
           R$ {fmt(totalGeral)}
@@ -152,7 +152,7 @@ export default function CustoTotalPage() {
           { label: "Ferramentas Time", valor: totalFerramentas, sub: `${ferramentas.length} ferramentas`, cor: "#8b5cf6", icon: Wrench, dica: "Custo mensal das ferramentas e assinaturas do time" },
           { label: "Custos Op. Izzat", valor: totalOperacoes, sub: `${gastosIzzat.length} lançamentos`, cor: "#3b82f6", icon: Building2, dica: "Custos operacionais das lojas do grupo Izzat (não inclui Partners)" },
         ].map((card) => (
-          <div key={card.label} data-tip={card.dica} className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+          <div key={card.label} data-tip={card.dica} className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
             <div className="flex items-center gap-2 mb-1">
               <card.icon size={13} style={{ color: card.cor }} />
               <p className="text-xs" style={{ color: "#9aa7ba" }}>{card.label}</p>
@@ -166,7 +166,7 @@ export default function CustoTotalPage() {
       </div>
 
       {/* ── SEÇÃO TIME ── */}
-      <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <button
           onClick={() => setSecaoAberta((v) => v === "time" ? null : "time")}
           className="w-full flex items-center justify-between px-5 py-4 hover:bg-white/5 transition-all"
@@ -187,10 +187,10 @@ export default function CustoTotalPage() {
         </button>
 
         {secaoAberta === "time" && (
-          <div style={{ borderTop: "1px solid #1e3356" }}>
+          <div style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
             <div className="px-5 py-3 space-y-1.5">
               {colaboradores.map((c) => (
-                <div key={c.id} className="flex items-center gap-3 px-3 py-2.5 rounded-xl" style={{ background: "#0a1a2e", border: "1px solid #1e3356" }}>
+                <div key={c.id} className="flex items-center gap-3 px-3 py-2.5 rounded-xl" style={{ background: "#0a1a2e", border: "1px solid rgba(201,164,66,.16)" }}>
                   <Avatar nome={c.nome} avatar={c.avatar} foto={c.foto} cor={c.cor} size={28} />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-white leading-tight">{c.nome}</p>
@@ -209,7 +209,7 @@ export default function CustoTotalPage() {
                 </div>
               ))}
             </div>
-            <div className="flex items-center justify-between px-5 py-2.5" style={{ borderTop: "1px solid #1e3356", background: "#0a1a2e" }}>
+            <div className="flex items-center justify-between px-5 py-2.5" style={{ borderTop: "1px solid rgba(201,164,66,.16)", background: "#0a1a2e" }}>
               <Link href="/gastos" className="text-xs flex items-center gap-1.5 hover:opacity-80 transition-opacity" style={{ color: "#c9a84c" }}>
                 <ExternalLink size={11} /> Gerenciar em Gastos Equipe
               </Link>
@@ -220,7 +220,7 @@ export default function CustoTotalPage() {
       </div>
 
       {/* ── SEÇÃO FERRAMENTAS ── */}
-      <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <button
           onClick={() => setSecaoAberta((v) => v === "ferramentas" ? null : "ferramentas")}
           className="w-full flex items-center justify-between px-5 py-4 hover:bg-white/5 transition-all"
@@ -241,13 +241,13 @@ export default function CustoTotalPage() {
         </button>
 
         {secaoAberta === "ferramentas" && (
-          <div style={{ borderTop: "1px solid #1e3356" }}>
+          <div style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
             <div className="px-5 py-3 space-y-1.5">
               {ferramentas.length === 0 && (
                 <p className="text-xs py-2" style={{ color: "#334155" }}>Nenhuma ferramenta cadastrada.</p>
               )}
               {ferramentas.map((f) => (
-                <div key={f.id} className="flex items-center gap-3 px-3 py-2 rounded-xl" style={{ background: "#0a1a2e", border: "1px solid #1e3356" }}>
+                <div key={f.id} className="flex items-center gap-3 px-3 py-2 rounded-xl" style={{ background: "#0a1a2e", border: "1px solid rgba(201,164,66,.16)" }}>
                   <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: f.cor || "#8b5cf6" }} />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-white">{f.nome}</p>
@@ -260,7 +260,7 @@ export default function CustoTotalPage() {
                       <input
                         autoFocus
                         className="w-24 px-2 py-1 rounded-lg text-xs text-white outline-none"
-                        style={{ background: "#122039", border: "1px solid #8b5cf660" }}
+                        style={{ background: "#112239", border: "1px solid #8b5cf660" }}
                         value={valorEdit}
                         onChange={(e) => setValorEdit(e.target.value)}
                         onKeyDown={(e) => { if (e.key === "Enter") salvarEditFerr(f.id); if (e.key === "Escape") setEditandoFerrId(null); }}
@@ -279,7 +279,7 @@ export default function CustoTotalPage() {
                 </div>
               ))}
             </div>
-            <div className="flex items-center justify-between px-5 py-2.5" style={{ borderTop: "1px solid #1e3356", background: "#0a1a2e" }}>
+            <div className="flex items-center justify-between px-5 py-2.5" style={{ borderTop: "1px solid rgba(201,164,66,.16)", background: "#0a1a2e" }}>
               <Link href="/gastos" className="text-xs flex items-center gap-1.5 hover:opacity-80 transition-opacity" style={{ color: "#c9a84c" }}>
                 <ExternalLink size={11} /> Gerenciar em Gastos Equipe
               </Link>
@@ -290,7 +290,7 @@ export default function CustoTotalPage() {
       </div>
 
       {/* ── SEÇÃO OPERAÇÕES IZZAT ── */}
-      <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <button
           onClick={() => setSecaoAberta((v) => v === "operacoes" ? null : "operacoes")}
           className="w-full flex items-center justify-between px-5 py-4 hover:bg-white/5 transition-all"
@@ -313,7 +313,7 @@ export default function CustoTotalPage() {
         </button>
 
         {secaoAberta === "operacoes" && (
-          <div style={{ borderTop: "1px solid #1e3356" }}>
+          <div style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
             <div className="px-5 py-3 space-y-2">
               {lojasIzzatTodas.map((loja) => {
                 const gastosLoja = gastosOperacionais.filter((g) => g.lojaId === loja.id && g.ativo);
@@ -323,7 +323,7 @@ export default function CustoTotalPage() {
                 const expandida = lojaExpandida === loja.id;
 
                 return (
-                  <div key={loja.id} className="rounded-xl overflow-hidden" style={{ background: "#0a1a2e", border: "1px solid #1e3356" }}>
+                  <div key={loja.id} className="rounded-xl overflow-hidden" style={{ background: "#0a1a2e", border: "1px solid rgba(201,164,66,.16)" }}>
                     <button
                       onClick={() => setLojaExpandida(expandida ? null : loja.id)}
                       className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-white/5 transition-all"
@@ -340,7 +340,7 @@ export default function CustoTotalPage() {
                     </button>
 
                     {expandida && (
-                      <div className="px-3 pb-3 pt-1 space-y-1.5" style={{ borderTop: "1px solid #1e3356" }}>
+                      <div className="px-3 pb-3 pt-1 space-y-1.5" style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
                         {gastosLoja.length === 0 && (
                           <p className="text-xs py-2 text-center" style={{ color: "#334155" }}>
                             Nenhum custo cadastrado.{" "}
@@ -350,7 +350,7 @@ export default function CustoTotalPage() {
                           </p>
                         )}
                         {[...fixosLoja, ...varLoja].map((g) => (
-                          <div key={g.id} className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg" style={{ background: "#122039" }}>
+                          <div key={g.id} className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg" style={{ background: "#112239" }}>
                             <span className="text-xs px-1.5 py-0 rounded-full font-bold flex-shrink-0" style={{
                               background: g.tipo === "fixo" ? "#10b98118" : "#f59e0b18",
                               color: g.tipo === "fixo" ? "#10b981" : "#f59e0b",
@@ -404,7 +404,7 @@ export default function CustoTotalPage() {
                 );
               })}
             </div>
-            <div className="flex items-center justify-between px-5 py-2.5" style={{ borderTop: "1px solid #1e3356", background: "#0a1a2e" }}>
+            <div className="flex items-center justify-between px-5 py-2.5" style={{ borderTop: "1px solid rgba(201,164,66,.16)", background: "#0a1a2e" }}>
               <Link href="/gastos-operacoes" className="text-xs flex items-center gap-1.5 hover:opacity-80 transition-opacity" style={{ color: "#c9a84c" }}>
                 <ExternalLink size={11} /> Ver em Custos Operacionais
               </Link>
@@ -415,7 +415,7 @@ export default function CustoTotalPage() {
       </div>
 
       {/* Footer contexto */}
-      <div className="flex items-center gap-2 px-4 py-3 rounded-xl" style={{ background: "#0a1a2e", border: "1px solid #1e3356" }}>
+      <div className="flex items-center gap-2 px-4 py-3 rounded-xl" style={{ background: "#0a1a2e", border: "1px solid rgba(201,164,66,.16)" }}>
         <TrendingDown size={13} style={{ color: "#74859c" }} />
         <p className="text-xs" style={{ color: "#74859c" }}>
           Partners não entram neste total — os custos operacionais deles são pagos pelos próprios parceiros.

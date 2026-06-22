@@ -31,7 +31,7 @@ export default function LoginPage() {
           <p className="text-xs mt-1" style={{ color: "#74859c" }}>{"Acompanhe rotinas, tarefas, progresso e equipe num só lugar"}</p>
         </div>
 
-        <div className="rounded-2xl p-6" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-6" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-2">
               <Users size={18} style={{ color: "#c9a84c" }} />

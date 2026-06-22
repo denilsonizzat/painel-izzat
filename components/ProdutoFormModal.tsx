@@ -217,11 +217,11 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
     >
       <div
         className="modal-card w-full max-w-lg rounded-2xl overflow-hidden"
-        style={{ background: "#0b1624", border: "1px solid #1e3356", maxHeight: "92vh" }}
+        style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)", maxHeight: "92vh" }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid #1e3356" }}>
+        <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
           <div>
             <h2 className="font-bold text-white text-sm">{isEditing ? "Editar Produto" : "Novo Produto"}</h2>
             <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>Preencha os 13 campos obrigatorios para liberar</p>
@@ -247,7 +247,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
                 onChange={(e) => setForm((f) => ({ ...f, nome: e.target.value }))}
                 placeholder="Ex: VisionGlow Pro"
                 className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none"
-                style={{ background: "#122039", border: "1px solid #1e3356" }}
+                style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
                 autoFocus
               />
             </div>
@@ -261,7 +261,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
                     type="button"
                     onClick={() => setFluxo("central")}
                     className="text-left p-3 rounded-xl transition-all"
-                    style={{ background: fluxo === "central" ? "#c9a84c18" : "#122039", border: `1px solid ${fluxo === "central" ? "#c9a84c" : "#1e3356"}` }}
+                    style={{ background: fluxo === "central" ? "#c9a84c18" : "#112239", border: `1px solid ${fluxo === "central" ? "#c9a84c" : "#1e3356"}` }}
                   >
                     <p className="text-sm font-bold" style={{ color: fluxo === "central" ? "#c9a84c" : "#e8edf5" }}>Central</p>
                     <p className="text-xs mt-0.5" style={{ color: "#74859c" }}>Testa na loja de teste → valida → distribui</p>
@@ -270,7 +270,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
                     type="button"
                     onClick={() => setFluxo("direto")}
                     className="text-left p-3 rounded-xl transition-all"
-                    style={{ background: fluxo === "direto" ? "#3b82f618" : "#122039", border: `1px solid ${fluxo === "direto" ? "#3b82f6" : "#1e3356"}` }}
+                    style={{ background: fluxo === "direto" ? "#3b82f618" : "#112239", border: `1px solid ${fluxo === "direto" ? "#3b82f6" : "#1e3356"}` }}
                   >
                     <p className="text-sm font-bold" style={{ color: fluxo === "direto" ? "#3b82f6" : "#e8edf5" }}>Direto nas lojas</p>
                     <p className="text-xs mt-0.5" style={{ color: "#74859c" }}>Cria já nas lojas escolhidas, testa em cada</p>
@@ -289,11 +289,11 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
                     onChange={(e) => setForm((f) => ({ ...f, lojaId: e.target.value }))}
                     disabled={!!lojaIdInicial}
                     className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none appearance-none disabled:opacity-70"
-                    style={{ background: "#122039", border: "1px solid #1e3356" }}
+                    style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
                   >
-                    <option value="" style={{ background: "#122039" }}>Selecionar loja...</option>
+                    <option value="" style={{ background: "#112239" }}>Selecionar loja...</option>
                     {todasLojas.map((l) => (
-                      <option key={l.id} value={l.id} style={{ background: "#122039" }}>
+                      <option key={l.id} value={l.id} style={{ background: "#112239" }}>
                         {l.nome}{l.id === "izzat-express" ? " ★ (teste)" : ""}
                       </option>
                     ))}
@@ -318,7 +318,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
                         type="button"
                         onClick={() => toggleLojaDireto(l.id)}
                         className="px-3 py-1.5 rounded-full text-xs font-semibold transition-all"
-                        style={{ background: on ? "#3b82f622" : "#122039", color: on ? "#3b82f6" : "#94a3b8", border: `1px solid ${on ? "#3b82f6" : "#1e3356"}` }}
+                        style={{ background: on ? "#3b82f622" : "#112239", color: on ? "#3b82f6" : "#94a3b8", border: `1px solid ${on ? "#3b82f6" : "#1e3356"}` }}
                       >
                         {l.nome}
                       </button>
@@ -343,7 +343,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
                     key={forn.n}
                     className="rounded-xl p-3 space-y-2"
                     style={{
-                      background: "#122039",
+                      background: "#112239",
                       border: `1px solid ${forn.required ? "#c9a84c40" : "#1e3356"}`,
                     }}
                   >
@@ -375,7 +375,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
                       onChange={(e) => setForm((f) => ({ ...f, [forn.nomeKey]: e.target.value }))}
                       placeholder="Nome do fornecedor..."
                       className="w-full px-3 py-1.5 rounded-lg text-xs text-white outline-none"
-                      style={{ background: "#0b1624", border: "1px solid #1e3356" }}
+                      style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}
                     />
 
                     <input
@@ -399,7 +399,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
                           onChange={(e) => setNum(forn.precoKey, e.target.value)}
                           placeholder="0.00"
                           className="w-full px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
-                          style={{ background: "#0b1624", border: "1px solid #1e3356" }}
+                          style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}
                         />
                       </div>
                       <div>
@@ -410,7 +410,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
                           onChange={(e) => setNum(forn.freteKey, e.target.value)}
                           placeholder="0.00"
                           className="w-full px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
-                          style={{ background: "#0b1624", border: "1px solid #1e3356" }}
+                          style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}
                         />
                       </div>
                     </div>
@@ -442,7 +442,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
                       onChange={(e) => setNum(campo.key, e.target.value)}
                       placeholder={campo.placeholder}
                       className="w-full px-3 py-2 rounded-xl text-sm text-white outline-none"
-                      style={{ background: "#122039", border: "1px solid #1e3356" }}
+                      style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
                     />
                   </div>
                 ))}
@@ -461,7 +461,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
 
               <div
                 className="rounded-xl p-3 space-y-2"
-                style={{ background: "#122039", border: "1px solid #4285f430" }}
+                style={{ background: "#112239", border: "1px solid #4285f430" }}
               >
                 <p className="text-xs" style={{ color: "#9aa7ba" }}>
                   Pesquisa completa: fornecedor, concorrentes, dimensoes, margem, etc.
@@ -473,7 +473,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
                     onChange={(e) => setForm((f) => ({ ...f, linkDocumentoProduto: e.target.value }))}
                     placeholder="https://docs.google.com/document/..."
                     className="flex-1 px-3 py-2 rounded-lg text-xs text-white outline-none"
-                    style={{ background: "#0b1624", border: "1px solid #1e3356" }}
+                    style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}
                   />
                   {form.linkDocumentoProduto.trim() && (
                     <a
@@ -513,7 +513,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
                       onChange={(e) => setForm((f) => ({ ...f, [campo.key]: e.target.value }))}
                       placeholder={campo.placeholder}
                       className="w-full px-3 py-2 rounded-xl text-sm text-white outline-none"
-                      style={{ background: "#122039", border: "1px solid #1e3356" }}
+                      style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
                     />
                   </div>
                 ))}
@@ -522,7 +522,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
 
             {/* Progress */}
             {form.nome && (
-              <div className="rounded-xl p-3" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+              <div className="rounded-xl p-3" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
                 <div className="flex justify-between text-xs mb-1">
                   <span style={{ color: "#9aa7ba" }}>{filled}/{CAMPOS_PRODUTO.length} campos</span>
                   <span style={{ color: filled === CAMPOS_PRODUTO.length ? "#10b981" : "#c9a84c" }}>{pct}%</span>

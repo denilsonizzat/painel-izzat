@@ -211,7 +211,7 @@ export default function MeuDiaPage() {
       )}
 
       {/* XP e nivel */}
-      <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2" data-tip="XP = pontos de experiencia ganhos ao concluir rotinas, tarefas e check-ins diarios">
             <Zap size={16} style={{ color: nivelInfo.cor }} />
@@ -235,8 +235,8 @@ export default function MeuDiaPage() {
 
       {/* Progresso geral */}
       <div className="rounded-2xl p-5" style={{
-        background: "#122039",
-        border: "1px solid #1e3356",
+        background: "#112239",
+        border: "1px solid rgba(201,164,66,.16)",
         animation: pct === 100 ? "pulse100 2s ease-in-out 3" : "none",
       }}>
         <div className="flex items-center justify-between mb-3">
@@ -292,7 +292,7 @@ export default function MeuDiaPage() {
         </div>
 
         {showAddEntrega && (
-          <div className="rounded-xl p-3 flex gap-2" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+          <div className="rounded-xl p-3 flex gap-2" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
             <input
               autoFocus
               value={novaEntrega}
@@ -329,7 +329,7 @@ export default function MeuDiaPage() {
         )}
 
         {minhasEntregas.length === 0 && !showAddEntrega && (
-          <div className="rounded-2xl p-5 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+          <div className="rounded-2xl p-5 text-center" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
             <div className="text-2xl mb-2">📦</div>
             <p className="text-sm font-medium" style={{ color: "#74859c" }}>Nenhuma entrega desta semana ainda</p>
             <p className="text-xs mt-1 mb-3" style={{ color: "#334155" }}>
@@ -346,7 +346,7 @@ export default function MeuDiaPage() {
         )}
 
         {minhasEntregas.map((e) => (
-          <div key={e.id} className="rounded-2xl p-3" style={{ background: "#122039", border: `1px solid ${e.status === "travado" ? "#ef444440" : "#1e3356"}` }}>
+          <div key={e.id} className="rounded-2xl p-3" style={{ background: "#112239", border: `1px solid ${e.status === "travado" ? "#ef444440" : "#1e3356"}` }}>
             <div className="flex items-start gap-2">
               <div className="flex-shrink-0 mt-0.5">
                 {e.status === "entregue" && <CheckCircle2 size={16} style={{ color: "#10b981" }} />}
@@ -424,7 +424,7 @@ export default function MeuDiaPage() {
 
       {/* Rotinas */}
       {rotinas.length === 0 && (
-        <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-8 text-center" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <div className="text-4xl mb-3">📋</div>
           <p className="font-semibold text-white mb-1">Nenhuma rotina cadastrada ainda</p>
           <p className="text-sm leading-relaxed" style={{ color: "#9aa7ba" }}>
@@ -455,7 +455,7 @@ export default function MeuDiaPage() {
             const loja = LOJAS.find((l) => l.id === rotina.lojaId);
             const subFeitas = rotina.subtarefas.filter((s) => s.concluida).length;
             return (
-              <div key={rotina.id} className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: `1px solid ${rotina.concluida ? "#10b98140" : "#1e3356"}` }}>
+              <div key={rotina.id} className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: `1px solid ${rotina.concluida ? "#10b98140" : "#1e3356"}` }}>
                 <button className="w-full flex items-center gap-3 p-4 text-left" onClick={() => toggle(rotina.id)}>
                   <span
                     role="button"
@@ -534,7 +534,7 @@ export default function MeuDiaPage() {
             const cor = prioridadeCor[t.prioridade] || "#64748b";
             const comentandoEsta = comentandoId === t.id;
             return (
-              <div key={t.id} className="rounded-2xl p-4" style={{ background: "#122039", border: `1px solid ${cor}40` }}>
+              <div key={t.id} className="rounded-2xl p-4" style={{ background: "#112239", border: `1px solid ${cor}40` }}>
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
@@ -624,7 +624,7 @@ export default function MeuDiaPage() {
           style={{ background: "rgba(0,0,0,0.7)" }}
           onClick={dispensarSonoPopup}>
           <div className="w-full max-w-sm rounded-2xl overflow-hidden"
-            style={{ background: "#122039", border: "1px solid #8b5cf640" }}
+            style={{ background: "#112239", border: "1px solid #8b5cf640" }}
             onClick={(e) => e.stopPropagation()}>
             {sonoSalvo ? (
               <div className="flex flex-col items-center py-10 gap-3">
@@ -638,7 +638,7 @@ export default function MeuDiaPage() {
               </div>
             ) : (
               <>
-                <div className="px-5 pt-5 pb-3" style={{ borderBottom: "1px solid #1e3356" }}>
+                <div className="px-5 pt-5 pb-3" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Moon size={16} style={{ color: "#8b5cf6" }} />
@@ -704,7 +704,7 @@ export default function MeuDiaPage() {
           onClick={() => setShowCelebration(false)}
         >
           <div className="text-center space-y-4 px-8 py-10 rounded-3xl"
-            style={{ background: "#122039", border: "2px solid #c9a84c40" }}
+            style={{ background: "#112239", border: "2px solid #c9a84c40" }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="text-7xl animate-bounce">🏆</div>

@@ -121,7 +121,7 @@ export default function StoriesBar() {
         >
           <div
             className="w-full max-w-sm rounded-2xl p-5 space-y-4"
-            style={{ background: "#122039", border: "1px solid #1e3356" }}
+            style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between">
@@ -194,7 +194,7 @@ export default function StoriesBar() {
         >
           <div
             className="w-full max-w-sm rounded-3xl p-8 text-center space-y-5 relative"
-            style={{ background: "#122039", border: `2px solid ${verColab.cor}50` }}
+            style={{ background: "#112239", border: `2px solid ${verColab.cor}50` }}
             onClick={(e) => e.stopPropagation()}
           >
             <button className="absolute top-4 right-4" onClick={() => setVerColabId(null)}>

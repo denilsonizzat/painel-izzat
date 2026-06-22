@@ -34,7 +34,7 @@ export default function ConexoesModal({ lojaId, lojaNome, aberto, onFechar }: { 
 
   return (
     <div className="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: "#00000090", backdropFilter: "blur(2px)" }} onClick={onFechar}>
-      <div className="modal-card w-full max-w-lg rounded-2xl p-4 overflow-y-auto" style={{ background: "#122039", border: "1px solid #1e3356", maxHeight: "92vh" }} onClick={(e) => e.stopPropagation()}>
+      <div className="modal-card w-full max-w-lg rounded-2xl p-4 overflow-y-auto" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)", maxHeight: "92vh" }} onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-1">
           <h2 className="text-white font-bold text-lg flex items-center gap-2"><Link2 size={18} style={{ color: "#c9a84c" }} /> Conexões — {lojaNome}</h2>
           <button onClick={onFechar} style={{ color: "#74859c" }}><X size={18} /></button>

@@ -262,7 +262,7 @@ export default function TarefasPage() {
               data-tip={STATUS_DESC[s]}
               className="rounded-xl p-3 text-left transition-all"
               style={{
-                background: filtroStatus === s ? `${STATUS_COR[s]}25` : "#122039",
+                background: filtroStatus === s ? `${STATUS_COR[s]}25` : "#112239",
                 border: `2px solid ${filtroStatus === s ? STATUS_COR[s] : "#1e3356"}`,
               }}
             >
@@ -297,11 +297,11 @@ export default function TarefasPage() {
       <div className="space-y-3">
         {isAdmin && (
           <div className="flex gap-2 flex-wrap">
-            <select value={filtroColab} onChange={(e) => setFiltroColab(e.target.value)} className="px-3 py-1.5 rounded-xl text-sm text-white outline-none" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+            <select value={filtroColab} onChange={(e) => setFiltroColab(e.target.value)} className="px-3 py-1.5 rounded-xl text-sm text-white outline-none" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
               <option value="todos">👤 Todas as pessoas</option>
               {colaboradores.map((c) => <option key={c.id} value={c.id}>{c.nome.split(" ")[0]}</option>)}
             </select>
-            <select value={filtroLoja} onChange={(e) => setFiltroLoja(e.target.value)} className="px-3 py-1.5 rounded-xl text-sm text-white outline-none" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+            <select value={filtroLoja} onChange={(e) => setFiltroLoja(e.target.value)} className="px-3 py-1.5 rounded-xl text-sm text-white outline-none" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
               <option value="todos">🏪 Todas as lojas</option>
               {LOJAS.map((l) => <option key={l.id} value={l.id}>{l.nome}</option>)}
             </select>
@@ -318,7 +318,7 @@ export default function TarefasPage() {
             const cor = p === "todos" ? "#c9a84c" : PRIORIDADE_COR[p as Prioridade];
             return (
               <button key={p} onClick={() => setFiltroPrioridade(p)} className="px-3 py-1 rounded-full text-xs font-semibold transition-all"
-                style={{ background: filtroPrioridade === p ? cor : "#122039", color: filtroPrioridade === p ? (p === "todos" ? "#0b1624" : "white") : "#64748b", border: `1px solid ${filtroPrioridade === p ? cor : "#1e3356"}` }}>
+                style={{ background: filtroPrioridade === p ? cor : "#112239", color: filtroPrioridade === p ? (p === "todos" ? "#0b1624" : "white") : "#64748b", border: `1px solid ${filtroPrioridade === p ? cor : "#1e3356"}` }}>
                 {p === "todos" ? "Todas" : PRIORIDADE_LABEL[p as Prioridade]}
               </button>
             );
@@ -346,7 +346,7 @@ export default function TarefasPage() {
       {/* Lista */}
       <div className="space-y-3">
         {tarefasFiltradas.length === 0 ? (
-          <div className="rounded-2xl p-10 text-center space-y-2" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+          <div className="rounded-2xl p-10 text-center space-y-2" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
             <div className="text-4xl">🔍</div>
             <p className="text-white font-medium">
               {filtroStatus !== "todos" || filtroPrioridade !== "todos"
@@ -376,7 +376,7 @@ export default function TarefasPage() {
 
             return (
               <div key={t.id} className="rounded-2xl overflow-hidden" style={{
-                background: "#122039",
+                background: "#112239",
                 border: estaTravada ? "1px solid #ef444450" : estaAtrasada ? "1px solid #ef444450" : venceHoje ? "1px solid #f59e0b50" : `1px solid ${corP}30`,
               }}>
                 <div className="p-4">
@@ -602,7 +602,7 @@ export default function TarefasPage() {
                         const minhas = (t.miniTarefas || []).filter((m) => m.colaboradorId === usuarioAtual.id);
                         const totalOutros = isAdmin ? (t.miniTarefas || []).filter((m) => m.colaboradorId !== usuarioAtual.id).length : 0;
                         return (
-                          <div className="rounded-xl p-3" style={{ background: "#0f1c30", border: "1px solid #1e3356" }}>
+                          <div className="rounded-xl p-3" style={{ background: "#0f1c30", border: "1px solid rgba(201,164,66,.16)" }}>
                             <div className="flex items-center justify-between mb-2">
                               <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#74859c" }}>
                                 Minhas Sub-tarefas
@@ -635,7 +635,7 @@ export default function TarefasPage() {
                                 onChange={(e) => setMiniTarefaInput((prev) => ({ ...prev, [t.id]: e.target.value }))}
                                 placeholder="Adicionar sub-tarefa..."
                                 className="flex-1 px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
-                                style={{ background: "#122039", border: "1px solid #334155" }}
+                                style={{ background: "#112239", border: "1px solid #334155" }}
                                 onKeyDown={(e) => {
                                   if (e.key === "Enter" && (miniTarefaInput[t.id] || "").trim()) {
                                     adicionarMiniTarefa(t.id, usuarioAtual.id, (miniTarefaInput[t.id] || "").trim());
@@ -738,7 +738,7 @@ export default function TarefasPage() {
       {/* ── Modal: Tarefa Rápida ── */}
       {rapidaAberto && (
         <div className="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" style={{ background: "#00000080", backdropFilter: "blur(2px)" }} onClick={() => setRapidaAberto(false)}>
-          <div className="modal-card w-full max-w-md rounded-2xl p-6 space-y-4" style={{ background: "#122039", border: "1px solid #1e3356" }} onClick={(e) => e.stopPropagation()}>
+          <div className="modal-card w-full max-w-md rounded-2xl p-6 space-y-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }} onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "#c9a84c20" }}>
@@ -825,7 +825,7 @@ export default function TarefasPage() {
       {/* ── Modal: Tarefa Elaborada ── */}
       {elaboradaAberto && (
         <div className="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 overflow-y-auto" style={{ background: "#00000080", backdropFilter: "blur(2px)" }} onClick={() => setElaboradaAberto(false)}>
-          <div className="modal-card w-full max-w-xl rounded-2xl p-6 space-y-5 my-4" style={{ background: "#122039", border: "1px solid #1e3356" }} onClick={(e) => e.stopPropagation()}>
+          <div className="modal-card w-full max-w-xl rounded-2xl p-6 space-y-5 my-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }} onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "#3b82f620" }}>
@@ -925,7 +925,7 @@ export default function TarefasPage() {
                       {m.subtarefas.length > 0 && (
                         <div className="space-y-1 mb-2 ml-1">
                           {m.subtarefas.map((s) => (
-                            <div key={s.uid} className="flex items-center gap-2 px-2 py-1 rounded-lg" style={{ background: "#122039" }}>
+                            <div key={s.uid} className="flex items-center gap-2 px-2 py-1 rounded-lg" style={{ background: "#112239" }}>
                               <Circle size={12} style={{ color: "#74859c" }} />
                               <span className="text-xs flex-1 text-white">{s.titulo}</span>
                               <button onClick={() => removeSubtarefaElab(m.uid, s.uid)} style={{ color: "#74859c" }}>
@@ -943,7 +943,7 @@ export default function TarefasPage() {
                           onChange={(ev) => setMembrosElab(membrosElab.map((x) => x.uid === m.uid ? { ...x, inputSub: ev.target.value } : x))}
                           placeholder="Adicionar subtarefa..."
                           className="flex-1 px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
-                          style={{ background: "#122039", border: "1px solid #334155" }}
+                          style={{ background: "#112239", border: "1px solid #334155" }}
                           onKeyDown={(ev) => { if (ev.key === "Enter") addSubtarefaElab(m.uid); }}
                         />
                         <button onClick={() => addSubtarefaElab(m.uid)} disabled={!m.inputSub.trim()}

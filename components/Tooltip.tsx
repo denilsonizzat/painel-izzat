@@ -47,7 +47,7 @@ export default function Tooltip({ texto, text, posicao, position, children, dela
           style={{
             ...posMap[pos],
             background: "#0a111e",
-            border: "1px solid #1e3356",
+            border: "1px solid rgba(201,164,66,.16)",
             color: "#94a3b8",
             boxShadow: "0 8px 32px #00000080",
             fontWeight: 400,

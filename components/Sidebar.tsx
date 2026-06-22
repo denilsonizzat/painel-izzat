@@ -269,7 +269,7 @@ export default function Sidebar() {
             background: sidebarColapsada ? "var(--gold-dim)" : "#1e335655",
             color: sidebarColapsada ? "var(--gold-br)" : "#9aa7ba",
             justifyContent: "center",
-            border: sidebarColapsada ? "1px solid #c9a44250" : "1px solid #1e3356",
+            border: sidebarColapsada ? "1px solid #c9a44250" : "1px solid rgba(201,164,66,.16)",
           }}
           data-tip={sidebarColapsada ? "Fixar menu aberto" : "Recolher menu (passa o mouse para abrir)"}
         >
@@ -375,7 +375,7 @@ export default function Sidebar() {
                   href={r.href}
                   onClick={() => { setBusca(""); setMenuAberto(false); }}
                   className="flex items-center gap-2.5 px-3 py-2.5 hover:opacity-80 transition-opacity"
-                  style={{ borderTop: "1px solid #1e3356" }}
+                  style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}
                 >
                   <div className="w-1.5 h-5 rounded-full flex-shrink-0" style={{ background: r.cor }} />
                   <div className="flex-1 min-w-0">
@@ -534,7 +534,7 @@ export default function Sidebar() {
                   <Avatar nome={usuarioAtual.nome} avatar={usuarioAtual.avatar} foto={usuarioAtual.foto} cor={usuarioAtual.cor} size={32} />
                   {isOnline && (
                     <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2"
-                      style={{ background: "#10b981", borderColor: "#122039" }} />
+                      style={{ background: "#10b981", borderColor: "#112239" }} />
                   )}
                 </div>
               </Link>
@@ -546,7 +546,7 @@ export default function Sidebar() {
                   <Avatar nome={usuarioAtual.nome} avatar={usuarioAtual.avatar} foto={usuarioAtual.foto} cor={usuarioAtual.cor} size={36} />
                   {isOnline && (
                     <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2"
-                      style={{ background: "#10b981", borderColor: "#122039" }} />
+                      style={{ background: "#10b981", borderColor: "#112239" }} />
                   )}
                 </div>
                 <div className="min-w-0 flex-1">

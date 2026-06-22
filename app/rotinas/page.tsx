@@ -246,8 +246,8 @@ export default function RotinasPage() {
         {/* Filtros */}
         <div
           style={{
-            background: "#122039",
-            border: "1px solid #1e3356",
+            background: "#112239",
+            border: "1px solid rgba(201,164,66,.16)",
             borderRadius: 14,
             padding: "16px 20px",
             marginBottom: 24,
@@ -312,8 +312,8 @@ export default function RotinasPage() {
         {rotinasPorColab.length === 0 ? (
           <div
             style={{
-              background: "#122039",
-              border: "1px solid #1e3356",
+              background: "#112239",
+              border: "1px solid rgba(201,164,66,.16)",
               borderRadius: 14,
               padding: 40,
               textAlign: "center",
@@ -361,7 +361,7 @@ export default function RotinasPage() {
                     style={{
                       marginLeft: "auto",
                       background: "transparent",
-                      border: "1px solid #1e3356",
+                      border: "1px solid rgba(201,164,66,.16)",
                       color: "#94a3b8",
                       borderRadius: 7,
                       padding: "3px 10px",
@@ -387,8 +387,8 @@ export default function RotinasPage() {
                       <div
                         key={rotina.id}
                         style={{
-                          background: "#122039",
-                          border: "1px solid #1e3356",
+                          background: "#112239",
+                          border: "1px solid rgba(201,164,66,.16)",
                           borderRadius: 12,
                           padding: "12px 16px",
                           display: "flex",
@@ -589,8 +589,8 @@ export default function RotinasPage() {
           <div
             onClick={(e) => e.stopPropagation()}
             style={{
-              background: "#122039",
-              border: "1px solid #1e3356",
+              background: "#112239",
+              border: "1px solid rgba(201,164,66,.16)",
               borderRadius: 16,
               padding: 24,
               width: "100%",
@@ -801,7 +801,7 @@ export default function RotinasPage() {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            style={{ background: "#122039", border: "1px solid #1e3356", borderRadius: 16, padding: 24, width: "100%", maxWidth: 480, maxHeight: "85vh", overflowY: "auto" }}
+            style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)", borderRadius: 16, padding: 24, width: "100%", maxWidth: 480, maxHeight: "85vh", overflowY: "auto" }}
           >
             {/* Header */}
             <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 16 }}>
@@ -906,7 +906,7 @@ export default function RotinasPage() {
         >
           <div
             className="w-full max-w-xs rounded-2xl p-6 space-y-4"
-            style={{ background: "#122039", border: "1px solid #ef444440" }}
+            style={{ background: "#112239", border: "1px solid #ef444440" }}
             onClick={(e) => e.stopPropagation()}
           >
             <p className="font-bold text-white">Deletar rotina?</p>
