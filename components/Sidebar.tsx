@@ -6,7 +6,7 @@ import {
   LayoutDashboard, CheckSquare, Users, Store, ListTodo, LogOut, Menu, X,
   ClipboardList, Plus, Zap, Flame, Bell, Search, Activity, Power, RefreshCw,
   CalendarDays, ChevronLeft, ChevronRight, PanelLeftClose, DollarSign, Moon,
-  PackageSearch, BookMarked, Trophy, Receipt, Wallet, Briefcase, AlertTriangle, TrendingUp, Calculator, Link2, Wrench,
+  PackageSearch, BookMarked, Trophy, Receipt, Wallet, Briefcase, AlertTriangle, TrendingUp, Calculator, Link2, Wrench, Handshake,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import Avatar from "./Avatar";
@@ -95,6 +95,7 @@ const NAV_SECTIONS = [
     adminItems: [
       { href: "/operacao", label: "Operação", icon: TrendingUp, desc: "Pedidos, ADS e P&L real por loja — custos reais da operação (produto, frete, taxas, processamento)" },
       { href: "/gastos", label: "Custos da Equipe", icon: DollarSign, desc: "Salários e custos relacionados à mão de obra do time" },
+      { href: "/socios", label: "Sócios & Variável", icon: Handshake, desc: "Sócios-gestores que ganham % do lucro/faturamento da loja + consolidação fixo+variável" },
       { href: "/gastos-operacoes", label: "Custos Operacionais", icon: Receipt, desc: "Custos fixos por loja: ads, ferramentas, IA e plataforma" },
       { href: "/custo-total", label: "Custo Total", icon: Wallet, desc: "Soma dos custos da equipe + operações = quanto custa manter o grupo Izzat" },
       { href: "/vagas", label: "Vagas & Pendências", icon: Briefcase, desc: "Rotinas sem responsável e necessidades de contratação do grupo" },

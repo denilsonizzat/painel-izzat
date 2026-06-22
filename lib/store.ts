@@ -21,6 +21,7 @@ import {
   CheckInDesafio,
   GastoOperacional,
   LinkRapido,
+  SocioGestor,
   COLABORADORES,
   TAREFAS_MOCK,
   HISTORICO_MOCK,
@@ -79,6 +80,7 @@ interface AppState {
   historicoAtividades: EntradaAtividade[];
   lojasCustom: Loja[];
   lojasArquivadas: string[];
+  socios: SocioGestor[];
 
   login: (id: string) => void;
   logout: () => void;
@@ -139,8 +141,12 @@ interface AppState {
   deletarMiniTarefa: (tarefaId: string, miniId: string) => void;
   criarLoja: (dados: Omit<Loja, "id">) => void;
   editarLoja: (id: string, updates: Partial<Loja>) => void;
+  deletarLoja: (id: string) => void;
   arquivarLoja: (id: string) => void;
   restaurarLoja: (id: string) => void;
+  criarSocio: (dados: Omit<SocioGestor, "id" | "criadoEm">) => void;
+  editarSocio: (id: string, updates: Partial<SocioGestor>) => void;
+  deletarSocio: (id: string) => void;
   produtos: Produto[];
   criarProduto: (dados: Omit<Produto, "id" | "dataCriacao" | "noAr">) => void;
   criarProdutoEmLojas: (dados: Omit<Produto, "id" | "dataCriacao" | "noAr" | "lojaId">, lojaIds: string[]) => void;
@@ -213,6 +219,7 @@ export const useAppStore = create<AppState>()(
       corAcentoCustom: null,
       historicoAtividades: [],
       lojasCustom: [],
+      socios: [],
       lojasArquivadas: [],
       produtos: [],
       ferramentas: [],
@@ -860,8 +867,18 @@ export const useAppStore = create<AppState>()(
           lojasCustom: s.lojasCustom.map((l) => l.id === id ? { ...l, ...updates } : l),
         }));
       },
+      deletarLoja: (id) => set((s) => ({
+        lojasCustom: s.lojasCustom.filter((l) => l.id !== id),
+        socios: s.socios.filter((so) => so.lojaId !== id), // remove sócios órfãos da loja excluída
+      })),
       arquivarLoja: (id) => set((s) => ({ lojasArquivadas: [...s.lojasArquivadas.filter((i) => i !== id), id] })),
       restaurarLoja: (id) => set((s) => ({ lojasArquivadas: s.lojasArquivadas.filter((i) => i !== id) })),
+      criarSocio: (dados) => {
+        const novo: SocioGestor = { ...dados, id: `socio-${Date.now()}`, criadoEm: new Date().toISOString().split("T")[0] };
+        set((s) => ({ socios: [...s.socios, novo] }));
+      },
+      editarSocio: (id, updates) => set((s) => ({ socios: s.socios.map((so) => so.id === id ? { ...so, ...updates } : so) })),
+      deletarSocio: (id) => set((s) => ({ socios: s.socios.filter((so) => so.id !== id) })),
 
       criarProduto: (dados) => {
         const novo: Produto = { ...dados, id: `prod-${Date.now()}`, dataCriacao: new Date().toISOString().split("T")[0], noAr: false };

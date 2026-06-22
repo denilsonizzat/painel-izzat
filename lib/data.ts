@@ -188,6 +188,20 @@ export interface Loja {
   driveUrl?: string;
 }
 
+// Sócio-administrador: remuneração VARIÁVEL (% do lucro ou faturamento de uma loja).
+// Entidade separada dos colaboradores. Vínculo opcional a um colaborador existente.
+export interface SocioGestor {
+  id: string;
+  nome: string;
+  contato?: string;
+  colaboradorId?: string;        // mesma pessoa que tb é colaborador fixo (opcional)
+  lojaId: string;
+  base: "lucro" | "faturamento";
+  percentual: number;            // ex: 30 (= 30%)
+  ativo: boolean;
+  criadoEm: string;
+}
+
 export const DRIVE_GERAL = "https://drive.google.com/drive/folders/1OCbJdICPKt4TA9TGta1nqzJPQJcTMBA3";
 
 export interface LinkRapido {
