@@ -6,7 +6,7 @@ import {
   LayoutDashboard, CheckSquare, Users, Store, ListTodo, LogOut, Menu, X,
   ClipboardList, Plus, Zap, Flame, Bell, Search, Activity, Power, RefreshCw,
   CalendarDays, ChevronLeft, ChevronRight, PanelLeftClose, DollarSign, Moon,
-  PackageSearch, BookMarked, Trophy, Receipt, Wallet, Briefcase, AlertTriangle, TrendingUp, Calculator, Link2,
+  PackageSearch, BookMarked, Trophy, Receipt, Wallet, Briefcase, AlertTriangle, TrendingUp, Calculator, Link2, Wrench,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import Avatar from "./Avatar";
@@ -77,6 +77,14 @@ const NAV_SECTIONS = [
     emoji: "🧮",
     items: [
       { href: "/precificacao", label: "Precificação", icon: Calculator, desc: "Avaliar produto (garimpo) → precificar por mercado → decidir → enviar pra esteira de produtos" },
+    ],
+    adminItems: [],
+  },
+  {
+    label: "Ferramentas",
+    emoji: "🧰",
+    items: [
+      { href: "/ferramentas", label: "Ferramentas", icon: Wrench, desc: "Calendário de datas e-commerce por país, fuso horário pra campanhas e a calculadora flutuante" },
     ],
     adminItems: [],
   },
