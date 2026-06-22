@@ -92,12 +92,12 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
       onClick={onFechar}
     >
       <div
-        className="modal-card w-full max-w-sm rounded-2xl p-5 overflow-y-auto"
-        style={{ background: "#122039", border: `1px solid ${isOnline ? "#10b98140" : "#1e3356"}`, maxHeight: "88vh" }}
+        className="modal-card w-full max-w-sm rounded-2xl p-4 overflow-y-auto"
+        style={{ background: "#122039", border: `1px solid ${isOnline ? "#10b98140" : "#1e3356"}`, maxHeight: "94vh" }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-3">
           <div>
             <h2 className="text-white font-bold text-lg">Status de Presença</h2>
             <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>
@@ -110,9 +110,9 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
         </div>
 
         {/* Status label */}
-        <div className="text-center mb-4">
+        <div className="text-center mb-3">
           <p
-            className="text-3xl font-black tracking-widest"
+            className="text-2xl font-black tracking-widest"
             style={{ color: isOnline ? (foco ? "#f97316" : "#10b981") : "#334155" }}
           >
             {isOnline ? (foco ? "NO FOCO" : "ONLINE") : "OFFLINE"}
@@ -128,19 +128,19 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
         </div>
 
         {/* Toggle */}
-        <div className="flex justify-center mb-4">
+        <div className="flex justify-center mb-3">
           <button
             onClick={handleToggle}
             className="relative transition-all hover:opacity-90 active:scale-95"
-            style={{ width: 96, height: 52 }}
+            style={{ width: 84, height: 44 }}
           >
             <div
               className="w-full h-full rounded-full transition-all duration-300 shadow-lg"
               style={{ background: isOnline ? "#10b981" : "#334155" }}
             >
               <div
-                className="absolute top-2 w-11 h-10 rounded-full flex items-center justify-center shadow-md transition-all duration-300"
-                style={{ left: isOnline ? "calc(100% - 48px)" : "4px", background: "white" }}
+                className="absolute top-1.5 w-9 h-8 rounded-full flex items-center justify-center shadow-md transition-all duration-300"
+                style={{ left: isOnline ? "calc(100% - 40px)" : "4px", background: "white" }}
               >
                 <Zap size={18} style={{ color: isOnline ? "#10b981" : "#64748b" }} />
               </div>
@@ -156,7 +156,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
               setFoco(novoFoco);
               setTrabalhando_store(usuarioAtual.id, trabalhando, novoFoco);
             }}
-            className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl transition-all mb-4"
+            className="w-full flex items-center justify-between px-4 py-2 rounded-xl transition-all mb-3"
             style={{
               background: foco ? "#f9731620" : "#0b1624",
               border: `1px solid ${foco ? "#f97316" : "#1e3356"}`,
@@ -182,8 +182,8 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
 
         {/* Trabalhando em */}
         {isOnline && (
-          <div className="mb-4">
-            <p className="text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: "#9aa7ba" }}>
+          <div className="mb-3">
+            <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: "#9aa7ba" }}>
               Trabalhando em
             </p>
             <input
@@ -196,7 +196,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
               }}
               placeholder="Ex: Criativos para Liora..."
               maxLength={60}
-              className="w-full px-3 py-2.5 rounded-xl text-sm outline-none"
+              className="w-full px-3 py-2 rounded-xl text-sm outline-none"
               style={{
                 background: "#0b1624",
                 border: "1px solid #1e3356",
@@ -207,7 +207,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
         )}
 
         {/* Time inputs */}
-        <div className="rounded-xl p-4 mb-4 space-y-3" style={{ background: "#0b1624", border: "1px solid #1e3356" }}>
+        <div className="rounded-xl p-3 mb-3 space-y-2" style={{ background: "#0b1624", border: "1px solid #1e3356" }}>
           {/* Row: De / Até */}
           <div className="grid grid-cols-2 gap-3">
             {/* Início */}
@@ -219,7 +219,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
                 type="time"
                 value={inicioHora}
                 onChange={(e) => setInicioHora(e.target.value)}
-                className="w-full text-center text-lg font-bold px-2 py-2.5 rounded-xl outline-none"
+                className="w-full text-center text-base font-bold px-2 py-2 rounded-xl outline-none"
                 style={{
                   background: "#122039",
                   color: "#e8edf5",
@@ -237,7 +237,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
                 type="time"
                 value={ateHora}
                 onChange={(e) => handleAteChange(e.target.value)}
-                className="w-full text-center text-lg font-bold px-2 py-2.5 rounded-xl outline-none"
+                className="w-full text-center text-base font-bold px-2 py-2 rounded-xl outline-none"
                 style={{
                   background: "#122039",
                   color: isOnline ? "#10b981" : "#e8edf5",
@@ -274,7 +274,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
         {!isOnline ? (
           <button
             onClick={handleAtivar}
-            className="w-full py-3 rounded-xl font-bold text-white mb-4 transition-opacity hover:opacity-90"
+            className="w-full py-2.5 rounded-xl font-bold text-white mb-3 transition-opacity hover:opacity-90"
             style={{ background: "#10b981" }}
           >
             Ativar Presenca
@@ -282,7 +282,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
         ) : (
           <button
             onClick={() => { handleAtivar(); onFechar(); }}
-            className="w-full py-3 rounded-xl font-bold text-white mb-4 transition-opacity hover:opacity-90 flex items-center justify-center gap-2"
+            className="w-full py-2.5 rounded-xl font-bold text-white mb-3 transition-opacity hover:opacity-90 flex items-center justify-center gap-2"
             style={{ background: "#10b981" }}
           >
             ✓ Salvar alteracoes
@@ -291,7 +291,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
 
         {/* Footer */}
         <div
-          className="flex items-center justify-between pt-4"
+          className="flex items-center justify-between pt-3"
           style={{ borderTop: "1px solid #1e3356" }}
         >
           <p className="text-xs" style={{ color: "#334155" }}>
