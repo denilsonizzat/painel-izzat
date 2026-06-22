@@ -21,6 +21,24 @@ const pct = (n: number) => (n * 100).toFixed(1) + "%";
 const COR_VEREDITO: Record<string, string> = { "LANÇAR": "#10b981", "TESTAR": "#f59e0b", "NÃO LANÇAR": "#ef4444" };
 const inp = { background: "#1e3356", border: "1px solid #334155", color: "#e8edf5", borderRadius: 9, padding: "8px 10px", width: "100%", outline: "none", fontSize: 13 } as React.CSSProperties;
 
+// Medidor de arco (semicírculo) — igual BIG APP
+function GaugeArc({ valor, cor }: { valor: number; cor: string }) {
+  const pct = Math.max(0, Math.min(100, valor));
+  const d = "M16 92 A 74 74 0 0 1 164 92";
+  return (
+    <div style={{ position: "relative", width: 180, margin: "0 auto" }}>
+      <svg viewBox="0 0 180 104" style={{ width: "100%", display: "block" }}>
+        <path d={d} fill="none" stroke="#1e3356" strokeWidth="13" strokeLinecap="round" pathLength={100} />
+        <path d={d} fill="none" stroke={cor} strokeWidth="13" strokeLinecap="round" pathLength={100} strokeDasharray={`${pct} 100`} style={{ transition: "stroke-dasharray .6s cubic-bezier(.34,1.56,.64,1)" }} />
+      </svg>
+      <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end", paddingBottom: 4 }}>
+        <span style={{ fontSize: 48, fontWeight: 800, color: cor, lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>{valor}</span>
+        <span style={{ fontSize: 11, color: "#74859c" }}>de 100</span>
+      </div>
+    </div>
+  );
+}
+
 type Aba = "guia" | "avaliar" | "motor" | "decisao" | "projreal" | "unit" | "risco" | "lista" | "paises" | "taxas" | "ajuda";
 
 export default function PrecificacaoApp({ lojaId, lojaNome }: { lojaId: string; lojaNome: string }) {
@@ -142,13 +160,16 @@ function AbaAvaliar({ lojaId, onCriou }: { lojaId: string; onCriou: () => void }
 
       <div className="rounded-2xl p-5 space-y-4 self-start" style={{ background: "linear-gradient(160deg,#14243f,#111e35)", border: "1px solid #1e3356" }}>
         <p className="text-xs text-center font-bold uppercase tracking-wider flex items-center justify-center" style={{ color: "#9aa7ba" }}>Nota de Garimpo<PrecTip k="nota_garimpo" /></p>
-        <p className="text-center font-extrabold" style={{ fontSize: 56, color: cor, lineHeight: 1 }}>{nota}</p>
-        <p className="text-center"><span className="px-3 py-1 rounded-full text-sm font-bold" style={{ background: cor + "20", color: cor }}>{vd}</span></p>
-        <div className="space-y-2">
+        <GaugeArc valor={nota} cor={cor} />
+        <p className="text-center" style={{ marginTop: -6 }}><span className="px-3 py-1 rounded-full text-sm font-bold" style={{ background: cor + "20", color: cor }}>{vd}</span></p>
+        <div className="space-y-2.5">
           {([["m", "Mercado", subgrupos.m], ["p", "Produto", subgrupos.p], ["v", "Viabilidade", subgrupos.v]] as const).map(([k, lbl, v]) => (
-            <div key={k}>
-              <div className="flex justify-between text-xs mb-1"><span style={{ color: "#9aa7ba" }}>{lbl}</span><span style={{ color: "#e8edf5", fontWeight: 700 }}>{v}</span></div>
-              <div style={{ height: 6, background: "#1e3356", borderRadius: 99 }}><div style={{ width: `${v}%`, height: "100%", background: v >= 70 ? "#10b981" : v >= 45 ? "#f59e0b" : "#ef4444", borderRadius: 99 }} /></div>
+            <div key={k} className="flex items-center gap-3">
+              <span className="text-xs" style={{ color: "#9aa7ba", width: 78, flexShrink: 0 }}>{lbl}</span>
+              <div className="hbar-track" style={{ flex: 1, height: 16 }}>
+                <div style={{ width: `${v}%`, height: "100%", borderRadius: 8, background: v >= 70 ? "var(--grad-green)" : v >= 45 ? "var(--grad-gold)" : "var(--grad-red)" }} />
+              </div>
+              <span className="text-xs font-bold tabular-nums" style={{ color: "#e8edf5", width: 24, textAlign: "right" }}>{v}</span>
             </div>
           ))}
         </div>

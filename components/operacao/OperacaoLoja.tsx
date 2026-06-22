@@ -522,14 +522,30 @@ function AbaCanais({ pedidos, ads }: { pedidos: OpPedido[]; ads: OpAds[] }) {
           </table>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-        {canais.filter((c) => c.gasto > 0).map((c) => (
-          <div key={c.canal} className="rounded-xl p-3 flex items-center justify-between" style={{ background: "#122039", border: "1px solid #1e3356" }}>
-            <span className="text-sm font-semibold" style={{ color: corCanal[c.canal] || "#e8edf5" }}>{c.canal}</span>
-            <div className="flex-1 mx-3" style={{ height: 6, background: "#1e3356", borderRadius: 99 }}>
-              <div style={{ width: `${Math.min(c.roas / 4 * 100, 100)}%`, height: "100%", borderRadius: 99, background: c.roas >= 3 ? "#10b981" : c.roas >= 1.5 ? "#f59e0b" : "#ef4444" }} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <BarCard titulo="ROAS por canal" sub="retorno do anúncio"
+          linhas={canais.filter((c) => c.gasto > 0).sort((a, b) => b.roas - a.roas).map((c) => ({ lbl: c.canal, val: c.roas, txt: c.roas.toFixed(2) }))} />
+        <BarCard titulo="Recompra por canal" sub="quem traz clientes fiéis"
+          linhas={[...canais].sort((a, b) => b.recompraPct - a.recompraPct).map((c) => ({ lbl: c.canal, val: c.recompraPct, txt: c.recompraPct.toFixed(0) + "%" }))} />
+      </div>
+    </div>
+  );
+}
+
+// Card de barras horizontais — trilho recuado + gradiente (BIG APP). Maior = verde, resto = ouro.
+function BarCard({ titulo, sub, linhas }: { titulo: string; sub: string; linhas: { lbl: string; val: number; txt: string }[] }) {
+  const max = Math.max(...linhas.map((l) => l.val), 0.0001);
+  return (
+    <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <p className="text-sm font-bold text-white">{titulo}</p>
+      <p className="text-xs mb-3" style={{ color: "#74859c" }}>{sub}</p>
+      <div className="space-y-3">
+        {linhas.map((l, i) => (
+          <div key={l.lbl} className="flex items-center gap-3">
+            <span className="text-xs font-semibold" style={{ color: "#9aa7ba", width: 64, flexShrink: 0 }}>{l.lbl}</span>
+            <div className="hbar-track" style={{ flex: 1, height: 28 }}>
+              <div className="hbar-fill" style={{ width: `${Math.max((l.val / max) * 100, 14)}%`, background: i === 0 ? "var(--grad-green)" : "var(--grad-gold)" }}>{l.txt}</div>
             </div>
-            <span className="text-xs font-bold" style={{ color: "#e8edf5" }}>ROAS {c.roas.toFixed(1)}×</span>
           </div>
         ))}
       </div>
