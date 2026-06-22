@@ -5,6 +5,7 @@ import ToastContainer from "@/components/Toast";
 import FloatingOnlineButton from "@/components/FloatingOnlineButton";
 import FloatingThemeButton from "@/components/FloatingThemeButton";
 import FloatingPomodoro from "@/components/FloatingPomodoro";
+import FloatingCalculator from "@/components/FloatingCalculator";
 import ThemeApplier from "@/components/ThemeApplier";
 import Onboarding from "@/components/Onboarding";
 import CheckInDiario from "@/components/CheckInDiario";
@@ -54,6 +55,7 @@ export default function RootLayout({
         <FloatingOnlineButton />
         <FloatingThemeButton />
         <FloatingPomodoro />
+        <FloatingCalculator />
         <Onboarding />
         <CheckInDiario />
         <ToastContainer />
