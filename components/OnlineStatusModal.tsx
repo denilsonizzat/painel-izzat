@@ -93,7 +93,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
     >
       <div
         className="modal-card w-full max-w-sm rounded-2xl p-4 overflow-y-auto"
-        style={{ background: "#122039", border: `1px solid ${isOnline ? "#10b98140" : "#1e3356"}`, maxHeight: "94vh" }}
+        style={{ background: "#112239", border: `1px solid ${isOnline ? "#10b98140" : "#1e3356"}`, maxHeight: "94vh" }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -199,7 +199,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
               className="w-full px-3 py-2 rounded-xl text-sm outline-none"
               style={{
                 background: "#0b1624",
-                border: "1px solid #1e3356",
+                border: "1px solid rgba(201,164,66,.16)",
                 color: "#e8edf5",
               }}
             />
@@ -207,7 +207,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
         )}
 
         {/* Time inputs */}
-        <div className="rounded-xl p-3 mb-3 space-y-2" style={{ background: "#0b1624", border: "1px solid #1e3356" }}>
+        <div className="rounded-xl p-3 mb-3 space-y-2" style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}>
           {/* Row: De / Até */}
           <div className="grid grid-cols-2 gap-3">
             {/* Início */}
@@ -221,7 +221,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
                 onChange={(e) => setInicioHora(e.target.value)}
                 className="w-full text-center text-base font-bold px-2 py-2 rounded-xl outline-none"
                 style={{
-                  background: "#122039",
+                  background: "#112239",
                   color: "#e8edf5",
                   border: "1px solid #334155",
                   colorScheme: "dark",
@@ -239,7 +239,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
                 onChange={(e) => handleAteChange(e.target.value)}
                 className="w-full text-center text-base font-bold px-2 py-2 rounded-xl outline-none"
                 style={{
-                  background: "#122039",
+                  background: "#112239",
                   color: isOnline ? "#10b981" : "#e8edf5",
                   border: `1px solid ${isOnline ? "#10b98130" : "#334155"}`,
                   colorScheme: "dark",
@@ -292,7 +292,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
         {/* Footer */}
         <div
           className="flex items-center justify-between pt-3"
-          style={{ borderTop: "1px solid #1e3356" }}
+          style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}
         >
           <p className="text-xs" style={{ color: "#334155" }}>
             {isOnline ? "Equipe notificada" : "Equipe nao te ve online"}

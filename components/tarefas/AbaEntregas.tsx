@@ -51,7 +51,7 @@ export default function AbaEntregas() {
       </div>
 
       {showAdd && (
-        <div className="rounded-xl p-3 flex gap-2" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-xl p-3 flex gap-2" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <input
             autoFocus
             value={nova}
@@ -70,7 +70,7 @@ export default function AbaEntregas() {
       )}
 
       {minhasEntregas.length === 0 && !showAdd && (
-        <div className="rounded-2xl p-5 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-5 text-center" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <div className="text-2xl mb-2">📦</div>
           <p className="text-sm font-medium" style={{ color: "#74859c" }}>Nenhuma entrega desta semana ainda</p>
           <p className="text-xs mt-1 mb-3" style={{ color: "#334155" }}>
@@ -87,7 +87,7 @@ export default function AbaEntregas() {
       )}
 
       {minhasEntregas.map((e) => (
-        <div key={e.id} className="rounded-2xl p-3" style={{ background: "#122039", border: `1px solid ${e.status === "travado" ? "#ef444440" : "#1e3356"}` }}>
+        <div key={e.id} className="rounded-2xl p-3" style={{ background: "#112239", border: `1px solid ${e.status === "travado" ? "#ef444440" : "#1e3356"}` }}>
           <div className="flex items-start gap-2">
             <div className="flex-shrink-0 mt-0.5">
               {e.status === "entregue" && <CheckCircle2 size={16} style={{ color: "#10b981" }} />}

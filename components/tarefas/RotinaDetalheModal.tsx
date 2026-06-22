@@ -38,9 +38,9 @@ export default function RotinaDetalheModal({ rotinaId, onClose }: { rotinaId: st
 
   return (
     <div className="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" style={{ background: "#00000090", backdropFilter: "blur(2px)" }} onClick={onClose}>
-      <div className="modal-card w-full max-w-lg rounded-2xl overflow-hidden" style={{ background: "#0b1624", border: "1px solid #1e3356", maxHeight: "90vh" }} onClick={(e) => e.stopPropagation()}>
+      <div className="modal-card w-full max-w-lg rounded-2xl overflow-hidden" style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)", maxHeight: "90vh" }} onClick={(e) => e.stopPropagation()}>
         {/* Header */}
-        <div className="px-5 pt-5 pb-3" style={{ borderBottom: "1px solid #1e3356" }}>
+        <div className="px-5 pt-5 pb-3" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
           <div className="flex items-start justify-between gap-3">
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap mb-1.5">
@@ -86,7 +86,7 @@ export default function RotinaDetalheModal({ rotinaId, onClose }: { rotinaId: st
               placeholder="Detalhe a tarefa, passo a passo, links, onde clicar..."
               rows={3}
               className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none resize-none"
-              style={{ background: "#122039", border: "1px solid #1e3356" }}
+              style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
             />
           </div>
 
@@ -102,7 +102,7 @@ export default function RotinaDetalheModal({ rotinaId, onClose }: { rotinaId: st
               {subs.map((sub) => {
                 const aberta = subAberta === sub.id;
                 return (
-                  <div key={sub.id} className="rounded-xl" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+                  <div key={sub.id} className="rounded-xl" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
                     <div className="flex items-center gap-2 p-2.5">
                       <button onClick={() => marcarSubtarefa(rotina.id, sub.id, !sub.concluida)} className="flex-shrink-0" data-tip="Marcar como feita">
                         {sub.concluida ? <CheckCircle2 size={18} style={{ color: "#10b981" }} /> : <Circle size={18} style={{ color: "#74859c" }} />}
@@ -131,7 +131,7 @@ export default function RotinaDetalheModal({ rotinaId, onClose }: { rotinaId: st
                           placeholder="Observação ou passo a passo desta subtarefa..."
                           rows={2}
                           className="w-full px-2.5 py-2 rounded-lg text-xs text-white outline-none resize-none"
-                          style={{ background: "#0b1624", border: "1px solid #1e3356" }}
+                          style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}
                         />
                       </div>
                     )}
@@ -148,7 +148,7 @@ export default function RotinaDetalheModal({ rotinaId, onClose }: { rotinaId: st
                 onKeyDown={(e) => { if (e.key === "Enter") addSub(); }}
                 placeholder="Adicionar subtarefa..."
                 className="flex-1 px-3 py-2 rounded-xl text-sm text-white outline-none"
-                style={{ background: "#122039", border: "1px solid #1e3356" }}
+                style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
               />
               <button onClick={addSub} disabled={!novaSub.trim()} className="px-3 py-2 rounded-xl text-sm font-medium disabled:opacity-40" style={{ background: "#c9a84c20", color: "#c9a84c" }}>
                 <Plus size={16} />

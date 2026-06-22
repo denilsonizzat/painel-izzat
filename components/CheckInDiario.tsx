@@ -58,7 +58,7 @@ export default function CheckInDiario() {
       <div
         className="w-full max-w-sm rounded-2xl p-6 space-y-5"
         style={{
-          background: "#122039",
+          background: "#112239",
           border: "1px solid #c9a84c30",
           boxShadow: "0 24px 64px #00000080",
           transform: animando ? "scale(0.96)" : "scale(1)",

@@ -186,7 +186,7 @@ export default function LojasPage() {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-opacity hover:opacity-80"
-            style={{ background: "#122039", border: "1px solid #1e3356", color: "#c9a84c" }}
+            style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)", color: "#c9a84c" }}
           >
             <FolderOpen size={15} />
             Drive
@@ -205,7 +205,7 @@ export default function LojasPage() {
               data-tip={f === "todos" ? "Mostrar todas as lojas" : f === "izzat" ? "Lojas próprias do grupo Izzat" : "Lojas de clientes parceiros"}
               className="px-4 py-1.5 rounded-full text-sm font-medium transition-all"
               style={{
-                background: grupo === f ? "#c9a84c" : "#122039",
+                background: grupo === f ? "#c9a84c" : "#112239",
                 color: grupo === f ? "#0b1624" : "#64748b",
                 border: `1px solid ${grupo === f ? "#c9a84c" : "#1e3356"}`,
               }}
@@ -221,7 +221,7 @@ export default function LojasPage() {
               data-tip={f === "todos" ? "Todos os mercados" : f === "global" ? "Lojas que vendem para o mundo (global)" : "Lojas focadas no mercado brasileiro"}
               className="px-4 py-1.5 rounded-full text-sm font-medium transition-all"
               style={{
-                background: mercado === f ? "#3b82f6" : "#122039",
+                background: mercado === f ? "#3b82f6" : "#112239",
                 color: mercado === f ? "#ffffff" : "#64748b",
                 border: `1px solid ${mercado === f ? "#3b82f6" : "#1e3356"}`,
               }}
@@ -236,7 +236,7 @@ export default function LojasPage() {
           <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#74859c" }}>Risco:</span>
           <span className="text-xs" data-tip="Risco e calculado com base em tarefas atrasadas e rotinas nao cumpridas da loja" style={{ color: "#334155", cursor: "help" }}>ⓘ</span>
           {([
-            { v: "todos", label: "Todos", cor: "#64748b", bg: "#122039" },
+            { v: "todos", label: "Todos", cor: "#64748b", bg: "#112239" },
             { v: "alto", label: "Alto Risco", cor: "#ef4444", bg: "#ef444420" },
             { v: "atencao", label: "Atenção", cor: "#f59e0b", bg: "#f59e0b20" },
             { v: "ok", label: "OK", cor: "#10b981", bg: "#10b98120" },
@@ -246,7 +246,7 @@ export default function LojasPage() {
               onClick={() => setRisco(f.v)}
               className="px-3 py-1 rounded-full text-xs font-semibold transition-all"
               style={{
-                background: risco === f.v ? f.bg : "#122039",
+                background: risco === f.v ? f.bg : "#112239",
                 color: risco === f.v ? f.cor : "#64748b",
                 border: `1px solid ${risco === f.v ? f.cor + "60" : "#1e3356"}`,
               }}
@@ -258,7 +258,7 @@ export default function LojasPage() {
             onClick={() => setShowArquivadas((v) => !v)}
             className="ml-auto px-3 py-1 rounded-full text-xs font-semibold transition-all"
             style={{
-              background: showArquivadas ? "#33415520" : "#122039",
+              background: showArquivadas ? "#33415520" : "#112239",
               color: showArquivadas ? "#94a3b8" : "#475569",
               border: `1px solid ${showArquivadas ? "#475569" : "#1e3356"}`,
             }}
@@ -290,7 +290,7 @@ export default function LojasPage() {
               key={loja.id}
               className="rounded-2xl overflow-hidden"
               style={{
-                background: "#122039",
+                background: "#112239",
                 border: `1px solid ${nivelRisco === "alto" ? "#ef444440" : nivelRisco === "atencao" ? "#f59e0b40" : "#1e3356"}`,
                 transition: "all 150ms cubic-bezier(0.4,0,0.2,1)",
               }}
@@ -389,7 +389,7 @@ export default function LojasPage() {
                       </button>
                       <button onClick={() => setArquivarConfirm(null)}
                         className="text-xs px-2.5 py-1 rounded-lg"
-                        style={{ background: "#122039", color: "#9aa7ba" }}>
+                        style={{ background: "#112239", color: "#9aa7ba" }}>
                         Nao
                       </button>
                     </div>
@@ -472,7 +472,7 @@ export default function LojasPage() {
       </div>
 
       {lojasFiltradas.length === 0 && (
-        <div className="rounded-2xl p-10 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-10 text-center" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <Store size={32} className="mx-auto mb-3" style={{ color: "#334155" }} />
           <p className="text-white font-medium mb-1">Nenhuma loja encontrada</p>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Ajuste os filtros ou crie uma nova loja.</p>
@@ -488,7 +488,7 @@ export default function LojasPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
             {lojasArqList.map((loja) => (
               <div key={loja.id} className="rounded-2xl p-4 flex items-center justify-between gap-3 opacity-60"
-                style={{ background: "#122039", border: "1px solid #1e3356" }}>
+                style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
                     style={{ background: "#1e3356" }}>
@@ -517,7 +517,7 @@ export default function LojasPage() {
 
       {/* Legenda */}
       <div className="flex flex-wrap items-center gap-6 p-4 rounded-xl"
-        style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full" style={{ background: "#c9a84c" }} />
           <span className="text-sm" style={{ color: "#94a3b8" }}>Grupo Izzat</span>
@@ -545,11 +545,11 @@ export default function LojasPage() {
         >
           <div
             className="w-full max-w-md rounded-2xl overflow-hidden"
-            style={{ background: "#0b1624", border: "1px solid #1e3356", maxHeight: "90vh" }}
+            style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)", maxHeight: "90vh" }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid #1e3356" }}>
+            <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
               <h2 className="font-bold text-white text-sm">{editarModal ? "Editar Loja" : "Nova Loja"}</h2>
               <button onClick={() => { setCriarModal(false); setEditarModal(null); }} style={{ color: "#9aa7ba" }}>
                 <X size={16} />
@@ -575,7 +575,7 @@ export default function LojasPage() {
                     onChange={(e) => setForm((f) => ({ ...f, nome: e.target.value }))}
                     placeholder="Ex: Izzat Express"
                     className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none"
-                    style={{ background: "#122039", border: "1px solid #1e3356" }}
+                    style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
                     autoFocus
                   />
                 </div>
@@ -590,7 +590,7 @@ export default function LojasPage() {
                           onClick={() => setForm((f) => ({ ...f, grupo: g }))}
                           className="flex-1 py-2 rounded-xl text-xs font-bold transition-all"
                           style={{
-                            background: form.grupo === g ? "#c9a84c22" : "#122039",
+                            background: form.grupo === g ? "#c9a84c22" : "#112239",
                             border: `1px solid ${form.grupo === g ? "#c9a84c" : "#1e3356"}`,
                             color: form.grupo === g ? "#c9a84c" : "#64748b",
                           }}>
@@ -607,7 +607,7 @@ export default function LojasPage() {
                           onClick={() => setForm((f) => ({ ...f, mercado: m }))}
                           className="flex-1 py-2 rounded-xl text-xs font-bold transition-all"
                           style={{
-                            background: form.mercado === m ? "#3b82f622" : "#122039",
+                            background: form.mercado === m ? "#3b82f622" : "#112239",
                             border: `1px solid ${form.mercado === m ? "#3b82f6" : "#1e3356"}`,
                             color: form.mercado === m ? "#3b82f6" : "#64748b",
                           }}>
@@ -625,11 +625,11 @@ export default function LojasPage() {
                     value={form.responsavel}
                     onChange={(e) => setForm((f) => ({ ...f, responsavel: e.target.value }))}
                     className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none"
-                    style={{ background: "#122039", border: "1px solid #1e3356" }}
+                    style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
                   >
-                    <option value="" style={{ background: "#122039" }}>Sem responsavel</option>
+                    <option value="" style={{ background: "#112239" }}>Sem responsavel</option>
                     {colaboradores.map((c) => (
-                      <option key={c.id} value={c.id} style={{ background: "#122039" }}>{c.nome}</option>
+                      <option key={c.id} value={c.id} style={{ background: "#112239" }}>{c.nome}</option>
                     ))}
                   </select>
                 </div>
@@ -663,7 +663,7 @@ export default function LojasPage() {
                     placeholder="Breve descricao da loja..."
                     rows={2}
                     className="w-full px-3 py-2 rounded-xl text-sm text-white outline-none resize-none"
-                    style={{ background: "#122039", border: "1px solid #1e3356" }}
+                    style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
                   />
                 </div>
 
@@ -677,7 +677,7 @@ export default function LojasPage() {
                         onChange={(e) => setForm((f) => ({ ...f, donoParceiro: e.target.value }))}
                         placeholder="Nome do parceiro"
                         className="w-full px-3 py-2 rounded-xl text-sm text-white outline-none"
-                        style={{ background: "#122039", border: "1px solid #1e3356" }}
+                        style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
                       />
                     </div>
                     <div>
@@ -687,7 +687,7 @@ export default function LojasPage() {
                         onChange={(e) => setForm((f) => ({ ...f, whatsappParceiro: e.target.value }))}
                         placeholder="5511999999999"
                         className="w-full px-3 py-2 rounded-xl text-sm text-white outline-none"
-                        style={{ background: "#122039", border: "1px solid #1e3356" }}
+                        style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
                       />
                     </div>
                   </div>

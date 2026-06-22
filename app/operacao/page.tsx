@@ -31,7 +31,7 @@ export default function OperacaoPage() {
           return (
             <button key={l.id} onClick={() => setLojaId(l.id)}
               className="px-3 py-1.5 rounded-full text-xs font-semibold transition-all"
-              style={{ background: ativo ? (l.cor || "#c9a84c") + "22" : "#122039", color: ativo ? (l.cor || "#c9a84c") : "#94a3b8", border: `1px solid ${ativo ? (l.cor || "#c9a84c") : "#1e3356"}` }}>
+              style={{ background: ativo ? (l.cor || "#c9a84c") + "22" : "#112239", color: ativo ? (l.cor || "#c9a84c") : "#94a3b8", border: `1px solid ${ativo ? (l.cor || "#c9a84c") : "#1e3356"}` }}>
               {l.nome}
             </button>
           );

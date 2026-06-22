@@ -29,7 +29,7 @@ export default function IntegracoesPage() {
         <p className="text-sm mt-0.5" style={{ color: "#9aa7ba" }}>Conexões de API por loja (Shopify, Meta, Google, TikTok). Clique numa loja pra configurar.</p>
       </div>
 
-      <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
             <thead><tr style={{ color: "#74859c", textAlign: "left" }}>
@@ -39,7 +39,7 @@ export default function IntegracoesPage() {
             </tr></thead>
             <tbody>
               {todasLojas.map((l) => (
-                <tr key={l.id} style={{ borderTop: "1px solid #1e3356" }}>
+                <tr key={l.id} style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
                   <td className="p-3 text-white font-semibold">{l.nome}</td>
                   {PLATAFORMAS.map((p) => {
                     const st = statusDe(l.id, p.id);
@@ -53,7 +53,7 @@ export default function IntegracoesPage() {
             </tbody>
           </table>
         </div>
-        <div className="p-3 flex items-center gap-4 text-xs" style={{ color: "#74859c", borderTop: "1px solid #1e3356" }}>
+        <div className="p-3 flex items-center gap-4 text-xs" style={{ color: "#74859c", borderTop: "1px solid rgba(201,164,66,.16)" }}>
           {(["conectado", "configurando", "nao_conectado"] as const).map((s) => (
             <span key={s} className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full" style={{ background: COR_STATUS[s] }} /> {s === "nao_conectado" ? "não conectado" : s}</span>
           ))}

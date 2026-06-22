@@ -350,7 +350,7 @@ export default function LojaPerfilPage() {
       </Link>
 
       {/* Header */}
-      <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: `1px solid ${corGrupo}40` }}>
+      <div className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: `1px solid ${corGrupo}40` }}>
         <div className="h-40 flex items-center justify-center relative" style={{ background: loja.corFundo || "#1e3356" }}>
           {loja.logo ? (
             <Image src={loja.logo} alt={loja.nome} width={128} height={128} className="object-contain" style={{ maxHeight: 96, maxWidth: 180 }} unoptimized />
@@ -365,7 +365,7 @@ export default function LojaPerfilPage() {
             {loja.grupo === "izzat" ? "Grupo Izzat" : "Partner"}
           </span>
           <span className="absolute top-3 left-3 text-xs px-3 py-1 rounded-full font-medium"
-            style={{ background: "#0b162480", color: "#94a3b8", border: "1px solid #1e335680" }}>
+            style={{ background: "#0b162480", color: "#94a3b8", border: "1px solid rgba(201,164,66,.16)80" }}>
             {loja.mercado === "global" ? "Global" : "Brasil"}
           </span>
         </div>
@@ -425,7 +425,7 @@ export default function LojaPerfilPage() {
                     )}
 
                     {linksLoja.map((link) => (
-                      <div key={link.id} className="group flex items-center gap-2 px-3 py-2.5 transition-all hover:bg-white/5" style={{ borderBottom: "1px solid #1e3356" }}>
+                      <div key={link.id} className="group flex items-center gap-2 px-3 py-2.5 transition-all hover:bg-white/5" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
                         {editandoLinkId === link.id ? (
                           <div className="flex-1 space-y-1.5">
                             <div className="flex gap-1.5">
@@ -433,14 +433,14 @@ export default function LojaPerfilPage() {
                                 value={linkForm.emoji}
                                 onChange={(e) => setLinkForm((f) => ({ ...f, emoji: e.target.value }))}
                                 className="w-10 px-1.5 py-1 rounded-lg text-center text-sm outline-none"
-                                style={{ background: "#122039", border: "1px solid #334155", color: "#fff" }}
+                                style={{ background: "#112239", border: "1px solid #334155", color: "#fff" }}
                               />
                               <input
                                 value={linkForm.nome}
                                 onChange={(e) => setLinkForm((f) => ({ ...f, nome: e.target.value }))}
                                 placeholder="Nome"
                                 className="flex-1 px-2 py-1 rounded-lg text-xs text-white outline-none"
-                                style={{ background: "#122039", border: "1px solid #334155" }}
+                                style={{ background: "#112239", border: "1px solid #334155" }}
                                 autoFocus
                               />
                             </div>
@@ -449,7 +449,7 @@ export default function LojaPerfilPage() {
                               onChange={(e) => setLinkForm((f) => ({ ...f, url: e.target.value }))}
                               placeholder="https://..."
                               className="w-full px-2 py-1 rounded-lg text-xs text-white outline-none"
-                              style={{ background: "#122039", border: "1px solid #334155" }}
+                              style={{ background: "#112239", border: "1px solid #334155" }}
                             />
                             <div className="flex gap-1.5">
                               <button onClick={salvarLink} className="flex-1 py-1 rounded-lg text-xs font-bold" style={{ background: "#c9a84c", color: "#000" }}>Salvar</button>
@@ -485,13 +485,13 @@ export default function LojaPerfilPage() {
                     ))}
 
                     {isAdmin && adicionandoLink && (
-                      <div className="p-3 space-y-1.5" style={{ borderTop: linksLoja.length > 0 ? "1px solid #1e3356" : "none" }}>
+                      <div className="p-3 space-y-1.5" style={{ borderTop: linksLoja.length > 0 ? "1px solid rgba(201,164,66,.16)" : "none" }}>
                         <div className="flex gap-1.5">
                           <input
                             value={linkForm.emoji}
                             onChange={(e) => setLinkForm((f) => ({ ...f, emoji: e.target.value }))}
                             className="w-10 px-1.5 py-1.5 rounded-lg text-center text-sm outline-none"
-                            style={{ background: "#122039", border: "1px solid #334155", color: "#fff" }}
+                            style={{ background: "#112239", border: "1px solid #334155", color: "#fff" }}
                             placeholder="🔗"
                           />
                           <input
@@ -499,7 +499,7 @@ export default function LojaPerfilPage() {
                             onChange={(e) => setLinkForm((f) => ({ ...f, nome: e.target.value }))}
                             placeholder="Nome do link"
                             className="flex-1 px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
-                            style={{ background: "#122039", border: "1px solid #334155" }}
+                            style={{ background: "#112239", border: "1px solid #334155" }}
                             autoFocus
                           />
                         </div>
@@ -508,7 +508,7 @@ export default function LojaPerfilPage() {
                           onChange={(e) => setLinkForm((f) => ({ ...f, url: e.target.value }))}
                           placeholder="https://..."
                           className="w-full px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
-                          style={{ background: "#122039", border: "1px solid #334155" }}
+                          style={{ background: "#112239", border: "1px solid #334155" }}
                           onKeyDown={(e) => e.key === "Enter" && salvarLink()}
                         />
                         <div className="flex gap-1.5">
@@ -522,7 +522,7 @@ export default function LojaPerfilPage() {
                       <button
                         onClick={() => setAdicionandoLink(true)}
                         className="w-full flex items-center gap-1.5 px-4 py-2.5 text-xs font-semibold transition-all hover:bg-white/5"
-                        style={{ color: "#c9a84c", borderTop: linksLoja.length > 0 || (!linksLoja.length && !adicionandoLink) ? "1px solid #1e3356" : "none" }}
+                        style={{ color: "#c9a84c", borderTop: linksLoja.length > 0 || (!linksLoja.length && !adicionandoLink) ? "1px solid rgba(201,164,66,.16)" : "none" }}
                       >
                         <Plus size={12} /> Adicionar link
                       </button>
@@ -557,9 +557,9 @@ export default function LojaPerfilPage() {
 
           {/* Painel de Custos */}
           {custosPanelAberto && (
-            <div className="mb-4 rounded-2xl overflow-hidden" style={{ border: "1px solid #1e3356", background: "#0a1a2e" }}>
+            <div className="mb-4 rounded-2xl overflow-hidden" style={{ border: "1px solid rgba(201,164,66,.16)", background: "#0a1a2e" }}>
               {/* Header */}
-              <div className="flex items-center justify-between px-4 py-3" style={{ borderBottom: "1px solid #1e3356" }}>
+              <div className="flex items-center justify-between px-4 py-3" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
                 <div className="flex items-center gap-2">
                   <Receipt size={14} style={{ color: "#10b981" }} />
                   <span className="text-sm font-bold text-white">Custos Operacionais</span>
@@ -579,7 +579,7 @@ export default function LojaPerfilPage() {
               </div>
 
               {/* Seção Fixos */}
-              <div style={{ borderBottom: "1px solid #1e3356" }}>
+              <div style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
                 <button
                   onClick={() => setCustoSecaoAberta((v) => v === "fixo" ? null : "fixo")}
                   className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-white/5 transition-all"
@@ -597,7 +597,7 @@ export default function LojaPerfilPage() {
                 {custoSecaoAberta === "fixo" && (
                   <div className="px-4 pb-3 space-y-1.5">
                     {gastosLoja.filter((g) => g.tipo === "fixo").map((g) => (
-                      <div key={g.id} className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+                      <div key={g.id} className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
                             <span className={`text-xs font-semibold ${g.ativo ? "text-white" : "line-through"}`} style={{ color: g.ativo ? "#fff" : "#475569" }}>{g.nome}</span>
@@ -641,25 +641,25 @@ export default function LojaPerfilPage() {
 
                     {isAdmin && (
                       adicionandoCusto === "fixo" ? (
-                        <div className="rounded-xl p-3 space-y-2" style={{ background: "#122039", border: "1px solid #3b82f640" }}>
+                        <div className="rounded-xl p-3 space-y-2" style={{ background: "#112239", border: "1px solid #3b82f640" }}>
                           <div className="flex gap-2">
                             <input
                               className="flex-1 px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
-                              style={{ background: "#0b1624", border: "1px solid #1e3356" }}
+                              style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}
                               placeholder="Nome (ex: Claude AI)"
                               value={custoForm.nome}
                               onChange={(e) => setCustoForm((f) => ({ ...f, nome: e.target.value }))}
                             />
                             <input
                               className="w-24 px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
-                              style={{ background: "#0b1624", border: "1px solid #1e3356" }}
+                              style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}
                               placeholder="Valor"
                               value={custoForm.valor}
                               onChange={(e) => setCustoForm((f) => ({ ...f, valor: e.target.value }))}
                             />
                             <select
                               className="px-2 py-1.5 rounded-lg text-xs text-white outline-none"
-                              style={{ background: "#0b1624", border: "1px solid #1e3356" }}
+                              style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}
                               value={custoForm.moeda}
                               onChange={(e) => setCustoForm((f) => ({ ...f, moeda: e.target.value as "BRL" | "USD" }))}
                             >
@@ -670,7 +670,7 @@ export default function LojaPerfilPage() {
                           <div className="flex gap-2">
                             <select
                               className="flex-1 px-2 py-1.5 rounded-lg text-xs text-white outline-none"
-                              style={{ background: "#0b1624", border: "1px solid #1e3356" }}
+                              style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}
                               value={custoForm.categoria}
                               onChange={(e) => setCustoForm((f) => ({ ...f, categoria: e.target.value as CategoriaGastoOp }))}
                             >
@@ -727,7 +727,7 @@ export default function LojaPerfilPage() {
                 {custoSecaoAberta === "variavel" && (
                   <div className="px-4 pb-3 space-y-1.5">
                     {gastosLoja.filter((g) => g.tipo === "variavel").map((g) => (
-                      <div key={g.id} className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+                      <div key={g.id} className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
                             <span className="text-xs font-semibold text-white">{g.nome}</span>
@@ -771,25 +771,25 @@ export default function LojaPerfilPage() {
 
                     {isAdmin && (
                       adicionandoCusto === "variavel" ? (
-                        <div className="rounded-xl p-3 space-y-2" style={{ background: "#122039", border: "1px solid #f59e0b40" }}>
+                        <div className="rounded-xl p-3 space-y-2" style={{ background: "#112239", border: "1px solid #f59e0b40" }}>
                           <div className="flex gap-2">
                             <input
                               className="flex-1 px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
-                              style={{ background: "#0b1624", border: "1px solid #1e3356" }}
+                              style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}
                               placeholder="Nome (ex: Meta Ads)"
                               value={custoForm.nome}
                               onChange={(e) => setCustoForm((f) => ({ ...f, nome: e.target.value }))}
                             />
                             <input
                               className="w-24 px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
-                              style={{ background: "#0b1624", border: "1px solid #1e3356" }}
+                              style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}
                               placeholder="Valor"
                               value={custoForm.valor}
                               onChange={(e) => setCustoForm((f) => ({ ...f, valor: e.target.value }))}
                             />
                             <select
                               className="px-2 py-1.5 rounded-lg text-xs text-white outline-none"
-                              style={{ background: "#0b1624", border: "1px solid #1e3356" }}
+                              style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}
                               value={custoForm.moeda}
                               onChange={(e) => setCustoForm((f) => ({ ...f, moeda: e.target.value as "BRL" | "USD" }))}
                             >
@@ -801,13 +801,13 @@ export default function LojaPerfilPage() {
                             <input
                               type="month"
                               className="px-2 py-1.5 rounded-lg text-xs text-white outline-none"
-                              style={{ background: "#0b1624", border: "1px solid #1e3356" }}
+                              style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}
                               value={custoForm.mes}
                               onChange={(e) => setCustoForm((f) => ({ ...f, mes: e.target.value }))}
                             />
                             <select
                               className="flex-1 px-2 py-1.5 rounded-lg text-xs text-white outline-none"
-                              style={{ background: "#0b1624", border: "1px solid #1e3356" }}
+                              style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}
                               value={custoForm.categoria}
                               onChange={(e) => setCustoForm((f) => ({ ...f, categoria: e.target.value as CategoriaGastoOp }))}
                             >
@@ -886,7 +886,7 @@ export default function LojaPerfilPage() {
       {abaAtiva === "produtos" && (
         <div className="space-y-4">
           {/* Kanban desta loja (status por loja, arrastável) */}
-          <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+          <div className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
             <p className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
               <PackageSearch size={15} style={{ color: corGrupo }} /> Pipeline de produtos · {loja.nome}
             </p>
@@ -935,7 +935,7 @@ export default function LojaPerfilPage() {
                 onClick={() => setFiltroStatusProd(f.v)}
                 className="px-3 py-1.5 rounded-full text-xs font-semibold transition-all"
                 style={{
-                  background: filtroStatusProd === f.v ? f.cor + "22" : "#122039",
+                  background: filtroStatusProd === f.v ? f.cor + "22" : "#112239",
                   color: filtroStatusProd === f.v ? f.cor : "#64748b",
                   border: `1px solid ${filtroStatusProd === f.v ? f.cor + "60" : "#1e3356"}`,
                 }}
@@ -947,7 +947,7 @@ export default function LojaPerfilPage() {
 
           {/* Lista */}
           {produtosFiltrados.length === 0 ? (
-            <div className="rounded-2xl p-10 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+            <div className="rounded-2xl p-10 text-center" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
               <PackageSearch size={28} className="mx-auto mb-3" style={{ color: "#334155" }} />
               <p className="text-white font-medium mb-1">Nenhum produto neste filtro</p>
               <Link href="/catalogo" className="text-xs hover:underline" style={{ color: corGrupo }}>
@@ -971,7 +971,7 @@ export default function LojaPerfilPage() {
                   <div
                     key={p.id}
                     className="rounded-2xl overflow-hidden"
-                    style={{ background: "#122039", border: `1px solid ${statusCor}30` }}
+                    style={{ background: "#112239", border: `1px solid ${statusCor}30` }}
                   >
                     <div className="p-3 flex items-center gap-3 flex-wrap">
                       <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: statusCor }} />
@@ -1161,7 +1161,7 @@ export default function LojaPerfilPage() {
               <div className="w-full max-w-md rounded-2xl overflow-hidden"
                 style={{ background: "#0b1624", border: "1px solid #8b5cf640", maxHeight: "90vh" }}
                 onClick={(e) => e.stopPropagation()}>
-                <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid #1e3356" }}>
+                <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
                   <div>
                     <h2 className="font-bold text-white text-sm flex items-center gap-2">
                       <Share2 size={14} style={{ color: "#8b5cf6" }} /> Distribuir Produto
@@ -1191,7 +1191,7 @@ export default function LojaPerfilPage() {
                           return (
                             <button key={l.id} onClick={() => setLojasDistribuir((prev) => prev.includes(l.id) ? prev.filter((x) => x !== l.id) : [...prev, l.id])}
                               className="w-full flex items-center gap-3 p-3 rounded-xl transition-all text-left"
-                              style={{ background: sel ? "#8b5cf620" : "#122039", border: `1px solid ${sel ? "#8b5cf660" : "#1e3356"}` }}>
+                              style={{ background: sel ? "#8b5cf620" : "#112239", border: `1px solid ${sel ? "#8b5cf660" : "#1e3356"}` }}>
                               <div className="w-4 h-4 rounded flex items-center justify-center flex-shrink-0"
                                 style={{ background: sel ? "#8b5cf6" : "#1e3356", border: `1px solid ${sel ? "#8b5cf6" : "#334155"}` }}>
                                 {sel && <Check size={9} style={{ color: "#fff" }} />}
@@ -1221,23 +1221,23 @@ export default function LojaPerfilPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4">
-        <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-4 text-center" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <p className="text-3xl font-bold text-white">{tarefasLoja.length}</p>
           <p className="text-xs mt-1" style={{ color: "#9aa7ba" }}>Total de Tarefas</p>
         </div>
-        <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: "1px solid #10b98140" }}>
+        <div className="rounded-2xl p-4 text-center" style={{ background: "#112239", border: "1px solid #10b98140" }}>
           <p className="text-3xl font-bold" style={{ color: "#10b981" }}>{concluidas}</p>
           <p className="text-xs mt-1" style={{ color: "#9aa7ba" }}>Concluidas</p>
         </div>
-        <div className="rounded-2xl p-4 text-center" style={{ background: "#122039", border: `1px solid ${urgentes > 0 ? "#ef444440" : "#1e3356"}` }}>
+        <div className="rounded-2xl p-4 text-center" style={{ background: "#112239", border: `1px solid ${urgentes > 0 ? "#ef444440" : "#1e3356"}` }}>
           <p className="text-3xl font-bold" style={{ color: urgentes > 0 ? "#ef4444" : "#475569" }}>{urgentes}</p>
           <p className="text-xs mt-1" style={{ color: "#9aa7ba" }}>Urgentes</p>
         </div>
       </div>
 
       {/* ─── ROTINAS DA LOJA ─── */}
-      <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
-        <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: "1px solid #1e3356" }}>
+      <div className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
+        <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
           <div className="flex items-center gap-2" data-tip="Rotinas vinculadas a esta loja. Cada uma pode ser delegada a um colaborador e aparece em Tarefas › Rotinas da pessoa. Sobrevivem se a pessoa sair.">
             <RefreshCw size={15} style={{ color: corGrupo }} />
             <p className="text-sm font-semibold text-white">Rotinas desta Loja</p>
@@ -1292,7 +1292,7 @@ export default function LojaPerfilPage() {
               return (
                 <div key={rotina.id}
                   className="p-4"
-                  style={{ borderTop: idx > 0 ? "1px solid #1e3356" : "none", background: rotina.concluida ? "#10b98108" : "transparent" }}>
+                  style={{ borderTop: idx > 0 ? "1px solid rgba(201,164,66,.16)" : "none", background: rotina.concluida ? "#10b98108" : "transparent" }}>
                   {/* Header da rotina */}
                   <div className="flex items-start gap-3">
                     <button
@@ -1369,7 +1369,7 @@ export default function LojaPerfilPage() {
 
       {/* Progress chart */}
       {tarefasLoja.length > 0 && (
-        <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <p className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: "#9aa7ba" }}>Distribuicao por Status — Tarefas</p>
           <div className="space-y-3">
             {tarefasPorStatus.map((s) => {
@@ -1401,7 +1401,7 @@ export default function LojaPerfilPage() {
 
       {/* Task list */}
       {tarefasLoja.length > 0 && (
-        <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <div className="flex items-center justify-between mb-4">
             <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#9aa7ba" }}>
               Tarefas ({tarefasLoja.length})
@@ -1451,7 +1451,7 @@ export default function LojaPerfilPage() {
                   </div>
                   <div className="flex flex-col items-end gap-1 ml-2 flex-shrink-0">
                     <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: `${cor}20`, color: cor }}>{PRI_LABEL[t.prioridade] || t.prioridade}</span>
-                    <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#122039", color: "#9aa7ba" }}>{STATUS_LABEL[t.status] || t.status}</span>
+                    <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#112239", color: "#9aa7ba" }}>{STATUS_LABEL[t.status] || t.status}</span>
                   </div>
                 </div>
               );
@@ -1461,7 +1461,7 @@ export default function LojaPerfilPage() {
       )}
 
       {tarefasLoja.length === 0 && (
-        <div className="rounded-2xl p-10 text-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-10 text-center" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <Store size={36} className="mx-auto mb-3" style={{ color: "#1e3356" }} />
           <p className="text-white font-medium mb-1">Nenhuma tarefa ativa para esta loja</p>
           <p className="text-xs mb-5" style={{ color: "#9aa7ba" }}>Crie a primeira tarefa para comecar a acompanhar.</p>
@@ -1484,7 +1484,7 @@ export default function LojaPerfilPage() {
           <div className="w-full max-w-lg rounded-2xl overflow-hidden"
             style={{ background: "#0b1624", border: `1px solid ${corGrupo}40`, maxHeight: "90vh" }}
             onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid #1e3356" }}>
+            <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
               <div>
                 <h2 className="font-bold text-white text-sm">Nova Tarefa</h2>
                 <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>{loja.nome}</p>
@@ -1506,7 +1506,7 @@ export default function LojaPerfilPage() {
                     {(["rapida", "elaborada"] as const).map((t) => (
                       <button key={t} type="button" onClick={() => setFormTarefa((f) => ({ ...f, tipo: t }))}
                         className="flex-1 py-2 rounded-xl text-xs font-bold transition-all"
-                        style={{ background: formTarefa.tipo === t ? corGrupo + "22" : "#122039", border: `1.5px solid ${formTarefa.tipo === t ? corGrupo : "#1e3356"}`, color: formTarefa.tipo === t ? corGrupo : "#64748b" }}>
+                        style={{ background: formTarefa.tipo === t ? corGrupo + "22" : "#112239", border: `1.5px solid ${formTarefa.tipo === t ? corGrupo : "#1e3356"}`, color: formTarefa.tipo === t ? corGrupo : "#64748b" }}>
                         {t === "rapida" ? "Tarefa Rapida" : "Tarefa Elaborada (multi-membro)"}
                       </button>
                     ))}
@@ -1516,14 +1516,14 @@ export default function LojaPerfilPage() {
                     <input value={formTarefa.titulo} onChange={(e) => setFormTarefa((f) => ({ ...f, titulo: e.target.value }))}
                       placeholder="Ex: Confirmar todos os pedidos ate as 18h"
                       className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none"
-                      style={{ background: "#122039", border: "1px solid #1e3356" }} autoFocus />
+                      style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }} autoFocus />
                   </div>
                   <div>
                     <label className="text-xs font-semibold block mb-1.5" style={{ color: "#94a3b8" }}>Contexto <span style={{ color: "#74859c" }}>(opcional)</span></label>
                     <textarea rows={2} value={formTarefa.contexto} onChange={(e) => setFormTarefa((f) => ({ ...f, contexto: e.target.value }))}
                       placeholder="Contexto adicional para o responsavel..."
                       className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none resize-none"
-                      style={{ background: "#122039", border: "1px solid #1e3356" }} />
+                      style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }} />
                   </div>
                   {formTarefa.tipo === "rapida" && (
                     <div>
@@ -1531,10 +1531,10 @@ export default function LojaPerfilPage() {
                       <div className="relative">
                         <select value={formTarefa.atribuidoPara} onChange={(e) => setFormTarefa((f) => ({ ...f, atribuidoPara: e.target.value }))}
                           className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none appearance-none"
-                          style={{ background: "#122039", border: "1px solid #1e3356" }}>
-                          <option value="" style={{ background: "#122039" }}>Selecionar...</option>
+                          style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
+                          <option value="" style={{ background: "#112239" }}>Selecionar...</option>
                           {colaboradores.map((c) => (
-                            <option key={c.id} value={c.id} style={{ background: "#122039" }}>
+                            <option key={c.id} value={c.id} style={{ background: "#112239" }}>
                               {c.nome}{c.id === loja.responsavel ? " (responsavel da loja)" : ""}
                             </option>
                           ))}
@@ -1550,7 +1550,7 @@ export default function LojaPerfilPage() {
                         {(["alta", "media", "baixa"] as Prioridade[]).map((p) => (
                           <button key={p} type="button" onClick={() => setFormTarefa((f) => ({ ...f, prioridade: p }))}
                             className="flex-1 py-1.5 rounded-lg text-xs font-bold transition-all"
-                            style={{ background: formTarefa.prioridade === p ? PRI_COR[p] + "22" : "#122039", border: `1px solid ${formTarefa.prioridade === p ? PRI_COR[p] : "#1e3356"}`, color: formTarefa.prioridade === p ? PRI_COR[p] : "#64748b" }}>
+                            style={{ background: formTarefa.prioridade === p ? PRI_COR[p] + "22" : "#112239", border: `1px solid ${formTarefa.prioridade === p ? PRI_COR[p] : "#1e3356"}`, color: formTarefa.prioridade === p ? PRI_COR[p] : "#64748b" }}>
                             {PRI_LABEL[p]}
                           </button>
                         ))}
@@ -1560,7 +1560,7 @@ export default function LojaPerfilPage() {
                       <label className="text-xs font-semibold block mb-1.5" style={{ color: "#94a3b8" }}>Prazo</label>
                       <input type="date" value={formTarefa.dataLimite} onChange={(e) => setFormTarefa((f) => ({ ...f, dataLimite: e.target.value }))}
                         className="w-full px-3 py-2 rounded-xl text-sm text-white outline-none"
-                        style={{ background: "#122039", border: "1px solid #1e3356" }} />
+                        style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }} />
                     </div>
                   </div>
                   {formTarefa.tipo === "elaborada" && (
@@ -1573,10 +1573,10 @@ export default function LojaPerfilPage() {
                           <div className="relative flex-1">
                             <select value={novoMembroId} onChange={(e) => setNovoMembroId(e.target.value)}
                               className="w-full px-3 py-2 rounded-xl text-sm text-white outline-none appearance-none"
-                              style={{ background: "#122039", border: "1px solid #1e3356" }}>
-                              <option value="" style={{ background: "#122039" }}>Adicionar pessoa...</option>
+                              style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
+                              <option value="" style={{ background: "#112239" }}>Adicionar pessoa...</option>
                               {membrosDisponiveis.map((c) => (
-                                <option key={c.id} value={c.id} style={{ background: "#122039" }}>{c.nome}</option>
+                                <option key={c.id} value={c.id} style={{ background: "#112239" }}>{c.nome}</option>
                               ))}
                             </select>
                             <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "#9aa7ba" }} />
@@ -1592,7 +1592,7 @@ export default function LojaPerfilPage() {
                         const colab = colaboradores.find((c) => c.id === m.colaboradorId);
                         if (!colab) return null;
                         return (
-                          <div key={m.uid} className="rounded-xl p-3 space-y-2" style={{ background: "#122039", border: `1px solid ${colab.cor}30` }}>
+                          <div key={m.uid} className="rounded-xl p-3 space-y-2" style={{ background: "#112239", border: `1px solid ${colab.cor}30` }}>
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-2">
                                 <Avatar nome={colab.nome} avatar={colab.avatar} foto={colab.foto} cor={colab.cor} size={26} />
@@ -1607,7 +1607,7 @@ export default function LojaPerfilPage() {
                                   <input value={s.titulo} onChange={(e) => updSubMembro(m.uid, i, e.target.value)}
                                     placeholder={`Subtarefa de ${colab.nome.split(" ")[0]}...`}
                                     className="flex-1 px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
-                                    style={{ background: "#0b1624", border: "1px solid #1e3356" }} />
+                                    style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }} />
                                   <button type="button" onClick={() => rmSubMembro(m.uid, i)} style={{ color: "#74859c" }}><Trash2 size={11} /></button>
                                 </div>
                               ))}
@@ -1644,7 +1644,7 @@ export default function LojaPerfilPage() {
           <div className="modal-card w-full max-w-md rounded-2xl overflow-hidden"
             style={{ background: "#0b1624", border: `1px solid ${corGrupo}40`, maxHeight: "90vh" }}
             onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid #1e3356" }}>
+            <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
               <div>
                 <h2 className="font-bold text-white text-sm">Nova Rotina</h2>
                 <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>{loja.nome} — aparece no Meu Dia do responsavel</p>
@@ -1671,7 +1671,7 @@ export default function LojaPerfilPage() {
                     <input value={formRotina.titulo} onChange={(e) => setFormRotina((f) => ({ ...f, titulo: e.target.value }))}
                       placeholder="Ex: Processar pedidos da loja"
                       className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none"
-                      style={{ background: "#122039", border: "1px solid #1e3356" }} autoFocus />
+                      style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }} autoFocus />
                   </div>
 
                   {/* Frequencia */}
@@ -1680,9 +1680,9 @@ export default function LojaPerfilPage() {
                     <div className="relative">
                       <select value={formRotina.frequencia} onChange={(e) => setFormRotina((f) => ({ ...f, frequencia: e.target.value as Frequencia }))}
                         className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none appearance-none"
-                        style={{ background: "#122039", border: "1px solid #1e3356" }}>
+                        style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
                         {ORDEM_FREQUENCIA.map((f) => (
-                          <option key={f} value={f} style={{ background: "#122039" }}>{LABEL_FREQUENCIA[f]}</option>
+                          <option key={f} value={f} style={{ background: "#112239" }}>{LABEL_FREQUENCIA[f]}</option>
                         ))}
                       </select>
                       <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "#9aa7ba" }} />
@@ -1695,10 +1695,10 @@ export default function LojaPerfilPage() {
                     <div className="relative">
                       <select value={formRotina.colaboradorId} onChange={(e) => setFormRotina((f) => ({ ...f, colaboradorId: e.target.value }))}
                         className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none appearance-none"
-                        style={{ background: "#122039", border: "1px solid #1e3356" }}>
-                        <option value="" style={{ background: "#122039" }}>Sem responsavel (vai para Vagas)</option>
+                        style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
+                        <option value="" style={{ background: "#112239" }}>Sem responsavel (vai para Vagas)</option>
                         {colaboradores.map((c) => (
-                          <option key={c.id} value={c.id} style={{ background: "#122039" }}>
+                          <option key={c.id} value={c.id} style={{ background: "#112239" }}>
                             {c.nome}{c.id === loja.responsavel ? " (responsavel da loja)" : ""}
                           </option>
                         ))}
@@ -1733,7 +1733,7 @@ export default function LojaPerfilPage() {
                           <input value={s.titulo} onChange={(e) => updSubRotina(i, e.target.value)}
                             placeholder={`Subtarefa ${i + 1}...`}
                             className="flex-1 px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
-                            style={{ background: "#122039", border: "1px solid #1e3356" }} />
+                            style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }} />
                           <button type="button" onClick={() => rmSubRotina(i)} style={{ color: "#74859c" }}><Trash2 size={11} /></button>
                         </div>
                       ))}

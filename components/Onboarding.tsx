@@ -88,7 +88,7 @@ export default function Onboarding() {
         <div
           className="rounded-2xl p-7"
           style={{
-            background: "linear-gradient(145deg, #122039, #0d1a2e)",
+            background: "linear-gradient(145deg, #112239, #0d1a2e)",
             border: "1px solid #c9a84c30",
             boxShadow: "0 24px 80px rgba(0,0,0,0.8), 0 0 0 1px #c9a84c18",
           }}

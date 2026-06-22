@@ -46,7 +46,7 @@ export default function AbaRotinas() {
               data-tip={`Rotinas de frequência ${LABEL_FREQUENCIA[f].toLowerCase()}`}
               className="px-3 py-1.5 rounded-xl text-sm font-medium transition-all"
               style={{
-                background: ativo ? FREQ_COR[f] + "20" : "#122039",
+                background: ativo ? FREQ_COR[f] + "20" : "#112239",
                 border: `1px solid ${ativo ? FREQ_COR[f] : "#1e3356"}`,
                 color: ativo ? FREQ_COR[f] : "#64748b",
               }}
@@ -71,7 +71,7 @@ export default function AbaRotinas() {
 
       {/* Vazio */}
       {rotinasDaSubAba.length === 0 && (
-        <div className="rounded-2xl p-12 text-center" style={{ background: "linear-gradient(160deg, #14243f, #111e35)", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-12 text-center" style={{ background: "linear-gradient(160deg, #14243f, #111e35)", border: "1px solid rgba(201,164,66,.16)" }}>
           <div className="text-5xl mb-3 empty-icon inline-block">📋</div>
           <p className="font-bold text-white mb-1 text-lg">Nenhuma rotina {LABEL_FREQUENCIA[subAba].toLowerCase()}</p>
           <p className="text-sm" style={{ color: "#94a3b8" }}>
@@ -89,7 +89,7 @@ export default function AbaRotinas() {
           const devida = venceHoje(rotina);
           const cor = FREQ_COR[rotina.frequencia];
           return (
-            <div key={rotina.id} className="rounded-2xl flex items-center gap-3 p-4" style={{ background: "#122039", border: `1px solid ${atrasada ? "#ef444450" : "#1e3356"}` }}>
+            <div key={rotina.id} className="rounded-2xl flex items-center gap-3 p-4" style={{ background: "#112239", border: `1px solid ${atrasada ? "#ef444450" : "#1e3356"}` }}>
               <span role="button" tabIndex={0} className="flex-shrink-0 cursor-pointer"
                 onClick={() => concluirRotina(rotina.id)}
                 onKeyDown={(e) => { if (e.key === " " || e.key === "Enter") concluirRotina(rotina.id); }}

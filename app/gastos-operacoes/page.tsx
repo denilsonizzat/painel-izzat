@@ -147,7 +147,7 @@ export default function GastosOperacoesPage() {
           {/* Seletor de mês */}
           <select
             className="px-3 py-2 rounded-xl text-sm text-white outline-none"
-            style={{ background: "#122039", border: "1px solid #1e3356" }}
+            style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
             value={mesSelecionado}
             onChange={(e) => setMesSelecionado(e.target.value)}
           >
@@ -171,7 +171,7 @@ export default function GastosOperacoesPage() {
             data-tip={card.dica}
             className="rounded-2xl p-4"
             style={{
-              background: "#122039",
+              background: "#112239",
               border: `1px solid ${card.valor > 0 ? card.cor + "30" : "#1e3356"}`,
               transition: "all 150ms cubic-bezier(0.4,0,0.2,1)",
             }}
@@ -193,7 +193,7 @@ export default function GastosOperacoesPage() {
       </div>
 
       {/* Tabs Grupo */}
-      <div className="flex gap-1 p-1 rounded-xl w-fit" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="flex gap-1 p-1 rounded-xl w-fit" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         {([
           { v: "izzat" as GrupoTab, label: "Grupo Izzat", icon: Building2, cor: "#c9a84c", dica: "Lojas próprias da Izzat. Estes custos são pagos pela empresa." },
           { v: "partner" as GrupoTab, label: "Partners", icon: Users2, cor: "#3b82f6", dica: "Lojas de parceiros. Os custos são pagos pelo parceiro — registramos para acompanhar o investimento dele." },
@@ -253,7 +253,7 @@ export default function GastosOperacoesPage() {
           const expandida = lojaExpandida === loja.id;
 
           return (
-            <div key={loja.id} className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+            <div key={loja.id} className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
               {/* Header da loja */}
               <button
                 onClick={() => setLojaExpandida(expandida ? null : loja.id)}
@@ -287,7 +287,7 @@ export default function GastosOperacoesPage() {
 
               {/* Detalhes expandidos */}
               {expandida && (
-                <div style={{ borderTop: "1px solid #1e3356" }}>
+                <div style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
 
                   {/* Seção Fixos */}
                   <div style={{ borderBottom: "1px solid #0a1a2e" }}>
@@ -310,11 +310,11 @@ export default function GastosOperacoesPage() {
                     {secaoAberta[loja.id] === "fixo" && (
                       <div className="px-5 pb-3 space-y-1.5">
                         {todosGastosLoja.filter((g) => g.tipo === "fixo").map((g) => (
-                          <div key={g.id} className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ background: "#0a1a2e", border: "1px solid #1e3356" }}>
+                          <div key={g.id} className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ background: "#0a1a2e", border: "1px solid rgba(201,164,66,.16)" }}>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2">
                                 <span className="text-xs font-semibold" style={{ color: g.ativo ? "#fff" : "#475569", textDecoration: g.ativo ? "none" : "line-through" }}>{g.nome}</span>
-                                <span className="text-xs px-1.5 rounded-full" style={{ background: "#122039", color: "#9aa7ba" }}>
+                                <span className="text-xs px-1.5 rounded-full" style={{ background: "#112239", color: "#9aa7ba" }}>
                                   {CATEGORIA_GASTO_LABEL[g.categoria]}
                                 </span>
                               </div>
@@ -355,21 +355,21 @@ export default function GastosOperacoesPage() {
                             <div className="flex gap-2">
                               <input
                                 className="flex-1 px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
-                                style={{ background: "#122039", border: "1px solid #1e3356" }}
+                                style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
                                 placeholder="Nome (ex: Claude AI)"
                                 value={custoForm.nome}
                                 onChange={(e) => setCustoForm((f) => ({ ...f, nome: e.target.value }))}
                               />
                               <input
                                 className="w-20 px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
-                                style={{ background: "#122039", border: "1px solid #1e3356" }}
+                                style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
                                 placeholder="Valor"
                                 value={custoForm.valor}
                                 onChange={(e) => setCustoForm((f) => ({ ...f, valor: e.target.value }))}
                               />
                               <select
                                 className="px-2 py-1.5 rounded-lg text-xs text-white outline-none"
-                                style={{ background: "#122039", border: "1px solid #1e3356" }}
+                                style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
                                 value={custoForm.moeda}
                                 onChange={(e) => setCustoForm((f) => ({ ...f, moeda: e.target.value as "BRL" | "USD" }))}
                               >
@@ -380,7 +380,7 @@ export default function GastosOperacoesPage() {
                             <div className="flex gap-2">
                               <select
                                 className="flex-1 px-2 py-1.5 rounded-lg text-xs text-white outline-none"
-                                style={{ background: "#122039", border: "1px solid #1e3356" }}
+                                style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
                                 value={custoForm.categoria}
                                 onChange={(e) => setCustoForm((f) => ({ ...f, categoria: e.target.value as CategoriaGastoOp }))}
                               >
@@ -431,11 +431,11 @@ export default function GastosOperacoesPage() {
                     {secaoAberta[loja.id] === "variavel" && (
                       <div className="px-5 pb-3 space-y-1.5">
                         {todosGastosLoja.filter((g) => g.tipo === "variavel" && g.mes === mesSelecionado).map((g) => (
-                          <div key={g.id} className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ background: "#0a1a2e", border: "1px solid #1e3356" }}>
+                          <div key={g.id} className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ background: "#0a1a2e", border: "1px solid rgba(201,164,66,.16)" }}>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2">
                                 <span className="text-xs font-semibold text-white">{g.nome}</span>
-                                <span className="text-xs px-1.5 rounded-full" style={{ background: "#122039", color: "#9aa7ba" }}>
+                                <span className="text-xs px-1.5 rounded-full" style={{ background: "#112239", color: "#9aa7ba" }}>
                                   {CATEGORIA_GASTO_LABEL[g.categoria]}
                                 </span>
                               </div>
@@ -473,21 +473,21 @@ export default function GastosOperacoesPage() {
                             <div className="flex gap-2">
                               <input
                                 className="flex-1 px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
-                                style={{ background: "#122039", border: "1px solid #1e3356" }}
+                                style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
                                 placeholder="Nome (ex: Meta Ads)"
                                 value={custoForm.nome}
                                 onChange={(e) => setCustoForm((f) => ({ ...f, nome: e.target.value }))}
                               />
                               <input
                                 className="w-20 px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
-                                style={{ background: "#122039", border: "1px solid #1e3356" }}
+                                style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
                                 placeholder="Valor"
                                 value={custoForm.valor}
                                 onChange={(e) => setCustoForm((f) => ({ ...f, valor: e.target.value }))}
                               />
                               <select
                                 className="px-2 py-1.5 rounded-lg text-xs text-white outline-none"
-                                style={{ background: "#122039", border: "1px solid #1e3356" }}
+                                style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
                                 value={custoForm.moeda}
                                 onChange={(e) => setCustoForm((f) => ({ ...f, moeda: e.target.value as "BRL" | "USD" }))}
                               >
@@ -498,7 +498,7 @@ export default function GastosOperacoesPage() {
                             <div className="flex gap-2">
                               <select
                                 className="flex-1 px-2 py-1.5 rounded-lg text-xs text-white outline-none"
-                                style={{ background: "#122039", border: "1px solid #1e3356" }}
+                                style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
                                 value={custoForm.categoria}
                                 onChange={(e) => setCustoForm((f) => ({ ...f, categoria: e.target.value as CategoriaGastoOp }))}
                               >

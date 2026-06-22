@@ -61,7 +61,7 @@ export default function PrecificacaoApp({ lojaId, lojaNome }: { lojaId: string; 
   }, [lojaId]);
   useEffect(() => { carregar(); }, [carregar]);
 
-  if (!supabaseConfigurado()) return <div className="rounded-2xl p-6 text-center" style={{ background: "#122039", color: "#ef4444" }}>Supabase não configurado.</div>;
+  if (!supabaseConfigurado()) return <div className="rounded-2xl p-6 text-center" style={{ background: "#112239", color: "#ef4444" }}>Supabase não configurado.</div>;
 
   const TABS: { id: Aba; label: string; icon: typeof Target }[] = [
     { id: "guia", label: "Comece aqui", icon: Compass },
@@ -79,7 +79,7 @@ export default function PrecificacaoApp({ lojaId, lojaNome }: { lojaId: string; 
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-1 p-1 rounded-xl overflow-x-auto" style={{ background: "#0f1c30", border: "1px solid #1e3356" }}>
+      <div className="flex gap-1 p-1 rounded-xl overflow-x-auto" style={{ background: "#0f1c30", border: "1px solid rgba(201,164,66,.16)" }}>
         {TABS.map((t) => {
           const Icon = t.icon; const ativo = aba === t.id;
           return (
@@ -92,7 +92,7 @@ export default function PrecificacaoApp({ lojaId, lojaNome }: { lojaId: string; 
       </div>
 
       {erro && <div className="rounded-xl p-3 text-sm" style={{ background: "#ef444415", color: "#ef4444" }}>Erro: {erro}</div>}
-      {carregando && <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Carregando...</div>}
+      {carregando && <div className="rounded-2xl p-8 text-center" style={{ background: "#112239", color: "#74859c" }}>Carregando...</div>}
 
       {!carregando && config && (
         <>
@@ -131,7 +131,7 @@ function AbaAvaliar({ lojaId, onCriou }: { lojaId: string; onCriou: () => void }
 
   return (
     <div className="grid md:grid-cols-2 gap-4">
-      <div className="rounded-2xl p-5 space-y-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl p-5 space-y-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <div>
           <label className="text-xs" style={{ color: "#9aa7ba" }}>Nome do produto</label>
           <input value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Ex: Massageador Cervical" style={inp} />
@@ -140,7 +140,7 @@ function AbaAvaliar({ lojaId, onCriou }: { lojaId: string; onCriou: () => void }
           <div key={g}>
             <p className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: "#c9a84c" }}>{GRUPOS[g]}</p>
             {CRITERIOS_GARIMPO.filter((c) => c.grupo === g).map((c) => (
-              <div key={c.key} className="flex items-center justify-between gap-2 py-2" style={{ borderBottom: "1px solid #1e335655" }}>
+              <div key={c.key} className="flex items-center justify-between gap-2 py-2" style={{ borderBottom: "1px solid rgba(201,164,66,.16)55" }}>
                 <div className="min-w-0">
                   <p className="text-sm text-white flex items-center">{c.label}<PrecTip k={c.key === "saturacao" || c.key === "tendencia" || c.key === "wow" ? c.key === "saturacao" ? "nota_garimpo" : c.key : ""} /></p>
                   <p className="text-xs truncate" style={{ color: "#74859c" }}>{c.sub}</p>
@@ -158,7 +158,7 @@ function AbaAvaliar({ lojaId, onCriou }: { lojaId: string; onCriou: () => void }
         ))}
       </div>
 
-      <div className="rounded-2xl p-5 space-y-4 self-start" style={{ background: "linear-gradient(160deg,#14243f,#111e35)", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl p-5 space-y-4 self-start" style={{ background: "linear-gradient(160deg,#14243f,#111e35)", border: "1px solid rgba(201,164,66,.16)" }}>
         <p className="text-xs text-center font-bold uppercase tracking-wider flex items-center justify-center" style={{ color: "#9aa7ba" }}>Nota de Garimpo<PrecTip k="nota_garimpo" /></p>
         <GaugeArc valor={nota} cor={cor} />
         <p className="text-center" style={{ marginTop: -6 }}><span className="px-3 py-1 rounded-full text-sm font-bold" style={{ background: cor + "20", color: cor }}>{vd}</span></p>
@@ -200,7 +200,7 @@ function AbaMotor({ lojaId, config, paises, produtos, onMudou }: { lojaId: strin
   }, []);
   useEffect(() => { if (prodId) carregarProd(prodId); }, [prodId, carregarProd]);
 
-  if (!prod) return <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Nenhum produto avaliado ainda. Vá em <b>Avaliar</b> primeiro.</div>;
+  if (!prod) return <div className="rounded-2xl p-8 text-center" style={{ background: "#112239", color: "#74859c" }}>Nenhum produto avaliado ainda. Vá em <b>Avaliar</b> primeiro.</div>;
 
   const titular = forns.find((f) => f.titular) || forns[0];
   const custoTitular = titular ? titular.custo + titular.frete : 0;
@@ -236,7 +236,7 @@ function AbaMotor({ lojaId, config, paises, produtos, onMudou }: { lojaId: strin
       </div>
 
       {/* Fornecedores */}
-      <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <p className="text-sm font-bold text-white mb-2">Fornecedores <span style={{ color: "#74859c", fontWeight: 400, fontSize: 12 }}>(titular entra na precificação)</span></p>
         <div className="space-y-2">
           {forns.map((f, i) => (
@@ -259,7 +259,7 @@ function AbaMotor({ lojaId, config, paises, produtos, onMudou }: { lojaId: strin
 
       {/* Ofertas (usa custo do titular, imposto 0 de referência US) */}
       {custoTitular > 0 && (
-        <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <p className="text-sm font-bold text-white mb-2 flex items-center">Ofertas (EUA, ref.)<PrecTip k="ofertas" /></p>
           <div className="grid grid-cols-3 gap-2">
             {calcularOfertas(custoTitular, 0, config, config.markup).map((o) => (
@@ -275,7 +275,7 @@ function AbaMotor({ lojaId, config, paises, produtos, onMudou }: { lojaId: strin
       )}
 
       {/* Tabela por país */}
-      <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <div className="p-3">
           <p className="text-sm font-bold text-white">Preço por mercado <span style={{ color: "#74859c", fontWeight: 400, fontSize: 11 }}>(custo vazio usa o titular)</span></p>
           <p className="text-xs mt-0.5 flex items-center flex-wrap" style={{ color: "#74859c" }}>Reembolso efetivo: {reembolsoPorPrazo(config.reembolso, titular?.prazo ?? 0)}% (prazo do titular {titular?.prazo ?? 0}d)<PrecTip k="prazo" /> · duty por país desconta da margem<PrecTip k="duty" /></p>
@@ -301,7 +301,7 @@ function AbaMotor({ lojaId, config, paises, produtos, onMudou }: { lojaId: strin
                 const vd = veredito(r, sc, config);
                 const c = custos[pa.cod] || { custo: "", frete: "" };
                 return (
-                  <tr key={pa.cod} style={{ borderTop: "1px solid #1e3356" }}>
+                  <tr key={pa.cod} style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
                     <td className="p-2 text-white font-semibold">{pa.nome}</td>
                     <td className="p-2"><span className="px-1.5 rounded" style={{ background: pa.tier === "A" ? "#3b82f620" : "#74859c20", color: pa.tier === "A" ? "#3b82f6" : "#94a3b8" }}>{pa.tier}</span></td>
                     <td className="p-2"><input type="number" value={c.custo} onChange={(e) => setCustos({ ...custos, [pa.cod]: { ...c, custo: e.target.value } })} placeholder={String(titular?.custo ?? 0)} style={{ ...inp, padding: "4px 6px", width: 64 }} /></td>
@@ -354,13 +354,13 @@ function AbaDecisao({ config, paises, produtos, onMudou }: { config: PrecConfig;
     })();
   }, [produtos, paises, config]);
 
-  if (carregando) return <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Calculando ranking...</div>;
-  if (!linhas.length) return <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Sem custos cadastrados. Use o <b>Motor de Preços</b>.</div>;
+  if (carregando) return <div className="rounded-2xl p-8 text-center" style={{ background: "#112239", color: "#74859c" }}>Calculando ranking...</div>;
+  if (!linhas.length) return <div className="rounded-2xl p-8 text-center" style={{ background: "#112239", color: "#74859c" }}>Sem custos cadastrados. Use o <b>Motor de Preços</b>.</div>;
 
   async function aprovar(id: number) { await editarProduto(id, { status: "aprovado" }); onMudou(); }
 
   return (
-    <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+    <div className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
       <div className="p-3 text-sm font-bold text-white flex items-center">Ranking produto × mercado<PrecTip k="score" /></div>
       <div className="overflow-x-auto">
         <table className="w-full text-xs">
@@ -370,7 +370,7 @@ function AbaDecisao({ config, paises, produtos, onMudou }: { config: PrecConfig;
           </tr></thead>
           <tbody>
             {linhas.map((l, i) => (
-              <tr key={i} style={{ borderTop: "1px solid #1e3356" }}>
+              <tr key={i} style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
                 <td className="p-2 text-white font-semibold">{l.prod.nome}</td>
                 <td className="p-2" style={{ color: "#9aa7ba" }}>{l.pais.nome}</td>
                 <td className="p-2" style={{ color: l.margem >= config.margem_min / 100 ? "#10b981" : "#ef4444" }}>{pct(l.margem)}</td>
@@ -403,7 +403,7 @@ function AbaGuia({ onIr, produtos }: { onIr: (a: Aba) => void; produtos: PrecPro
       </div>
       <div className="grid sm:grid-cols-2 gap-3">
         {passos.map((p) => (
-          <div key={p.n} className="rounded-2xl p-4 flex flex-col" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+          <div key={p.n} className="rounded-2xl p-4 flex flex-col" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
             <div className="flex items-center gap-2 mb-2">
               <span className="flex items-center justify-center rounded-full font-extrabold" style={{ width: 28, height: 28, background: "#c9a84c", color: "#0b1624", fontSize: 14 }}>{p.n}</span>
               <h3 className="text-white font-bold">{p.t}</h3>
@@ -430,7 +430,7 @@ function AbaAjuda() {
       </div>
       <div className="grid sm:grid-cols-2 gap-3">
         {Object.values(AJUDA).map((h) => (
-          <div key={h.t} className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+          <div key={h.t} className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
             <h3 className="font-bold" style={{ color: "#e8c462" }}>{h.t}</h3>
             <p className="text-sm mt-1" style={{ color: "#e8edf5" }}>{h.oque}</p>
             {h.calc && <p className="text-xs mt-2 font-mono" style={{ background: "#c9a84c12", borderLeft: "2px solid #c9a84c", padding: "5px 8px", borderRadius: 6, color: "#9aa7ba" }}>{h.calc}</p>}
@@ -449,7 +449,7 @@ function AbaProjReal({ lojaId, config, produtos }: { lojaId: string; config: Pre
   const [carregando, setCarregando] = useState(true);
   useEffect(() => { realPorProduto(lojaId).then(setReal).catch(() => {}).finally(() => setCarregando(false)); }, [lojaId]);
 
-  if (carregando) return <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Carregando vendas reais...</div>;
+  if (carregando) return <div className="rounded-2xl p-8 text-center" style={{ background: "#112239", color: "#74859c" }}>Carregando vendas reais...</div>;
 
   const projGross = margemBrutaProjetada(config.markup); // base markup, país-independente
   const linhas = produtos.map((p) => {
@@ -463,9 +463,9 @@ function AbaProjReal({ lojaId, config, produtos }: { lojaId: string; config: Pre
       <div className="rounded-xl p-3 text-xs" style={{ background: "#3b82f615", border: "1px solid #3b82f630", color: "#9aa7ba" }}>
         Comparação em <b style={{ color: "#e8edf5" }}>margem bruta</b> (faturamento − custo), por produto, casando pelo nome com os pedidos reais do módulo <b style={{ color: "#e8edf5" }}>Operação</b>. ADS/taxas por produto exigem atribuição (fase futura) — aqui o real não desconta anúncio.
       </div>
-      {comVenda.length === 0 && <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Nenhum produto da precificação tem venda real registrada na Operação (casamento por nome). Lance pedidos no módulo Operação com o mesmo nome do produto.</div>}
+      {comVenda.length === 0 && <div className="rounded-2xl p-8 text-center" style={{ background: "#112239", color: "#74859c" }}>Nenhum produto da precificação tem venda real registrada na Operação (casamento por nome). Lance pedidos no módulo Operação com o mesmo nome do produto.</div>}
       {comVenda.length > 0 && (
-        <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead><tr style={{ color: "#74859c", textAlign: "left" }}>
@@ -478,7 +478,7 @@ function AbaProjReal({ lojaId, config, produtos }: { lojaId: string; config: Pre
                   const gap = realGross - projGross;
                   const cor = gap >= -0.05 ? "#10b981" : gap >= -0.15 ? "#f59e0b" : "#ef4444";
                   return (
-                    <tr key={l.prod.id} style={{ borderTop: "1px solid #1e3356" }}>
+                    <tr key={l.prod.id} style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
                       <td className="p-2 text-white font-semibold">{l.prod.nome}</td>
                       <td className="p-2" style={{ color: "#9aa7ba" }}>{l.real!.pedidos}</td>
                       <td className="p-2" style={{ color: "#9aa7ba" }}>{fmt$(l.real!.faturamento)}</td>
@@ -529,7 +529,7 @@ function AbaUnit({ lojaId, config }: { lojaId: string; config: PrecConfig }) {
           <span style={{ color: "#74859c" }}>Sem ID de cliente, recompra é estimativa — ajuste abaixo.</span>
         </div>
       )}
-      <div className="rounded-2xl p-4 grid grid-cols-2 sm:grid-cols-4 gap-3" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl p-4 grid grid-cols-2 sm:grid-cols-4 gap-3" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Ticket médio $</label><input type="number" value={f.ticket} onChange={(e) => setF({ ...f, ticket: e.target.value })} style={inp} /></div>
         <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Margem líquida %</label><input type="number" value={f.margem} onChange={(e) => setF({ ...f, margem: e.target.value })} style={inp} /></div>
         <div><label className="text-xs flex items-center" style={{ color: "#9aa7ba" }}>CAC $<PrecTip k="cac" /></label><input type="number" value={f.cac} onChange={(e) => setF({ ...f, cac: e.target.value })} style={inp} /></div>
@@ -554,8 +554,8 @@ function AbaRisco({ lojaId }: { lojaId: string }) {
   const [carregando, setCarregando] = useState(true);
   const [fee, setFee] = useState("15");
   useEffect(() => { riscoChargeback(lojaId).then(setR).catch(() => {}).finally(() => setCarregando(false)); }, [lojaId]);
-  if (carregando) return <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Carregando risco...</div>;
-  if (!r || r.total === 0) return <div className="rounded-2xl p-8 text-center" style={{ background: "#122039", color: "#74859c" }}>Sem pedidos na Operação ainda. Marque pedidos com status <b>disputa</b> no operacional pra acompanhar o risco.</div>;
+  if (carregando) return <div className="rounded-2xl p-8 text-center" style={{ background: "#112239", color: "#74859c" }}>Carregando risco...</div>;
+  if (!r || r.total === 0) return <div className="rounded-2xl p-8 text-center" style={{ background: "#112239", color: "#74859c" }}>Sem pedidos na Operação ainda. Marque pedidos com status <b>disputa</b> no operacional pra acompanhar o risco.</div>;
 
   const taxa = r.taxaDisputa * 100;
   const nivel = taxa < 0.5 ? { c: "#10b981", t: "Saudável", d: "bem abaixo do limite de bloqueio (1%)" } : taxa < 1 ? { c: "#f59e0b", t: "Atenção", d: "aproximando do limite de 1%" } : { c: "#ef4444", t: "Crítico", d: "acima de 1% — risco de bloqueio do gateway!" };
@@ -592,21 +592,21 @@ function AbaRisco({ lojaId }: { lojaId: string }) {
         <Card label="Impacto $" valor={fmt$(impactoTotal)} c="#ef4444" sub="custo perdido + taxas" />
       </div>
 
-      <div className="rounded-2xl p-4 flex items-center gap-3" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl p-4 flex items-center gap-3" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <span className="text-sm" style={{ color: "#9aa7ba" }}>Taxa do gateway por chargeback ($)</span>
         <input type="number" value={fee} onChange={(e) => setFee(e.target.value)} style={{ ...inp, width: 90 }} />
         <span className="text-xs" style={{ color: "#74859c" }}>cada disputa = custo do produto perdido + esta taxa</span>
       </div>
 
       {r.porProduto.length > 0 && (
-        <div className="rounded-2xl overflow-hidden" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <div className="p-3 text-sm font-bold text-white">Disputas por produto</div>
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead><tr style={{ color: "#74859c", textAlign: "left" }}><th className="p-2">Produto</th><th className="p-2">Pedidos</th><th className="p-2">Disputas</th><th className="p-2">Taxa</th></tr></thead>
               <tbody>
                 {r.porProduto.map((p, i) => (
-                  <tr key={i} style={{ borderTop: "1px solid #1e3356" }}>
+                  <tr key={i} style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
                     <td className="p-2 text-white font-semibold">{p.nome}</td>
                     <td className="p-2" style={{ color: "#9aa7ba" }}>{p.pedidos}</td>
                     <td className="p-2" style={{ color: "#9aa7ba" }}>{p.disputas}</td>
@@ -656,12 +656,12 @@ function AbaLista({ lojaId, produtos, config, paises, onMudou }: { lojaId: strin
 
   return (
     <div className="space-y-4">
-      <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <p className="text-sm font-bold text-white mb-3">Aprovados — aguardando ir pra esteira ({aprovados.length})</p>
         {aprovados.length === 0 && <p className="text-sm" style={{ color: "#74859c" }}>Nenhum produto aprovado. Aprove na aba <b>Decisão</b>.</p>}
         <div className="space-y-2">
           {aprovados.map((p) => (
-            <div key={p.id} className="rounded-xl p-3 flex items-center gap-3" style={{ background: "#0f1c30", border: "1px solid #1e3356" }}>
+            <div key={p.id} className="rounded-xl p-3 flex items-center gap-3" style={{ background: "#0f1c30", border: "1px solid rgba(201,164,66,.16)" }}>
               <div className="flex-1">
                 <p className="text-sm text-white font-semibold">{p.nome}</p>
                 <p className="text-xs" style={{ color: "#74859c" }}>Garimpo {p.nota_garimpo ?? "—"} · aprovado</p>
@@ -674,7 +674,7 @@ function AbaLista({ lojaId, produtos, config, paises, onMudou }: { lojaId: strin
         </div>
       </div>
       {enviados.length > 0 && (
-        <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <p className="text-sm font-bold text-white mb-2">Enviados pro catálogo ({enviados.length})</p>
           {enviados.map((p) => <p key={p.id} className="text-sm py-1" style={{ color: "#9aa7ba" }}>✓ {p.nome}</p>)}
           <p className="text-xs mt-2" style={{ color: "#74859c" }}>Esses produtos já entraram no catálogo/kanban da loja pra começar os testes.</p>
@@ -692,7 +692,7 @@ function AbaPaises({ lojaId, paises, onMudou }: { lojaId: string; paises: PrecPa
   async function adicionar() { await salvarPais({ loja_id: lojaId, cod: "XX", nome: "Novo país", moeda: "USD", cambio: 1, imposto: 0, tier: "B" }); onMudou(); }
 
   return (
-    <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+    <div className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
       <div className="flex items-center justify-between mb-3">
         <p className="text-sm font-bold text-white flex items-center">Mercados<PrecTip k="tier" /></p>
         <button onClick={adicionar} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold" style={{ background: "#c9a84c", color: "#0b1624" }}><Plus size={12} /> País</button>
@@ -706,7 +706,7 @@ function AbaPaises({ lojaId, paises, onMudou }: { lojaId: string; paises: PrecPa
               const set = (patch: Partial<PrecPais>) => setEdit({ ...edit, [pa.id!]: { ...e, ...patch } });
               const mudou = JSON.stringify(e) !== JSON.stringify(pa);
               return (
-                <tr key={pa.id} style={{ borderTop: "1px solid #1e3356" }}>
+                <tr key={pa.id} style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
                   <td className="p-1"><input value={e.cod} onChange={(ev) => set({ cod: ev.target.value })} style={{ ...inp, width: 52, padding: "4px 6px" }} /></td>
                   <td className="p-1"><input value={e.nome} onChange={(ev) => set({ nome: ev.target.value })} style={{ ...inp, padding: "4px 6px" }} /></td>
                   <td className="p-1"><input value={e.moeda} onChange={(ev) => set({ moeda: ev.target.value })} style={{ ...inp, width: 60, padding: "4px 6px" }} /></td>
@@ -734,13 +734,13 @@ function AbaTaxas({ config, onSalvar }: { config: PrecConfig; onSalvar: (c: Prec
   const [salvando, setSalvando] = useState(false);
   const num = { ...inp, width: 90, textAlign: "right" as const, fontWeight: 700 };
   const Row = ({ label, campo, un, tip }: { label: string; campo: keyof PrecConfig; un: string; tip?: string }) => (
-    <div className="flex items-center justify-between py-3" style={{ borderBottom: "1px solid #1e3356" }}>
+    <div className="flex items-center justify-between py-3" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
       <span className="text-sm text-white flex items-center">{label}{tip && <PrecTip k={tip} />}</span>
       <div className="flex items-center gap-1"><input type="number" step="0.1" value={String(c[campo])} onChange={(e) => setC({ ...c, [campo]: parseFloat(e.target.value) || 0 })} style={num} /><span style={{ color: "#74859c", fontSize: 13 }}>{un}</span></div>
     </div>
   );
   return (
-    <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+    <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
       <p className="text-sm font-bold text-white mb-2">Taxas e parâmetros desta loja</p>
       <Row label="Markup padrão" campo="markup" un="×" tip="markup" />
       <Row label="Gateway de pagamento" campo="gateway_fee" un="%" />

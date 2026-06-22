@@ -18,7 +18,7 @@ export default function MeuProgresso() {
   const pctDia = doDia.length === 0 ? 100 : Math.round((feitasDia / doDia.length) * 100);
 
   return (
-    <div className="rounded-2xl p-5" style={{ background: "linear-gradient(145deg, #122039, #0d1a2e)", border: "1px solid #1e3356" }}>
+    <div className="rounded-2xl p-5" style={{ background: "linear-gradient(145deg, #112239, #0d1a2e)", border: "1px solid rgba(201,164,66,.16)" }}>
       <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
         <div className="flex items-center gap-2">
           <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: nivelInfo.cor + "20" }}>

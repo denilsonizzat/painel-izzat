@@ -51,7 +51,7 @@ function Card({ p, onEdit }: { p: Produto; onEdit: () => void }) {
       {...attributes}
       onClick={onEdit}
       className="rounded-xl p-3 cursor-pointer"
-      style={{ background: "#0f1c30", border: "1px solid #1e3356", opacity: isDragging ? 0.4 : 1, touchAction: "none" }}
+      style={{ background: "#0f1c30", border: "1px solid rgba(201,164,66,.16)", opacity: isDragging ? 0.4 : 1, touchAction: "none" }}
       data-tip="Clique para editar · arraste para mover"
     >
       <div className="flex items-start justify-between gap-2">
@@ -139,7 +139,7 @@ export default function KanbanProdutosLoja({ lojaId, todasLojas }: { lojaId: str
         </div>
         <DragOverlay>
           {ativo && (
-            <div className="rounded-xl p-3 shadow-2xl" style={{ background: "#122039", border: "1px solid #c9a84c", transform: "rotate(2deg)" }}>
+            <div className="rounded-xl p-3 shadow-2xl" style={{ background: "#112239", border: "1px solid #c9a84c", transform: "rotate(2deg)" }}>
               <p className="text-sm font-semibold text-white">{ativo.nome}</p>
             </div>
           )}

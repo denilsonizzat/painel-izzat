@@ -130,7 +130,7 @@ export default function AtividadePage() {
 
       {/* Guia rapido */}
       {atividadesDaPessoa.length === 0 && (
-        <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <div className="flex items-start gap-3">
             <div className="text-2xl">📊</div>
             <div>
@@ -144,7 +144,7 @@ export default function AtividadePage() {
       )}
 
       {/* Status Online — Circuit Breaker */}
-      <div className="rounded-2xl p-6" style={{ background: "#122039", border: `1px solid ${isOnline ? "#10b98130" : "#1e3356"}` }}>
+      <div className="rounded-2xl p-6" style={{ background: "#112239", border: `1px solid ${isOnline ? "#10b98130" : "#1e3356"}` }}>
         <div className="flex items-center justify-between gap-4">
           <div className="flex-1">
             <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: "#9aa7ba" }}>
@@ -195,7 +195,7 @@ export default function AtividadePage() {
                 setStatusOnline(usuarioAtual.id, true, e.target.value);
               }}
               className="text-sm font-bold px-3 py-1.5 rounded-xl outline-none"
-              style={{ background: "#122039", color: "#10b981", border: "1px solid #10b98130", colorScheme: "dark" }}
+              style={{ background: "#112239", color: "#10b981", border: "1px solid #10b98130", colorScheme: "dark" }}
             />
             <p className="text-xs" style={{ color: "#74859c" }}>Sua equipe verá que você está disponível</p>
           </div>
@@ -221,7 +221,7 @@ export default function AtividadePage() {
       </div>
 
       {/* Equipe — status online com horário */}
-      <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
           <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#9aa7ba" }}>
             Equipe &mdash;{" "}
@@ -248,7 +248,7 @@ export default function AtividadePage() {
                     <Avatar nome={c.nome} avatar={c.avatar} foto={c.foto} cor={c.cor} size={44} />
                     <div
                       className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2"
-                      style={{ background: dotColor, borderColor: "#122039" }}
+                      style={{ background: dotColor, borderColor: "#112239" }}
                     />
                   </div>
                   <span className="text-xs" style={{ color: online ? "#e8edf5" : "#475569" }}>
@@ -288,7 +288,7 @@ export default function AtividadePage() {
               data-tip="Ver só a sua atividade"
               className="px-3 py-1 rounded-full text-xs font-medium transition-all"
               style={{
-                background: filtroPessoa === "eu" ? "#c9a84c" : "#122039",
+                background: filtroPessoa === "eu" ? "#c9a84c" : "#112239",
                 color: filtroPessoa === "eu" ? "#0b1624" : "#64748b",
                 border: `1px solid ${filtroPessoa === "eu" ? "#c9a84c" : "#1e3356"}`,
               }}
@@ -304,7 +304,7 @@ export default function AtividadePage() {
                   data-tip={`Ver a atividade de ${c.nome.split(" ")[0]}`}
                   className="px-3 py-1 rounded-full text-xs font-medium transition-all"
                   style={{
-                    background: filtroPessoa === c.id ? c.cor : "#122039",
+                    background: filtroPessoa === c.id ? c.cor : "#112239",
                     color: filtroPessoa === c.id ? "#0b1624" : "#64748b",
                     border: `1px solid ${filtroPessoa === c.id ? c.cor : "#1e3356"}`,
                   }}
@@ -317,7 +317,7 @@ export default function AtividadePage() {
       )}
 
       {/* Historico de Atividades */}
-      <div className="rounded-2xl p-5 space-y-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl p-5 space-y-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div className="flex items-center gap-2">
             <Activity size={16} style={{ color: "#c9a84c" }} />
@@ -410,7 +410,7 @@ export default function AtividadePage() {
       </div>
 
       {/* Timeline */}
-      <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <div className="flex items-center gap-2 mb-5">
           <Activity size={16} style={{ color: "#c9a84c" }} />
           <p className="text-sm font-semibold" style={{ color: "#94a3b8" }}>
@@ -424,7 +424,7 @@ export default function AtividadePage() {
         {atividadesDaPessoa.length === 0 ? (
           <div
             className="rounded-2xl p-8 text-center"
-            style={{ background: "#122039", border: "1px solid #1e3356" }}
+            style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
           >
             <p className="text-3xl mb-3">⚡</p>
             <p className="font-semibold text-white mb-1">Nenhuma atividade hoje ainda</p>
@@ -452,7 +452,7 @@ export default function AtividadePage() {
                   <div className="flex-1 relative pb-3">
                     <div
                       className="absolute left-0 top-0 bottom-0 w-px"
-                      style={{ background: isNow ? "#c9a84c40" : atividades.length > 0 ? "#1e3356" : "#122039" }}
+                      style={{ background: isNow ? "#c9a84c40" : atividades.length > 0 ? "#1e3356" : "#112239" }}
                     />
                     <div className="ml-5">
                       {isNow && (

@@ -168,7 +168,7 @@ export default function ColaboradorPerfilPage() {
       </Link>
 
       {/* Header card */}
-      <div className="rounded-2xl p-6" style={{ background: "#122039", border: `1px solid ${pessoa.cor}40` }}>
+      <div className="rounded-2xl p-6" style={{ background: "#112239", border: `1px solid ${pessoa.cor}40` }}>
         <div className="flex items-start gap-5">
           <Avatar nome={pessoa.nome} avatar={pessoa.avatar} foto={pessoa.foto} cor={pessoa.cor} size={96} />
           <div className="flex-1 min-w-0">
@@ -219,7 +219,7 @@ export default function ColaboradorPerfilPage() {
 
                 {/* Custo — apenas admin: salário + ferramentas + total num bloco compacto */}
                 {isAdmin && (
-                  <div className="mt-3 rounded-xl overflow-hidden" style={{ background: "#0d1f35", border: "1px solid #1e3356" }}>
+                  <div className="mt-3 rounded-xl overflow-hidden" style={{ background: "#0d1f35", border: "1px solid rgba(201,164,66,.16)" }}>
                     {/* Linha salário */}
                     <div className="flex items-center gap-2 px-3 py-2">
                       <span className="text-xs font-semibold uppercase tracking-wider flex-shrink-0 w-24" style={{ color: "#74859c" }}>Salario</span>
@@ -267,7 +267,7 @@ export default function ColaboradorPerfilPage() {
 
                     {/* Linha ferramentas — só aparece se tiver alguma */}
                     {ferrsPessoa.length > 0 && (
-                      <div className="flex items-center gap-2 px-3 py-2" style={{ borderTop: "1px solid #1e3356" }}>
+                      <div className="flex items-center gap-2 px-3 py-2" style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
                         <span className="text-xs font-semibold uppercase tracking-wider flex-shrink-0 w-24" style={{ color: "#74859c" }}>Ferramentas</span>
                         <span className="text-sm font-bold flex-1" style={{ color: "#3b82f6" }}>
                           R$ {custoFerrTotal.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
@@ -467,7 +467,7 @@ export default function ColaboradorPerfilPage() {
       </div>
 
       {/* Expectativas */}
-      <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <div className="flex items-center gap-2 mb-4">
           <Target size={16} style={{ color: "#c9a84c" }} />
           <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#9aa7ba" }}>
@@ -519,7 +519,7 @@ export default function ColaboradorPerfilPage() {
       </div>
 
       {pessoa.formulario?.sobreMim && (
-        <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <h3 className="font-semibold text-white mb-4">Sobre {pessoa.nome.split(" ")[0]}</h3>
           <div className="space-y-3">
             {pessoa.formulario.sobreMim.estiloTrabalho && (
@@ -557,7 +557,7 @@ export default function ColaboradorPerfilPage() {
 
       <div className="grid md:grid-cols-2 gap-6">
         {/* Radar chart */}
-        <div className="rounded-2xl p-5 flex flex-col items-center" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-5 flex flex-col items-center" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <p className="text-xs font-semibold uppercase tracking-wider mb-4 self-start" style={{ color: "#9aa7ba" }}>
             Mapa de Habilidades
           </p>
@@ -565,7 +565,7 @@ export default function ColaboradorPerfilPage() {
         </div>
 
         {/* Habilidades bar chart */}
-        <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <p className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: "#9aa7ba" }}>
             Todas as Habilidades
           </p>
@@ -587,7 +587,7 @@ export default function ColaboradorPerfilPage() {
 
       {/* Lojas */}
       {pessoa.lojas.length > 0 && (
-        <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <p className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: "#9aa7ba" }}>
             Lojas Responsavel
           </p>
@@ -624,7 +624,7 @@ export default function ColaboradorPerfilPage() {
 
       {/* Rotinas */}
       {rotinasPessoa.length > 0 && (
-        <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <div className="flex items-center justify-between mb-4">
             <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#9aa7ba" }}>
               Rotinas
@@ -691,7 +691,7 @@ export default function ColaboradorPerfilPage() {
                     <div className="px-4 pb-3 space-y-2 border-t" style={{ borderColor: "#1e335660" }}>
                       <div className="pt-2 space-y-1.5">
                         {rotina.subtarefas.map((sub) => (
-                          <div key={sub.id} className="flex items-center gap-2 p-2.5 rounded-xl" style={{ background: "#122039" }}>
+                          <div key={sub.id} className="flex items-center gap-2 p-2.5 rounded-xl" style={{ background: "#112239" }}>
                             <button
                               onClick={() => podeCumprir && marcarSubtarefa(rotina.id, sub.id, !sub.concluida)}
                               disabled={!podeCumprir}
@@ -727,7 +727,7 @@ export default function ColaboradorPerfilPage() {
 
       {/* Tarefas */}
       {minhasTarefas.length > 0 && (
-        <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <p className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: "#9aa7ba" }}>
             Tarefas ({minhasTarefas.length} total &middot; {tarefasAtivas.length} ativas)
           </p>
@@ -742,7 +742,7 @@ export default function ColaboradorPerfilPage() {
                     <p className="text-sm text-white font-medium">{t.titulo}</p>
                     {loja && <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>{loja.nome}</p>}
                   </div>
-                  <span className="text-xs px-2 py-0.5 rounded-full ml-2 flex-shrink-0" style={{ background: "#122039", color: "#94a3b8" }}>
+                  <span className="text-xs px-2 py-0.5 rounded-full ml-2 flex-shrink-0" style={{ background: "#112239", color: "#94a3b8" }}>
                     {STATUS_LABEL[t.status] || t.status}
                   </span>
                 </div>
@@ -776,7 +776,7 @@ export default function ColaboradorPerfilPage() {
       )}
 
       {isAdmin && pessoa.formulario && (
-        <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <div className="flex items-center gap-2 mb-5">
             <span style={{ fontSize: 16 }}>📋</span>
             <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#9aa7ba" }}>
@@ -958,7 +958,7 @@ export default function ColaboradorPerfilPage() {
 
       {/* Formulario nao preenchido — admin ve aviso */}
       {isAdmin && !pessoa.formulario && (
-        <div className="rounded-xl px-4 py-3 flex items-center gap-3" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-xl px-4 py-3 flex items-center gap-3" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <span style={{ fontSize: 16 }}>📋</span>
           <p className="text-sm" style={{ color: "#74859c" }}>
             {pessoa.nome.split(" ")[0]} ainda nao preencheu o formulario de perfil.
@@ -967,7 +967,7 @@ export default function ColaboradorPerfilPage() {
       )}
 
       {/* Reconhecimentos */}
-      <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <div className="flex items-center justify-between mb-4">
           <div>
             <div className="flex items-center gap-2">
@@ -1034,7 +1034,7 @@ export default function ColaboradorPerfilPage() {
         >
           <div
             className="w-full max-w-md rounded-2xl p-5 space-y-4"
-            style={{ background: "#122039", border: "1px solid #1e3356" }}
+            style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between">

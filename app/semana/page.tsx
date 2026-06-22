@@ -133,7 +133,7 @@ export default function SemanaPage() {
               key={colab.id}
               className="rounded-2xl overflow-hidden"
               style={{
-                background: "#122039",
+                background: "#112239",
                 border: `1px solid ${st.label === "Travado" ? "#ef444440" : st.label === "Atenção" ? "#f59e0b30" : "#1e3356"}`,
               }}
             >
@@ -145,7 +145,7 @@ export default function SemanaPage() {
                       <Avatar nome={colab.nome} avatar={colab.avatar} foto={colab.foto} cor={colab.cor} size={40} />
                       <div
                         className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2"
-                        style={{ background: dotCor, borderColor: "#122039" }}
+                        style={{ background: dotCor, borderColor: "#112239" }}
                       />
                     </div>
                     <div className="min-w-0">
@@ -185,7 +185,7 @@ export default function SemanaPage() {
               </div>
 
               {/* Rotinas da semana */}
-              <div className="px-4 pb-3" style={{ borderTop: "1px solid #1e3356" }}>
+              <div className="px-4 pb-3" style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
                 <div className="flex items-center justify-between mt-3 mb-1.5">
                   <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#74859c" }}>Rotinas</p>
                   <span className="text-xs font-bold" style={{ color: rotinasPct === 100 ? "#10b981" : rotinasPct < 40 ? "#f59e0b" : "#c9a84c" }}>
@@ -216,7 +216,7 @@ export default function SemanaPage() {
               )}
 
               {/* Entregas da semana */}
-              <div className="px-4 pb-4" style={{ borderTop: "1px solid #1e3356" }}>
+              <div className="px-4 pb-4" style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
                 <p className="text-xs font-semibold uppercase tracking-wider mt-3 mb-2" style={{ color: "#74859c" }}>
                   Entregas da Semana
                 </p>
@@ -259,7 +259,7 @@ export default function SemanaPage() {
               </div>
 
               {/* Footer link */}
-              <div style={{ borderTop: "1px solid #1e3356" }}>
+              <div style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
                 <Link
                   href={`/equipe/${colab.id}`}
                   className="block w-full px-4 py-2 text-xs text-center transition-opacity hover:opacity-70"

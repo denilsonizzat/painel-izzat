@@ -195,7 +195,7 @@ export default function DashboardPage() {
 
       {/* Card de boas-vindas para usuario novo */}
       {isNovoUsuario && (
-        <div className="rounded-2xl p-5" style={{ background: "linear-gradient(135deg, #122039, #0f1e35)", border: "1px solid #c9a84c30" }}>
+        <div className="rounded-2xl p-5" style={{ background: "linear-gradient(135deg, #112239, #0f1e35)", border: "1px solid #c9a84c30" }}>
           <div className="flex items-start gap-3">
             <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-xl" style={{ background: "#c9a84c20" }}>
               🎯
@@ -226,7 +226,7 @@ export default function DashboardPage() {
 
       {/* Painel de alertas — admin only */}
       {isAdmin && totalAlertas > 0 && (
-        <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #ef444430" }}>
+        <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid #ef444430" }}>
           <div className="flex items-center gap-2 mb-4">
             <Bell size={15} style={{ color: "#ef4444" }} />
             <p className="text-xs font-bold uppercase tracking-wider" style={{ color: "#ef4444" }}>
@@ -328,7 +328,7 @@ export default function DashboardPage() {
       )}
 
       {/* Stories */}
-      <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }} data-tip="Stories da equipe: compartilhe uma conquista do dia (texto ou emoji). Some sozinho em 24h, como nas redes sociais.">
+      <div className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }} data-tip="Stories da equipe: compartilhe uma conquista do dia (texto ou emoji). Some sozinho em 24h, como nas redes sociais.">
         <div className="flex items-center gap-2 mb-3">
           <p className="text-section-label" data-tip="Compartilhe uma vitória ou novidade rápida com o time. Expira em 24h.">Stories da Equipe</p>
           <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#c9a84c15", color: "#c9a84c99", border: "1px solid #c9a84c20" }}>
@@ -371,7 +371,7 @@ export default function DashboardPage() {
       )}
 
       {/* Acesso Rapido — Ferramentas */}
-      <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <div className="flex items-center gap-2 mb-3">
           <p className="text-section-label" data-tip="Atalhos para as ferramentas externas que o time usa no dia a dia. Abrem em nova aba.">Acesso Rapido</p>
         </div>
@@ -431,7 +431,7 @@ export default function DashboardPage() {
       )}
 
       {/* Widget A: Desafio Semanal */}
-      <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+      <div className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <span style={{ fontSize: 18 }}>⚔️</span>
@@ -466,7 +466,7 @@ export default function DashboardPage() {
       {/* Widget B: Missao da Semana */}
       {missaoExpectativa && (
         <div className="rounded-2xl p-4" style={{
-          background: "#122039",
+          background: "#112239",
           border: `1px solid ${missaoConcluida ? "#c9a84c40" : "#1e3356"}`,
         }}>
           <div className="flex items-center justify-between mb-2">
@@ -501,7 +501,7 @@ export default function DashboardPage() {
 
       {/* Widget C: Pulso Semanal */}
       {usuarioAtual && !jaRespondeu && (
-        <div className="rounded-2xl p-4" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <div className="flex items-center gap-2 mb-3">
             <span style={{ fontSize: 18 }}>📊</span>
             <p className="text-sm font-bold text-white">Pulso da Semana</p>
@@ -544,7 +544,7 @@ export default function DashboardPage() {
 
       {/* Resumo rapido admin */}
       {isAdmin && (
-        <div className="rounded-xl px-4 py-3 flex flex-wrap gap-4" style={{ background: "#0d1928", border: "1px solid #1e3356" }}>
+        <div className="rounded-xl px-4 py-3 flex flex-wrap gap-4" style={{ background: "#0d1928", border: "1px solid rgba(201,164,66,.16)" }}>
           <span className="text-xs" style={{ color: "#9aa7ba" }}>
             Voce gerencia <span className="font-bold text-white">{colaboradores.length} pessoas</span>
           </span>
@@ -561,7 +561,7 @@ export default function DashboardPage() {
 
       {/* Bar Chart — admin only */}
       {isAdmin && (
-        <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <div className="flex items-center gap-2 mb-1">
             <TrendingUp size={18} style={{ color: "#c9a84c" }} />
             <h2 className="text-white font-semibold">{"Conclusão de Rotinas por Pessoa"}</h2>
@@ -582,7 +582,7 @@ export default function DashboardPage() {
         <button
           onClick={() => setVerProgTime((v) => !v)}
           className="w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all hover:opacity-80"
-          style={{ background: "#122039", border: "1px solid #1e3356" }}
+          style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
         >
           <div className="flex items-center gap-2">
             <Users size={15} style={{ color: "#c9a84c" }} />
@@ -601,7 +601,7 @@ export default function DashboardPage() {
       {(isAdmin || verProgTime) && (
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Resumo semanal */}
-        <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <div className="flex items-center gap-2 mb-1">
             <Star size={18} style={{ color: "#c9a84c" }} />
             <h2 className="text-white font-semibold">Semana Atual</h2>
@@ -637,7 +637,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Top XP */}
-        <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <div className="flex items-center gap-2 mb-1">
             <Zap size={18} style={{ color: "#c9a84c" }} />
             <h2 className="text-white font-semibold">Ranking XP</h2>
@@ -676,7 +676,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Destaques / Reconhecimentos */}
-        <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <div className="flex items-center gap-2 mb-1">
             <Award size={18} style={{ color: "#c9a84c" }} />
             <h2 className="text-white font-semibold">Destaques da Semana</h2>
@@ -715,7 +715,7 @@ export default function DashboardPage() {
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Progresso da Equipe — admin only */}
         {isAdmin && (
-          <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+          <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
             <div className="flex items-center gap-2 mb-5">
               <Users size={18} style={{ color: "#c9a84c" }} />
               <h2 className="text-white font-semibold">Progresso da Equipe Hoje</h2>
@@ -754,7 +754,7 @@ export default function DashboardPage() {
         )}
 
         {/* Status das Lojas — admin only */}
-        {isAdmin && <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #1e3356" }}>
+        {isAdmin && <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <div className="flex items-center gap-2 mb-5">
             <Store size={18} style={{ color: "#c9a84c" }} />
             <h2 className="text-white font-semibold">Status das Lojas</h2>
@@ -802,7 +802,7 @@ export default function DashboardPage() {
 
       {/* Tarefas Urgentes — admin only */}
       {isAdmin && tarefasUrgentes > 0 && (
-        <div className="rounded-2xl p-5" style={{ background: "#122039", border: "1px solid #ef444430" }}>
+        <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid #ef444430" }}>
           <div className="flex items-center gap-2 mb-4">
             <AlertCircle size={18} style={{ color: "#ef4444" }} />
             <h2 className="text-white font-semibold">Tarefas Urgentes Pendentes</h2>
@@ -841,7 +841,7 @@ function KPICard({ icon, label, value, cor, dica, href }: { icon: React.ReactNod
     <>
       {dica && (
         <div className="absolute top-full left-0 right-0 mt-1.5 z-50 px-3 py-2 rounded-xl text-xs leading-relaxed opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity"
-          style={{ background: "#0a111e", border: "1px solid #1e3356", color: "#94a3b8", boxShadow: "0 8px 32px #00000080" }}>
+          style={{ background: "#0a111e", border: "1px solid rgba(201,164,66,.16)", color: "#94a3b8", boxShadow: "0 8px 32px #00000080" }}>
           {dica}
         </div>
       )}
@@ -879,7 +879,7 @@ function KPICard({ icon, label, value, cor, dica, href }: { icon: React.ReactNod
     );
   }
   return (
-    <div className="rounded-2xl p-4 relative group" style={{ background: "linear-gradient(160deg, #14243f, #111e35)", border: "1px solid #1e3356" }}>
+    <div className="rounded-2xl p-4 relative group" style={{ background: "linear-gradient(160deg, #14243f, #111e35)", border: "1px solid rgba(201,164,66,.16)" }}>
       {inner}
     </div>
   );
