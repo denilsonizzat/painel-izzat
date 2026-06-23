@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAppStore } from "@/lib/store";
 import {
-  Bell, X, Check, ExternalLink, Trash2, Clock,
+  Bell, X, Check, ExternalLink, Trash2, Clock, Archive, RotateCcw,
   AlertTriangle, Trophy, Zap, Flame, Power, ListTodo,
 } from "lucide-react";
 
@@ -44,33 +44,34 @@ export default function NotificationCenter({ aberto, onFechar }: Props) {
   const router = useRouter();
   const {
     notificacoesInApp, usuarioAtual,
-    marcarNotificacaoLida, excluirNotificacao, snoozeNotificacao, limparNotificacoesLidas,
+    marcarNotificacaoLida, marcarNotificacaoNaoLida,
+    arquivarNotificacao, excluirNotificacao,
+    snoozeNotificacao, limparNotificacoesLidas,
   } = useAppStore();
 
+  const [aba, setAba] = useState<"ativas" | "arquivadas">("ativas");
   const [snoozeAberto, setSnoozeAberto] = useState<string | null>(null);
   const [swipeX, setSwipeX] = useState<Record<string, number>>({});
   const touchStartX = useRef<Record<string, number>>({});
   const panelRef = useRef<HTMLDivElement>(null);
 
-  const minhas = notificacoesInApp
-    .filter((n) => n.paraId === usuarioAtual?.id)
+  const todas = notificacoesInApp.filter((n) => n.paraId === usuarioAtual?.id);
+  const ativas = todas
+    .filter((n) => !n.arquivada)
     .filter((n) => !n.snoozedUntil || new Date(n.snoozedUntil) <= new Date());
+  const arquivadas = todas.filter((n) => n.arquivada === true);
+  const lista = aba === "ativas" ? ativas : arquivadas;
+  const naoLidas = ativas.filter((n) => !n.lida).length;
 
-  const naoLidas = minhas.filter((n) => !n.lida).length;
-
-  // Fechar ao clicar fora
   useEffect(() => {
     if (!aberto) return;
     const handler = (e: MouseEvent) => {
-      if (panelRef.current && !panelRef.current.contains(e.target as Node)) {
-        onFechar();
-      }
+      if (panelRef.current && !panelRef.current.contains(e.target as Node)) onFechar();
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, [aberto, onFechar]);
 
-  // Fechar com Escape
   useEffect(() => {
     if (!aberto) return;
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onFechar(); };
@@ -78,7 +79,7 @@ export default function NotificationCenter({ aberto, onFechar }: Props) {
     return () => document.removeEventListener("keydown", handler);
   }, [aberto, onFechar]);
 
-  const handleAbrir = (notif: typeof minhas[0]) => {
+  const handleAbrir = (notif: typeof lista[0]) => {
     marcarNotificacaoLida(notif.id);
     onFechar();
     if (notif.href) router.push(notif.href);
@@ -92,11 +93,33 @@ export default function NotificationCenter({ aberto, onFechar }: Props) {
     if (delta > 0) setSwipeX((p) => ({ ...p, [id]: Math.min(delta, 100) }));
   };
   const handleSwipeEnd = (id: string) => {
-    if ((swipeX[id] ?? 0) > 60) excluirNotificacao(id);
+    if ((swipeX[id] ?? 0) > 60) {
+      aba === "ativas" ? arquivarNotificacao(id) : excluirNotificacao(id);
+    }
     setSwipeX((p) => ({ ...p, [id]: 0 }));
   };
 
   if (!aberto) return null;
+
+  const TAB = ({ id, label, count }: { id: typeof aba; label: string; count?: number }) => (
+    <button
+      onClick={() => setAba(id)}
+      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
+      style={{
+        background: aba === id ? "#c9a84c20" : "transparent",
+        color: aba === id ? "#c9a84c" : "#74859c",
+        border: aba === id ? "1px solid #c9a84c30" : "1px solid transparent",
+      }}
+    >
+      {label}
+      {count !== undefined && count > 0 && (
+        <span className="px-1.5 py-0.5 rounded-full text-xs font-bold"
+          style={{ background: aba === id ? "#c9a84c" : "#ef4444", color: "white", fontSize: 9 }}>
+          {count}
+        </span>
+      )}
+    </button>
+  );
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-start justify-center" style={{ background: "#00000070" }}>
@@ -127,16 +150,16 @@ export default function NotificationCenter({ aberto, onFechar }: Props) {
             )}
           </div>
           <div className="flex items-center gap-2">
-            {minhas.some((n) => n.lida) && (
+            {aba === "ativas" && ativas.some((n) => n.lida) && (
               <button onClick={limparNotificacoesLidas}
                 className="text-xs px-2 py-1 rounded-lg transition-opacity hover:opacity-70"
                 style={{ color: "#74859c", border: "1px solid #1e3356" }}>
                 Limpar lidas
               </button>
             )}
-            {naoLidas > 0 && (
+            {aba === "ativas" && naoLidas > 0 && (
               <button
-                onClick={() => minhas.filter((n) => !n.lida).forEach((n) => marcarNotificacaoLida(n.id))}
+                onClick={() => ativas.filter((n) => !n.lida).forEach((n) => marcarNotificacaoLida(n.id))}
                 className="text-xs px-2 py-1 rounded-lg transition-opacity hover:opacity-70"
                 style={{ color: "#c9a84c", border: "1px solid rgba(201,164,66,.2)" }}>
                 Marcar todas
@@ -148,33 +171,51 @@ export default function NotificationCenter({ aberto, onFechar }: Props) {
           </div>
         </div>
 
+        {/* Abas */}
+        <div className="flex items-center gap-1 px-3 py-2 flex-shrink-0"
+          style={{ borderBottom: "1px solid #1e3356" }}>
+          <TAB id="ativas" label="Ativas" count={naoLidas} />
+          <TAB id="arquivadas" label="Arquivadas" count={arquivadas.length > 0 ? arquivadas.length : undefined} />
+        </div>
+
         {/* Lista */}
         <div className="overflow-y-auto flex-1" style={{ overscrollBehavior: "contain" }}>
-          {minhas.length === 0 ? (
+          {lista.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 gap-2">
-              <Bell size={32} style={{ color: "#1e3356" }} />
-              <p className="text-sm" style={{ color: "#74859c" }}>Nenhuma notificação</p>
+              {aba === "arquivadas"
+                ? <Archive size={32} style={{ color: "#1e3356" }} />
+                : <Bell size={32} style={{ color: "#1e3356" }} />}
+              <p className="text-sm" style={{ color: "#74859c" }}>
+                {aba === "arquivadas" ? "Nenhuma notificação arquivada" : "Nenhuma notificação"}
+              </p>
             </div>
           ) : (
             <div className="p-2 space-y-1">
-              {minhas.map((n) => {
+              {lista.map((n) => {
                 const cfg = TIPO_CFG[n.tipo] ?? TIPO_CFG.default;
                 const Icone = cfg.icon;
                 const translateX = swipeX[n.id] ?? 0;
                 return (
                   <div key={n.id} className="relative overflow-hidden rounded-xl">
-                    {/* Fundo vermelho (swipe delete) */}
+                    {/* Fundo swipe */}
                     <div className="absolute inset-0 flex items-center justify-end pr-4 rounded-xl"
-                      style={{ background: "#ef4444", opacity: translateX > 20 ? 1 : 0, transition: "opacity 0.1s" }}>
-                      <Trash2 size={18} style={{ color: "white" }} />
+                      style={{
+                        background: aba === "ativas" ? "#475569" : "#ef4444",
+                        opacity: translateX > 20 ? 1 : 0,
+                        transition: "opacity 0.1s",
+                      }}>
+                      {aba === "ativas"
+                        ? <Archive size={18} style={{ color: "white" }} />
+                        : <Trash2 size={18} style={{ color: "white" }} />}
                     </div>
 
-                    {/* Notificação */}
+                    {/* Card */}
                     <div
                       className="relative rounded-xl p-3"
                       style={{
                         background: n.lida ? "#0f1c30" : `${cfg.cor}10`,
                         border: `1px solid ${n.lida ? "#1e3356" : cfg.cor + "30"}`,
+                        opacity: n.arquivada ? 0.75 : 1,
                         transform: `translateX(-${translateX}px)`,
                         transition: translateX === 0 ? "transform 0.2s ease" : "none",
                       }}
@@ -183,31 +224,25 @@ export default function NotificationCenter({ aberto, onFechar }: Props) {
                       onTouchEnd={() => handleSwipeEnd(n.id)}
                     >
                       <div className="flex items-start gap-3">
-                        {/* Ícone */}
                         <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
                           style={{ background: cfg.cor + "20" }}>
                           <Icone size={15} style={{ color: cfg.cor }} />
                         </div>
 
-                        {/* Conteúdo */}
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-start justify-between gap-2">
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-1.5 flex-wrap">
-                                <span className="text-xs font-bold uppercase tracking-wide"
-                                  style={{ color: cfg.cor }}>{cfg.label}</span>
-                                {!n.lida && <span className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                                  style={{ background: cfg.cor }} />}
-                              </div>
-                              <p className="text-sm font-semibold mt-0.5"
-                                style={{ color: n.lida ? "#9aa7ba" : "#e8edf5" }}>{n.titulo}</p>
-                              <p className="text-xs mt-0.5 leading-relaxed"
-                                style={{ color: "#74859c" }}>{n.corpo}</p>
-                              <p className="text-xs mt-1" style={{ color: "#475569" }}>
-                                {tempoRelativo(n.criadaEm)}
-                              </p>
-                            </div>
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="text-xs font-bold uppercase tracking-wide"
+                              style={{ color: cfg.cor }}>{cfg.label}</span>
+                            {!n.lida && <span className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                              style={{ background: cfg.cor }} />}
                           </div>
+                          <p className="text-sm font-semibold mt-0.5"
+                            style={{ color: n.lida ? "#9aa7ba" : "#e8edf5" }}>{n.titulo}</p>
+                          <p className="text-xs mt-0.5 leading-relaxed"
+                            style={{ color: "#74859c" }}>{n.corpo}</p>
+                          <p className="text-xs mt-1" style={{ color: "#475569" }}>
+                            {tempoRelativo(n.criadaEm)}
+                          </p>
 
                           {/* Ações */}
                           <div className="flex items-center gap-1.5 mt-2 flex-wrap">
@@ -218,27 +253,57 @@ export default function NotificationCenter({ aberto, onFechar }: Props) {
                                 <ExternalLink size={11} /> Abrir
                               </button>
                             )}
-                            {!n.lida && (
-                              <button onClick={() => marcarNotificacaoLida(n.id)}
+
+                            {/* Toggle lida / não lida */}
+                            {aba === "ativas" && (
+                              n.lida ? (
+                                <button onClick={() => marcarNotificacaoNaoLida(n.id)}
+                                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-opacity hover:opacity-80"
+                                  style={{ background: "#1e335630", color: "#74859c", border: "1px solid #1e3356" }}>
+                                  <RotateCcw size={11} /> Não lida
+                                </button>
+                              ) : (
+                                <button onClick={() => marcarNotificacaoLida(n.id)}
+                                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-opacity hover:opacity-80"
+                                  style={{ background: "#10b98115", color: "#10b981", border: "1px solid #10b98130" }}>
+                                  <Check size={11} /> Lida
+                                </button>
+                              )
+                            )}
+
+                            {/* Snooze — apenas em ativas não lidas */}
+                            {aba === "ativas" && !n.lida && (
+                              <button onClick={() => setSnoozeAberto(snoozeAberto === n.id ? null : n.id)}
                                 className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-opacity hover:opacity-80"
-                                style={{ background: "#10b98115", color: "#10b981", border: "1px solid #10b98130" }}>
-                                <Check size={11} /> Lida
+                                style={{ background: "#f59e0b15", color: "#f59e0b", border: "1px solid #f59e0b30" }}>
+                                <Clock size={11} /> Lembrar-me mais tarde
                               </button>
                             )}
-                            {/* Snooze */}
-                            <button onClick={() => setSnoozeAberto(snoozeAberto === n.id ? null : n.id)}
-                              className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-opacity hover:opacity-80"
-                              style={{ background: "#f59e0b15", color: "#f59e0b", border: "1px solid #f59e0b30" }}>
-                              <Clock size={11} /> Lembrar
-                            </button>
-                            <button onClick={() => excluirNotificacao(n.id)}
-                              className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-opacity hover:opacity-80 ml-auto"
-                              style={{ background: "#ef444415", color: "#ef4444", border: "1px solid #ef444430" }}>
-                              <Trash2 size={11} /> Excluir
-                            </button>
+
+                            {/* Arquivar / Excluir permanente */}
+                            {aba === "ativas" ? (
+                              <button onClick={() => arquivarNotificacao(n.id)}
+                                className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-opacity hover:opacity-80 ml-auto"
+                                style={{ background: "#47556915", color: "#64748b", border: "1px solid #47556930" }}>
+                                <Archive size={11} /> Arquivar
+                              </button>
+                            ) : (
+                              <>
+                                <button onClick={() => marcarNotificacaoNaoLida(n.id)}
+                                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-opacity hover:opacity-80"
+                                  style={{ background: "#3b82f615", color: "#3b82f6", border: "1px solid #3b82f630" }}>
+                                  <RotateCcw size={11} /> Restaurar
+                                </button>
+                                <button onClick={() => excluirNotificacao(n.id)}
+                                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-opacity hover:opacity-80 ml-auto"
+                                  style={{ background: "#ef444415", color: "#ef4444", border: "1px solid #ef444430" }}>
+                                  <Trash2 size={11} /> Excluir
+                                </button>
+                              </>
+                            )}
                           </div>
 
-                          {/* Snooze expandido — inline sem overflow */}
+                          {/* Snooze expandido inline */}
                           {snoozeAberto === n.id && (
                             <div className="flex items-center gap-1.5 mt-2 flex-wrap">
                               <span className="text-xs mr-1" style={{ color: "#74859c" }}>Lembrar em:</span>
