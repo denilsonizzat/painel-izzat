@@ -341,6 +341,14 @@ button:active:not(:disabled) {
 }
 /* Entrada suave de página/seção */
 .page-enter { animation: pageFade 0.28s var(--ease-spring) both; }
+/* Conteúdo HTML dos artigos do Guia */
+.guia-conteudo p { margin-top: 10px; }
+.guia-conteudo p:first-child { margin-top: 12px; }
+.guia-conteudo ul, .guia-conteudo ol { margin-top: 10px; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+.guia-conteudo ul li { list-style: disc; }
+.guia-conteudo ol li { list-style: decimal; }
+.guia-conteudo strong { color: #e2e8f0; font-weight: 600; }
+.guia-conteudo a { color: #c9a84c; text-decoration: underline; }
 /* Modais — backdrop com fade, card com leve pop (spring) */
 .modal-backdrop { animation: fadeIn 0.18s ease both; }
 .modal-card { animation: modalPop 0.28s var(--ease-spring) both; }

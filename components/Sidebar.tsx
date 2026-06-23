@@ -6,7 +6,7 @@ import {
   LayoutDashboard, CheckSquare, Users, Store, ListTodo, LogOut, Menu, X,
   ClipboardList, Plus, Zap, Flame, Bell, Search, Activity, Power, RefreshCw,
   CalendarDays, ChevronLeft, ChevronRight, PanelLeftClose, DollarSign, Moon, Sun,
-  PackageSearch, BookMarked, Trophy, Receipt, Wallet, Briefcase, TrendingUp, Calculator, Link2, Wrench, Handshake,
+  PackageSearch, BookMarked, Trophy, Receipt, Wallet, Briefcase, TrendingUp, Calculator, Link2, Wrench, Handshake, BookOpen,
 } from "lucide-react";
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import Avatar from "./Avatar";
@@ -89,6 +89,14 @@ const NAV_SECTIONS = [
     items: [
       { href: "/sono", label: "Sono", icon: Moon, desc: "Registre seu sono e acompanhe consistência e horas dormidas (privado, só você vê)" },
       { href: "/ferramentas", label: "Ferramentas", icon: Wrench, desc: "Calendário de datas e-commerce por país, fuso horário pra campanhas e a calculadora flutuante" },
+    ],
+    adminItems: [],
+  },
+  {
+    label: "Ajuda",
+    emoji: "📖",
+    items: [
+      { href: "/guia", label: "Guia do App", icon: BookOpen, desc: "Tutoriais e explicações de todas as funcionalidades do painel" },
     ],
     adminItems: [],
   },
