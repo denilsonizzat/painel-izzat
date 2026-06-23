@@ -373,31 +373,45 @@ export default function LojaPerfilPage() {
         <div className="p-5">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-1">
             <h1 className="text-2xl font-bold text-white">{loja.nome}</h1>
-            <div className="flex items-center gap-2 flex-wrap">
+            {/* ── Botões de ação organizados em grupos ── */}
+            <div className="flex items-start gap-3 flex-wrap mt-1">
+
+              {/* Grupo Criar — somente admin */}
               {isAdmin && (
-                <>
-                  <button onClick={abrirModalRotina}
-                    className="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold transition-all hover:opacity-90"
-                    style={{ background: "#1e3356", border: "1px solid #334155", color: "#94a3b8" }}>
-                    <RefreshCw size={14} /> Nova Rotina
-                  </button>
-                  <button onClick={abrirModalTarefa}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all hover:opacity-90"
-                    style={{ background: corGrupo, color: corGrupo === "#c9a84c" ? "#000" : "#fff" }}>
-                    <Plus size={15} /> Nova Tarefa
-                  </button>
-                </>
+                <div className="flex flex-col gap-1.5">
+                  <p className="text-xs font-bold uppercase tracking-widest px-1" style={{ color: "#475569" }}>Criar</p>
+                  <div className="flex gap-2">
+                    <button onClick={abrirModalTarefa}
+                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-bold transition-all hover:opacity-90"
+                      style={{ background: corGrupo, color: corGrupo === "#c9a84c" ? "#000" : "#fff" }}>
+                      <Plus size={14} /> Nova Tarefa
+                    </button>
+                    <button onClick={abrirModalRotina}
+                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-bold transition-all hover:opacity-90"
+                      style={{ background: "#1e3356", border: "1px solid #334155", color: "#94a3b8" }}>
+                      <RefreshCw size={13} /> Nova Rotina
+                    </button>
+                  </div>
+                </div>
               )}
-              <Link href={`/precificacao?loja=${loja.id}`}
-                className="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold transition-all hover:opacity-90"
-                style={{ background: "#1e3356", border: "1px solid #334155", color: "#94a3b8" }}>
-                🧮 Precificar produto
-              </Link>
-              <button onClick={() => setConexoesAberto(true)}
-                className="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold transition-all hover:opacity-90"
-                style={{ background: "#1e3356", border: "1px solid #334155", color: "#94a3b8" }}>
-                🔗 Conexões
-              </button>
+
+              {/* Separador vertical — só quando admin */}
+              {isAdmin && <div className="hidden sm:block w-px self-stretch mt-6" style={{ background: "#1e3356" }} />}
+
+              {/* Grupo Ferramentas */}
+              <div className="flex flex-col gap-1.5">
+                <p className="text-xs font-bold uppercase tracking-widest px-1" style={{ color: "#475569" }}>Ferramentas</p>
+                <div className="flex gap-2 flex-wrap">
+                  <Link href={`/precificacao?loja=${loja.id}`}
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-bold transition-all hover:opacity-90"
+                    style={{ background: "#1e3356", border: "1px solid #334155", color: "#94a3b8" }}>
+                    🧮 Precificar
+                  </Link>
+                  <button onClick={() => setConexoesAberto(true)}
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-bold transition-all hover:opacity-90"
+                    style={{ background: "#112239", border: "1px solid #1e3356", color: "#7c98bc" }}>
+                    🔌 Conexões API
+                  </button>
               {/* LinkRapido dropdown */}
               <div className="relative" ref={linksDropdownRef}>
                 <button
@@ -549,7 +563,10 @@ export default function LojaPerfilPage() {
                   <span className="text-xs" style={{ color: "#74859c" }}>vazio</span>
                 ) : null}
                 {custosPanelAberto ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
-              </button>
+                  {custosPanelAberto ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+                </button>
+                </div>
+              </div>
             </div>
           </div>
 

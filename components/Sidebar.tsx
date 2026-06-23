@@ -655,7 +655,7 @@ export default function Sidebar() {
         onMouseEnter={() => { if (sidebarColapsada) setHoverExpand(true); }}
         onMouseLeave={() => setHoverExpand(false)}
       >
-        <SidebarContent />
+        {SidebarContent()}
       </aside>
 
       {/* Mobile header */}
@@ -697,7 +697,7 @@ export default function Sidebar() {
       {menuAberto && (
         <div className="md:hidden fixed inset-0 z-40" onClick={() => setMenuAberto(false)} style={{ background: "#00000080" }}>
           <div className="absolute left-0 w-72 max-w-[85vw]" style={{ top: 56, bottom: 0, background: "var(--card)", borderRight: "1px solid var(--border)" }} onClick={(e) => e.stopPropagation()}>
-            <SidebarContent />
+            {SidebarContent()}
           </div>
         </div>
       )}
