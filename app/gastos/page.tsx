@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useAppStore } from "@/lib/store";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -144,7 +144,7 @@ export default function GastosPage() {
 
   // ── RENDER ABAS ──
   return (
-    <div className="max-w-5xl mx-auto space-y-6 pb-10">
+    <div className="mx-auto space-y-6 pb-10">
       <BackButton href="/dashboard" />
 
       {/* Header */}

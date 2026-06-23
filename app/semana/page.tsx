@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useAppStore } from "@/lib/store";
 import { semanaAtualKey, labelSemana, calcNivel } from "@/lib/data";
 import { rotinasDoColaborador } from "@/lib/recorrencia";
@@ -64,7 +64,7 @@ export default function SemanaPage() {
   }).length;
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
+    <div className="mx-auto space-y-6">
       {/* Header */}
       <div className="flex items-start justify-between flex-wrap gap-3">
         <div>

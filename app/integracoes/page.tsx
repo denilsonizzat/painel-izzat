@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAppStore } from "@/lib/store";
@@ -22,7 +22,7 @@ export default function IntegracoesPage() {
   const statusDe = (lojaId: string, plat: string) => integr.find((i) => i.loja_id === lojaId && i.plataforma === plat)?.status || "nao_conectado";
 
   return (
-    <div className="max-w-5xl mx-auto space-y-5">
+    <div className="mx-auto space-y-5">
       <BackButton href="/dashboard" />
       <div>
         <h1 className="text-2xl font-bold text-white flex items-center gap-2"><Link2 size={22} style={{ color: "#c9a84c" }} /> Integrações</h1>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import { useAppStore } from "@/lib/store";
 import { CategoriaRegraEmpresa, RigidzRegraEmpresa, RegraEmpresa } from "@/lib/data";
@@ -81,7 +81,7 @@ export default function RegrasPage() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
+    <div className="mx-auto space-y-6">
       <BackButton href="/dashboard" />
 
       {/* Header */}

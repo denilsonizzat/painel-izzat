@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useAppStore } from "@/lib/store";
 import { LOJAS, DRIVE_GERAL, Loja, GrupoLoja, MercadoLoja } from "@/lib/data";
 import { Store, FolderOpen, Plus, Pencil, Archive, ArchiveRestore, AlertTriangle, ShieldCheck, X, Check } from "lucide-react";
@@ -150,7 +150,7 @@ export default function LojasPage() {
   const isCustom = (id: string) => lojasCustom.some((l) => l.id === id);
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="mx-auto space-y-6">
       <div className="flex items-start gap-3">
         <BackButton href="/dashboard" />
       </div>

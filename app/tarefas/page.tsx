@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 import { useAppStore } from "@/lib/store";
 import { LOJAS, Prioridade, Tarefa, MembroTarefa } from "@/lib/data";
@@ -168,7 +168,7 @@ export default function TarefasPage() {
   const labelStyle = { color: "#94a3b8" };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="mx-auto space-y-6">
       <BackButton href="/dashboard" />
 
       {/* WhatsApp notification banner */}

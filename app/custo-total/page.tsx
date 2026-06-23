@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useAppStore } from "@/lib/store";
 import { LOJAS, CATEGORIA_GASTO_LABEL, CategoriaGastoOp, GastoOperacional } from "@/lib/data";
 import { useState } from "react";
@@ -83,7 +83,7 @@ export default function CustoTotalPage() {
   const fmt = (v: number) => v.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
   return (
-    <div className="flex flex-col gap-6 max-w-4xl">
+    <div className="flex flex-col gap-6">
 
       {/* Header */}
       <div className="flex flex-wrap items-start justify-between gap-4 animate-fade-in-up">

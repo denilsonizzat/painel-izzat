@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useMemo } from "react";
 import { useAppStore } from "@/lib/store";
 import { CategoriaDesafio, Desafio, CheckInDesafio, Colaborador } from "@/lib/data";
@@ -581,7 +581,7 @@ export default function DesafiosPage() {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="mx-auto space-y-6">
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useAppStore } from "@/lib/store";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -99,7 +99,7 @@ export default function AtividadePage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="mx-auto space-y-6">
       <BackButton href="/dashboard" />
 
       <RelogioWidget />

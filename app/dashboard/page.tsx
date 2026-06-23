@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useAppStore } from "@/lib/store";
 import { LOJAS, PERGUNTAS_PULSO } from "@/lib/data";
 import { Users, Store, CheckSquare, ListTodo, TrendingUp, AlertCircle, Star, Award, Flame, Zap, Bell, UserX, Clock, ShieldAlert, ChevronDown, ChevronUp } from "lucide-react";
@@ -129,7 +129,7 @@ export default function DashboardPage() {
 
   if (isLoading) {
     return (
-      <div className="max-w-6xl mx-auto space-y-6">
+      <div className="mx-auto space-y-6">
         {/* Header */}
         <div className="space-y-2">
           <div className="skeleton h-8 w-64" />
@@ -171,7 +171,7 @@ export default function DashboardPage() {
   const totalAlertas = semCheckInHoje.length + tarefasRevisao.length + tarefasAtrasadasLista.length;
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="mx-auto space-y-6">
       {/* Header */}
       <div className="flex items-start justify-between gap-4 animate-fade-in-up">
         <div>
