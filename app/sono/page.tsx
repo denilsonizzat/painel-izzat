@@ -212,12 +212,12 @@ export default function SonoPage() {
         <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Média dormir</p>
           <p className="text-lg font-black mt-0.5" style={{ color: "#8b5cf6" }}>{mediaDormir}</p>
-          <p className="text-xs mt-0.5" style={{ color: "#334155" }}>horário médio</p>
+          <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>horário médio</p>
         </div>
         <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Média acordar</p>
           <p className="text-lg font-black mt-0.5" style={{ color: "#f59e0b" }}>{mediaAcordar}</p>
-          <p className="text-xs mt-0.5" style={{ color: "#334155" }}>horário médio</p>
+          <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>horário médio</p>
         </div>
         <div className="rounded-xl p-3.5" style={{ background: "#112239", border: `1px solid ${corConsistencia}25` }}>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Consistencia</p>
@@ -325,7 +325,7 @@ export default function SonoPage() {
               const cor = corMin(min);
               return (
                 <div key={r.id} className="flex items-center gap-4 px-5 py-3"
-                  style={{ borderTop: idx > 0 ? "1px solid rgba(201,164,66,.16)40" : "none" }}>
+                  style={{ borderTop: idx > 0 ? "1px solid rgba(201,164,66,.16)" : "none" }}>
                   <div className="text-center flex-shrink-0" style={{ minWidth: 44 }}>
                     <p className="text-xs font-bold" style={{ color: "#9aa7ba" }}>{fmtDia(r.data)}</p>
                     <p className="text-xs" style={{ color: "#74859c" }}>{fmtData(r.data)}</p>

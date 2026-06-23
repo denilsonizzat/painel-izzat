@@ -213,12 +213,12 @@ export default function GastosPage() {
         <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid #3b82f625" }}>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Ferramentas</p>
           <p className="text-lg font-black mt-0.5" style={{ color: "#3b82f6" }}>R$ {fmt(totalFerramentas)}</p>
-          <p className="text-xs mt-0.5" style={{ color: "#334155" }}>{ferramentas.length} ferramentas</p>
+          <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>{ferramentas.length} ferramentas</p>
         </div>
         <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid #8b5cf625" }}>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Média Salarial</p>
           <p className="text-lg font-black mt-0.5" style={{ color: "#8b5cf6" }}>R$ {fmt(mediaSalario)}</p>
-          <p className="text-xs mt-0.5" style={{ color: "#334155" }}>{comSalario.length} pessoas</p>
+          <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>{comSalario.length} pessoas</p>
         </div>
         <div className="rounded-xl p-3.5" style={{ background: semSalario.length > 0 ? "#112239" : "#0d1928", border: semSalario.length > 0 ? "1px solid #f59e0b25" : "1px solid rgba(201,164,66,.16)" }}>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Sem Salário</p>
@@ -301,7 +301,7 @@ export default function GastosPage() {
                   const pct = totalGeral > 0 ? (total / totalGeral) * 100 : 0;
                   const ferrsPessoa = ferramentas.filter((f) => f.colaboradoresIds.includes(c.id));
                   return (
-                    <div key={c.id} className="flex items-center gap-3 px-5 py-3" style={{ borderTop: idx === 0 ? "none" : "1px solid rgba(201,164,66,.16)40" }}>
+                    <div key={c.id} className="flex items-center gap-3 px-5 py-3" style={{ borderTop: idx === 0 ? "none" : "1px solid rgba(201,164,66,.16)" }}>
                       <Link href={`/equipe/${c.id}#custo`} className="flex items-center gap-3 flex-1 min-w-0 hover:opacity-80">
                         <Avatar nome={c.nome} avatar={c.avatar} foto={c.foto} cor={c.cor} size={32} />
                         <div className="min-w-0">
@@ -396,7 +396,7 @@ export default function GastosPage() {
                 const editando = editandoSalId === c.id;
                 return (
                   <div key={c.id} className="grid items-center px-5 py-3"
-                    style={{ gridTemplateColumns: "1fr auto auto auto", borderTop: idx === 0 ? "none" : "1px solid rgba(201,164,66,.16)40", background: editando ? "#0d1f35" : "transparent" }}>
+                    style={{ gridTemplateColumns: "1fr auto auto auto", borderTop: idx === 0 ? "none" : "1px solid rgba(201,164,66,.16)", background: editando ? "#0d1f35" : "transparent" }}>
                     <Link href={`/equipe/${c.id}`} className="flex items-center gap-3 min-w-0 hover:opacity-80">
                       <Avatar nome={c.nome} avatar={c.avatar} foto={c.foto} cor={c.cor} size={32} />
                       <div className="min-w-0">

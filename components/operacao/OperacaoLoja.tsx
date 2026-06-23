@@ -178,7 +178,7 @@ function AbaKpis({ kpis: k, cfg, alertas }: { kpis: KpisOperacao; cfg: OpConfig;
 }
 function Linha({ label, valor, negativo }: { label: string; valor: string; negativo?: boolean }) {
   return (
-    <div className="flex justify-between py-1" style={{ borderBottom: "1px solid rgba(201,164,66,.16)55" }}>
+    <div className="flex justify-between py-1" style={{ borderBottom: "1px solid rgba(201,164,66,.20)" }}>
       <span>{label}</span>
       <span style={{ color: negativo ? "#ef4444" : "#e8edf5", fontWeight: 600 }}>{valor}</span>
     </div>

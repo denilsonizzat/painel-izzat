@@ -143,7 +143,7 @@ function KanbanCol({
             className="flex-1 rounded-xl border-dashed flex items-center justify-center"
             style={{ border: `1.5px dashed ${col.borda}`, minHeight: "80px" }}
           >
-            <p className="text-xs" style={{ color: "#334155" }}>Arraste aqui</p>
+            <p className="text-xs" style={{ color: "#64748b" }}>Arraste aqui</p>
           </div>
         )}
       </div>
