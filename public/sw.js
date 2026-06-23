@@ -1,4 +1,4 @@
-const CACHE = "izzat-v1";
+const CACHE = "izzat-v3";
 const OFFLINE = "/offline";
 
 const PRECACHE = [

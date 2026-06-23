@@ -29,17 +29,17 @@ const bricolage = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
-  title: "Painel Izzat Group",
-  description: "Gestão de equipe e lojas — Izzat Group",
+  title: "Gestão e-commerce - Izzat",
+  description: "Gestão de e-commerce e lojas — Grupo Izzat",
   manifest: "/manifest.webmanifest",
   icons: {
-    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
-    apple: [{ url: "/lojas/izzat-group.png" }],
+    icon: [{ url: "/icon-512.png", type: "image/png" }],
+    apple: [{ url: "/icon-512.png" }],
   },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Izzat",
+    title: "Grupo Izzat",
   },
   other: {
     "mobile-web-app-capable": "yes",
