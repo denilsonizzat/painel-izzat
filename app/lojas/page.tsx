@@ -407,7 +407,7 @@ export default function LojasPage() {
                       </div>
                     </>
                   ) : (
-                    <p className="text-sm" style={{ color: "#74859c" }}>Sem responsavel</p>
+                    <p className="text-sm" style={{ color: "#74859c" }}>Sem responsável</p>
                   )}
                 </div>
 
@@ -627,7 +627,7 @@ export default function LojasPage() {
                     className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none"
                     style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}
                   >
-                    <option value="" style={{ background: "#112239" }}>Sem responsavel</option>
+                    <option value="" style={{ background: "#112239" }}>Sem responsável</option>
                     {colaboradores.map((c) => (
                       <option key={c.id} value={c.id} style={{ background: "#112239" }}>{c.nome}</option>
                     ))}

@@ -221,7 +221,7 @@ export default function GastosPage() {
           <p className="text-xs mt-0.5" style={{ color: "#334155" }}>{comSalario.length} pessoas</p>
         </div>
         <div className="rounded-xl p-3.5" style={{ background: semSalario.length > 0 ? "#112239" : "#0d1928", border: semSalario.length > 0 ? "1px solid #f59e0b25" : "1px solid rgba(201,164,66,.16)" }}>
-          <p className="text-xs" style={{ color: "#9aa7ba" }}>Sem Salario</p>
+          <p className="text-xs" style={{ color: "#9aa7ba" }}>Sem Salário</p>
           <p className="text-lg font-black mt-0.5" style={{ color: semSalario.length > 0 ? "#f59e0b" : "#334155" }}>{semSalario.length}</p>
           <p className="text-xs mt-0.5" style={{ color: "#334155" }}>colaboradores</p>
         </div>
@@ -245,10 +245,10 @@ export default function GastosPage() {
           <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
             <div className="flex items-center gap-2 mb-5">
               <TrendingUp size={16} style={{ color: "#c9a84c" }} />
-              <h2 className="text-white font-semibold">Custo Salarial por Area</h2>
+              <h2 className="text-white font-semibold">Custo Salarial por Área</h2>
             </div>
             {totalSalarios === 0 ? (
-              <p className="text-sm text-center py-4" style={{ color: "#74859c" }}>Nenhum salario cadastrado ainda.</p>
+              <p className="text-sm text-center py-4" style={{ color: "#74859c" }}>Nenhum salário cadastrado ainda.</p>
             ) : (
               <div className="space-y-4">
                 {areasOrdenadas.map(([area, dados], idx) => {
@@ -269,7 +269,7 @@ export default function GastosPage() {
                       <div className="flex items-center gap-3">
                         <div className="w-3 flex-shrink-0" />
                         <BarPct pct={pct} cor={cor} />
-                        {sem > 0 && <span className="text-xs flex-shrink-0" style={{ color: "#f59e0b" }}>{sem} sem salario</span>}
+                        {sem > 0 && <span className="text-xs flex-shrink-0" style={{ color: "#f59e0b" }}>{sem} sem salário</span>}
                         <div className="w-32" />
                       </div>
                     </div>
@@ -285,7 +285,7 @@ export default function GastosPage() {
               <div className="flex items-center gap-2">
                 <Users size={15} style={{ color: "#c9a84c" }} />
                 <h2 className="text-white font-semibold text-sm">Custo Total por Pessoa</h2>
-                <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#1e3356", color: "#9aa7ba" }}>salario + ferramentas</span>
+                <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#1e3356", color: "#9aa7ba" }}>salário + ferramentas</span>
               </div>
             </div>
             <div>
@@ -456,7 +456,7 @@ export default function GastosPage() {
               <div className="flex items-center gap-2 mb-3">
                 <AlertCircle size={15} style={{ color: "#f59e0b" }} />
                 <p className="text-sm font-semibold" style={{ color: "#f59e0b" }}>
-                  {semSalario.length} {semSalario.length === 1 ? "colaborador" : "colaboradores"} sem salario
+                  {semSalario.length} {semSalario.length === 1 ? "colaborador" : "colaboradores"} sem salário
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">

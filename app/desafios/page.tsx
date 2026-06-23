@@ -249,7 +249,7 @@ function ModalDesafio({
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" style={{ background: "#00000090" }} onClick={onFechar}>
-      <div className="w-full max-w-lg rounded-2xl p-6" style={{ background: "#0d1a2e", border: "1px solid #c9a84c30" }} onClick={(e) => e.stopPropagation()}>
+      <div className="w-full max-w-lg rounded-2xl p-6 overflow-y-auto" style={{ background: "#0d1a2e", border: "1px solid #c9a84c30", maxHeight: "90vh" }} onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-5">
           <h2 className="font-black text-white" style={{ fontSize: 18 }}>{editando ? "Editar Desafio" : "Novo Desafio"}</h2>
           <button onClick={onFechar} style={{ color: "#9aa7ba" }}><X size={20} /></button>

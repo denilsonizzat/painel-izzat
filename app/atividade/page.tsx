@@ -233,7 +233,7 @@ export default function AtividadePage() {
             <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full inline-block" style={{ background: "#334155" }} /> Offline</span>
           </div>
         </div>
-        <div className="flex flex-wrap gap-5">
+        <div className="flex flex-wrap gap-3 sm:gap-5">
           {colaboradores
             .filter((c) => c.id !== usuarioAtual.id)
             .sort((a, b) => (b.statusOnline?.ativo ? 1 : 0) - (a.statusOnline?.ativo ? 1 : 0))

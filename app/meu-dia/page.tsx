@@ -269,10 +269,10 @@ export default function MeuDiaPage() {
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-0.5">
               <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "#10b981" }}>ENTREGAS DA SEMANA</span>
-              <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#10b98120", color: "#10b981" }}>Compromissos ate sexta</span>
+              <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#10b98120", color: "#10b981" }}>Compromissos até sexta</span>
             </div>
             <p className="text-xs" style={{ color: "#74859c" }}>
-              O que voce se comprometeu a entregar esta semana. Registre e atualize o status.
+              O que você se comprometeu a entregar esta semana. Registre e atualize o status.
             </p>
           </div>
           <div className="flex items-center gap-2 flex-shrink-0 ml-3">

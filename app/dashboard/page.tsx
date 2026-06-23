@@ -546,7 +546,7 @@ export default function DashboardPage() {
       {isAdmin && (
         <div className="rounded-xl px-4 py-3 flex flex-wrap gap-4" style={{ background: "#0d1928", border: "1px solid rgba(201,164,66,.16)" }}>
           <span className="text-xs" style={{ color: "#9aa7ba" }}>
-            Voce gerencia <span className="font-bold text-white">{colaboradores.length} pessoas</span>
+            Você gerencia <span className="font-bold text-white">{colaboradores.length} pessoas</span>
           </span>
           <span className="text-xs" style={{ color: "#334155" }}>·</span>
           <span className="text-xs" style={{ color: "#9aa7ba" }}>
@@ -681,7 +681,7 @@ export default function DashboardPage() {
             <Award size={18} style={{ color: "#c9a84c" }} />
             <h2 className="text-white font-semibold">Destaques da Semana</h2>
           </div>
-          <p className="text-xs mb-4" style={{ color: "#74859c" }}>Reconhecimentos enviados entre colegas nos ultimos 7 dias</p>
+          <p className="text-xs mb-4" style={{ color: "#74859c" }}>Reconhecimentos enviados entre colegas nos últimos 7 dias</p>
           {todosReconhecimentos.length === 0 ? (
             <div className="text-center py-6 space-y-2">
               <div className="text-3xl">🏅</div>
@@ -779,7 +779,7 @@ export default function DashboardPage() {
                     <div>
                       <p className="text-sm font-medium" style={{ color: "#e8edf5" }}>{loja.nome}</p>
                       <p className="text-xs" style={{ color: "#9aa7ba" }}>
-                        {responsavel ? responsavel.nome.split(" ")[0] : "Sem responsavel"}
+                        {responsavel ? responsavel.nome.split(" ")[0] : "Sem responsável"}
                       </p>
                     </div>
                   </div>

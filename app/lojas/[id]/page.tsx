@@ -862,7 +862,7 @@ export default function LojaPerfilPage() {
                 <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "#1e3356" }}>
                   <Users size={14} style={{ color: "#74859c" }} />
                 </div>
-                <span className="text-sm" style={{ color: "#74859c" }}>Sem responsavel</span>
+                <span className="text-sm" style={{ color: "#74859c" }}>Sem responsável</span>
               </div>
             )}
           </div>

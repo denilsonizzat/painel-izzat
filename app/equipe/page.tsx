@@ -47,8 +47,8 @@ export default function EquipePage() {
   const isAdmin = usuarioAtual.nivelAcesso === "admin";
 
   const handleCriar = () => {
-    if (!form.nome.trim()) { setErro("Nome obrigatorio"); return; }
-    if (!form.cargo.trim()) { setErro("Cargo obrigatorio"); return; }
+    if (!form.nome.trim()) { setErro("Nome obrigatório"); return; }
+    if (!form.cargo.trim()) { setErro("Cargo obrigatório"); return; }
     criarColaborador(form);
     setNovoMembro(false);
     setForm({ nome: "", cargo: "", cor: "#8B5CF6", nivelAcesso: "colaborador", email: "" });

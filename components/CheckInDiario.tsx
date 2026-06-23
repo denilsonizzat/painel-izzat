@@ -78,7 +78,7 @@ export default function CheckInDiario() {
         {/* Humor */}
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "#9aa7ba" }}>
-            Como voce esta chegando hoje?
+            Como você está chegando hoje?
           </p>
           <div className="flex gap-2 justify-between">
             {HUMORES.map((h) => (
@@ -110,7 +110,7 @@ export default function CheckInDiario() {
             type="text"
             value={foco}
             onChange={(e) => setFoco(e.target.value)}
-            placeholder="Ex: Finalizar relatorio de vendas..."
+            placeholder="Ex: Finalizar relatório de vendas..."
             maxLength={80}
             className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none"
             style={{ background: "#1e3356", border: "1px solid #334155" }}
@@ -123,7 +123,7 @@ export default function CheckInDiario() {
           <div className="flex items-center gap-2 p-3 rounded-xl" style={{ background: "#f59e0b10", border: "1px solid #f59e0b20" }}>
             <span>🔥</span>
             <p className="text-xs" style={{ color: "#f59e0b" }}>
-              Voce esta em uma sequencia de <strong>{usuarioAtual.streak} dias</strong>! Mantenha!
+              Você está em uma sequência de <strong>{usuarioAtual.streak} dias</strong>! Mantenha!
             </p>
           </div>
         )}

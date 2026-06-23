@@ -233,7 +233,7 @@ export default function Sidebar() {
               }}
             >
               <p className="text-white font-bold text-sm">Izzat Group</p>
-              <p className="text-xs" style={{ color: "#9aa7ba" }}>Gestao de Equipe</p>
+              <p className="text-xs" style={{ color: "#9aa7ba" }}>Gestão de Equipe</p>
             </div>
           </div>
 
