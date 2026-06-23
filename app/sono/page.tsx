@@ -251,7 +251,7 @@ export default function SonoPage() {
           {comDados.length === 0 ? (
             <div className="text-center py-8">
               <Moon size={32} className="mx-auto mb-2" style={{ color: "#1e3356" }} />
-              <p className="text-sm" style={{ color: "#74859c" }}>Sem registros nos ultimos {periodo} dias</p>
+              <p className="text-sm" style={{ color: "#74859c" }}>Sem registros nos últimos {periodo} dias</p>
             </div>
           ) : (
             <>

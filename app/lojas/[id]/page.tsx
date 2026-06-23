@@ -52,10 +52,10 @@ function amanha() {
 }
 const uid = () => `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
 const PRI_COR: Record<string, string> = { alta: "#ef4444", media: "#f59e0b", baixa: "#64748b" };
-const PRI_LABEL: Record<string, string> = { alta: "Alta", media: "Media", baixa: "Baixa" };
+const PRI_LABEL: Record<string, string> = { alta: "Alta", media: "Média", baixa: "Baixa" };
 const STATUS_LABEL: Record<string, string> = {
   pendente: "Pendente", em_andamento: "Em andamento",
-  concluida: "Concluida", atrasada: "Atrasada", aguardando_revisao: "Ag. Revisao", travado: "Travado",
+  concluida: "Concluída", atrasada: "Atrasada", aguardando_revisao: "Ag. Revisão", travado: "Travado",
 };
 
 export default function LojaPerfilPage() {
@@ -166,7 +166,7 @@ export default function LojaPerfilPage() {
   if (!loja) {
     return (
       <div className="max-w-2xl mx-auto p-8 text-center">
-        <p className="text-white font-semibold text-lg">Loja nao encontrada.</p>
+        <p className="text-white font-semibold text-lg">Loja não encontrada.</p>
         <Link href="/lojas" className="text-sm mt-2 inline-block hover:underline" style={{ color: "#c9a84c" }}>Voltar para Lojas</Link>
       </div>
     );
@@ -1267,7 +1267,7 @@ export default function LojaPerfilPage() {
             <RefreshCw size={32} className="mx-auto mb-3" style={{ color: "#1e3356" }} />
             <p className="text-white font-medium mb-1">Nenhuma rotina para esta loja</p>
             <p className="text-xs mb-4" style={{ color: "#9aa7ba" }}>
-              Rotinas sao atividades diarias recorrentes vinculadas a esta loja.
+              Rotinas são atividades diárias recorrentes vinculadas a esta loja.
             </p>
             {isAdmin && (
               <button onClick={abrirModalRotina}
@@ -1300,7 +1300,7 @@ export default function LojaPerfilPage() {
                       disabled={!podeCumprir}
                       className="mt-0.5 flex-shrink-0"
                       style={{ cursor: podeCumprir ? "pointer" : "default" }}
-                      data-tip={rotina.concluida ? "Marcar como nao concluida" : "Marcar como concluida"}>
+                      data-tip={rotina.concluida ? "Marcar como não concluída" : "Marcar como concluída"}>
                       {rotina.concluida
                         ? <CheckCircle2 size={20} style={{ color: "#10b981" }} />
                         : <Circle size={20} style={{ color: "#334155" }} />}

@@ -294,8 +294,8 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
           className="flex items-center justify-between pt-3"
           style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}
         >
-          <p className="text-xs" style={{ color: "#334155" }}>
-            {isOnline ? "Equipe notificada" : "Equipe nao te ve online"}
+          <p className="text-xs" style={{ color: "#9aa7ba" }}>
+            {isOnline ? "Equipe notificada" : "Equipe não te vê online"}
           </p>
           <button
             onClick={handleNaoMostrarHoje}

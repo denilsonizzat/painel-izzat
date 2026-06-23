@@ -214,7 +214,7 @@ export default function RotinasPage() {
               <div>
                 <h1 style={{ color: "#e8edf5", fontWeight: 700, fontSize: 20, margin: 0 }}>Rotinas</h1>
                 <p style={{ color: "#9aa7ba", fontSize: 12, margin: "2px 0 0" }}>
-                  Habitos diarios que a equipe repete — cada um vale pontos ao ser marcado
+                  Hábitos diários que a equipe repete — cada um vale pontos ao ser marcado
                 </p>
                 <p style={{ color: "#74859c", fontSize: 11, margin: "2px 0 0" }}>
                   {todasRotinas.length} {todasRotinas.length === 1 ? "rotina" : "rotinas"} · {colaboradores.length} {colaboradores.length === 1 ? "colaborador" : "colaboradores"}
@@ -322,8 +322,8 @@ export default function RotinasPage() {
             <p style={{ fontSize: 32, marginBottom: 8 }}>🔄</p>
             <p style={{ color: "#e8edf5", fontWeight: 600, marginBottom: 6 }}>Nenhuma rotina cadastrada ainda</p>
             <p style={{ color: "#74859c", fontSize: 12, lineHeight: 1.6 }}>
-              Rotinas sao habitos diarios, semanais ou mensais que a equipe repete.<br />
-              Cada rotina concluida vale pontos de XP. Clique em &quot;Nova Rotina&quot; para comecar.
+              Rotinas são hábitos diários, semanais ou mensais que a equipe repete.<br />
+              Cada rotina concluída vale pontos de XP. Clique em &quot;Nova Rotina&quot; para começar.
             </p>
           </div>
         ) : (
