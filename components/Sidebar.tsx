@@ -8,7 +8,7 @@ import {
   CalendarDays, ChevronLeft, ChevronRight, PanelLeftClose, DollarSign, Moon, Sun,
   PackageSearch, BookMarked, Trophy, Receipt, Wallet, Briefcase, TrendingUp, Calculator, Link2, Wrench, Handshake,
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import Avatar from "./Avatar";
 import Image from "next/image";
 import { LOJAS, Prioridade, calcNivel } from "@/lib/data";
@@ -112,6 +112,13 @@ export default function Sidebar() {
   const [secoesColapsadas, setSecoesColapsadas] = useState<Record<string, boolean>>({});
   const [gruposAbertos, setGruposAbertos] = useState<Record<string, boolean>>({});
   const [form, setForm] = useState({ titulo: "", prioridade: "alta" as Prioridade, atribuidoPara: "", lojaId: "" });
+
+  const navScrollRef = useRef<HTMLElement>(null);
+  const savedScrollTop = useRef(0);
+  useLayoutEffect(() => {
+    const nav = navScrollRef.current;
+    if (nav) nav.scrollTop = savedScrollTop.current;
+  });
 
   useEffect(() => {
     if (!usuarioAtual) return;
@@ -221,14 +228,14 @@ export default function Sidebar() {
 
           {/* Bell + toggle */}
           <div
-            className="flex items-center gap-1 flex-shrink-0 overflow-hidden transition-all"
-            style={{ maxWidth: isCollapsed ? 0 : 80, opacity: isCollapsed ? 0 : 1, transition: "max-width 0.22s ease, opacity 0.15s ease" }}
+            className="flex items-center gap-1 flex-shrink-0 transition-all"
+            style={{ maxWidth: isCollapsed ? 0 : 80, opacity: isCollapsed ? 0 : 1, overflow: "visible", transition: "max-width 0.22s ease, opacity 0.15s ease" }}
           >
             {usuarioAtual && (
               <button
                 onClick={() => setNotifAberta((v) => !v)}
                 className="relative p-2 rounded-xl transition-all"
-                style={{ background: notifAberta ? "#c9a84c20" : "transparent" }}
+                style={{ background: notifAberta ? "#c9a84c20" : "transparent", transform: isCollapsed ? "scale(0)" : "scale(1)", pointerEvents: isCollapsed ? "none" : "auto" }}
               >
                 <Bell size={15} style={{ color: naoLidas > 0 ? "#c9a84c" : "#64748b" }} />
                 {naoLidas > 0 && (
@@ -316,7 +323,7 @@ export default function Sidebar() {
       </div>
 
       {/* ── Nav ── */}
-      <nav className="flex-1 px-3 py-3 overflow-y-auto" style={{ display: "flex", flexDirection: "column", gap: isCollapsed ? 4 : 14 }}>
+      <nav ref={navScrollRef as React.Ref<HTMLElement>} onScroll={(e) => { savedScrollTop.current = (e.currentTarget as HTMLElement).scrollTop; }} className="flex-1 px-3 py-3 overflow-y-auto" style={{ display: "flex", flexDirection: "column", gap: isCollapsed ? 4 : 14 }}>
         {NAV_SECTIONS.map((section) => {
           const allItems = [...(section.items || []), ...(isAdmin && section.adminItems ? section.adminItems : [])];
           if (allItems.length === 0) return null;
@@ -633,7 +640,6 @@ export default function Sidebar() {
               <LogOut size={16} />
               Sair
             </button>
-            <p className="text-center mt-3 text-xs" style={{ color: "#1e3356" }}>Dev: Denilson Bitencourt</p>
           </>
         )}
       </div>

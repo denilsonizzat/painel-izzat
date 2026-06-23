@@ -92,7 +92,7 @@ export default function TipLayer() {
       {tip.titulo && (
         <p style={{ color: "#c9a84c", fontSize: 12, fontWeight: 700, marginBottom: 3 }}>{tip.titulo}</p>
       )}
-      <p style={{ color: "#cbd5e1", fontSize: 12, lineHeight: 1.5 }}>{tip.texto}</p>
+      <p style={{ color: "#cbd5e1", fontSize: 12, lineHeight: 1.5, whiteSpace: "nowrap" }}>{tip.texto}</p>
     </div>,
     document.body
   );

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useAppStore } from "@/lib/store";
 import { LOJAS, CATEGORIA_GASTO_LABEL, CategoriaGastoOp, GastoOperacional, TipoCusto } from "@/lib/data";
 import { useState } from "react";
@@ -126,7 +126,7 @@ export default function GastosOperacoesPage() {
   }
 
   return (
-    <div className="flex flex-col gap-6 max-w-5xl">
+    <div className="flex flex-col gap-6">
 
       {/* Header */}
       <div>

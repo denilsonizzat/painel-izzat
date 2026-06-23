@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useCallback } from "react";
 import { useAppStore } from "@/lib/store";
 import { LOJAS, SocioGestor } from "@/lib/data";
@@ -51,7 +51,7 @@ export default function SociosPage() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto space-y-5">
+    <div className="mx-auto space-y-5">
       <BackButton href="/dashboard" />
       <div>
         <h1 className="text-2xl font-bold text-white flex items-center gap-2"><Handshake size={22} style={{ color: "#c9a84c" }} /> Sócios & Remuneração Variável</h1>

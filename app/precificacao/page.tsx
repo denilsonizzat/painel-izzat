@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 import { useAppStore } from "@/lib/store";
 import { LOJAS } from "@/lib/data";
@@ -17,7 +17,7 @@ export default function PrecificacaoPage() {
   const loja = todasLojas.find((l) => l.id === lojaId);
 
   return (
-    <div className="max-w-5xl mx-auto space-y-5">
+    <div className="mx-auto space-y-5">
       <BackButton href="/dashboard" />
       <div>
         <h1 className="text-2xl font-bold text-white">Precificação</h1>
