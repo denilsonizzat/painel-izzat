@@ -5,7 +5,7 @@ import { useAppStore } from "@/lib/store";
 import {
   LayoutDashboard, CheckSquare, Users, Store, ListTodo, LogOut, Menu, X,
   ClipboardList, Plus, Zap, Flame, Bell, Search, Activity, Power, RefreshCw,
-  CalendarDays, ChevronLeft, ChevronRight, PanelLeftClose, DollarSign, Moon,
+  CalendarDays, ChevronLeft, ChevronRight, PanelLeftClose, DollarSign, Moon, Sun,
   PackageSearch, BookMarked, Trophy, Receipt, Wallet, Briefcase, AlertTriangle, TrendingUp, Calculator, Link2, Wrench, Handshake,
 } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -45,7 +45,19 @@ const NAV_SECTIONS = [
     emoji: "🏠",
     items: [
       { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, desc: "Visão geral: progresso do time, KPIs, acesso rápido às ferramentas e stories da equipe" },
+      { href: "/meu-dia", label: "Meu Dia", icon: Sun, desc: "Suas rotinas diárias, entregas do dia e check-in pessoal" },
       { href: "/tarefas", label: "Tarefas", icon: ListTodo, desc: "Tudo que você precisa fazer: Hoje, Rotinas (por frequência) e Avulsas" },
+    ],
+  },
+  {
+    label: "Lojas & Produtos",
+    emoji: "🏪",
+    items: [
+      { href: "/lojas", label: "Lojas", icon: Store, desc: "Todas as lojas do grupo e parceiras: dados, Drive, rotinas e risco operacional" },
+    ],
+    adminItems: [
+      { href: "/catalogo", label: "Produtos", icon: PackageSearch, desc: "Kanban de produtos: pipeline de validação do cadastro até a distribuição" },
+      { href: "/precificacao", label: "Precificação", icon: Calculator, desc: "Avaliar produto (garimpo) → precificar por mercado → decidir → enviar pra esteira de produtos" },
     ],
   },
   {
@@ -53,7 +65,6 @@ const NAV_SECTIONS = [
     emoji: "👥",
     items: [
       { href: "/atividade", label: "Atividade", icon: Activity, desc: "Histórico do que o time fez: conclusões, check-ins e XP ganho ao longo do tempo" },
-      { href: "/regras", label: "Regras", icon: BookMarked, desc: "Regras da empresa em 3 níveis: inegociável, recomendado e maleável" },
       { href: "/formulario", label: "Formulário", icon: ClipboardList, desc: "Formulário de acompanhamento que cada colaborador preenche" },
     ],
     adminItems: [
@@ -63,39 +74,13 @@ const NAV_SECTIONS = [
     ],
   },
   {
-    label: "Lojas",
-    emoji: "🏪",
-    items: [
-      { href: "/lojas", label: "Lojas", icon: Store, desc: "Todas as lojas do grupo e parceiras: dados, Drive, rotinas e risco operacional" },
-    ],
-    adminItems: [
-      { href: "/catalogo", label: "Produtos", icon: PackageSearch, desc: "Kanban de produtos: pipeline de validação do cadastro até a distribuição" },
-    ],
-  },
-  {
-    label: "Precificação",
-    emoji: "🧮",
-    items: [
-      { href: "/precificacao", label: "Precificação", icon: Calculator, desc: "Avaliar produto (garimpo) → precificar por mercado → decidir → enviar pra esteira de produtos" },
-    ],
-    adminItems: [],
-  },
-  {
-    label: "Ferramentas",
-    emoji: "🧰",
-    items: [
-      { href: "/ferramentas", label: "Ferramentas", icon: Wrench, desc: "Calendário de datas e-commerce por país, fuso horário pra campanhas e a calculadora flutuante" },
-    ],
-    adminItems: [],
-  },
-  {
-    label: "Controle Geral",
+    label: "Controle",
     emoji: "🎛️",
     items: [],
     adminItems: [
       { href: "/operacao", label: "Operação", icon: TrendingUp, desc: "Pedidos, ADS e P&L real por loja — custos reais da operação (produto, frete, taxas, processamento)" },
-      { href: "/gastos", label: "Custos da Equipe", icon: DollarSign, desc: "Salários e custos relacionados à mão de obra do time" },
       { href: "/socios", label: "Sócios & Variável", icon: Handshake, desc: "Sócios-gestores que ganham % do lucro/faturamento da loja + consolidação fixo+variável" },
+      { href: "/gastos", label: "Custos da Equipe", icon: DollarSign, desc: "Salários e custos relacionados à mão de obra do time" },
       { href: "/gastos-operacoes", label: "Custos Operacionais", icon: Receipt, desc: "Custos fixos por loja: ads, ferramentas, IA e plataforma" },
       { href: "/custo-total", label: "Custo Total", icon: Wallet, desc: "Soma dos custos da equipe + operações = quanto custa manter o grupo Izzat" },
       { href: "/vagas", label: "Vagas & Pendências", icon: Briefcase, desc: "Rotinas sem responsável e necessidades de contratação do grupo" },
@@ -103,12 +88,22 @@ const NAV_SECTIONS = [
     ],
   },
   {
+    label: "Crescimento",
+    emoji: "🌟",
+    items: [
+      { href: "/desafios", label: "Desafios", icon: Trophy, desc: "Seu progresso (XP, nível, streak) e os desafios do time com check-in diário" },
+      { href: "/regras", label: "Regras", icon: BookMarked, desc: "Regras da empresa em 3 níveis: inegociável, recomendado e maleável" },
+    ],
+    adminItems: [],
+  },
+  {
     label: "Pessoal",
     emoji: "🌙",
     items: [
       { href: "/sono", label: "Sono", icon: Moon, desc: "Registre seu sono e acompanhe consistência e horas dormidas (privado, só você vê)" },
-      { href: "/desafios", label: "Desafios", icon: Trophy, desc: "Seu progresso (XP, nível, streak) e os desafios do time com check-in diário" },
+      { href: "/ferramentas", label: "Ferramentas", icon: Wrench, desc: "Calendário de datas e-commerce por país, fuso horário pra campanhas e a calculadora flutuante" },
     ],
+    adminItems: [],
   },
 ];
 
@@ -169,7 +164,7 @@ export default function Sidebar() {
   })() : null;
 
   // true = icon-only; false = full sidebar
-  const isCollapsed = sidebarColapsada && !hoverExpand;
+  const isCollapsed = sidebarColapsada && !hoverExpand && !menuAberto;
 
   const resultadosBusca = busca.length >= 2
     ? [
@@ -212,7 +207,7 @@ export default function Sidebar() {
       >
         <div className="flex items-center" style={{ justifyContent: isCollapsed ? "center" : "space-between" }}>
           {/* Logo + name */}
-          <div className="flex items-center" style={{ gap: isCollapsed ? 0 : 12, overflow: "hidden" }}>
+          <Link href="/dashboard" onClick={() => setMenuAberto(false)} className="flex items-center" style={{ gap: isCollapsed ? 0 : 12, overflow: "hidden" }}>
             <div className="w-9 h-9 rounded-xl overflow-hidden flex-shrink-0">
               <Image
                 src="/lojas/izzat-group.png"
@@ -235,7 +230,7 @@ export default function Sidebar() {
               <p className="text-white font-bold text-sm">Izzat Group</p>
               <p className="text-xs" style={{ color: "#9aa7ba" }}>Gestão de Equipe</p>
             </div>
-          </div>
+          </Link>
 
           {/* Bell + toggle */}
           <div
@@ -629,10 +624,15 @@ export default function Sidebar() {
       <div className="md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3"
         style={{ background: "var(--card)", borderBottom: "1px solid var(--border)" }}>
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg overflow-hidden flex-shrink-0">
-            <Image src="/lojas/izzat-group.png" alt="Izzat Group" width={28} height={28} className="w-full h-full object-cover" unoptimized />
-          </div>
-          <span className="text-white font-bold text-sm">Izzat Group</span>
+          <button onClick={() => setMenuAberto(!menuAberto)} className="text-white p-1 -ml-1">
+            {menuAberto ? <X size={22} /> : <Menu size={22} />}
+          </button>
+          <Link href="/dashboard" className="flex items-center gap-2" onClick={() => setMenuAberto(false)}>
+            <div className="w-7 h-7 rounded-lg overflow-hidden flex-shrink-0">
+              <Image src="/lojas/izzat-group.png" alt="Izzat Group" width={28} height={28} className="w-full h-full object-cover" unoptimized />
+            </div>
+            <span className="text-white font-bold text-sm">Izzat Group</span>
+          </Link>
         </div>
         <div className="flex items-center gap-1">
           {usuarioAtual && (
@@ -652,9 +652,6 @@ export default function Sidebar() {
               </button>
             </>
           )}
-          <button onClick={() => setMenuAberto(!menuAberto)} className="text-white p-1">
-            {menuAberto ? <X size={22} /> : <Menu size={22} />}
-          </button>
         </div>
       </div>
 
@@ -673,7 +670,7 @@ export default function Sidebar() {
           onClick={() => setModalAberto(true)}
           className="fixed bottom-6 right-6 z-30 w-14 h-14 rounded-full shadow-2xl flex items-center justify-center transition-transform hover:scale-110 active:scale-95"
           style={{ background: "#c9a84c", color: "#0b1624" }}
-          data-tip="Nova Tarefa Rapida"
+          data-tip="Nova Tarefa Rápida"
         >
           <Plus size={26} strokeWidth={2.5} />
         </button>
