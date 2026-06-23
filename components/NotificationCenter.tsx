@@ -99,7 +99,7 @@ export default function NotificationCenter({ aberto, onFechar }: Props) {
   if (!aberto) return null;
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-start justify-center" style={{ background: "#00000070" }}>
+    <div className="fixed inset-0 z-[9999] flex items-start justify-center" style={{ background: "#00000070" }}>
       <div
         ref={panelRef}
         className="w-full max-w-md mx-4 rounded-2xl overflow-hidden shadow-2xl"

@@ -256,8 +256,6 @@ export default function Sidebar() {
           )}
         </button>
 
-        {/* Notification Center */}
-        <NotificationCenter aberto={notifAberta} onFechar={() => setNotifAberta(false)} />
       </div>
 
       {/* ── Search ── */}
@@ -584,6 +582,9 @@ export default function Sidebar() {
           </div>
         </div>
       )}
+
+      {/* Central de Notificações — nível raiz para funcionar mobile e desktop */}
+      <NotificationCenter aberto={notifAberta} onFechar={() => setNotifAberta(false)} />
 
       {/* Floating + button (admin only) */}
       {isAdmin && (
