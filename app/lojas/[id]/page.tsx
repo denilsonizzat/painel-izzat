@@ -344,7 +344,7 @@ export default function LojaPerfilPage() {
   const membrosDisponiveis = colaboradores.filter((c) => !formTarefa.membros.some((m) => m.colaboradorId === c.id));
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-6xl mx-auto space-y-6">
       <Link href="/lojas" className="inline-flex items-center gap-2 text-sm transition-opacity hover:opacity-70" style={{ color: "#9aa7ba" }}>
         <ArrowLeft size={16} /> Voltar para Lojas
       </Link>
