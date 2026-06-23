@@ -177,8 +177,8 @@ export default function NotificationCenter({ aberto, onFechar }: Props) {
         style={{
           background: "#0d1a2e",
           border: "1px solid rgba(201,164,66,.2)",
-          marginTop: 64,
-          maxHeight: "calc(100vh - 80px)",
+          marginTop: "max(56px, env(safe-area-inset-top, 0px) + 56px)",
+          maxHeight: "calc(100dvh - 72px)",
           display: "flex",
           flexDirection: "column",
           animation: "slideDown 0.22s cubic-bezier(0.4,0,0.2,1)",

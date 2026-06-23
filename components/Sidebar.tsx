@@ -215,8 +215,7 @@ export default function Sidebar() {
                 whiteSpace: "nowrap",
               }}
             >
-              <p className="text-white font-bold text-sm">Izzat Group</p>
-              <p className="text-xs" style={{ color: "#9aa7ba" }}>Gestão de Equipe</p>
+              <p className="text-white font-bold text-sm">Grupo Izzat</p>
             </div>
           </Link>
 
@@ -670,7 +669,7 @@ export default function Sidebar() {
             <div className="w-7 h-7 rounded-lg overflow-hidden flex-shrink-0">
               <Image src="/lojas/izzat-group.png" alt="Izzat Group" width={28} height={28} className="w-full h-full object-cover" unoptimized />
             </div>
-            <span className="text-white font-bold text-sm">Izzat Group</span>
+            <span className="text-white font-bold text-sm">Grupo Izzat</span>
           </Link>
         </div>
         <div className="flex items-center gap-1">

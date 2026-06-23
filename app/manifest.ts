@@ -2,18 +2,17 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Painel Izzat Group",
-    short_name: "Izzat",
-    description: "Gestao de equipe e lojas — Izzat Group",
+    name: "Gestão e-commerce - Izzat",
+    short_name: "Grupo Izzat",
+    description: "Gestão de e-commerce e lojas — Grupo Izzat",
     start_url: "/dashboard",
     display: "standalone",
     orientation: "portrait",
     background_color: "#0A1626",
     theme_color: "#C9A442",
     icons: [
-      { src: "/icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any" },
-      { src: "/icon.svg", sizes: "any", type: "image/svg+xml", purpose: "maskable" },
-      { src: "/lojas/izzat-group.png", sizes: "512x512", type: "image/png", purpose: "any" },
+      { src: "/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+      { src: "/icon-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
     ],
     categories: ["business", "productivity"],
     shortcuts: [
