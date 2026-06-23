@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useAppStore } from "@/lib/store";
 import {
   Bell, X, Check, ExternalLink, Trash2, Clock, Archive, RotateCcw,
-  AlertTriangle, Trophy, Zap, Flame, Power, ListTodo, ChevronDown, ChevronUp, Calendar,
+  AlertTriangle, Trophy, Zap, Flame, Power, ListTodo, ChevronDown, ChevronUp, Calendar, EyeOff,
 } from "lucide-react";
 
 const TIPO_CFG: Record<string, { icon: typeof Bell; cor: string; label: string }> = {
@@ -124,12 +124,13 @@ export default function NotificationCenter({ aberto, onFechar }: Props) {
   const handleSwipeStart = (id: string, clientX: number) => { touchStartX.current[id] = clientX; };
   const handleSwipeMove = (id: string, clientX: number) => {
     const delta = touchStartX.current[id] - clientX;
-    if (delta > 0) setSwipeX((p) => ({ ...p, [id]: Math.min(delta, 100) }));
+    if (delta > 0) setSwipeX((p) => ({ ...p, [id]: Math.min(delta, 100) }));   // esquerda: arquivar
+    else setSwipeX((p) => ({ ...p, [id]: Math.max(delta, -100) }));             // direita: não lida
   };
   const handleSwipeEnd = (id: string) => {
-    if ((swipeX[id] ?? 0) > 60) {
-      aba === "ativas" ? arquivarNotificacao(id) : excluirNotificacao(id);
-    }
+    const dx = swipeX[id] ?? 0;
+    if (dx > 60) aba === "ativas" ? arquivarNotificacao(id) : excluirNotificacao(id);
+    else if (dx < -60) marcarNotificacaoNaoLida(id);
     setSwipeX((p) => ({ ...p, [id]: 0 }));
   };
 
@@ -265,16 +266,15 @@ export default function NotificationCenter({ aberto, onFechar }: Props) {
 
                 return (
                   <div key={n.id} className="relative overflow-hidden rounded-xl">
-                    {/* Fundo swipe */}
+                    {/* Fundo swipe esquerda (arquivar / excluir) */}
                     <div className="absolute inset-0 flex items-center justify-end pr-4 rounded-xl"
-                      style={{
-                        background: aba === "ativas" ? "#475569" : "#ef4444",
-                        opacity: translateX > 20 ? 1 : 0,
-                        transition: "opacity 0.1s",
-                      }}>
-                      {aba === "ativas"
-                        ? <Archive size={18} style={{ color: "white" }} />
-                        : <Trash2 size={18} style={{ color: "white" }} />}
+                      style={{ background: aba === "ativas" ? "#475569" : "#ef4444", opacity: translateX > 20 ? 1 : 0, transition: "opacity 0.1s" }}>
+                      {aba === "ativas" ? <Archive size={18} style={{ color: "white" }} /> : <Trash2 size={18} style={{ color: "white" }} />}
+                    </div>
+                    {/* Fundo swipe direita (marcar não lida) */}
+                    <div className="absolute inset-0 flex items-center justify-start pl-4 rounded-xl"
+                      style={{ background: "#10b981", opacity: translateX < -20 ? 1 : 0, transition: "opacity 0.1s" }}>
+                      <EyeOff size={18} style={{ color: "white" }} />
                     </div>
 
                     {/* Card */}

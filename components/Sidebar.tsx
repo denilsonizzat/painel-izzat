@@ -4,14 +4,14 @@ import { usePathname, useRouter } from "next/navigation";
 import { useAppStore } from "@/lib/store";
 import {
   LayoutDashboard, CheckSquare, Users, Store, ListTodo, LogOut, Menu, X,
-  ClipboardList, Plus, Zap, Flame, Bell, Search, Activity, Power, RefreshCw,
+  ClipboardList, Zap, Flame, Bell, Search, Activity, Power, RefreshCw,
   CalendarDays, ChevronLeft, ChevronRight, PanelLeftClose, DollarSign, Moon, Sun,
-  PackageSearch, BookMarked, Trophy, Receipt, Wallet, Briefcase, TrendingUp, Calculator, Link2, Wrench, Handshake, BookOpen,
+  PackageSearch, BookMarked, Trophy, Receipt, Wallet, Briefcase, TrendingUp, Calculator, Link2, Handshake, BookOpen,
 } from "lucide-react";
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import Avatar from "./Avatar";
 import Image from "next/image";
-import { LOJAS, Prioridade, calcNivel } from "@/lib/data";
+import { LOJAS, calcNivel } from "@/lib/data";
 import OnlineStatusModal from "./OnlineStatusModal";
 import BotaoAtivarPush from "./BotaoAtivarPush";
 import Tip from "./Tip";
@@ -88,7 +88,6 @@ const NAV_SECTIONS = [
     emoji: "🌙",
     items: [
       { href: "/sono", label: "Sono", icon: Moon, desc: "Registre seu sono e acompanhe consistência e horas dormidas (privado, só você vê)" },
-      { href: "/ferramentas", label: "Ferramentas", icon: Wrench, desc: "Calendário de datas e-commerce por país, fuso horário pra campanhas e a calculadora flutuante" },
     ],
     adminItems: [],
   },
@@ -106,20 +105,18 @@ export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const {
-    usuarioAtual, logout, colaboradores, criarTarefa, tarefas,
+    usuarioAtual, logout, colaboradores, tarefas,
     notificacoesInApp,
     sidebarColapsada, setSidebarColapsada,
   } = useAppStore();
 
   const [menuAberto, setMenuAberto] = useState(false);
-  const [modalAberto, setModalAberto] = useState(false);
   const [notifAberta, setNotifAberta] = useState(false);
   const [onlineModalAberto, setOnlineModalAberto] = useState(false);
   const [busca, setBusca] = useState("");
   const [hoverExpand, setHoverExpand] = useState(false);
   const [secoesColapsadas, setSecoesColapsadas] = useState<Record<string, boolean>>({});
   const [gruposAbertos, setGruposAbertos] = useState<Record<string, boolean>>({});
-  const [form, setForm] = useState({ titulo: "", prioridade: "alta" as Prioridade, atribuidoPara: "", lojaId: "" });
 
   const navScrollRef = useRef<HTMLElement>(null);
   const savedScrollTop = useRef(0);
@@ -139,13 +136,6 @@ export default function Sidebar() {
   }, [usuarioAtual?.id]);
 
   const handleLogout = () => { logout(); router.push("/"); };
-
-  const handleCriar = () => {
-    if (!form.titulo || !form.atribuidoPara) return;
-    criarTarefa({ ...form, descricao: "", status: "pendente", criadoPor: usuarioAtual?.id || "" });
-    setForm({ titulo: "", prioridade: "alta", atribuidoPara: "", lojaId: "" });
-    setModalAberto(false);
-  };
 
   const isAdmin = usuarioAtual?.nivelAcesso === "admin";
   const nivelInfo = usuarioAtual ? calcNivel(usuarioAtual.xp || 0) : null;
@@ -718,82 +708,6 @@ export default function Sidebar() {
 
       {/* Central de Notificações — nível raiz para funcionar mobile e desktop */}
       <NotificationCenter aberto={notifAberta} onFechar={() => setNotifAberta(false)} />
-
-      {/* Floating + button (admin only) */}
-      {isAdmin && (
-        <button
-          onClick={() => setModalAberto(true)}
-          className="fixed bottom-6 right-6 z-30 w-14 h-14 rounded-full shadow-2xl flex items-center justify-center transition-transform hover:scale-110 active:scale-95"
-          style={{ background: "#c9a84c", color: "#0b1624" }}
-          data-tip="Nova Tarefa Rápida"
-        >
-          <Plus size={26} strokeWidth={2.5} />
-        </button>
-      )}
-
-      {/* Modal quick add */}
-      {modalAberto && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4"
-          style={{ background: "#00000090" }} onClick={() => setModalAberto(false)}>
-          <div className="w-full max-w-md rounded-2xl p-5 space-y-4"
-            style={{ background: "var(--card)", border: "1px solid var(--border)" }} onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between">
-              <h2 className="text-white font-bold">Nova Tarefa</h2>
-              <button onClick={() => setModalAberto(false)} style={{ color: "#9aa7ba" }}><X size={20} /></button>
-            </div>
-            <input
-              value={form.titulo}
-              onChange={(e) => setForm({ ...form, titulo: e.target.value })}
-              placeholder="O que precisa ser feito?"
-              autoFocus
-              className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none"
-              style={{ background: "#1e3356", border: "1px solid #334155" }}
-              onKeyDown={(e) => e.key === "Enter" && handleCriar()}
-            />
-            <div className="grid grid-cols-2 gap-3">
-              <select
-                value={form.prioridade}
-                onChange={(e) => setForm({ ...form, prioridade: e.target.value as Prioridade })}
-                className="w-full px-3 py-2 rounded-xl text-sm text-white outline-none"
-                style={{ background: "#1e3356", border: "1px solid #334155" }}
-              >
-                <option value="alta">Alta</option>
-                <option value="media">Media</option>
-                <option value="baixa">Baixa</option>
-              </select>
-              <select
-                value={form.atribuidoPara}
-                onChange={(e) => setForm({ ...form, atribuidoPara: e.target.value })}
-                className="w-full px-3 py-2 rounded-xl text-sm text-white outline-none"
-                style={{ background: "#1e3356", border: "1px solid #334155" }}
-              >
-                <option value="">Para quem?</option>
-                {colaboradores.map((c) => (
-                  <option key={c.id} value={c.id}>{c.nome.split(" ")[0]}</option>
-                ))}
-              </select>
-            </div>
-            <select
-              value={form.lojaId}
-              onChange={(e) => setForm({ ...form, lojaId: e.target.value })}
-              className="w-full px-3 py-2 rounded-xl text-sm text-white outline-none"
-              style={{ background: "#1e3356", border: "1px solid #334155" }}
-            >
-              <option value="">Sem loja</option>
-              <option value="grupo-izzat">Grupo Izzat (geral)</option>
-              {LOJAS.map((l) => <option key={l.id} value={l.id}>{l.nome}</option>)}
-            </select>
-            <button
-              onClick={handleCriar}
-              disabled={!form.titulo || !form.atribuidoPara}
-              className="w-full py-2.5 rounded-xl text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-40"
-              style={{ background: "#c9a84c" }}
-            >
-              Criar Tarefa
-            </button>
-          </div>
-        </div>
-      )}
 
       <OnlineStatusModal aberto={onlineModalAberto} onFechar={() => setOnlineModalAberto(false)} />
     </>
