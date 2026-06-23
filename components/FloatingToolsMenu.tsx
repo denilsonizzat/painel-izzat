@@ -1,11 +1,13 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Wrench, X, Globe, TrendingUp, Calculator, CalendarDays, CalendarRange } from "lucide-react";
 import { useAppStore } from "@/lib/store";
 
 type FerramId = "pomodoro" | "calc" | "calendario" | "feriados" | "fuso" | "roas";
 
 export default function FloatingToolsMenu() {
+  const router = useRouter();
   const { usuarioAtual, abrirPomodoro, abrirCalc, abrirROAS, abrirCalendario } = useAppStore();
   const [aberto, setAberto] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
@@ -51,12 +53,12 @@ export default function FloatingToolsMenu() {
     {
       id: "feriados", label: "Datas E-comm", icon: <CalendarRange size={20} />,
       tip: "Calendário de datas comemorativas por país",
-      onClick: () => { fechar(); window.open("/calendario", "_blank"); },
+      onClick: () => { fechar(); router.push("/calendario"); },
     },
     {
       id: "fuso", label: "Fuso Horário", icon: <Globe size={20} />,
       tip: "Relógio mundial por mercado e fuso para campanhas",
-      onClick: () => { fechar(); window.open("/fuso-horario", "_blank"); },
+      onClick: () => { fechar(); router.push("/fuso-horario"); },
     },
     {
       id: "roas", label: "ROAS & Lucro", icon: <TrendingUp size={20} />,
@@ -106,9 +108,9 @@ export default function FloatingToolsMenu() {
             </span>
             <button onClick={tool.onClick}
               aria-label={tool.label}
+              title={tool.tip}
               className="flex items-center justify-center rounded-full shadow-xl transition-all hover:scale-110 active:scale-95"
-              style={{ width: 48, height: 48, background: GOLD, color: "#0b1624", flexShrink: 0 }}
-              data-tip={tool.tip} data-tip-place="left">
+              style={{ width: 48, height: 48, background: GOLD, color: "#0b1624", flexShrink: 0 }}>
               {tool.emoji ? <span style={{ fontSize: 20 }}>{tool.emoji}</span> : tool.icon}
             </button>
           </div>
