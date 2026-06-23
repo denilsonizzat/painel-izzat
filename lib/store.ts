@@ -105,6 +105,8 @@ interface AppState {
   verStory: (storyId: string, colaboradorId: string) => void;
   adicionarNotificacaoInApp: (notif: Omit<NotificacaoInApp, "id" | "criadaEm" | "lida">) => void;
   marcarNotificacaoLida: (notifId: string) => void;
+  excluirNotificacao: (notifId: string) => void;
+  snoozeNotificacao: (notifId: string, minutos: number) => void;
   limparNotificacoesLidas: () => void;
   addToast: (message: string, type: ToastMsg["type"], xp?: number) => void;
   removeToast: (id: string) => void;
@@ -711,6 +713,28 @@ export const useAppStore = create<AppState>()(
             n.id === notifId ? { ...n, lida: true } : n
           ),
         }));
+      },
+
+      excluirNotificacao: (notifId) => {
+        set((state) => ({
+          notificacoesInApp: state.notificacoesInApp.filter((n) => n.id !== notifId),
+        }));
+      },
+
+      snoozeNotificacao: (notifId, minutos) => {
+        const until = new Date(Date.now() + minutos * 60 * 1000).toISOString();
+        set((state) => ({
+          notificacoesInApp: state.notificacoesInApp.map((n) =>
+            n.id === notifId ? { ...n, lida: true, snoozedUntil: until } : n
+          ),
+        }));
+        setTimeout(() => {
+          set((state) => ({
+            notificacoesInApp: state.notificacoesInApp.map((n) =>
+              n.id === notifId ? { ...n, lida: false, snoozedUntil: undefined } : n
+            ),
+          }));
+        }, minutos * 60 * 1000);
       },
 
       limparNotificacoesLidas: () => {

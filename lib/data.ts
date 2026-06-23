@@ -418,6 +418,7 @@ export interface NotificacaoInApp {
   lida: boolean;
   criadaEm: string;
   href?: string;
+  snoozedUntil?: string;
 }
 
 export const NIVEIS = [
