@@ -66,10 +66,10 @@ export default function Onboarding() {
 
   return (
     <>
-      {/* Overlay escuro */}
+      {/* Overlay — semi-transparente para o usuário ver o app por baixo */}
       <div
         className="fixed inset-0"
-        style={{ zIndex: 9998, background: "rgba(7,12,22,0.88)" }}
+        style={{ zIndex: 9998, background: "rgba(7,12,22,0.60)", backdropFilter: "blur(3px)" }}
         onClick={concluir}
       />
 
@@ -93,25 +93,23 @@ export default function Onboarding() {
             boxShadow: "0 24px 80px rgba(0,0,0,0.8), 0 0 0 1px #c9a84c18",
           }}
         >
-          {/* Fechar */}
-          <button
-            onClick={concluir}
-            className="absolute top-4 right-4 w-7 h-7 rounded-full flex items-center justify-center transition-all hover:opacity-80"
-            style={{ background: "#1e3356", color: "#9aa7ba" }}
-          >
-            <X size={13} />
-          </button>
-
-          {/* Dots de progresso */}
+          {/* Dots de progresso + fechar na mesma linha */}
           <div className="flex items-center gap-1.5 mb-5">
             {STEPS.map((_, i) => (
-              <div key={i} className="rounded-full transition-all" style={{
+              <div key={i} className="rounded-full transition-all flex-shrink-0" style={{
                 width: i === step ? 20 : 6,
                 height: 6,
                 background: i === step ? "#c9a84c" : i < step ? "#c9a84c60" : "#1e3356",
               }} />
             ))}
-            <span className="ml-auto text-xs" style={{ color: "#74859c" }}>{step + 1} / {STEPS.length}</span>
+            <span className="mx-2 text-xs whitespace-nowrap" style={{ color: "#74859c" }}>{step + 1} / {STEPS.length}</span>
+            <button
+              onClick={concluir}
+              className="ml-auto w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-all hover:opacity-80"
+              style={{ background: "#1e3356", color: "#9aa7ba" }}
+            >
+              <X size={13} />
+            </button>
           </div>
 
           {/* Emoji */}
