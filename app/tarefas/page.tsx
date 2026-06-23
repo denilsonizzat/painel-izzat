@@ -86,7 +86,7 @@ export default function TarefasPage() {
     const assignee = colaboradores.find((c) => c.id === formRapida.atribuidoPara);
     if (assignee?.telefone) {
       const phone = assignee.telefone.replace(/\D/g, "");
-      const msg = encodeURIComponent(`Oi ${assignee.nome.split(" ")[0]}! Voce recebeu uma nova tarefa: "${formRapida.titulo}". Acesse o painel para ver os detalhes.`);
+      const msg = encodeURIComponent(`Oi ${assignee.nome.split(" ")[0]}! Você recebeu uma nova tarefa: "${formRapida.titulo}". Acesse o painel para ver os detalhes.`);
       setWaLink(`https://wa.me/${phone}?text=${msg}`);
     }
     setFormRapida(emptyRapida);
@@ -351,12 +351,12 @@ export default function TarefasPage() {
             <p className="text-white font-medium">
               {filtroStatus !== "todos" || filtroPrioridade !== "todos"
                 ? "Nenhuma tarefa com esses filtros"
-                : isAdmin ? "Nenhuma tarefa criada ainda" : "Voce nao tem tarefas atribuidas"}
+                : isAdmin ? "Nenhuma tarefa criada ainda" : "Você não tem tarefas atribuídas"}
             </p>
             <p className="text-sm" style={{ color: "#74859c" }}>
               {filtroStatus !== "todos" || filtroPrioridade !== "todos"
                 ? "Tente mudar ou limpar os filtros acima"
-                : isAdmin ? "Use o botao Nova Tarefa para comecar" : "Aguarde o gestor atribuir tarefas a voce"}
+                : isAdmin ? "Use o botão Nova Tarefa para começar" : "Aguarde o gestor atribuir tarefas a você"}
             </p>
           </div>
         ) : (

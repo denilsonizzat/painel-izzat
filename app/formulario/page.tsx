@@ -263,14 +263,14 @@ export default function FormularioPage() {
             <>
               <div>
                 <h2 className="text-xl font-black mb-1" style={{ color: "var(--text)" }}>Identidade e Contexto</h2>
-                <p className="text-sm" style={{ color: "var(--gray)" }}>Queremos te conhecer como pessoa, nao so como colaborador.</p>
+                <p className="text-sm" style={{ color: "var(--gray)" }}>Queremos te conhecer como pessoa, não só como colaborador.</p>
               </div>
               <div>
                 <label className="text-sm font-semibold block mb-2" style={{ color: "var(--text)" }}>Bairro / Cidade</label>
                 <input
                   value={dados.bairro}
                   onChange={(e) => upd("bairro", e.target.value)}
-                  placeholder="Ex: Moema, Sao Paulo - SP"
+                  placeholder="Ex: Moema, São Paulo - SP"
                   className="w-full px-4 py-3 rounded-xl text-sm outline-none"
                   style={{ background: "var(--card)", border: "1px solid var(--border)", color: "var(--text)" }}
                 />
@@ -288,7 +288,7 @@ export default function FormularioPage() {
               <div>
                 <label className="text-sm font-semibold block mb-2" style={{ color: "var(--text)" }}>Escolaridade</label>
                 <div className="grid grid-cols-2 gap-2">
-                  {[["ensino_medio", "Ensino Medio"], ["tecnico", "Tecnico"], ["graduacao", "Graduacao"], ["pos_graduacao", "Pos-Graduacao"]].map(([v, l]) => (
+                  {[["ensino_medio", "Ensino Médio"], ["tecnico", "Técnico"], ["graduacao", "Graduação"], ["pos_graduacao", "Pós-Graduação"]].map(([v, l]) => (
                     <button key={v} type="button" onClick={() => upd("escolaridade", v)}
                       className="py-2.5 rounded-xl text-sm font-semibold transition-all"
                       style={{
@@ -317,14 +317,14 @@ export default function FormularioPage() {
                 <label className="text-sm font-semibold block mb-2" style={{ color: "var(--text)" }}>Tem filhos?</label>
                 <div className="flex gap-3">
                   <BoolBtn label="Sim" ativo={dados.temFilhos === true} onClick={() => upd("temFilhos", true)} />
-                  <BoolBtn label="Nao" ativo={dados.temFilhos === false} onClick={() => upd("temFilhos", false)} />
+                  <BoolBtn label="Não" ativo={dados.temFilhos === false} onClick={() => upd("temFilhos", false)} />
                 </div>
               </div>
               <div>
                 <label className="text-sm font-semibold block mb-2" style={{ color: "var(--text)" }}>Tem outro emprego ou renda paralela?</label>
                 <div className="flex gap-3">
                   <BoolBtn label="Sim" ativo={dados.temOutroEmprego === true} onClick={() => upd("temOutroEmprego", true)} />
-                  <BoolBtn label="Nao" ativo={dados.temOutroEmprego === false} onClick={() => upd("temOutroEmprego", false)} />
+                  <BoolBtn label="Não" ativo={dados.temOutroEmprego === false} onClick={() => upd("temOutroEmprego", false)} />
                 </div>
               </div>
             </>
@@ -335,13 +335,13 @@ export default function FormularioPage() {
             <>
               <div>
                 <h2 className="text-xl font-black mb-1" style={{ color: "var(--text)" }}>Sonhos e Objetivos</h2>
-                <p className="text-sm" style={{ color: "var(--gray)" }}>Entender onde voce quer chegar nos ajuda a te apoiar no caminho.</p>
+                <p className="text-sm" style={{ color: "var(--gray)" }}>Entender onde você quer chegar nos ajuda a te apoiar no caminho.</p>
               </div>
-              <Txt label="Em 3 anos, onde voce quer estar?" value={dados.sonho3anos} onChange={(v) => upd("sonho3anos", v)}
-                placeholder="Ex: Quero ter meu proprio negocio, estar em outra cidade, ter uma renda de X..." rows={3} />
+              <Txt label="Em 3 anos, onde você quer estar?" value={dados.sonho3anos} onChange={(v) => upd("sonho3anos", v)}
+                placeholder="Ex: Quero ter meu próprio negócio, estar em outra cidade, ter uma renda de X..." rows={3} />
               <Txt label="Qual e o seu sonho grande — para 5 anos ou mais?" value={dados.sonho5anos} onChange={(v) => upd("sonho5anos", v)}
                 placeholder="Pode ser ousado. Quanto mais honesto, mais podemos ajudar." rows={3} />
-              <Txt label="O que voce sente que te impede de chegar la hoje?" value={dados.oQueImpede} onChange={(v) => upd("oQueImpede", v)}
+              <Txt label="O que você sente que te impede de chegar lá hoje?" value={dados.oQueImpede} onChange={(v) => upd("oQueImpede", v)}
                 placeholder="Ex: Falta de dinheiro, de tempo, de experiencia, de rede de contatos..." rows={3} />
             </>
           )}
@@ -353,14 +353,14 @@ export default function FormularioPage() {
                 <h2 className="text-xl font-black mb-1" style={{ color: "var(--text)" }}>Como a empresa se encaixa</h2>
                 <p className="text-sm" style={{ color: "var(--gray)" }}>Queremos entender se a sua jornada e a nossa caminham juntas.</p>
               </div>
-              <Txt label="Por que voce quer trabalhar com a gente?" value={dados.porQueQuerTrabalhar} onChange={(v) => upd("porQueQuerTrabalhar", v)}
-                placeholder="Seja honesto. Pode ser pela oportunidade, aprendizado, dinheiro — tudo e valido." rows={3} />
-              <Txt label="Como voce acredita que essa empresa pode te ajudar a crescer?" value={dados.comoEmpresaAjuda} onChange={(v) => upd("comoEmpresaAjuda", v)}
-                placeholder="Ex: Aprender sobre e-commerce, ter flexibilidade, desenvolver lideranca..." rows={3} />
+              <Txt label="Por que você quer trabalhar com a gente?" value={dados.porQueQuerTrabalhar} onChange={(v) => upd("porQueQuerTrabalhar", v)}
+                placeholder="Seja honesto. Pode ser pela oportunidade, aprendizado, dinheiro — tudo é válido." rows={3} />
+              <Txt label="Como você acredita que essa empresa pode te ajudar a crescer?" value={dados.comoEmpresaAjuda} onChange={(v) => upd("comoEmpresaAjuda", v)}
+                placeholder="Ex: Aprender sobre e-commerce, ter flexibilidade, desenvolver liderança..." rows={3} />
               <div>
-                <label className="text-sm font-semibold block mb-2" style={{ color: "var(--text)" }}>Em que area voce mais quer aprender?</label>
+                <label className="text-sm font-semibold block mb-2" style={{ color: "var(--text)" }}>Em que área você mais quer aprender?</label>
                 <div className="grid grid-cols-2 gap-2">
-                  {[["marketing", "Marketing Digital"], ["vendas", "Vendas"], ["gestao", "Gestao de Equipe"], ["operacoes", "Operacoes / Logistica"], ["design", "Design / Criativo"], ["dados", "Dados / Analise"]].map(([v, l]) => (
+                  {[["marketing", "Marketing Digital"], ["vendas", "Vendas"], ["gestao", "Gestão de Equipe"], ["operacoes", "Operações / Logística"], ["design", "Design / Criativo"], ["dados", "Dados / Análise"]].map(([v, l]) => (
                     <button key={v} type="button" onClick={() => upd("areaAprender", v)}
                       className="py-2.5 px-3 rounded-xl text-sm font-semibold transition-all text-left"
                       style={{
@@ -379,7 +379,7 @@ export default function FormularioPage() {
             <>
               <div>
                 <h2 className="text-xl font-black mb-1" style={{ color: "var(--text)" }}>Rotina Real</h2>
-                <p className="text-sm" style={{ color: "var(--gray)" }}>Preciso entender como e o seu dia de verdade para nao sobrecarregar voce.</p>
+                <p className="text-sm" style={{ color: "var(--gray)" }}>Preciso entender como é o seu dia de verdade para não sobrecarregar você.</p>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -492,10 +492,10 @@ export default function FormularioPage() {
             <>
               <div>
                 <h2 className="text-xl font-black mb-1" style={{ color: "var(--text)" }}>Estilo de Trabalho</h2>
-                <p className="text-sm" style={{ color: "var(--gray)" }}>Como voce funciona melhor — para adaptar a forma de trabalhar com voce.</p>
+                <p className="text-sm" style={{ color: "var(--gray)" }}>Como você funciona melhor — para adaptar a forma de trabalhar com você.</p>
               </div>
               <div>
-                <label className="text-sm font-semibold block mb-2" style={{ color: "var(--text)" }}>Quando recebe um feedback dificil, voce geralmente...</label>
+                <label className="text-sm font-semibold block mb-2" style={{ color: "var(--text)" }}>Quando recebe um feedback difícil, você geralmente...</label>
                 <div className="space-y-2">
                   {[
                     ["reflete", "Fico quieto(a) e processo internamente antes de responder"],
@@ -539,14 +539,14 @@ export default function FormularioPage() {
             <>
               <div>
                 <h2 className="text-xl font-black mb-1" style={{ color: "var(--text)" }}>Autoconhecimento</h2>
-                <p className="text-sm" style={{ color: "var(--gray)" }}>Quem e voce quando esta no seu melhor — e quando precisa de apoio.</p>
+                <p className="text-sm" style={{ color: "var(--gray)" }}>Quem é você quando está no seu melhor — e quando precisa de apoio.</p>
               </div>
-              <Txt label="Qual e a sua maior forca no trabalho?" value={dados.maiorForca} onChange={(v) => upd("maiorForca", v)}
-                placeholder="Ex: Sou muito organizado(a), executo rapido, sou bom em relacionamento com o cliente..." rows={3} />
-              <Txt label="O que voce sabe que precisa desenvolver?" value={dados.aDesenvolver} onChange={(v) => upd("aDesenvolver", v)}
-                placeholder="Ex: Preciso melhorar minha comunicacao, tenho dificuldade com prazos curtos..." rows={3} />
-              <Txt label="Conte um desafio que voce superou — o que aconteceu e o que voce fez?" value={dados.desafioSuperado} onChange={(v) => upd("desafioSuperado", v)}
-                placeholder="Pode ser profissional ou pessoal. Mostra sua resiliencia e como age sob pressao." rows={4} />
+              <Txt label="Qual é a sua maior força no trabalho?" value={dados.maiorForca} onChange={(v) => upd("maiorForca", v)}
+                placeholder="Ex: Sou muito organizado(a), executo rápido, sou bom em relacionamento com o cliente..." rows={3} />
+              <Txt label="O que você sabe que precisa desenvolver?" value={dados.aDesenvolver} onChange={(v) => upd("aDesenvolver", v)}
+                placeholder="Ex: Preciso melhorar minha comunicação, tenho dificuldade com prazos curtos..." rows={3} />
+              <Txt label="Conte um desafio que você superou — o que aconteceu e o que você fez?" value={dados.desafioSuperado} onChange={(v) => upd("desafioSuperado", v)}
+                placeholder="Pode ser profissional ou pessoal. Mostra sua resiliência e como age sob pressão." rows={4} />
             </>
           )}
 
@@ -555,11 +555,11 @@ export default function FormularioPage() {
             <>
               <div>
                 <h2 className="text-xl font-black mb-1" style={{ color: "var(--text)" }}>Bem-estar</h2>
-                <p className="text-sm" style={{ color: "var(--gray)" }}>Sua saude e energia importam. Queremos saber como cuidar de voce da forma certa.</p>
+                <p className="text-sm" style={{ color: "var(--gray)" }}>Sua saúde e energia importam. Queremos saber como cuidar de você da forma certa.</p>
               </div>
               <div>
                 <label className="text-sm font-semibold block mb-1" style={{ color: "var(--text)" }}>
-                  Nivel de energia no trabalho hoje
+                  Nível de energia no trabalho hoje
                   <span className="font-normal ml-1" style={{ color: "var(--gray)" }}>(1 = esgotado, 5 = energizado)</span>
                 </label>
                 <div className="flex gap-2 mt-2">
@@ -569,15 +569,15 @@ export default function FormularioPage() {
                 </div>
               </div>
               <div>
-                <label className="text-sm font-semibold block mb-2" style={{ color: "var(--text)" }}>Pratica atividade fisica com regularidade?</label>
+                <label className="text-sm font-semibold block mb-2" style={{ color: "var(--text)" }}>Pratica atividade física com regularidade?</label>
                 <div className="flex gap-3">
                   <BoolBtn label="Sim" ativo={dados.praticaAtividade === true} onClick={() => upd("praticaAtividade", true)} />
-                  <BoolBtn label="Nao" ativo={dados.praticaAtividade === false} onClick={() => upd("praticaAtividade", false)} />
+                  <BoolBtn label="Não" ativo={dados.praticaAtividade === false} onClick={() => upd("praticaAtividade", false)} />
                 </div>
               </div>
               <div>
                 <label className="text-sm font-semibold block mb-1" style={{ color: "var(--text)" }}>
-                  Com que frequencia sente ansiedade ou sobrecarga?
+                  Com que frequência sente ansiedade ou sobrecarga?
                   <span className="font-normal ml-1" style={{ color: "var(--gray)" }}>(1 = raramente, 5 = quase sempre)</span>
                 </label>
                 <div className="flex gap-2 mt-2">
@@ -586,10 +586,10 @@ export default function FormularioPage() {
                   ))}
                 </div>
               </div>
-              <Txt label="O que a empresa deve saber sobre voce que nao foi perguntado?" value={dados.oQueDeveSaber} onChange={(v) => upd("oQueDeveSaber", v)}
-                placeholder="Qualquer coisa que acha importante: uma condicao, uma limitacao, algo que te faz ser voce..." rows={3} />
+              <Txt label="O que a empresa deve saber sobre você que não foi perguntado?" value={dados.oQueDeveSaber} onChange={(v) => upd("oQueDeveSaber", v)}
+                placeholder="Qualquer coisa que acha importante: uma condição, uma limitação, algo que te faz ser você..." rows={3} />
               <Txt label="Uma mensagem para o seu lider (opcional)" value={dados.mensagemParaLider} onChange={(v) => upd("mensagemParaLider", v)}
-                placeholder="Pode ser um pedido, uma expectativa, algo que voce quer que ele saiba..." rows={3} />
+                placeholder="Pode ser um pedido, uma expectativa, algo que você quer que ele saiba..." rows={3} />
             </>
           )}
         </div>

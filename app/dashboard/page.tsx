@@ -340,7 +340,7 @@ export default function DashboardPage() {
 
       {/* KPI Cards */}
       {isAdmin ? (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <KPICard icon={<TrendingUp size={20} />} label="Progresso do Time" value={`${mediaProgresso}%`} cor="#10b981" dica="Média de conclusão de rotinas diárias de toda a equipe hoje. 100% = todos concluíram suas rotinas." href="/equipe" />
           <KPICard icon={<ListTodo size={20} />} label="Tarefas Ativas" value={`${totalTarefas - tarefasConcluidas}`} cor="#3b82f6" dica="Tarefas abertas (pendente + em andamento + atrasada). Não conta concluídas." href="/tarefas" />
           <KPICard icon={<CheckSquare size={20} />} label="Concluídas" value={`${tarefasConcluidas}`} cor="#8b5cf6" dica="Total de tarefas marcadas como concluídas pela equipe." href="/tarefas" />
@@ -373,7 +373,7 @@ export default function DashboardPage() {
       {/* Acesso Rapido — Ferramentas */}
       <div className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <div className="flex items-center gap-2 mb-3">
-          <p className="text-section-label" data-tip="Atalhos para as ferramentas externas que o time usa no dia a dia. Abrem em nova aba.">Acesso Rapido</p>
+          <p className="text-section-label" data-tip="Atalhos para as ferramentas externas que o time usa no dia a dia. Abrem em nova aba.">Acesso Rápido</p>
         </div>
         <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
           {([
@@ -546,7 +546,7 @@ export default function DashboardPage() {
       {isAdmin && (
         <div className="rounded-xl px-4 py-3 flex flex-wrap gap-4" style={{ background: "#0d1928", border: "1px solid rgba(201,164,66,.16)" }}>
           <span className="text-xs" style={{ color: "#9aa7ba" }}>
-            Voce gerencia <span className="font-bold text-white">{colaboradores.length} pessoas</span>
+            Você gerencia <span className="font-bold text-white">{colaboradores.length} pessoas</span>
           </span>
           <span className="text-xs" style={{ color: "#334155" }}>·</span>
           <span className="text-xs" style={{ color: "#9aa7ba" }}>
@@ -599,7 +599,7 @@ export default function DashboardPage() {
       )}
 
       {(isAdmin || verProgTime) && (
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Resumo semanal */}
         <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <div className="flex items-center gap-2 mb-1">
@@ -681,7 +681,7 @@ export default function DashboardPage() {
             <Award size={18} style={{ color: "#c9a84c" }} />
             <h2 className="text-white font-semibold">Destaques da Semana</h2>
           </div>
-          <p className="text-xs mb-4" style={{ color: "#74859c" }}>Reconhecimentos enviados entre colegas nos ultimos 7 dias</p>
+          <p className="text-xs mb-4" style={{ color: "#74859c" }}>Reconhecimentos enviados entre colegas nos últimos 7 dias</p>
           {todosReconhecimentos.length === 0 ? (
             <div className="text-center py-6 space-y-2">
               <div className="text-3xl">🏅</div>
@@ -712,7 +712,7 @@ export default function DashboardPage() {
       </div>
       )} {/* end (isAdmin || verProgTime) */}
 
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="grid md:grid-cols-2 gap-6">
         {/* Progresso da Equipe — admin only */}
         {isAdmin && (
           <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
@@ -779,7 +779,7 @@ export default function DashboardPage() {
                     <div>
                       <p className="text-sm font-medium" style={{ color: "#e8edf5" }}>{loja.nome}</p>
                       <p className="text-xs" style={{ color: "#9aa7ba" }}>
-                        {responsavel ? responsavel.nome.split(" ")[0] : "Sem responsavel"}
+                        {responsavel ? responsavel.nome.split(" ")[0] : "Sem responsável"}
                       </p>
                     </div>
                   </div>

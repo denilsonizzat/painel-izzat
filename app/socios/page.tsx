@@ -161,7 +161,7 @@ function Remuneracao({ socios, ganhos, colaboradores, carregando, mesLabel, nome
 
   return (
     <div className="space-y-3">
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-3 gap-2 sm:gap-3">
         <Kpi label="Fixo (mês)" valor={fmt(totFixo)} cor="#4d9de0" />
         <Kpi label={`Variável (${mesLabel})`} valor={carregando ? "..." : fmt(totVar)} cor="#e8c462" />
         <Kpi label="Total a pagar" valor={carregando ? "..." : fmt(totFixo + totVar)} cor="#46d69b" />
@@ -191,7 +191,7 @@ function Remuneracao({ socios, ganhos, colaboradores, carregando, mesLabel, nome
 
 function Kpi({ label, valor, cor }: { label: string; valor: string; cor: string }) {
   return (
-    <div className="rounded-2xl p-4" style={{ background: "linear-gradient(160deg,#14243f,#111e35)", border: `1px solid ${cor}30` }}>
+    <div className="rounded-2xl p-3 sm:p-4" style={{ background: "linear-gradient(160deg,#14243f,#111e35)", border: `1px solid ${cor}30` }}>
       <p className="text-xs" style={{ color: "#9aa7ba" }}>{label}</p>
       <p className="font-extrabold mt-1" style={{ fontSize: 20, color: cor }}>{valor}</p>
     </div>

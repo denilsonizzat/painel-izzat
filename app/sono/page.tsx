@@ -191,7 +191,7 @@ export default function SonoPage() {
       {!temHoje && (
         <div className="flex items-center gap-3 px-4 py-3 rounded-xl" style={{ background: "#8b5cf615", border: "1px solid #8b5cf630" }}>
           <Moon size={15} style={{ color: "#8b5cf6" }} />
-          <p className="text-sm" style={{ color: "#8b5cf6" }}>Voce ainda nao registrou o sono de hoje</p>
+          <p className="text-sm" style={{ color: "#8b5cf6" }}>Você ainda não registrou o sono de hoje</p>
           <button onClick={() => { setFormData(hoje_); setShowForm(true); }}
             className="ml-auto text-xs px-3 py-1.5 rounded-lg font-bold hover:opacity-80"
             style={{ background: "#8b5cf6", color: "white" }}>
@@ -203,21 +203,21 @@ export default function SonoPage() {
       {/* Cards de stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
-          <p className="text-xs" style={{ color: "#9aa7ba" }}>Media de sono</p>
+          <p className="text-xs" style={{ color: "#9aa7ba" }}>Média de sono</p>
           <p className="text-lg font-black mt-0.5" style={{ color: corHoras(mediaHoras) }}>
             {comDados.length > 0 ? hToStr(mediaHoras) : "—"}
           </p>
-          <p className="text-xs mt-0.5" style={{ color: "#334155" }}>ultimos {periodo} dias</p>
+          <p className="text-xs mt-0.5" style={{ color: "#334155" }}>últimos {periodo} dias</p>
         </div>
         <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
-          <p className="text-xs" style={{ color: "#9aa7ba" }}>Media dormir</p>
+          <p className="text-xs" style={{ color: "#9aa7ba" }}>Média dormir</p>
           <p className="text-lg font-black mt-0.5" style={{ color: "#8b5cf6" }}>{mediaDormir}</p>
-          <p className="text-xs mt-0.5" style={{ color: "#334155" }}>horario medio</p>
+          <p className="text-xs mt-0.5" style={{ color: "#334155" }}>horário médio</p>
         </div>
         <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Media acordar</p>
           <p className="text-lg font-black mt-0.5" style={{ color: "#f59e0b" }}>{mediaAcordar}</p>
-          <p className="text-xs mt-0.5" style={{ color: "#334155" }}>horario medio</p>
+          <p className="text-xs mt-0.5" style={{ color: "#334155" }}>horário médio</p>
         </div>
         <div className="rounded-xl p-3.5" style={{ background: "#112239", border: `1px solid ${corConsistencia}25` }}>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Consistencia</p>

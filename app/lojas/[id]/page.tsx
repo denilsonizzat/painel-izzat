@@ -371,9 +371,9 @@ export default function LojaPerfilPage() {
         </div>
 
         <div className="p-5">
-          <div className="flex items-start justify-between gap-3 mb-1">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-1">
             <h1 className="text-2xl font-bold text-white">{loja.nome}</h1>
-            <div className="flex items-center gap-2 flex-shrink-0 flex-wrap">
+            <div className="flex items-center gap-2 flex-wrap">
               {isAdmin && (
                 <>
                   <button onClick={abrirModalRotina}
@@ -862,7 +862,7 @@ export default function LojaPerfilPage() {
                 <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "#1e3356" }}>
                   <Users size={14} style={{ color: "#74859c" }} />
                 </div>
-                <span className="text-sm" style={{ color: "#74859c" }}>Sem responsavel</span>
+                <span className="text-sm" style={{ color: "#74859c" }}>Sem responsável</span>
               </div>
             )}
           </div>
