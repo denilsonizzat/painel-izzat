@@ -105,6 +105,8 @@ interface AppState {
   verStory: (storyId: string, colaboradorId: string) => void;
   adicionarNotificacaoInApp: (notif: Omit<NotificacaoInApp, "id" | "criadaEm" | "lida">) => void;
   marcarNotificacaoLida: (notifId: string) => void;
+  marcarNotificacaoNaoLida: (notifId: string) => void;
+  arquivarNotificacao: (notifId: string) => void;
   excluirNotificacao: (notifId: string) => void;
   snoozeNotificacao: (notifId: string, minutos: number) => void;
   limparNotificacoesLidas: () => void;
@@ -711,6 +713,22 @@ export const useAppStore = create<AppState>()(
         set((state) => ({
           notificacoesInApp: state.notificacoesInApp.map((n) =>
             n.id === notifId ? { ...n, lida: true } : n
+          ),
+        }));
+      },
+
+      marcarNotificacaoNaoLida: (notifId) => {
+        set((state) => ({
+          notificacoesInApp: state.notificacoesInApp.map((n) =>
+            n.id === notifId ? { ...n, lida: false, arquivada: false } : n
+          ),
+        }));
+      },
+
+      arquivarNotificacao: (notifId) => {
+        set((state) => ({
+          notificacoesInApp: state.notificacoesInApp.map((n) =>
+            n.id === notifId ? { ...n, lida: true, arquivada: true } : n
           ),
         }));
       },

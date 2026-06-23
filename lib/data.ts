@@ -416,6 +416,7 @@ export interface NotificacaoInApp {
   titulo: string;
   corpo: string;
   lida: boolean;
+  arquivada?: boolean;
   criadaEm: string;
   href?: string;
   snoozedUntil?: string;
