@@ -56,7 +56,7 @@ export default function EquipePage() {
   };
 
   return (
-    <div className="mx-auto space-y-6">
+    <div data-tour="equipe-main" className="mx-auto space-y-6">
       <BackButton href="/dashboard" />
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
@@ -226,7 +226,7 @@ export default function EquipePage() {
 
               return todos.map((r) => (
                 <div key={r.id} className="grid grid-cols-4 px-4 py-3 text-sm items-center"
-                  style={{ borderBottom: "1px solid rgba(201,164,66,.16)30", minWidth: 480 }}>
+                  style={{ borderBottom: "1px solid rgba(201,164,66,.16)", minWidth: 480 }}>
                   <span style={{ color: "#94a3b8" }}>{r.deColab?.nome.split(" ")[0] ?? "—"}</span>
                   <span className="font-medium text-white">{r.paraColab.nome.split(" ")[0]}</span>
                   <span style={{ color: "#94a3b8" }} className="truncate">{r.emoji} {r.mensagem}</span>

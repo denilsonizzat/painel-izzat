@@ -12,7 +12,7 @@ const HUMORES = [
 ];
 
 export default function CheckInDiario() {
-  const { usuarioAtual, registrarCheckIn, adicionarAtividadeEntry } = useAppStore();
+  const { usuarioAtual, registrarCheckIn, adicionarAtividadeEntry, onboardingConcluido } = useAppStore();
   const [visivel, setVisivel] = useState(false);
   const [humor, setHumor] = useState("");
   const [foco, setFoco] = useState("");
@@ -20,11 +20,12 @@ export default function CheckInDiario() {
 
   useEffect(() => {
     if (!usuarioAtual) return;
+    if (!onboardingConcluido) return;
     const hoje = new Date().toISOString().split("T")[0];
     if (usuarioAtual.ultimoCheckIn === hoje) return;
     const timer = setTimeout(() => setVisivel(true), 1200);
     return () => clearTimeout(timer);
-  }, [usuarioAtual]);
+  }, [usuarioAtual, onboardingConcluido]);
 
   if (!visivel || !usuarioAtual) return null;
 

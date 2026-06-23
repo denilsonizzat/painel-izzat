@@ -365,7 +365,7 @@ export default function LojaPerfilPage() {
             {loja.grupo === "izzat" ? "Grupo Izzat" : "Partner"}
           </span>
           <span className="absolute top-3 left-3 text-xs px-3 py-1 rounded-full font-medium"
-            style={{ background: "#0b162480", color: "#94a3b8", border: "1px solid rgba(201,164,66,.16)80" }}>
+            style={{ background: "#0b162480", color: "#94a3b8", border: "1px solid rgba(201,164,66,.30)" }}>
             {loja.mercado === "global" ? "Global" : "Brasil"}
           </span>
         </div>

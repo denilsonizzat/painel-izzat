@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useAppStore } from "@/lib/store";
 import AppShell from "@/components/AppShell";
 
-export default function FerramentasLayout({ children }: { children: React.ReactNode }) {
+export default function FusoHorarioLayout({ children }: { children: React.ReactNode }) {
   const { usuarioAtual } = useAppStore();
   const router = useRouter();
   useEffect(() => { if (!usuarioAtual) router.push("/"); }, [usuarioAtual, router]);

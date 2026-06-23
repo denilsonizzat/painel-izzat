@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { useAppStore } from "@/lib/store";
-import { X, Play, Pause, SkipForward, Square, ChevronDown, CheckCircle2, Circle, RotateCcw } from "lucide-react";
+import { X, Play, Pause, SkipForward, Square, ChevronDown, CheckCircle2, Circle, RotateCcw, GripHorizontal } from "lucide-react";
 
 type Fase = "trabalho" | "descanso";
 
@@ -76,12 +76,30 @@ export default function FloatingPomodoro() {
   const [titulo, setTitulo] = useState("");
   const [atividadeSel, setAtividadeSel] = useState<AtividadeSelecionada | null>(null);
 
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const drag = useRef<{ ox: number; oy: number } | null>(null);
   const configRef = useRef(config);
   const tituloRef = useRef(titulo);
   const iniciouEmRef = useRef(iniciouEm);
   useEffect(() => { configRef.current = config; }, [config]);
   useEffect(() => { tituloRef.current = titulo; }, [titulo]);
   useEffect(() => { iniciouEmRef.current = iniciouEm; }, [iniciouEm]);
+
+  useEffect(() => {
+    if (pos.x === 0 && pos.y === 0 && typeof window !== "undefined") {
+      setPos({ x: Math.max(12, window.innerWidth - 320 - 144), y: Math.max(64, window.innerHeight - 600) });
+    }
+  }, []);
+
+  function onPointerDown(e: React.PointerEvent) {
+    drag.current = { ox: e.clientX - pos.x, oy: e.clientY - pos.y };
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+  }
+  function onPointerMove(e: React.PointerEvent) {
+    if (!drag.current) return;
+    setPos({ x: Math.max(0, Math.min(window.innerWidth - 60, e.clientX - drag.current.ox)), y: Math.max(0, Math.min(window.innerHeight - 60, e.clientY - drag.current.oy)) });
+  }
+  function onPointerUp() { drag.current = null; }
 
   function tocarSom(tipo: "fim" | "inicio") {
     try {
@@ -196,17 +214,25 @@ export default function FloatingPomodoro() {
 
   return (
     <div
-      className="fixed z-50 w-80 rounded-3xl shadow-2xl overflow-hidden hidden md:flex flex-col"
+      className="fixed z-50 select-none"
       style={{
-        bottom: 156, right: 24,
+        left: pos.x, top: pos.y, width: 320,
         background: "#0b1624",
         border: `1px solid ${etapa === "ativo" ? cor + "50" : "#1e3356"}`,
-        maxHeight: "70vh",
+        borderRadius: 24,
+        boxShadow: "0 16px 44px rgba(0,0,0,.55)",
+        maxHeight: "80vh",
+        display: "flex",
+        flexDirection: "column",
+        overflow: "hidden",
       }}
     >
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 pt-4 pb-2 flex-shrink-0">
+      {/* Header arrastável */}
+      <div onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp}
+        className="flex items-center justify-between px-4 pt-3 pb-2 flex-shrink-0 cursor-move"
+        style={{ touchAction: "none" }}>
         <div className="flex items-center gap-2">
+          <GripHorizontal size={13} style={{ color: "#334155" }} />
           <span style={{ fontSize: 16 }}>&#127813;</span>
           <p className="font-bold text-sm text-white">
             {etapa === "ativo"

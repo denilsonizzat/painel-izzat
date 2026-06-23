@@ -820,7 +820,7 @@ export default function ColaboradorPerfilPage() {
             {/* Etapa 3 — Fit com empresa */}
             {(pessoa.formulario.porQueQuerTrabalhar || pessoa.formulario.comoEmpresaAjuda || pessoa.formulario.areaAprender) && (
               <div className="rounded-xl p-4" style={{ background: "#1e3356" }}>
-                <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#3b82f6" }}>Por que esta aqui</p>
+                <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#3b82f6" }}>Por que está aqui</p>
                 <div className="space-y-3">
                   {pessoa.formulario.porQueQuerTrabalhar && (
                     <div>
@@ -896,7 +896,7 @@ export default function ColaboradorPerfilPage() {
                   )}
                   {pessoa.formulario.desafioSuperado && (
                     <div>
-                      <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Desafio ja superado</p>
+                      <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Desafio já superado</p>
                       <p className="text-sm text-white leading-relaxed">{pessoa.formulario.desafioSuperado}</p>
                     </div>
                   )}

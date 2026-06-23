@@ -9,7 +9,12 @@
   --bg:          #0A1626;
   --card:        #112239;
   --card-hover:  #16294a;
+  /* Escala oficial de bordas douradas (usar SEMPRE estes tons, nunca rgba()+digitos):
+     subtle .12 (divisórias internas) · padrão .16 (cards/listas) ·
+     strong .30 (destaque) · bright .34 (foco/ativo) */
+  --border-subtle: rgba(201,164,66,.12);
   --border:      rgba(201,164,66,.16);   /* hairline dourada do BIG APP */
+  --border-strong: rgba(201,164,66,.30);
   --border-bright: rgba(201,164,66,.34);
   --gold:        #C9A442;
   --gold-br:     #E8C462;   /* dourado brilhante (destaques) */
@@ -355,6 +360,10 @@ button:active:not(:disabled) {
 @keyframes modalPop {
   from { opacity: 0; transform: translateY(10px) scale(0.97); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes pulse-border {
+  0%, 100% { box-shadow: 0 0 0 4px #c9a84c18, 0 0 24px #c9a84c30; }
+  50%       { box-shadow: 0 0 0 8px #c9a84c28, 0 0 40px #c9a84c50; }
 }
 /* Estado vazio — ícone com leve respiração */
 @keyframes breathe {

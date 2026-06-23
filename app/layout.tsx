@@ -6,7 +6,10 @@ import FloatingOnlineButton from "@/components/FloatingOnlineButton";
 import FloatingThemeButton from "@/components/FloatingThemeButton";
 import FloatingPomodoro from "@/components/FloatingPomodoro";
 import FloatingCalculator from "@/components/FloatingCalculator";
+import FloatingROAS from "@/components/FloatingROAS";
+import FloatingCalendario from "@/components/FloatingCalendario";
 import FloatingToolsMenu from "@/components/FloatingToolsMenu";
+import AdminFAB from "@/components/AdminFAB";
 import ThemeApplier from "@/components/ThemeApplier";
 import Onboarding from "@/components/Onboarding";
 import CheckInDiario from "@/components/CheckInDiario";
@@ -61,7 +64,10 @@ export default function RootLayout({
         <FloatingThemeButton />
         <FloatingPomodoro />
         <FloatingCalculator />
+        <FloatingROAS />
+        <FloatingCalendario />
         <FloatingToolsMenu />
+        <AdminFAB />
         <Onboarding />
         <CheckInDiario />
         <ToastContainer />

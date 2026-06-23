@@ -1,9 +1,14 @@
 "use client";
 import { useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
+import { useAppStore } from "@/lib/store";
 import { ARTIGOS_GUIA, CATEGORIAS_GUIA, CHANGELOG, DESENVOLVEDOR } from "@/lib/guia";
-import { Search, BookOpen, ChevronDown, ChevronUp, ChevronRight, Code2, Calendar, Zap, Wrench, Bug } from "lucide-react";
+import { Search, BookOpen, ChevronDown, ChevronUp, ChevronRight, Code2, Calendar, Zap, Wrench, Bug, Compass } from "lucide-react";
 
 export default function GuiaPage() {
+  const router = useRouter();
+  const { setOnboardingConcluido } = useAppStore();
+  const refazerTour = () => { setOnboardingConcluido(false); router.push("/dashboard"); };
   const [busca, setBusca] = useState("");
   const [categoriaAtiva, setCategoriaAtiva] = useState<string>("todos");
   const [artigoAtivo, setArtigoAtivo] = useState<string>(ARTIGOS_GUIA[0].id);
@@ -126,6 +131,14 @@ export default function GuiaPage() {
             ))}
           </div>
         </nav>
+        {/* Refazer tour de boas-vindas */}
+        <div className="p-3" style={{ borderTop: "1px solid var(--border)" }}>
+          <button onClick={refazerTour}
+            className="w-full flex items-center gap-2 justify-center px-3 py-2.5 rounded-xl text-sm font-semibold transition-all hover:opacity-90"
+            style={{ background: "#c9a84c18", color: "#c9a84c", border: "1px solid #c9a84c40" }}>
+            <Compass size={14} /> Refazer tour de boas-vindas
+          </button>
+        </div>
       </aside>
 
       {/* ── Conteúdo do artigo ── */}
@@ -142,6 +155,11 @@ export default function GuiaPage() {
               <option key={a.id} value={a.id}>{a.emoji} {a.titulo}</option>
             ))}
           </select>
+          <button onClick={refazerTour}
+            className="w-full mt-2 flex items-center gap-2 justify-center px-3 py-2.5 rounded-xl text-sm font-semibold transition-all hover:opacity-90"
+            style={{ background: "#c9a84c18", color: "#c9a84c", border: "1px solid #c9a84c40" }}>
+            <Compass size={14} /> Refazer tour de boas-vindas
+          </button>
         </div>
 
         <div className="p-6 md:p-8 max-w-3xl">

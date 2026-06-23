@@ -140,7 +140,7 @@ function AbaAvaliar({ lojaId, onCriou }: { lojaId: string; onCriou: () => void }
           <div key={g}>
             <p className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: "#c9a84c" }}>{GRUPOS[g]}</p>
             {CRITERIOS_GARIMPO.filter((c) => c.grupo === g).map((c) => (
-              <div key={c.key} className="flex items-center justify-between gap-2 py-2" style={{ borderBottom: "1px solid rgba(201,164,66,.16)55" }}>
+              <div key={c.key} className="flex items-center justify-between gap-2 py-2" style={{ borderBottom: "1px solid rgba(201,164,66,.20)" }}>
                 <div className="min-w-0">
                   <p className="text-sm text-white flex items-center">{c.label}<PrecTip k={c.key === "saturacao" || c.key === "tendencia" || c.key === "wow" ? c.key === "saturacao" ? "nota_garimpo" : c.key : ""} /></p>
                   <p className="text-xs truncate" style={{ color: "#74859c" }}>{c.sub}</p>
