@@ -224,7 +224,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
         <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
           <div>
             <h2 className="font-bold text-white text-sm">{isEditing ? "Editar Produto" : "Novo Produto"}</h2>
-            <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>Preencha os 13 campos obrigatorios para liberar</p>
+            <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>Preencha os 13 campos obrigatórios para liberar</p>
           </div>
           <button onClick={onClose} style={{ color: "#9aa7ba" }}><X size={16} /></button>
         </div>
@@ -392,7 +392,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
 
                     <div className="grid grid-cols-2 gap-2">
                       <div>
-                        <label className="text-xs block mb-1" style={{ color: "#74859c" }}>Preco Unit. (R$)</label>
+                        <label className="text-xs block mb-1" style={{ color: "#74859c" }}>Preço Unit. (R$)</label>
                         <input
                           type="number" step="0.01"
                           value={form[forn.precoKey] ?? ""}
@@ -423,16 +423,16 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <div className="h-px flex-1" style={{ background: "#1e3356" }} />
-                <p className="text-xs font-bold uppercase tracking-wider px-2" style={{ color: "#74859c" }}>Precificacao</p>
+                <p className="text-xs font-bold uppercase tracking-wider px-2" style={{ color: "#74859c" }}>Precificação</p>
                 <div className="h-px flex-1" style={{ background: "#1e3356" }} />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 {([
                   { key: "taxaShopifyPct" as const, label: "Taxa Shopify (%)", placeholder: "2.5" },
-                  { key: "valorLiquido" as const, label: "Valor Liquido (R$)", placeholder: "0.00" },
+                  { key: "valorLiquido" as const, label: "Valor Líquido (R$)", placeholder: "0.00" },
                   { key: "valorDeVenda" as const, label: "Valor de Venda (R$)", placeholder: "0.00" },
                   { key: "margemLucro" as const, label: "Margem de Lucro (%)", placeholder: "30" },
-                  { key: "valorDolarNoDia" as const, label: "Dolar no Dia (R$)", placeholder: "5.10" },
+                  { key: "valorDolarNoDia" as const, label: "Dólar no Dia (R$)", placeholder: "5.10" },
                 ]).map((campo) => (
                   <div key={campo.key}>
                     <label className="text-xs font-semibold block mb-1.5" style={{ color: "#94a3b8" }}>{campo.label}</label>
@@ -464,7 +464,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
                 style={{ background: "#112239", border: "1px solid #4285f430" }}
               >
                 <p className="text-xs" style={{ color: "#9aa7ba" }}>
-                  Pesquisa completa: fornecedor, concorrentes, dimensoes, margem, etc.
+                  Pesquisa completa: fornecedor, concorrentes, dimensões, margem, etc.
                 </p>
                 <div className="flex gap-2">
                   <input
@@ -494,13 +494,13 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <div className="h-px flex-1" style={{ background: "#1e3356" }} />
-                <p className="text-xs font-bold uppercase tracking-wider px-2" style={{ color: "#74859c" }}>Midia e Catalogo</p>
+                <p className="text-xs font-bold uppercase tracking-wider px-2" style={{ color: "#74859c" }}>Mídia e Catálogo</p>
                 <div className="h-px flex-1" style={{ background: "#1e3356" }} />
               </div>
               <div className="space-y-3">
                 {([
                   { key: "linkDriveImagem" as const, label: "Link Drive Imagem", placeholder: "https://drive.google.com/..." },
-                  { key: "linkDriveVideo" as const, label: "Link Drive Video", placeholder: "https://drive.google.com/..." },
+                  { key: "linkDriveVideo" as const, label: "Link Drive Vídeo", placeholder: "https://drive.google.com/..." },
                   { key: "linkDriveGiff" as const, label: "Link Drive GIF", placeholder: "https://drive.google.com/..." },
                   { key: "linkGoogleDocsCopy" as const, label: "Link Google Docs Copy", placeholder: "https://docs.google.com/..." },
                   { key: "linkShopifyProduto" as const, label: "Link Shopify Produto", placeholder: "https://admin.shopify.com/..." },
@@ -532,7 +532,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
                 </div>
                 {filled === CAMPOS_PRODUTO.length && (
                   <p className="text-xs mt-1.5 flex items-center gap-1" style={{ color: "#10b981" }}>
-                    <Zap size={10} /> Produto completo — podera ir ao ar!
+                    <Zap size={10} /> Produto completo — poderá ir ao ar!
                   </p>
                 )}
               </div>
@@ -544,7 +544,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
               className="w-full py-3 rounded-2xl font-bold text-sm transition-all hover:opacity-90 disabled:opacity-40"
               style={{ background: "#c9a84c", color: "#0b1624" }}
             >
-              {isEditing ? "Salvar Alteracoes"
+              {isEditing ? "Salvar Alterações"
                 : mostrarFluxo && fluxo === "direto" ? `Criar em ${lojasDireto.length || ""} loja${lojasDireto.length !== 1 ? "s" : ""}`
                 : "Cadastrar Produto"}
             </button>

@@ -340,7 +340,7 @@ export default function DashboardPage() {
 
       {/* KPI Cards */}
       {isAdmin ? (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <KPICard icon={<TrendingUp size={20} />} label="Progresso do Time" value={`${mediaProgresso}%`} cor="#10b981" dica="Média de conclusão de rotinas diárias de toda a equipe hoje. 100% = todos concluíram suas rotinas." href="/equipe" />
           <KPICard icon={<ListTodo size={20} />} label="Tarefas Ativas" value={`${totalTarefas - tarefasConcluidas}`} cor="#3b82f6" dica="Tarefas abertas (pendente + em andamento + atrasada). Não conta concluídas." href="/tarefas" />
           <KPICard icon={<CheckSquare size={20} />} label="Concluídas" value={`${tarefasConcluidas}`} cor="#8b5cf6" dica="Total de tarefas marcadas como concluídas pela equipe." href="/tarefas" />
@@ -373,7 +373,7 @@ export default function DashboardPage() {
       {/* Acesso Rapido — Ferramentas */}
       <div className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <div className="flex items-center gap-2 mb-3">
-          <p className="text-section-label" data-tip="Atalhos para as ferramentas externas que o time usa no dia a dia. Abrem em nova aba.">Acesso Rapido</p>
+          <p className="text-section-label" data-tip="Atalhos para as ferramentas externas que o time usa no dia a dia. Abrem em nova aba.">Acesso Rápido</p>
         </div>
         <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
           {([
