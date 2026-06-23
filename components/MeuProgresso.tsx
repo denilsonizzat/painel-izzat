@@ -31,14 +31,14 @@ export default function MeuProgresso() {
         </div>
         <div className="flex items-center gap-2">
           {streak > 0 && (
-            <div className="flex items-center gap-1 px-3 py-1.5 rounded-full" style={{ background: "#f59e0b15", border: "1px solid #f59e0b30" }} data-tip={streak + " dias seguidos de check-in"}>
-              <Flame size={14} style={{ color: "#f59e0b" }} />
-              <span className="text-sm font-bold" style={{ color: "#f59e0b" }}>{streak}d</span>
+            <div className="flex items-center gap-1 px-3 py-1.5 rounded-full" style={{ background: "#E8A33D15", border: "1px solid #E8A33D30" }} data-tip={streak + " dias seguidos de check-in"}>
+              <Flame size={14} style={{ color: "#E8A33D" }} />
+              <span className="text-sm font-bold" style={{ color: "#E8A33D" }}>{streak}d</span>
             </div>
           )}
-          <div className="flex items-center gap-1 px-3 py-1.5 rounded-full" style={{ background: pctDia === 100 ? "#10b98115" : "#c9a84c15", border: `1px solid ${pctDia === 100 ? "#10b98130" : "#c9a84c30"}` }}>
-            {pctDia === 100 ? <Star size={14} style={{ color: "#10b981" }} /> : <Zap size={14} style={{ color: "#c9a84c" }} />}
-            <span className="text-sm font-bold" style={{ color: pctDia === 100 ? "#10b981" : "#c9a84c" }}>{pctDia}%</span>
+          <div className="flex items-center gap-1 px-3 py-1.5 rounded-full" style={{ background: pctDia === 100 ? "#36C98E15" : "#c9a84c15", border: `1px solid ${pctDia === 100 ? "#36C98E30" : "#c9a84c30"}` }}>
+            {pctDia === 100 ? <Star size={14} style={{ color: "#36C98E" }} /> : <Zap size={14} style={{ color: "#c9a84c" }} />}
+            <span className="text-sm font-bold" style={{ color: pctDia === 100 ? "#36C98E" : "#c9a84c" }}>{pctDia}%</span>
             <span className="text-xs" style={{ color: "#9aa7ba" }}>do dia</span>
           </div>
         </div>

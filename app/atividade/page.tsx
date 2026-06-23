@@ -10,12 +10,12 @@ import GraficoSemanal from "@/components/GraficoSemanal";
 import RelogioWidget from "@/components/RelogioWidget";
 
 const TIPO_CONFIG = {
-  tarefa_concluida: { label: "Tarefa concluída", cor: "#10b981", icon: "✅" },
-  rotina_concluida: { label: "Rotina concluída", cor: "#3b82f6", icon: "📋" },
+  tarefa_concluida: { label: "Tarefa concluída", cor: "#36C98E", icon: "✅" },
+  rotina_concluida: { label: "Rotina concluída", cor: "#4D9DE0", icon: "📋" },
   expectativa_cumprida: { label: "Expectativa cumprida", cor: "#c9a84c", icon: "🎯" },
-  xp_ganho: { label: "XP ganho", cor: "#8b5cf6", icon: "⚡" },
-  check_in: { label: "Check-in", cor: "#f59e0b", icon: "📍" },
-  pomodoro: { label: "Pomodoro", cor: "#ef4444", icon: "🍅" },
+  xp_ganho: { label: "XP ganho", cor: "#7C6FE0", icon: "⚡" },
+  check_in: { label: "Check-in", cor: "#E8A33D", icon: "📍" },
+  pomodoro: { label: "Pomodoro", cor: "#F2545B", icon: "🍅" },
 } as const;
 
 type FiltroHistorico = "hoje" | "3d" | "7d" | "15d" | "30d" | "90d" | "1a";
@@ -115,9 +115,9 @@ export default function AtividadePage() {
         </div>
         <div className="flex items-center gap-2 flex-wrap justify-end">
           {totalXPHoje > 0 && (
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl" style={{ background: "#8b5cf620", border: "1px solid #8b5cf630" }}>
-              <Zap size={14} style={{ color: "#8b5cf6" }} />
-              <span className="text-sm font-bold" style={{ color: "#8b5cf6" }}>+{totalXPHoje} XP hoje</span>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl" style={{ background: "#7C6FE020", border: "1px solid #7C6FE030" }}>
+              <Zap size={14} style={{ color: "#7C6FE0" }} />
+              <span className="text-sm font-bold" style={{ color: "#7C6FE0" }}>+{totalXPHoje} XP hoje</span>
             </div>
           )}
           {isAdmin && (
@@ -144,13 +144,13 @@ export default function AtividadePage() {
       )}
 
       {/* Status Online — Circuit Breaker */}
-      <div className="rounded-2xl p-6" style={{ background: "#112239", border: `1px solid ${isOnline ? "#10b98130" : "#1e3356"}` }}>
+      <div className="rounded-2xl p-6" style={{ background: "#112239", border: `1px solid ${isOnline ? "#36C98E30" : "#1e3356"}` }}>
         <div className="flex items-center justify-between gap-4">
           <div className="flex-1">
             <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: "#9aa7ba" }}>
               Status de Presença
             </p>
-            <h2 className="text-xl font-bold" style={{ color: isOnline ? "#10b981" : "#94a3b8" }}>
+            <h2 className="text-xl font-bold" style={{ color: isOnline ? "#36C98E" : "#94a3b8" }}>
               {isOnline ? "Online Agora" : "Offline"}
             </h2>
             {isOnline && (colaboradores.find((c) => c.id === usuarioAtual.id) ?? usuarioAtual).statusOnline?.desde && (
@@ -172,20 +172,20 @@ export default function AtividadePage() {
           >
             <div
               className="w-full h-full rounded-full transition-all duration-300"
-              style={{ background: isOnline ? "#10b981" : "#334155" }}
+              style={{ background: isOnline ? "#36C98E" : "#334155" }}
             >
               <div
                 className="absolute top-1 w-8 h-7 rounded-full flex items-center justify-center shadow-lg transition-all duration-300"
                 style={{ left: isOnline ? "calc(100% - 36px)" : "4px", background: "white" }}
               >
-                <Zap size={14} style={{ color: isOnline ? "#10b981" : "#64748b" }} />
+                <Zap size={14} style={{ color: isOnline ? "#36C98E" : "#64748b" }} />
               </div>
             </div>
           </button>
         </div>
 
         {isOnline ? (
-          <div className="mt-4 flex items-center gap-3 p-3 rounded-xl flex-wrap" style={{ background: "#10b98110" }}>
+          <div className="mt-4 flex items-center gap-3 p-3 rounded-xl flex-wrap" style={{ background: "#36C98E10" }}>
             <p className="text-sm" style={{ color: "#9aa7ba" }}>Disponível até:</p>
             <input
               type="time"
@@ -195,7 +195,7 @@ export default function AtividadePage() {
                 setStatusOnline(usuarioAtual.id, true, e.target.value);
               }}
               className="text-sm font-bold px-3 py-1.5 rounded-xl outline-none"
-              style={{ background: "#112239", color: "#10b981", border: "1px solid #10b98130", colorScheme: "dark" }}
+              style={{ background: "#112239", color: "#36C98E", border: "1px solid #36C98E30", colorScheme: "dark" }}
             />
             <p className="text-xs" style={{ color: "#74859c" }}>Sua equipe verá que você está disponível</p>
           </div>
@@ -212,7 +212,7 @@ export default function AtividadePage() {
             <button
               onClick={handleToggle}
               className="text-sm px-4 py-1.5 rounded-xl font-bold transition-opacity hover:opacity-80"
-              style={{ background: "#10b98120", color: "#10b981", border: "1px solid #10b98130" }}
+              style={{ background: "#36C98E20", color: "#36C98E", border: "1px solid #36C98E30" }}
             >
               Ativar
             </button>
@@ -228,8 +228,8 @@ export default function AtividadePage() {
             {colaboradores.filter((c) => c.statusOnline?.ativo && c.id !== usuarioAtual.id).length} online agora
           </p>
           <div className="flex items-center gap-3 text-xs" style={{ color: "#74859c" }}>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full inline-block" style={{ background: "#10b981" }} /> Online</span>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full inline-block" style={{ background: "#f97316" }} /> Foco</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full inline-block" style={{ background: "#36C98E" }} /> Online</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full inline-block" style={{ background: "#E8733D" }} /> Foco</span>
             <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full inline-block" style={{ background: "#334155" }} /> Offline</span>
           </div>
         </div>
@@ -240,8 +240,8 @@ export default function AtividadePage() {
             .map((c) => {
               const online = c.statusOnline?.ativo ?? false;
               const emFoco = online && (c.statusOnline?.foco ?? false);
-              const dotColor = online ? (emFoco ? "#f97316" : "#10b981") : "#334155";
-              const sinceColor = emFoco ? "#f97316" : "#10b981";
+              const dotColor = online ? (emFoco ? "#E8733D" : "#36C98E") : "#334155";
+              const sinceColor = emFoco ? "#E8733D" : "#36C98E";
               return (
                 <Link key={c.id} href={`/equipe/${c.id}`} className="flex flex-col items-center gap-1 hover:opacity-80">
                   <div className="relative">
@@ -323,7 +323,7 @@ export default function AtividadePage() {
             <Activity size={16} style={{ color: "#c9a84c" }} />
             <p className="text-sm font-semibold" style={{ color: "#94a3b8" }}>{"Histórico de Atividades"}</p>
             {totalXPHistorico > 0 && (
-              <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: "#8b5cf620", color: "#8b5cf6" }}>
+              <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: "#7C6FE020", color: "#7C6FE0" }}>
                 +{totalXPHistorico} XP
               </span>
             )}
@@ -398,7 +398,7 @@ export default function AtividadePage() {
                         <p className="text-xs leading-snug truncate" style={{ color: "#94a3b8" }}>{a.descricao}</p>
                       </div>
                       {a.xp != null && a.xp > 0 && (
-                        <span className="text-xs font-bold flex-shrink-0" style={{ color: "#8b5cf6" }}>+{a.xp}</span>
+                        <span className="text-xs font-bold flex-shrink-0" style={{ color: "#7C6FE0" }}>+{a.xp}</span>
                       )}
                     </div>
                   </div>
@@ -477,7 +477,7 @@ export default function AtividadePage() {
                                   {a.hora}{a.horaFim ? ` → ${a.horaFim}` : ""}
                                 </span>
                                 {a.xp != null && a.xp > 0 && (
-                                  <span className="text-xs font-bold" style={{ color: "#8b5cf6" }}>+{a.xp} XP</span>
+                                  <span className="text-xs font-bold" style={{ color: "#7C6FE0" }}>+{a.xp} XP</span>
                                 )}
                               </div>
                               <p className="text-xs mt-0.5 leading-snug" style={{ color: "#94a3b8" }}>{a.descricao}</p>

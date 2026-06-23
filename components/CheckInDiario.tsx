@@ -121,9 +121,9 @@ export default function CheckInDiario() {
 
         {/* Streak */}
         {(usuarioAtual.streak || 0) > 0 && (
-          <div className="flex items-center gap-2 p-3 rounded-xl" style={{ background: "#f59e0b10", border: "1px solid #f59e0b20" }}>
+          <div className="flex items-center gap-2 p-3 rounded-xl" style={{ background: "#E8A33D10", border: "1px solid #E8A33D20" }}>
             <span>🔥</span>
-            <p className="text-xs" style={{ color: "#f59e0b" }}>
+            <p className="text-xs" style={{ color: "#E8A33D" }}>
               Você está em uma sequência de <strong>{usuarioAtual.streak} dias</strong>! Mantenha!
             </p>
           </div>

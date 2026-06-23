@@ -106,7 +106,7 @@ function VerticalBarChart({ items }: { items: { id: string; nome: string; avatar
         <Link key={item.id} href={`/equipe/${item.id}`} className="flex flex-col items-center gap-1 flex-shrink-0 hover:opacity-80" style={{ minWidth: 52 }}>
           <span className="text-xs font-bold" style={{ color: "#c9a84c" }}>{item.pct}%</span>
           <div className="w-8 rounded-t-lg relative overflow-hidden" style={{ height: 80, background: "#1e3356" }}>
-            <div className="absolute bottom-0 left-0 right-0 rounded-t-lg transition-all duration-700" style={{ height: `${item.pct}%`, background: item.pct === 100 ? "#10b981" : "#c9a84c" }} />
+            <div className="absolute bottom-0 left-0 right-0 rounded-t-lg transition-all duration-700" style={{ height: `${item.pct}%`, background: item.pct === 100 ? "#36C98E" : "#c9a84c" }} />
           </div>
           <Avatar nome={item.nome} avatar={item.avatar} foto={item.foto} cor={item.cor} size={28} />
           <span className="text-xs text-center leading-tight" style={{ color: "#94a3b8", maxWidth: 56 }}>
@@ -261,7 +261,7 @@ export default function DashboardPage() {
             {hoje.toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
           </p>
           <span className="text-xs mt-2 px-2.5 py-1 rounded-full inline-flex items-center gap-1 font-semibold"
-            style={{ background: isAdmin ? "#c9a84c15" : "#3b82f615", color: isAdmin ? "#c9a84c" : "#3b82f6", border: `1px solid ${isAdmin ? "#c9a84c25" : "#3b82f625"}` }}>
+            style={{ background: isAdmin ? "#c9a84c15" : "#4D9DE015", color: isAdmin ? "#c9a84c" : "#4D9DE0", border: `1px solid ${isAdmin ? "#c9a84c25" : "#4D9DE025"}` }}>
             {isAdmin ? "✦ Gestor" : "Colaborador"}
           </span>
         </div>
@@ -305,19 +305,19 @@ export default function DashboardPage() {
 
       {/* Painel de alertas — admin only */}
       {isAdmin && totalAlertas > 0 && (
-        <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid #ef444430" }}>
+        <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid #F2545B30" }}>
           <div className="flex items-center gap-2 mb-4">
-            <Bell size={15} style={{ color: "#ef4444" }} />
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: "#ef4444" }}>
+            <Bell size={15} style={{ color: "#F2545B" }} />
+            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: "#F2545B" }}>
               {totalAlertas} {totalAlertas === 1 ? "alerta" : "alertas"} requer{totalAlertas === 1 ? "" : "em"} atenção
             </p>
           </div>
           <div className="space-y-3">
             {semCheckInHoje.length > 0 && (
-              <div className="rounded-xl p-3" style={{ background: "#f59e0b0d", border: "1px solid #f59e0b20" }}>
+              <div className="rounded-xl p-3" style={{ background: "#E8A33D0d", border: "1px solid #E8A33D20" }}>
                 <div className="flex items-center gap-2 mb-2">
-                  <UserX size={14} style={{ color: "#f59e0b" }} />
-                  <p className="text-xs font-semibold" style={{ color: "#f59e0b" }}>
+                  <UserX size={14} style={{ color: "#E8A33D" }} />
+                  <p className="text-xs font-semibold" style={{ color: "#E8A33D" }}>
                     {semCheckInHoje.length} colaborador{semCheckInHoje.length > 1 ? "es" : ""} sem check-in hoje
                   </p>
                 </div>
@@ -325,7 +325,7 @@ export default function DashboardPage() {
                   {semCheckInHoje.map((c) => (
                     <Link key={c.id} href={`/equipe/${c.id}`}
                       className="text-xs px-2 py-0.5 rounded-full transition-opacity hover:opacity-80"
-                      style={{ background: "#f59e0b15", color: "#f59e0b", border: "1px solid #f59e0b30" }}>
+                      style={{ background: "#E8A33D15", color: "#E8A33D", border: "1px solid #E8A33D30" }}>
                       {c.nome.split(" ")[0]}
                     </Link>
                   ))}
@@ -334,16 +334,16 @@ export default function DashboardPage() {
             )}
 
             {tarefasRevisao.length > 0 && (
-              <div className="rounded-xl p-3" style={{ background: "#3b82f60d", border: "1px solid #3b82f620" }}>
+              <div className="rounded-xl p-3" style={{ background: "#4D9DE00d", border: "1px solid #4D9DE020" }}>
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <Clock size={14} style={{ color: "#3b82f6" }} />
-                    <p className="text-xs font-semibold" style={{ color: "#3b82f6" }}>
+                    <Clock size={14} style={{ color: "#4D9DE0" }} />
+                    <p className="text-xs font-semibold" style={{ color: "#4D9DE0" }}>
                       {tarefasRevisao.length} tarefa{tarefasRevisao.length > 1 ? "s" : ""} aguardando sua aprovação
                     </p>
                   </div>
                   <Link href="/tarefas" className="text-xs px-2 py-0.5 rounded-full transition-opacity hover:opacity-80"
-                    style={{ background: "#3b82f620", color: "#3b82f6" }}>
+                    style={{ background: "#4D9DE020", color: "#4D9DE0" }}>
                     Revisar
                   </Link>
                 </div>
@@ -364,16 +364,16 @@ export default function DashboardPage() {
             )}
 
             {tarefasAtrasadasLista.length > 0 && (
-              <div className="rounded-xl p-3" style={{ background: "#ef44440d", border: "1px solid #ef444420" }}>
+              <div className="rounded-xl p-3" style={{ background: "#F2545B0d", border: "1px solid #F2545B20" }}>
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <ShieldAlert size={14} style={{ color: "#ef4444" }} />
-                    <p className="text-xs font-semibold" style={{ color: "#ef4444" }}>
+                    <ShieldAlert size={14} style={{ color: "#F2545B" }} />
+                    <p className="text-xs font-semibold" style={{ color: "#F2545B" }}>
                       {tarefasAtrasadasLista.length} tarefa{tarefasAtrasadasLista.length > 1 ? "s" : ""} atrasada{tarefasAtrasadasLista.length > 1 ? "s" : ""}
                     </p>
                   </div>
                   <Link href="/tarefas" className="text-xs px-2 py-0.5 rounded-full transition-opacity hover:opacity-80"
-                    style={{ background: "#ef444420", color: "#ef4444" }}>
+                    style={{ background: "#F2545B20", color: "#F2545B" }}>
                     Ver todas
                   </Link>
                 </div>
@@ -382,7 +382,7 @@ export default function DashboardPage() {
                     const quem = colaboradores.find((c) => c.id === t.atribuidoPara);
                     return (
                       <span key={t.id} className="text-xs px-2 py-0.5 rounded-full"
-                        style={{ background: "#ef444415", color: "#ef4444", border: "1px solid #ef444425" }}>
+                        style={{ background: "#F2545B15", color: "#F2545B", border: "1px solid #F2545B25" }}>
                         {quem?.nome.split(" ")[0]}: {t.titulo.slice(0, 22)}{t.titulo.length > 22 ? "..." : ""}
                       </span>
                     );
@@ -396,11 +396,11 @@ export default function DashboardPage() {
 
       {/* Nenhum alerta — admin tranquilo */}
       {isAdmin && totalAlertas === 0 && (
-        <div className="rounded-xl px-4 py-3 flex items-center gap-3" style={{ background: "#10b98110", border: "1px solid #10b98125" }}>
-          <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: "#10b98120" }}>
+        <div className="rounded-xl px-4 py-3 flex items-center gap-3" style={{ background: "#36C98E10", border: "1px solid #36C98E25" }}>
+          <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: "#36C98E20" }}>
             <span style={{ fontSize: 13 }}>✓</span>
           </div>
-          <p className="text-sm" style={{ color: "#10b981" }}>
+          <p className="text-sm" style={{ color: "#36C98E" }}>
             Tudo certo por aqui — sem alertas pendentes hoje.
           </p>
         </div>
@@ -421,10 +421,10 @@ export default function DashboardPage() {
       <div data-tour="kpis">
       {isAdmin ? (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <KPICard icon={<TrendingUp size={20} />} label="Progresso do Time" value={`${mediaProgresso}%`} cor="#10b981" dica="Média de conclusão de rotinas diárias de toda a equipe hoje. 100% = todos concluíram suas rotinas." href="/equipe" />
-          <KPICard icon={<ListTodo size={20} />} label="Tarefas Ativas" value={`${totalTarefas - tarefasConcluidas}`} cor="#3b82f6" dica="Tarefas abertas (pendente + em andamento + atrasada). Não conta concluídas." href="/tarefas" />
-          <KPICard icon={<CheckSquare size={20} />} label="Concluídas" value={`${tarefasConcluidas}`} cor="#8b5cf6" dica="Total de tarefas marcadas como concluídas pela equipe." href="/tarefas" />
-          <KPICard icon={<AlertCircle size={20} />} label="Urgentes" value={`${tarefasUrgentes}`} cor={tarefasUrgentes > 0 ? "#ef4444" : "#64748b"} dica="Tarefas com prioridade ALTA ainda abertas. Precisam de atenção imediata." href="/tarefas" />
+          <KPICard icon={<TrendingUp size={20} />} label="Progresso do Time" value={`${mediaProgresso}%`} cor="#36C98E" dica="Média de conclusão de rotinas diárias de toda a equipe hoje. 100% = todos concluíram suas rotinas." href="/equipe" />
+          <KPICard icon={<ListTodo size={20} />} label="Tarefas Ativas" value={`${totalTarefas - tarefasConcluidas}`} cor="#4D9DE0" dica="Tarefas abertas (pendente + em andamento + atrasada). Não conta concluídas." href="/tarefas" />
+          <KPICard icon={<CheckSquare size={20} />} label="Concluídas" value={`${tarefasConcluidas}`} cor="#7C6FE0" dica="Total de tarefas marcadas como concluídas pela equipe." href="/tarefas" />
+          <KPICard icon={<AlertCircle size={20} />} label="Urgentes" value={`${tarefasUrgentes}`} cor={tarefasUrgentes > 0 ? "#F2545B" : "#64748b"} dica="Tarefas com prioridade ALTA ainda abertas. Precisam de atenção imediata." href="/tarefas" />
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-4">
@@ -440,9 +440,9 @@ export default function DashboardPage() {
             })() : 0;
             return (
               <>
-                <KPICard icon={<TrendingUp size={20} />} label="Meu Progresso Hoje" value={`${meuPct}%`} cor="#10b981" dica="Percentual das suas rotinas de hoje concluídas. Vá em Meu Dia para marcar as rotinas." href="/meu-dia" />
-                <KPICard icon={<ListTodo size={20} />} label="Minhas Tarefas" value={`${minhasTarefas.length}`} cor="#3b82f6" dica="Tarefas abertas atribuídas a você pelo gestor. Vá em Tarefas para ver detalhes." href="/tarefas" />
-                <KPICard icon={<CheckSquare size={20} />} label="Concluídas por mim" value={`${minhasConcluidas.length}`} cor="#8b5cf6" dica="Quantidade de tarefas que você já concluiu. Cada uma vale +30 XP." href="/tarefas" />
+                <KPICard icon={<TrendingUp size={20} />} label="Meu Progresso Hoje" value={`${meuPct}%`} cor="#36C98E" dica="Percentual das suas rotinas de hoje concluídas. Vá em Meu Dia para marcar as rotinas." href="/meu-dia" />
+                <KPICard icon={<ListTodo size={20} />} label="Minhas Tarefas" value={`${minhasTarefas.length}`} cor="#4D9DE0" dica="Tarefas abertas atribuídas a você pelo gestor. Vá em Tarefas para ver detalhes." href="/tarefas" />
+                <KPICard icon={<CheckSquare size={20} />} label="Concluídas por mim" value={`${minhasConcluidas.length}`} cor="#7C6FE0" dica="Quantidade de tarefas que você já concluiu. Cada uma vale +30 XP." href="/tarefas" />
                 <KPICard icon={<Zap size={20} />} label="Meu XP Total" value={`${usuarioAtual?.xp ?? 0}`} cor="#c9a84c" dica="Total de pontos de experiência acumulados. XP sobe ao concluir rotinas, tarefas e sessões Pomodoro." href="/atividade" />
               </>
             );
@@ -484,9 +484,9 @@ export default function DashboardPage() {
 
       {/* Alerta de atrasadas — admin only */}
       {isAdmin && tarefasAtrasadas > 0 && (
-        <div className="flex items-center gap-3 p-3 rounded-xl" style={{ background: "#ef444415", border: "1px solid #ef444430" }}>
-          <AlertCircle size={16} style={{ color: "#ef4444" }} />
-          <p className="text-sm" style={{ color: "#ef4444" }}>
+        <div className="flex items-center gap-3 p-3 rounded-xl" style={{ background: "#F2545B15", border: "1px solid #F2545B30" }}>
+          <AlertCircle size={16} style={{ color: "#F2545B" }} />
+          <p className="text-sm" style={{ color: "#F2545B" }}>
             {tarefasAtrasadas} tarefa{tarefasAtrasadas > 1 ? "s" : ""} atrasada{tarefasAtrasadas > 1 ? "s" : ""} &mdash;{" "}
             <Link href="/tarefas" className="underline">ver tarefas</Link>
           </p>
@@ -514,8 +514,8 @@ export default function DashboardPage() {
             style={{
               width: `${pctDesafio}%`,
               background: pctDesafio >= 100
-                ? "linear-gradient(90deg, #c9a84c, #f59e0b)"
-                : "linear-gradient(90deg, #3b82f6, #6366f1)",
+                ? "linear-gradient(90deg, #c9a84c, #E8A33D)"
+                : "linear-gradient(90deg, #4D9DE0, #6366f1)",
             }}
           />
         </div>
@@ -597,9 +597,9 @@ export default function DashboardPage() {
       )}
       {jaRespondeu && (
         <div className="rounded-2xl p-3 flex items-center gap-3"
-          style={{ background: "#0f2a1a", border: "1px solid #10b98140" }}>
+          style={{ background: "#0f2a1a", border: "1px solid #36C98E40" }}>
           <span>✓</span>
-          <p className="text-sm" style={{ color: "#10b981" }}>
+          <p className="text-sm" style={{ color: "#36C98E" }}>
             Pulso desta semana respondido. Obrigado!
           </p>
         </div>
@@ -615,14 +615,14 @@ export default function DashboardPage() {
             <div className="rounded-xl p-3 flex items-center gap-3" style={{ background: "#112239" }}>
               <span style={{ fontSize: 22, lineHeight: 1 }}>✅</span>
               <div>
-                <p className="text-xl font-extrabold leading-none" style={{ color: "#10b981" }}>{emDia.length}</p>
+                <p className="text-xl font-extrabold leading-none" style={{ color: "#36C98E" }}>{emDia.length}</p>
                 <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>em dia com as rotinas</p>
               </div>
             </div>
             <div className="rounded-xl p-3 flex items-center gap-3" style={{ background: "#112239" }}>
               <span style={{ fontSize: 22, lineHeight: 1 }}>{tarefasAtrasadas > 0 ? "⚠️" : "✅"}</span>
               <div>
-                <p className="text-xl font-extrabold leading-none" style={{ color: tarefasAtrasadas > 0 ? "#ef4444" : "#10b981" }}>{tarefasAtrasadas}</p>
+                <p className="text-xl font-extrabold leading-none" style={{ color: tarefasAtrasadas > 0 ? "#F2545B" : "#36C98E" }}>{tarefasAtrasadas}</p>
                 <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>tarefas atrasadas</p>
               </div>
             </div>
@@ -685,7 +685,7 @@ export default function DashboardPage() {
             </div>
             <div className="flex justify-between items-center">
               <span className="text-sm" style={{ color: "#9aa7ba" }}>Concluidas</span>
-              <span className="text-sm font-bold" style={{ color: "#10b981" }}>{concluidasSemana}</span>
+              <span className="text-sm font-bold" style={{ color: "#36C98E" }}>{concluidasSemana}</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-sm" style={{ color: "#9aa7ba" }}>{"Taxa conclusão"}</span>
@@ -733,8 +733,8 @@ export default function DashboardPage() {
                       <span className="text-xs" style={{ color: nivelInfo.cor }}>{nivelInfo.nome}</span>
                       {(c.streak || 0) > 0 && (
                         <>
-                          <Flame size={10} style={{ color: "#f59e0b" }} />
-                          <span className="text-xs" style={{ color: "#f59e0b" }}>{c.streak}</span>
+                          <Flame size={10} style={{ color: "#E8A33D" }} />
+                          <span className="text-xs" style={{ color: "#E8A33D" }}>{c.streak}</span>
                         </>
                       )}
                     </div>
@@ -794,7 +794,7 @@ export default function DashboardPage() {
             <div className="space-y-4">
               {colaboradoresAtivos.map((c) => {
                 const pct = calcProgresso(rotinasDoColaborador(rotinas, c.id));
-                const cor = pct === 100 ? "#10b981" : pct >= 50 ? "#f59e0b" : "#ef4444";
+                const cor = pct === 100 ? "#36C98E" : pct >= 50 ? "#E8A33D" : "#F2545B";
                 const atividadesCount = atividadesHoje.filter((a) => a.colaboradorId === c.id).length;
                 return (
                   <div key={c.id}>
@@ -842,7 +842,7 @@ export default function DashboardPage() {
                       {loja.logo ? (
                         <Image src={loja.logo} alt={loja.nome} width={32} height={32} className="object-contain" unoptimized />
                       ) : (
-                        <span className="text-xs font-bold" style={{ color: loja.grupo === "izzat" ? "#c9a84c" : "#3b82f6" }}>
+                        <span className="text-xs font-bold" style={{ color: loja.grupo === "izzat" ? "#c9a84c" : "#4D9DE0" }}>
                           {loja.nome.slice(0, 2).toUpperCase()}
                         </span>
                       )}
@@ -856,11 +856,11 @@ export default function DashboardPage() {
                   </div>
                   <div className="flex items-center gap-2">
                     {urgentes > 0 && (
-                      <span className="text-xs px-2 py-0.5 rounded-full font-bold" style={{ background: "#ef444420", color: "#ef4444" }}>
+                      <span className="text-xs px-2 py-0.5 rounded-full font-bold" style={{ background: "#F2545B20", color: "#F2545B" }}>
                         {urgentes} urgente{urgentes > 1 ? "s" : ""}
                       </span>
                     )}
-                    <span className="text-xs px-2 py-1 rounded-full font-medium" style={{ background: loja.grupo === "izzat" ? "#c9a84c15" : "#3b82f615", color: loja.grupo === "izzat" ? "#c9a84c" : "#3b82f6" }}>
+                    <span className="text-xs px-2 py-1 rounded-full font-medium" style={{ background: loja.grupo === "izzat" ? "#c9a84c15" : "#4D9DE015", color: loja.grupo === "izzat" ? "#c9a84c" : "#4D9DE0" }}>
                       {loja.grupo === "izzat" ? "Grupo Izzat" : "Partner"}
                     </span>
                   </div>
@@ -873,9 +873,9 @@ export default function DashboardPage() {
 
       {/* Tarefas Urgentes — admin only */}
       {isAdmin && tarefasUrgentes > 0 && (
-        <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid #ef444430" }}>
+        <div className="rounded-2xl p-5" style={{ background: "#112239", border: "1px solid #F2545B30" }}>
           <div className="flex items-center gap-2 mb-4">
-            <AlertCircle size={18} style={{ color: "#ef4444" }} />
+            <AlertCircle size={18} style={{ color: "#F2545B" }} />
             <h2 className="text-white font-semibold">Tarefas Urgentes Pendentes</h2>
           </div>
           <div className="space-y-2">
@@ -884,7 +884,7 @@ export default function DashboardPage() {
               const loja = LOJAS.find((l) => l.id === t.lojaId);
               const venceHoje = t.dataLimite === hoje.toISOString().split("T")[0];
               return (
-                <div key={t.id} className="flex items-center justify-between p-3 rounded-xl" style={{ background: "#ef444415" }}>
+                <div key={t.id} className="flex items-center justify-between p-3 rounded-xl" style={{ background: "#F2545B15" }}>
                   <div>
                     <p className="text-white text-sm font-medium">{t.titulo}</p>
                     <p className="text-xs mt-0.5" style={{ color: "#94a3b8" }}>
@@ -894,8 +894,8 @@ export default function DashboardPage() {
                     </p>
                   </div>
                   <div className="flex flex-col items-end gap-1">
-                    <span className="text-xs px-2 py-1 rounded-full font-bold" style={{ background: "#ef444430", color: "#ef4444" }}>URGENTE</span>
-                    {venceHoje && <span className="text-xs" style={{ color: "#f59e0b" }}>Vence hoje</span>}
+                    <span className="text-xs px-2 py-1 rounded-full font-bold" style={{ background: "#F2545B30", color: "#F2545B" }}>URGENTE</span>
+                    {venceHoje && <span className="text-xs" style={{ color: "#E8A33D" }}>Vence hoje</span>}
                   </div>
                 </div>
               );

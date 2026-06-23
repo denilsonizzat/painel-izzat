@@ -118,7 +118,7 @@ export default function FloatingCalendario() {
             {/* Grid dias da semana */}
             <div className="grid grid-cols-7 gap-0.5 mb-1">
               {DIAS_SEMANA.map((d, i) => (
-                <div key={i} className="text-center text-xs font-bold py-0.5" style={{ color: i === 0 ? "#ef4444" : "#475569" }}>{d}</div>
+                <div key={i} className="text-center text-xs font-bold py-0.5" style={{ color: i === 0 ? "#F2545B" : "#475569" }}>{d}</div>
               ))}
             </div>
 
@@ -135,9 +135,9 @@ export default function FloatingCalendario() {
                     className="flex items-center justify-center rounded-lg text-xs font-semibold"
                     style={{
                       height: 32,
-                      background: isHoje ? "#c9a84c" : isFeriado ? "#ef444420" : "transparent",
-                      color: isHoje ? "#0b1624" : isFeriado ? "#ef4444" : isDom ? "#f87171" : "#e8edf5",
-                      border: isFeriado && !isHoje ? "1px solid #ef444430" : "none",
+                      background: isHoje ? "#c9a84c" : isFeriado ? "#F2545B20" : "transparent",
+                      color: isHoje ? "#0b1624" : isFeriado ? "#F2545B" : isDom ? "#f87171" : "#e8edf5",
+                      border: isFeriado && !isHoje ? "1px solid #F2545B30" : "none",
                       fontWeight: isHoje || isFeriado ? 800 : 400,
                       cursor: feriadoNome ? "help" : "default",
                     }}>
@@ -157,7 +157,7 @@ export default function FloatingCalendario() {
                 <div className="mt-3 space-y-1 pt-2" style={{ borderTop: "1px solid #1e3356" }}>
                   {feriadosMes.map(({ dia, nome }) => (
                     <div key={dia} className="flex items-center gap-2">
-                      <span className="text-xs font-black tabular-nums" style={{ color: "#ef4444", minWidth: 20 }}>{dia}</span>
+                      <span className="text-xs font-black tabular-nums" style={{ color: "#F2545B", minWidth: 20 }}>{dia}</span>
                       <span className="text-xs" style={{ color: "#9aa7ba" }}>{nome}</span>
                     </div>
                   ))}

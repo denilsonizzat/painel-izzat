@@ -14,8 +14,8 @@ import Tabs from "@/components/Tabs";
 
 type AbaTarefas = "hoje" | "rotinas" | "avulsas";
 
-const PRIORIDADE_COR: Record<string, string> = { alta: "#ef4444", media: "#f59e0b", baixa: "#64748b" };
-const PRIORIDADE_BG: Record<string, string> = { alta: "#ef444415", media: "#f59e0b15", baixa: "#64748b15" };
+const PRIORIDADE_COR: Record<string, string> = { alta: "#F2545B", media: "#E8A33D", baixa: "#64748b" };
+const PRIORIDADE_BG: Record<string, string> = { alta: "#F2545B15", media: "#E8A33D15", baixa: "#64748b15" };
 const PRIORIDADE_LABEL: Record<string, string> = { alta: "Alta", media: "Média", baixa: "Baixa" };
 const STATUS_LABEL: Record<Tarefa["status"], string> = {
   pendente: "Pendente",
@@ -34,7 +34,7 @@ const STATUS_DESC: Record<Tarefa["status"], string> = {
   aguardando_revisao: "Enviada ao gestor para aprovar",
 };
 const STATUS_COR: Record<Tarefa["status"], string> = {
-  pendente: "#64748b", em_andamento: "#3b82f6", concluida: "#10b981", atrasada: "#ef4444", travado: "#ef4444", aguardando_revisao: "#f59e0b",
+  pendente: "#64748b", em_andamento: "#4D9DE0", concluida: "#36C98E", atrasada: "#F2545B", travado: "#F2545B", aguardando_revisao: "#E8A33D",
 };
 
 type MembroForm = { uid: string; colaboradorId: string; subtarefas: { uid: string; titulo: string }[]; inputSub: string };
@@ -173,16 +173,16 @@ export default function TarefasPage() {
 
       {/* WhatsApp notification banner */}
       {waLink && (
-        <div className="flex items-center justify-between gap-3 p-3 rounded-xl" style={{ background: "#10b98115", border: "1px solid #10b98130" }}>
+        <div className="flex items-center justify-between gap-3 p-3 rounded-xl" style={{ background: "#36C98E15", border: "1px solid #36C98E30" }}>
           <div className="flex items-center gap-2">
-            <MessageCircle size={15} style={{ color: "#10b981" }} />
-            <span className="text-sm" style={{ color: "#10b981" }}>Tarefa criada! Notificar pelo WhatsApp?</span>
+            <MessageCircle size={15} style={{ color: "#36C98E" }} />
+            <span className="text-sm" style={{ color: "#36C98E" }}>Tarefa criada! Notificar pelo WhatsApp?</span>
           </div>
           <div className="flex gap-2 flex-shrink-0">
             <a href={waLink} target="_blank" rel="noopener noreferrer"
               onClick={() => setWaLink(null)}
               className="px-3 py-1.5 rounded-xl text-xs font-bold transition-all hover:opacity-80"
-              style={{ background: "#10b981", color: "#fff" }}>
+              style={{ background: "#36C98E", color: "#fff" }}>
               Abrir WhatsApp
             </a>
             <button onClick={() => setWaLink(null)} className="p-1.5 rounded-lg" style={{ color: "#74859c" }}>
@@ -213,7 +213,7 @@ export default function TarefasPage() {
               <button
                 onClick={() => setElaboradaAberto(true)}
                 className="flex items-center gap-2 px-3 py-2 rounded-xl font-bold text-sm transition-opacity hover:opacity-90 active:scale-95"
-                style={{ background: "#3b82f620", color: "#3b82f6", border: "1px solid #3b82f640" }}
+                style={{ background: "#4D9DE020", color: "#4D9DE0", border: "1px solid #4D9DE040" }}
               >
                 <Users size={14} /> Elaborada
               </button>
@@ -277,17 +277,17 @@ export default function TarefasPage() {
 
       {/* Alertas */}
       {contagens.travado > 0 && (
-        <div className="flex items-center gap-3 p-3 rounded-xl" style={{ background: "#ef444415", border: "1px solid #ef444430" }}>
-          <AlertTriangle size={16} style={{ color: "#ef4444" }} />
-          <p className="text-sm" style={{ color: "#ef4444" }}>
+        <div className="flex items-center gap-3 p-3 rounded-xl" style={{ background: "#F2545B15", border: "1px solid #F2545B30" }}>
+          <AlertTriangle size={16} style={{ color: "#F2545B" }} />
+          <p className="text-sm" style={{ color: "#F2545B" }}>
             {contagens.travado} tarefa{contagens.travado > 1 ? "s" : ""} travada{contagens.travado > 1 ? "s" : ""} — precisa de atenção imediata
           </p>
         </div>
       )}
       {contagens.atrasada > 0 && (
-        <div className="flex items-center gap-3 p-3 rounded-xl" style={{ background: "#ef444415", border: "1px solid #ef444430" }}>
-          <AlertTriangle size={16} style={{ color: "#ef4444" }} />
-          <p className="text-sm" style={{ color: "#ef4444" }}>
+        <div className="flex items-center gap-3 p-3 rounded-xl" style={{ background: "#F2545B15", border: "1px solid #F2545B30" }}>
+          <AlertTriangle size={16} style={{ color: "#F2545B" }} />
+          <p className="text-sm" style={{ color: "#F2545B" }}>
             {contagens.atrasada} tarefa{contagens.atrasada > 1 ? "s" : ""} atrasada{contagens.atrasada > 1 ? "s" : ""} — verifique os prazos
           </p>
         </div>
@@ -377,7 +377,7 @@ export default function TarefasPage() {
             return (
               <div key={t.id} className="rounded-2xl overflow-hidden" style={{
                 background: "#112239",
-                border: estaTravada ? "1px solid #ef444450" : estaAtrasada ? "1px solid #ef444450" : venceHoje ? "1px solid #f59e0b50" : `1px solid ${corP}30`,
+                border: estaTravada ? "1px solid #F2545B50" : estaAtrasada ? "1px solid #F2545B50" : venceHoje ? "1px solid #E8A33D50" : `1px solid ${corP}30`,
               }}>
                 <div className="p-4">
                   <div className="flex items-start gap-3">
@@ -409,17 +409,17 @@ export default function TarefasPage() {
                           </div>
                         )}
                         {estaTravada && (
-                          <span className="text-xs px-2 py-0.5 rounded-full font-bold flex items-center gap-1" style={{ background: "#ef444420", color: "#ef4444" }}>
+                          <span className="text-xs px-2 py-0.5 rounded-full font-bold flex items-center gap-1" style={{ background: "#F2545B20", color: "#F2545B" }}>
                             <AlertTriangle size={10} /> TRAVADO
                           </span>
                         )}
                         {estaAtrasada && (
-                          <span className="text-xs px-2 py-0.5 rounded-full font-bold flex items-center gap-1" style={{ background: "#ef444420", color: "#ef4444" }}>
+                          <span className="text-xs px-2 py-0.5 rounded-full font-bold flex items-center gap-1" style={{ background: "#F2545B20", color: "#F2545B" }}>
                             <AlertTriangle size={10} /> ATRASADA
                           </span>
                         )}
                         {venceHoje && !estaAtrasada && (
-                          <span className="text-xs px-2 py-0.5 rounded-full font-bold" style={{ background: "#f59e0b20", color: "#f59e0b" }}>
+                          <span className="text-xs px-2 py-0.5 rounded-full font-bold" style={{ background: "#E8A33D20", color: "#E8A33D" }}>
                             Vence hoje
                           </span>
                         )}
@@ -437,7 +437,7 @@ export default function TarefasPage() {
                           </div>
                         )}
                         {t.dataLimite && (
-                          <span className="flex items-center gap-1 text-xs font-medium" style={{ color: estaAtrasada ? "#ef4444" : venceHoje ? "#f59e0b" : "#94a3b8" }}>
+                          <span className="flex items-center gap-1 text-xs font-medium" style={{ color: estaAtrasada ? "#F2545B" : venceHoje ? "#E8A33D" : "#94a3b8" }}>
                             <Clock size={11} /> Prazo: {t.dataLimite}
                           </span>
                         )}
@@ -477,10 +477,10 @@ export default function TarefasPage() {
                             return (
                               <div key={m.colaboradorId} className="flex items-center gap-1.5">
                                 <Avatar nome={colab.nome} avatar={colab.avatar} foto={colab.foto} cor={colab.cor} size={18} />
-                                <span className="text-xs" style={{ color: done === total && total > 0 ? "#10b981" : "#94a3b8" }}>
+                                <span className="text-xs" style={{ color: done === total && total > 0 ? "#36C98E" : "#94a3b8" }}>
                                   {colab.nome.split(" ")[0]} {total > 0 ? `${done}/${total}` : ""}
                                 </span>
-                                {done === total && total > 0 && <CheckCircle2 size={11} style={{ color: "#10b981" }} />}
+                                {done === total && total > 0 && <CheckCircle2 size={11} style={{ color: "#36C98E" }} />}
                               </div>
                             );
                           })}
@@ -492,31 +492,31 @@ export default function TarefasPage() {
                     <div className="flex flex-col gap-1.5 flex-shrink-0">
                       {t.status === "aguardando_revisao" && isAdmin && (
                         <>
-                          <button onClick={() => aprovarTarefa(t.id)} className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-bold" style={{ background: "#10b98120", color: "#10b981", border: "1px solid #10b98130" }}>
+                          <button onClick={() => aprovarTarefa(t.id)} className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-bold" style={{ background: "#36C98E20", color: "#36C98E", border: "1px solid #36C98E30" }}>
                             <CheckCircle2 size={12} /> Aprovar
                           </button>
-                          <button onClick={() => rejeitarTarefa(t.id)} className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#ef444415", color: "#ef4444" }}>
+                          <button onClick={() => rejeitarTarefa(t.id)} className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#F2545B15", color: "#F2545B" }}>
                             <AlertTriangle size={12} /> Devolver
                           </button>
                         </>
                       )}
                       {t.status !== "concluida" && t.status !== "aguardando_revisao" && canAct && (
-                        <button onClick={() => atualizarStatusTarefa(t.id, "concluida")} className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#10b98115", color: "#10b981" }}>
+                        <button onClick={() => atualizarStatusTarefa(t.id, "concluida")} className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#36C98E15", color: "#36C98E" }}>
                           <CheckCircle2 size={12} /> Concluir
                         </button>
                       )}
                       {t.status === "pendente" && isAdmin && (
-                        <button onClick={() => atualizarStatusTarefa(t.id, "em_andamento")} className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#3b82f615", color: "#3b82f6" }}>
+                        <button onClick={() => atualizarStatusTarefa(t.id, "em_andamento")} className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#4D9DE015", color: "#4D9DE0" }}>
                           <Clock size={12} /> Iniciar
                         </button>
                       )}
                       {(t.status === "em_andamento" || t.status === "pendente") && canAct && (
-                        <button onClick={() => atualizarStatusTarefa(t.id, "travado")} className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#ef444415", color: "#ef4444" }}>
+                        <button onClick={() => atualizarStatusTarefa(t.id, "travado")} className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#F2545B15", color: "#F2545B" }}>
                           <AlertTriangle size={12} /> Travado
                         </button>
                       )}
                       {t.status === "travado" && canAct && (
-                        <button onClick={() => atualizarStatusTarefa(t.id, "em_andamento")} className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#3b82f615", color: "#3b82f6" }}>
+                        <button onClick={() => atualizarStatusTarefa(t.id, "em_andamento")} className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#4D9DE015", color: "#4D9DE0" }}>
                           <Clock size={12} /> Retomar
                         </button>
                       )}
@@ -555,7 +555,7 @@ export default function TarefasPage() {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-lg transition-all hover:opacity-80"
-                                    style={{ background: "#10b98115", color: "#10b981", border: "1px solid #10b98125" }}
+                                    style={{ background: "#36C98E15", color: "#36C98E", border: "1px solid #36C98E25" }}
                                     data-tip={`WhatsApp — ${colab.nome}`}
                                   >
                                     <MessageCircle size={11} />
@@ -564,7 +564,7 @@ export default function TarefasPage() {
                                   <a
                                     href={`tel:${colab.telefone.replace(/\D/g, "")}`}
                                     className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-lg transition-all hover:opacity-80"
-                                    style={{ background: "#3b82f615", color: "#3b82f6", border: "1px solid #3b82f625" }}
+                                    style={{ background: "#4D9DE015", color: "#4D9DE0", border: "1px solid #4D9DE025" }}
                                     data-tip={`Ligar — ${colab.nome}`}
                                   >
                                     <Phone size={11} />
@@ -583,7 +583,7 @@ export default function TarefasPage() {
                                   style={{ background: "#1e3356" }}
                                 >
                                   {s.concluida
-                                    ? <CheckCircle2 size={15} style={{ color: "#10b981" }} />
+                                    ? <CheckCircle2 size={15} style={{ color: "#36C98E" }} />
                                     : <Circle size={15} style={{ color: "#74859c" }} />}
                                   <span className="text-sm flex-1" style={{ color: s.concluida ? "#64748b" : "#e2e8f0", textDecoration: s.concluida ? "line-through" : "none" }}>
                                     {s.titulo}
@@ -616,7 +616,7 @@ export default function TarefasPage() {
                                 <div key={m.id} className="flex items-center gap-2 group">
                                   <button onClick={() => toggleMiniTarefa(t.id, m.id, !m.concluida)} className="flex-shrink-0">
                                     {m.concluida
-                                      ? <CheckCircle2 size={14} style={{ color: "#10b981" }} />
+                                      ? <CheckCircle2 size={14} style={{ color: "#36C98E" }} />
                                       : <Circle size={14} style={{ color: "#74859c" }} />}
                                   </button>
                                   <span className="text-xs flex-1" style={{ color: m.concluida ? "#475569" : "#94a3b8", textDecoration: m.concluida ? "line-through" : "none" }}>
@@ -794,7 +794,7 @@ export default function TarefasPage() {
                     </select>
                   </>
                 ) : (
-                  <div className="px-3 py-2 rounded-xl text-sm" style={{ background: "#0f2a1a", border: "1px solid #10b98140", color: "#10b981" }}>
+                  <div className="px-3 py-2 rounded-xl text-sm" style={{ background: "#0f2a1a", border: "1px solid #36C98E40", color: "#36C98E" }}>
                     Tarefa pessoal — só você vê
                   </div>
                 )}
@@ -805,7 +805,7 @@ export default function TarefasPage() {
                   const foraDoPeriodo = horaAtual > assignee.horarioFim;
                   return (
                     <div className="flex items-center gap-2 mt-1.5 px-3 py-2 rounded-lg text-xs"
-                      style={{ background: foraDoPeriodo ? "#2a1a0f" : "#0f2a1a", border: `1px solid ${foraDoPeriodo ? "#f59e0b40" : "#10b98140"}`, color: foraDoPeriodo ? "#f59e0b" : "#10b981" }}>
+                      style={{ background: foraDoPeriodo ? "#2a1a0f" : "#0f2a1a", border: `1px solid ${foraDoPeriodo ? "#E8A33D40" : "#36C98E40"}`, color: foraDoPeriodo ? "#E8A33D" : "#36C98E" }}>
                       <span>{foraDoPeriodo ? "⚠️" : "✓"}</span>
                       <span>{assignee.nome.split(" ")[0]} trabalha até {assignee.horarioFim}{foraDoPeriodo ? " — fora do horário" : " — disponível"}</span>
                     </div>
@@ -828,8 +828,8 @@ export default function TarefasPage() {
           <div className="modal-card w-full max-w-xl rounded-2xl p-6 space-y-5 my-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }} onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "#3b82f620" }}>
-                  <Users size={14} style={{ color: "#3b82f6" }} />
+                <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "#4D9DE020" }}>
+                  <Users size={14} style={{ color: "#4D9DE0" }} />
                 </div>
                 <h2 className="text-white font-bold">Tarefa Elaborada</h2>
               </div>
@@ -894,7 +894,7 @@ export default function TarefasPage() {
                 </select>
                 <button onClick={addMembroElab} disabled={!novoMembroId}
                   className="px-3 py-2 rounded-xl text-sm font-medium disabled:opacity-40"
-                  style={{ background: "#3b82f620", color: "#3b82f6" }}>
+                  style={{ background: "#4D9DE020", color: "#4D9DE0" }}>
                   <Plus size={16} />
                 </button>
               </div>
@@ -962,7 +962,7 @@ export default function TarefasPage() {
               <button onClick={() => setElaboradaAberto(false)} className="flex-1 py-2 rounded-xl text-sm font-medium" style={{ background: "#1e3356", color: "#94a3b8" }}>Cancelar</button>
               <button onClick={handleCriarElaborada} disabled={!formElab.titulo || membrosElab.length === 0}
                 className="flex-1 py-2 rounded-xl text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-40"
-                style={{ background: "#3b82f6", color: "white" }}>
+                style={{ background: "#4D9DE0", color: "white" }}>
                 Criar Tarefa Elaborada
               </button>
             </div>

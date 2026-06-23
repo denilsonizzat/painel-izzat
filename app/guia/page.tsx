@@ -188,9 +188,9 @@ export default function GuiaPage() {
                     </div>
                     <div className="p-4 space-y-2">
                       {v.mudancas.map((m, mi) => {
-                        const icon = m.tipo === "novo" ? <Zap size={12} style={{ color: "#c9a84c", flexShrink: 0 }} /> : m.tipo === "melhoria" ? <Wrench size={12} style={{ color: "#3b82f6", flexShrink: 0 }} /> : <Bug size={12} style={{ color: "#10b981", flexShrink: 0 }} />;
-                        const cor = m.tipo === "novo" ? "#c9a84c20" : m.tipo === "melhoria" ? "#3b82f620" : "#10b98120";
-                        const corLabel = m.tipo === "novo" ? "#c9a84c" : m.tipo === "melhoria" ? "#3b82f6" : "#10b981";
+                        const icon = m.tipo === "novo" ? <Zap size={12} style={{ color: "#c9a84c", flexShrink: 0 }} /> : m.tipo === "melhoria" ? <Wrench size={12} style={{ color: "#4D9DE0", flexShrink: 0 }} /> : <Bug size={12} style={{ color: "#36C98E", flexShrink: 0 }} />;
+                        const cor = m.tipo === "novo" ? "#c9a84c20" : m.tipo === "melhoria" ? "#4D9DE020" : "#36C98E20";
+                        const corLabel = m.tipo === "novo" ? "#c9a84c" : m.tipo === "melhoria" ? "#4D9DE0" : "#36C98E";
                         return (
                           <div key={mi} className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl" style={{ background: cor }}>
                             <div className="mt-0.5">{icon}</div>

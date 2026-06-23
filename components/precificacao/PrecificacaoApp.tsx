@@ -18,7 +18,7 @@ import { Target, Calculator, ListChecks, Clock, Globe, Settings, Plus, Trash2, S
 
 const fmt$ = (n: number) => "$" + (n || 0).toFixed(2);
 const pct = (n: number) => (n * 100).toFixed(1) + "%";
-const COR_VEREDITO: Record<string, string> = { "LANÇAR": "#10b981", "TESTAR": "#f59e0b", "NÃO LANÇAR": "#ef4444" };
+const COR_VEREDITO: Record<string, string> = { "LANÇAR": "#36C98E", "TESTAR": "#E8A33D", "NÃO LANÇAR": "#F2545B" };
 const inp = { background: "#1e3356", border: "1px solid #334155", color: "#e8edf5", borderRadius: 9, padding: "8px 10px", width: "100%", outline: "none", fontSize: 13 } as React.CSSProperties;
 
 // Medidor de arco (semicírculo) — igual BIG APP
@@ -61,7 +61,7 @@ export default function PrecificacaoApp({ lojaId, lojaNome }: { lojaId: string; 
   }, [lojaId]);
   useEffect(() => { carregar(); }, [carregar]);
 
-  if (!supabaseConfigurado()) return <div className="rounded-2xl p-6 text-center" style={{ background: "#112239", color: "#ef4444" }}>Supabase não configurado.</div>;
+  if (!supabaseConfigurado()) return <div className="rounded-2xl p-6 text-center" style={{ background: "#112239", color: "#F2545B" }}>Supabase não configurado.</div>;
 
   const TABS: { id: Aba; label: string; icon: typeof Target }[] = [
     { id: "guia", label: "Comece aqui", icon: Compass },
@@ -91,7 +91,7 @@ export default function PrecificacaoApp({ lojaId, lojaNome }: { lojaId: string; 
         })}
       </div>
 
-      {erro && <div className="rounded-xl p-3 text-sm" style={{ background: "#ef444415", color: "#ef4444" }}>Erro: {erro}</div>}
+      {erro && <div className="rounded-xl p-3 text-sm" style={{ background: "#F2545B15", color: "#F2545B" }}>Erro: {erro}</div>}
       {carregando && <div className="rounded-2xl p-8 text-center" style={{ background: "#112239", color: "#74859c" }}>Carregando...</div>}
 
       {!carregando && config && (
@@ -119,7 +119,7 @@ function AbaAvaliar({ lojaId, onCriou }: { lojaId: string; onCriou: () => void }
   const [resp, setResp] = useState<Record<string, number>>(() => Object.fromEntries(CRITERIOS_GARIMPO.map((c) => [c.key, 6])));
   const [salvando, setSalvando] = useState(false);
   const { nota, subgrupos, veredito: vd } = notaGarimpo(resp);
-  const cor = nota >= 70 ? "#10b981" : nota >= 45 ? "#f59e0b" : "#ef4444";
+  const cor = nota >= 70 ? "#36C98E" : nota >= 45 ? "#E8A33D" : "#F2545B";
   const GRUPOS = { m: "Mercado & demanda", p: "O produto", v: "Viabilidade" };
 
   async function aprovar() {
@@ -266,7 +266,7 @@ function AbaMotor({ lojaId, config, paises, produtos, onMudou }: { lojaId: strin
               <div key={o.nome} className="rounded-xl p-3 text-center" style={{ background: "#0f1c30" }}>
                 <p className="text-xs" style={{ color: "#74859c" }}>{o.nome}</p>
                 <p className="font-extrabold my-1" style={{ fontSize: 18, color: "#e8edf5" }}>{fmt$(o.preco)}</p>
-                <p className="text-xs" style={{ color: "#10b981" }}>{pct(o.margemReal)} · {fmt$(o.lucro)}</p>
+                <p className="text-xs" style={{ color: "#36C98E" }}>{pct(o.margemReal)} · {fmt$(o.lucro)}</p>
                 <p className="text-xs" style={{ color: "#74859c" }}>{o.markupEfetivo.toFixed(2)}×</p>
               </div>
             ))}
@@ -303,12 +303,12 @@ function AbaMotor({ lojaId, config, paises, produtos, onMudou }: { lojaId: strin
                 return (
                   <tr key={pa.cod} style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
                     <td className="p-2 text-white font-semibold">{pa.nome}</td>
-                    <td className="p-2"><span className="px-1.5 rounded" style={{ background: pa.tier === "A" ? "#3b82f620" : "#74859c20", color: pa.tier === "A" ? "#3b82f6" : "#94a3b8" }}>{pa.tier}</span></td>
+                    <td className="p-2"><span className="px-1.5 rounded" style={{ background: pa.tier === "A" ? "#4D9DE020" : "#74859c20", color: pa.tier === "A" ? "#4D9DE0" : "#94a3b8" }}>{pa.tier}</span></td>
                     <td className="p-2"><input type="number" value={c.custo} onChange={(e) => setCustos({ ...custos, [pa.cod]: { ...c, custo: e.target.value } })} placeholder={String(titular?.custo ?? 0)} style={{ ...inp, padding: "4px 6px", width: 64 }} /></td>
                     <td className="p-2"><input type="number" value={c.frete} onChange={(e) => setCustos({ ...custos, [pa.cod]: { ...c, frete: e.target.value } })} placeholder={String(titular?.frete ?? 0)} style={{ ...inp, padding: "4px 6px", width: 56 }} /></td>
                     <td className="p-2" style={{ color: ajustado ? "#c9a84c" : "#9aa7ba" }}>{markup.toFixed(2)}×</td>
                     <td className="p-2 text-white font-semibold">{fmt$(r.preco)}</td>
-                    <td className="p-2" style={{ color: r.margemReal >= config.margem_min / 100 ? "#10b981" : "#ef4444", fontWeight: 700 }}>{pct(r.margemReal)}</td>
+                    <td className="p-2" style={{ color: r.margemReal >= config.margem_min / 100 ? "#36C98E" : "#F2545B", fontWeight: 700 }}>{pct(r.margemReal)}</td>
                     <td className="p-2" style={{ color: "#c9a84c" }}>{fmt$(r.cpaMax)}</td>
                     <td className="p-2"><span className="px-1.5 py-0.5 rounded-full font-bold" style={{ background: COR_VEREDITO[vd] + "20", color: COR_VEREDITO[vd] }}>{vd}</span></td>
                   </tr>
@@ -373,11 +373,11 @@ function AbaDecisao({ config, paises, produtos, onMudou }: { config: PrecConfig;
               <tr key={i} style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
                 <td className="p-2 text-white font-semibold">{l.prod.nome}</td>
                 <td className="p-2" style={{ color: "#9aa7ba" }}>{l.pais.nome}</td>
-                <td className="p-2" style={{ color: l.margem >= config.margem_min / 100 ? "#10b981" : "#ef4444" }}>{pct(l.margem)}</td>
+                <td className="p-2" style={{ color: l.margem >= config.margem_min / 100 ? "#36C98E" : "#F2545B" }}>{pct(l.margem)}</td>
                 <td className="p-2" style={{ color: "#c9a84c" }}>{fmt$(l.cpa)}</td>
-                <td className="p-2"><b style={{ color: l.score >= 70 ? "#10b981" : l.score >= 40 ? "#f59e0b" : "#ef4444" }}>{l.score}</b></td>
+                <td className="p-2"><b style={{ color: l.score >= 70 ? "#36C98E" : l.score >= 40 ? "#E8A33D" : "#F2545B" }}>{l.score}</b></td>
                 <td className="p-2"><span className="px-1.5 py-0.5 rounded-full font-bold" style={{ background: COR_VEREDITO[l.vd] + "20", color: COR_VEREDITO[l.vd] }}>{l.vd}</span></td>
-                <td className="p-2">{l.prod.status === "avaliando" && <button onClick={() => aprovar(l.prod.id!)} className="px-2 py-1 rounded-md text-xs font-bold" style={{ background: "#10b98120", color: "#10b981" }}>Aprovar</button>}</td>
+                <td className="p-2">{l.prod.status === "avaliando" && <button onClick={() => aprovar(l.prod.id!)} className="px-2 py-1 rounded-md text-xs font-bold" style={{ background: "#36C98E20", color: "#36C98E" }}>Aprovar</button>}</td>
               </tr>
             ))}
           </tbody>
@@ -460,7 +460,7 @@ function AbaProjReal({ lojaId, config, produtos }: { lojaId: string; config: Pre
 
   return (
     <div className="space-y-3">
-      <div className="rounded-xl p-3 text-xs" style={{ background: "#3b82f615", border: "1px solid #3b82f630", color: "#9aa7ba" }}>
+      <div className="rounded-xl p-3 text-xs" style={{ background: "#4D9DE015", border: "1px solid #4D9DE030", color: "#9aa7ba" }}>
         Comparação em <b style={{ color: "#e8edf5" }}>margem bruta</b> (faturamento − custo), por produto, casando pelo nome com os pedidos reais do módulo <b style={{ color: "#e8edf5" }}>Operação</b>. ADS/taxas por produto exigem atribuição (fase futura) — aqui o real não desconta anúncio.
       </div>
       {comVenda.length === 0 && <div className="rounded-2xl p-8 text-center" style={{ background: "#112239", color: "#74859c" }}>Nenhum produto da precificação tem venda real registrada na Operação (casamento por nome). Lance pedidos no módulo Operação com o mesmo nome do produto.</div>}
@@ -476,7 +476,7 @@ function AbaProjReal({ lojaId, config, produtos }: { lojaId: string; config: Pre
                 {comVenda.map((l) => {
                   const realGross = l.real!.margemBruta;
                   const gap = realGross - projGross;
-                  const cor = gap >= -0.05 ? "#10b981" : gap >= -0.15 ? "#f59e0b" : "#ef4444";
+                  const cor = gap >= -0.05 ? "#36C98E" : gap >= -0.15 ? "#E8A33D" : "#F2545B";
                   return (
                     <tr key={l.prod.id} style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
                       <td className="p-2 text-white font-semibold">{l.prod.nome}</td>
@@ -511,7 +511,7 @@ function AbaUnit({ lojaId, config }: { lojaId: string; config: PrecConfig }) {
 
   const ticket = parseFloat(f.ticket) || 0, margem = parseFloat(f.margem) || 0, cac = parseFloat(f.cac) || 0, recompra = parseFloat(f.recompra) || 0;
   const u = unitEconomics(ticket, margem, cac, recompra);
-  const cor = (b: boolean) => (b ? "#10b981" : "#ef4444");
+  const cor = (b: boolean) => (b ? "#36C98E" : "#F2545B");
 
   const Card = ({ label, valor, c, sub, tip }: { label: string; valor: string; c: string; sub?: string; tip?: string }) => (
     <div className="rounded-2xl p-4" style={{ background: "linear-gradient(160deg,#14243f,#111e35)", border: `1px solid ${c}30` }}>
@@ -524,7 +524,7 @@ function AbaUnit({ lojaId, config }: { lojaId: string; config: PrecConfig }) {
   return (
     <div className="space-y-4">
       {anc && (
-        <div className="rounded-xl p-3 text-xs flex items-center flex-wrap gap-x-4 gap-y-1" style={{ background: "#3b82f615", border: "1px solid #3b82f630", color: "#9aa7ba" }}>
+        <div className="rounded-xl p-3 text-xs flex items-center flex-wrap gap-x-4 gap-y-1" style={{ background: "#4D9DE015", border: "1px solid #4D9DE030", color: "#9aa7ba" }}>
           <span>Âncora real (Operação): <b style={{ color: "#e8edf5" }}>{anc.pedidos}</b> pedidos · ticket <b style={{ color: "#e8edf5" }}>{fmt$(anc.ticketMedio)}</b> · CAC real <b style={{ color: "#e8edf5" }}>{fmt$(anc.cacReal)}</b> (ADS÷pedidos)</span>
           <span style={{ color: "#74859c" }}>Sem ID de cliente, recompra é estimativa — ajuste abaixo.</span>
         </div>
@@ -536,12 +536,12 @@ function AbaUnit({ lojaId, config }: { lojaId: string; config: PrecConfig }) {
         <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Recompra %</label><input type="number" value={f.recompra} onChange={(e) => setF({ ...f, recompra: e.target.value })} style={inp} /></div>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-        <Card label="Lucro por compra" valor={fmt$(u.lucroPorCompra)} c="#3b82f6" sub={`${margem}% de ${fmt$(ticket)}`} />
-        <Card label="LTV" valor={fmt$(u.ltv)} c="#10b981" sub={`~${u.comprasEsperadas.toFixed(1)} compras/cliente`} tip="ltv" />
+        <Card label="Lucro por compra" valor={fmt$(u.lucroPorCompra)} c="#4D9DE0" sub={`${margem}% de ${fmt$(ticket)}`} />
+        <Card label="LTV" valor={fmt$(u.ltv)} c="#36C98E" sub={`~${u.comprasEsperadas.toFixed(1)} compras/cliente`} tip="ltv" />
         <Card label="Payback" valor={u.lucroPorCompra > 0 ? u.paybackCompras.toFixed(2) + " compras" : "—"} c={cor(u.paybackCompras <= 1 && u.lucroPorCompra > 0)} sub={u.paybackCompras <= 1 ? "recupera na 1ª venda" : "precisa de recompra"} tip="payback" />
         <Card label="Lucro na 1ª compra" valor={fmt$(u.lucro1aCompra)} c={cor(u.lucro1aCompra >= 0)} sub={u.lucro1aCompra >= 0 ? "lucra já na aquisição" : "subsidia a aquisição"} />
         <Card label="LTV : CAC" valor={cac > 0 ? u.ltvCac.toFixed(2) + "×" : "—"} c={cor(u.ltvCac >= 3)} sub={u.ltvCac >= 3 ? "saudável (≥3×)" : u.ltvCac >= 1 ? "ok, espaço pra melhorar" : "ruim (<1×)"} />
-        <Card label="CAC" valor={fmt$(cac)} c="#f59e0b" sub="custo por cliente" />
+        <Card label="CAC" valor={fmt$(cac)} c="#E8A33D" sub="custo por cliente" />
       </div>
       <p className="text-xs" style={{ color: "#74859c" }}>LTV = lucro/compra × compras esperadas (1/(1−recompra)). Payback em nº de compras pra cobrir o CAC. LTV:CAC ≥3 é o alvo saudável.</p>
     </div>
@@ -558,7 +558,7 @@ function AbaRisco({ lojaId }: { lojaId: string }) {
   if (!r || r.total === 0) return <div className="rounded-2xl p-8 text-center" style={{ background: "#112239", color: "#74859c" }}>Sem pedidos na Operação ainda. Marque pedidos com status <b>disputa</b> no operacional pra acompanhar o risco.</div>;
 
   const taxa = r.taxaDisputa * 100;
-  const nivel = taxa < 0.5 ? { c: "#10b981", t: "Saudável", d: "bem abaixo do limite de bloqueio (1%)" } : taxa < 1 ? { c: "#f59e0b", t: "Atenção", d: "aproximando do limite de 1%" } : { c: "#ef4444", t: "Crítico", d: "acima de 1% — risco de bloqueio do gateway!" };
+  const nivel = taxa < 0.5 ? { c: "#36C98E", t: "Saudável", d: "bem abaixo do limite de bloqueio (1%)" } : taxa < 1 ? { c: "#E8A33D", t: "Atenção", d: "aproximando do limite de 1%" } : { c: "#F2545B", t: "Crítico", d: "acima de 1% — risco de bloqueio do gateway!" };
   const feeN = parseFloat(fee) || 0;
   const impactoTotal = r.custoPerdidoDisputa + r.disputas * feeN;
 
@@ -580,16 +580,16 @@ function AbaRisco({ lojaId }: { lojaId: string }) {
         <p className="text-xs" style={{ color: "#74859c" }}>{nivel.d}</p>
         <div className="mt-3" style={{ height: 8, background: "#1e3356", borderRadius: 99, overflow: "hidden", position: "relative" }}>
           <div style={{ width: `${Math.min(taxa / 2 * 100, 100)}%`, height: "100%", background: nivel.c, borderRadius: 99 }} />
-          <div style={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: 2, background: "#ef4444" }} title="limite 1%" />
+          <div style={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: 2, background: "#F2545B" }} title="limite 1%" />
         </div>
         <p className="text-xs mt-1" style={{ color: "#74859c" }}>Linha vermelha = 1% (limite que bloqueia o gateway)</p>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <Card label="Pedidos" valor={String(r.total)} c="#3b82f6" />
+        <Card label="Pedidos" valor={String(r.total)} c="#4D9DE0" />
         <Card label="Disputas" valor={String(r.disputas)} c={nivel.c} sub={`${(r.taxaDisputa * 100).toFixed(2)}%`} />
-        <Card label="Reembolsos" valor={String(r.reembolsos)} c="#f59e0b" sub={`${(r.taxaReembolso * 100).toFixed(2)}%`} />
-        <Card label="Impacto $" valor={fmt$(impactoTotal)} c="#ef4444" sub="custo perdido + taxas" />
+        <Card label="Reembolsos" valor={String(r.reembolsos)} c="#E8A33D" sub={`${(r.taxaReembolso * 100).toFixed(2)}%`} />
+        <Card label="Impacto $" valor={fmt$(impactoTotal)} c="#F2545B" sub="custo perdido + taxas" />
       </div>
 
       <div className="rounded-2xl p-4 flex items-center gap-3" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
@@ -610,7 +610,7 @@ function AbaRisco({ lojaId }: { lojaId: string }) {
                     <td className="p-2 text-white font-semibold">{p.nome}</td>
                     <td className="p-2" style={{ color: "#9aa7ba" }}>{p.pedidos}</td>
                     <td className="p-2" style={{ color: "#9aa7ba" }}>{p.disputas}</td>
-                    <td className="p-2 font-bold" style={{ color: p.taxa >= 0.01 ? "#ef4444" : "#f59e0b" }}>{(p.taxa * 100).toFixed(1)}%</td>
+                    <td className="p-2 font-bold" style={{ color: p.taxa >= 0.01 ? "#F2545B" : "#E8A33D" }}>{(p.taxa * 100).toFixed(1)}%</td>
                   </tr>
                 ))}
               </tbody>
@@ -715,7 +715,7 @@ function AbaPaises({ lojaId, paises, onMudou }: { lojaId: string; paises: PrecPa
                   <td className="p-1"><input type="number" value={e.duty ?? 0} onChange={(ev) => set({ duty: parseFloat(ev.target.value) || 0 })} style={{ ...inp, width: 56, padding: "4px 6px" }} /></td>
                   <td className="p-1"><select value={e.tier} onChange={(ev) => set({ tier: ev.target.value })} style={{ ...inp, width: 54, padding: "4px 6px" }}><option>A</option><option>B</option></select></td>
                   <td className="p-1 flex gap-1">
-                    {mudou && <button onClick={() => salvar(e)} className="px-2 py-1 rounded text-xs font-bold" style={{ background: "#10b98120", color: "#10b981" }}>Salvar</button>}
+                    {mudou && <button onClick={() => salvar(e)} className="px-2 py-1 rounded text-xs font-bold" style={{ background: "#36C98E20", color: "#36C98E" }}>Salvar</button>}
                     <button onClick={() => excluir(pa.id!)} style={{ color: "#74859c" }}><Trash2 size={13} /></button>
                   </td>
                 </tr>

@@ -32,9 +32,9 @@ function isoWeekLabel(key: string): string {
 }
 
 const METRICAS: { id: Metrica; label: string; unidade: string; cor: string }[] = [
-  { id: "xp", label: "XP Ganho", unidade: "XP", cor: "#8b5cf6" },
-  { id: "rotinas", label: "Rotinas", unidade: "%", cor: "#10b981" },
-  { id: "tarefas", label: "Tarefas", unidade: "", cor: "#3b82f6" },
+  { id: "xp", label: "XP Ganho", unidade: "XP", cor: "#7C6FE0" },
+  { id: "rotinas", label: "Rotinas", unidade: "%", cor: "#36C98E" },
+  { id: "tarefas", label: "Tarefas", unidade: "", cor: "#4D9DE0" },
 ];
 
 export default function GraficoSemanal({ historico, colaboradorId }: Props) {
@@ -114,8 +114,8 @@ export default function GraficoSemanal({ historico, colaboradorId }: Props) {
             <div
               className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold"
               style={{
-                background: delta > 0 ? "#10b98118" : delta < 0 ? "#ef444418" : "#64748b18",
-                color: delta > 0 ? "#10b981" : delta < 0 ? "#ef4444" : "#64748b",
+                background: delta > 0 ? "#36C98E18" : delta < 0 ? "#F2545B18" : "#64748b18",
+                color: delta > 0 ? "#36C98E" : delta < 0 ? "#F2545B" : "#64748b",
               }}
             >
               {delta > 0 ? <TrendingUp size={11} /> : delta < 0 ? <TrendingDown size={11} /> : <Minus size={11} />}

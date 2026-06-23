@@ -83,7 +83,7 @@ export default function MeuDiaPage() {
     setSonoDismissed(dismissed === hoje);
   }, []);
 
-  const prioridadeCor: Record<string, string> = { alta: "#ef4444", media: "#f59e0b", baixa: "#64748b" };
+  const prioridadeCor: Record<string, string> = { alta: "#F2545B", media: "#E8A33D", baixa: "#64748b" };
 
   function calcMinutosSono(dormir: string, acordar: string): number {
     const [hd, md] = dormir.split(":").map(Number);
@@ -101,9 +101,9 @@ export default function MeuDiaPage() {
   }
 
   function corSono(min: number): string {
-    if (min >= 420 && min <= 540) return "#10b981";
-    if (min >= 360) return "#f59e0b";
-    return "#ef4444";
+    if (min >= 420 && min <= 540) return "#36C98E";
+    if (min >= 360) return "#E8A33D";
+    return "#F2545B";
   }
 
   function handleSalvarSono() {
@@ -124,7 +124,7 @@ export default function MeuDiaPage() {
   const particulas = Array.from({ length: 18 }, (_, i) => ({
     left: `${Math.random() * 100}%`,
     top: `${Math.random() * 60}%`,
-    background: ["#c9a84c", "#10b981", "#3b82f6", "#8b5cf6", "#ef4444"][i % 5],
+    background: ["#c9a84c", "#36C98E", "#4D9DE0", "#7C6FE0", "#F2545B"][i % 5],
     animationDelay: `${Math.random() * 0.5}s`,
     animation: celebrando ? "particleFall 1.5s ease-out forwards" : "none",
   }));
@@ -142,8 +142,8 @@ export default function MeuDiaPage() {
           100% { transform: translateY(-40px) scale(1.2); opacity: 0; }
         }
         @keyframes pulse100 {
-          0%, 100% { box-shadow: 0 0 0 0 #10b98140; }
-          50% { box-shadow: 0 0 0 12px #10b98100; }
+          0%, 100% { box-shadow: 0 0 0 0 #36C98E40; }
+          50% { box-shadow: 0 0 0 12px #36C98E00; }
         }
       `}</style>
 
@@ -177,9 +177,9 @@ export default function MeuDiaPage() {
         {/* Streak + XP */}
         <div className="flex items-center gap-3">
           {streak > 0 && (
-            <div className="flex items-center gap-1 px-3 py-1.5 rounded-full" style={{ background: "#f59e0b15", border: "1px solid #f59e0b30" }} data-tip={"Streak: " + streak + " dias seguidos de check-in. Mantenha a sequencia!"}>
-              <Flame size={14} style={{ color: "#f59e0b" }} />
-              <span className="text-sm font-bold" style={{ color: "#f59e0b" }}>{streak}d</span>
+            <div className="flex items-center gap-1 px-3 py-1.5 rounded-full" style={{ background: "#E8A33D15", border: "1px solid #E8A33D30" }} data-tip={"Streak: " + streak + " dias seguidos de check-in. Mantenha a sequencia!"}>
+              <Flame size={14} style={{ color: "#E8A33D" }} />
+              <span className="text-sm font-bold" style={{ color: "#E8A33D" }}>{streak}d</span>
             </div>
           )}
           <div className="flex items-center gap-1 px-3 py-1.5 rounded-full" style={{ background: `${nivelInfo.cor}15`, border: `1px solid ${nivelInfo.cor}30` }} data-tip={"Nivel atual: " + nivelInfo.nome + " · " + (usuarioAtual.xp || 0) + " XP"}>
@@ -191,8 +191,8 @@ export default function MeuDiaPage() {
 
       {/* Sono banner — inline, nao invasivo */}
       {!temSonoHoje && !sonoDismissed && (
-        <div className="flex items-center gap-3 px-4 py-3 rounded-xl" style={{ background: "#8b5cf615", border: "1px solid #8b5cf630" }}>
-          <Moon size={14} style={{ color: "#8b5cf6" }} />
+        <div className="flex items-center gap-3 px-4 py-3 rounded-xl" style={{ background: "#7C6FE015", border: "1px solid #7C6FE030" }}>
+          <Moon size={14} style={{ color: "#7C6FE0" }} />
           <div className="flex-1 min-w-0">
             <span className="text-sm font-medium text-white">{"Como você dormiu?"}</span>
             <span className="text-xs ml-2" style={{ color: "#9aa7ba" }}>{"Registre seu sono de ontem"}</span>
@@ -200,7 +200,7 @@ export default function MeuDiaPage() {
           <button
             onClick={() => setShowSonoPopup(true)}
             className="flex-shrink-0 text-xs px-3 py-1.5 rounded-lg font-semibold hover:opacity-80"
-            style={{ background: "#8b5cf6", color: "white" }}
+            style={{ background: "#7C6FE0", color: "white" }}
           >
             Registrar
           </button>
@@ -244,19 +244,19 @@ export default function MeuDiaPage() {
             <p className="text-white font-semibold">Rotinas de hoje</p>
             <p className="text-sm" style={{ color: "#9aa7ba" }}>{feitas} de {totalSubs} subtarefas concluidas</p>
           </div>
-          <p className="text-3xl font-bold" style={{ color: pct === 100 ? "#10b981" : "#c9a84c" }}>{pct}%</p>
+          <p className="text-3xl font-bold" style={{ color: pct === 100 ? "#36C98E" : "#c9a84c" }}>{pct}%</p>
         </div>
         <div className="h-3 rounded-full overflow-hidden" style={{ background: "#1e3356" }}>
           <div
             className="h-full rounded-full transition-all duration-700"
-            style={{ width: `${pct}%`, background: pct === 100 ? "#10b981" : "linear-gradient(90deg, #c9a84c, #e0b85a)" }}
+            style={{ width: `${pct}%`, background: pct === 100 ? "#36C98E" : "linear-gradient(90deg, #c9a84c, #e0b85a)" }}
           />
         </div>
         {pct === 100 && (
-          <div className="mt-3 flex items-center gap-2 p-3 rounded-xl" style={{ background: "#10b98115" }}>
-            <Star size={18} style={{ color: "#10b981" }} />
+          <div className="mt-3 flex items-center gap-2 p-3 rounded-xl" style={{ background: "#36C98E15" }}>
+            <Star size={18} style={{ color: "#36C98E" }} />
             <div>
-              <p className="text-sm font-bold" style={{ color: "#10b981" }}>Dia concluido! +50 XP bonus</p>
+              <p className="text-sm font-bold" style={{ color: "#36C98E" }}>Dia concluido! +50 XP bonus</p>
               <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>Streak mantido: {streak} dias consecutivos</p>
             </div>
           </div>
@@ -265,11 +265,11 @@ export default function MeuDiaPage() {
 
       {/* Entregas da Semana */}
       <div className="space-y-3">
-        <div className="flex items-center justify-between p-3 rounded-xl" style={{ background: "#10b98110", border: "1px solid #10b98125", borderLeft: "3px solid #10b981" }}>
+        <div className="flex items-center justify-between p-3 rounded-xl" style={{ background: "#36C98E10", border: "1px solid #36C98E25", borderLeft: "3px solid #36C98E" }}>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-0.5">
-              <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "#10b981" }}>ENTREGAS DA SEMANA</span>
-              <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#10b98120", color: "#10b981" }}>Compromissos até sexta</span>
+              <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "#36C98E" }}>ENTREGAS DA SEMANA</span>
+              <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#36C98E20", color: "#36C98E" }}>Compromissos até sexta</span>
             </div>
             <p className="text-xs" style={{ color: "#74859c" }}>
               O que você se comprometeu a entregar esta semana. Registre e atualize o status.
@@ -277,14 +277,14 @@ export default function MeuDiaPage() {
           </div>
           <div className="flex items-center gap-2 flex-shrink-0 ml-3">
             {minhasEntregas.length > 0 && (
-              <span className="text-sm font-bold px-2 py-0.5 rounded-full" style={{ background: "#10b98120", color: "#10b981" }}>
+              <span className="text-sm font-bold px-2 py-0.5 rounded-full" style={{ background: "#36C98E20", color: "#36C98E" }}>
                 {minhasEntregas.filter(e => e.status === "entregue").length}/{minhasEntregas.length}
               </span>
             )}
             <button
               onClick={() => setShowAddEntrega(true)}
               className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium"
-              style={{ background: "#10b98120", color: "#10b981" }}
+              style={{ background: "#36C98E20", color: "#36C98E" }}
             >
               <Plus size={12} /> Adicionar
             </button>
@@ -346,20 +346,20 @@ export default function MeuDiaPage() {
         )}
 
         {minhasEntregas.map((e) => (
-          <div key={e.id} className="rounded-2xl p-3" style={{ background: "#112239", border: `1px solid ${e.status === "travado" ? "#ef444440" : "#1e3356"}` }}>
+          <div key={e.id} className="rounded-2xl p-3" style={{ background: "#112239", border: `1px solid ${e.status === "travado" ? "#F2545B40" : "#1e3356"}` }}>
             <div className="flex items-start gap-2">
               <div className="flex-shrink-0 mt-0.5">
-                {e.status === "entregue" && <CheckCircle2 size={16} style={{ color: "#10b981" }} />}
-                {e.status === "em_andamento" && <Clock size={16} style={{ color: "#3b82f6" }} />}
-                {e.status === "travado" && <AlertTriangle size={16} style={{ color: "#ef4444" }} />}
+                {e.status === "entregue" && <CheckCircle2 size={16} style={{ color: "#36C98E" }} />}
+                {e.status === "em_andamento" && <Clock size={16} style={{ color: "#4D9DE0" }} />}
+                {e.status === "travado" && <AlertTriangle size={16} style={{ color: "#F2545B" }} />}
                 {e.status === "pendente" && <Circle size={16} style={{ color: "#9aa7ba" }} />}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm" style={{ color: e.status === "entregue" ? "#64748b" : e.status === "travado" ? "#ef4444" : "#e8edf5", textDecoration: e.status === "entregue" ? "line-through" : "none" }}>
+                <p className="text-sm" style={{ color: e.status === "entregue" ? "#64748b" : e.status === "travado" ? "#F2545B" : "#e8edf5", textDecoration: e.status === "entregue" ? "line-through" : "none" }}>
                   {e.titulo}
                 </p>
                 {e.status === "travado" && e.motivoTravado && (
-                  <p className="text-xs mt-0.5" style={{ color: "#ef444480" }}>{e.motivoTravado}</p>
+                  <p className="text-xs mt-0.5" style={{ color: "#F2545B80" }}>{e.motivoTravado}</p>
                 )}
                 {travandoId === e.id && (
                   <div className="mt-2 flex gap-2">
@@ -369,7 +369,7 @@ export default function MeuDiaPage() {
                       onChange={(ev) => setMotivoTravado(ev.target.value)}
                       placeholder="Por que está travado? (opcional)"
                       className="flex-1 px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
-                      style={{ background: "#1e3356", border: "1px solid #ef444440" }}
+                      style={{ background: "#1e3356", border: "1px solid #F2545B40" }}
                       onKeyDown={(ev) => {
                         if (ev.key === "Enter") {
                           atualizarStatusEntrega(e.id, "travado", motivoTravado || undefined);
@@ -382,7 +382,7 @@ export default function MeuDiaPage() {
                     <button
                       onClick={() => { atualizarStatusEntrega(e.id, "travado", motivoTravado || undefined); setTravandoId(null); setMotivoTravado(""); }}
                       className="px-2 py-1 rounded-lg text-xs font-medium"
-                      style={{ background: "#ef444420", color: "#ef4444" }}
+                      style={{ background: "#F2545B20", color: "#F2545B" }}
                     >
                       Confirmar
                     </button>
@@ -394,22 +394,22 @@ export default function MeuDiaPage() {
               </div>
               <div className="flex items-center gap-1 flex-shrink-0">
                 {e.status === "pendente" && (
-                  <button onClick={() => atualizarStatusEntrega(e.id, "em_andamento")} className="px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#3b82f615", color: "#3b82f6" }}>
+                  <button onClick={() => atualizarStatusEntrega(e.id, "em_andamento")} className="px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#4D9DE015", color: "#4D9DE0" }}>
                     Iniciar
                   </button>
                 )}
                 {e.status === "em_andamento" && travandoId !== e.id && (
                   <>
-                    <button onClick={() => atualizarStatusEntrega(e.id, "entregue")} className="px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#10b98115", color: "#10b981" }}>
+                    <button onClick={() => atualizarStatusEntrega(e.id, "entregue")} className="px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#36C98E15", color: "#36C98E" }}>
                       Entregar
                     </button>
-                    <button onClick={() => setTravandoId(e.id)} className="px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#ef444415", color: "#ef4444" }}>
+                    <button onClick={() => setTravandoId(e.id)} className="px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#F2545B15", color: "#F2545B" }}>
                       Travado
                     </button>
                   </>
                 )}
                 {e.status === "travado" && travandoId !== e.id && (
-                  <button onClick={() => atualizarStatusEntrega(e.id, "em_andamento")} className="px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#3b82f615", color: "#3b82f6" }}>
+                  <button onClick={() => atualizarStatusEntrega(e.id, "em_andamento")} className="px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#4D9DE015", color: "#4D9DE0" }}>
                     Retomar
                   </button>
                 )}
@@ -446,7 +446,7 @@ export default function MeuDiaPage() {
               </p>
             </div>
             <span className="text-sm font-bold px-2 py-0.5 rounded-full flex-shrink-0"
-              style={{ background: pct === 100 ? "#10b98120" : "#0ea5e915", color: pct === 100 ? "#10b981" : "#0ea5e9" }}>
+              style={{ background: pct === 100 ? "#36C98E20" : "#0ea5e915", color: pct === 100 ? "#36C98E" : "#0ea5e9" }}>
               {feitas}/{totalSubs}
             </span>
           </div>
@@ -455,7 +455,7 @@ export default function MeuDiaPage() {
             const loja = LOJAS.find((l) => l.id === rotina.lojaId);
             const subFeitas = rotina.subtarefas.filter((s) => s.concluida).length;
             return (
-              <div key={rotina.id} className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: `1px solid ${rotina.concluida ? "#10b98140" : "#1e3356"}` }}>
+              <div key={rotina.id} className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: `1px solid ${rotina.concluida ? "#36C98E40" : "#1e3356"}` }}>
                 <button className="w-full flex items-center gap-3 p-4 text-left" onClick={() => toggle(rotina.id)}>
                   <span
                     role="button"
@@ -464,7 +464,7 @@ export default function MeuDiaPage() {
                     onClick={(e) => { e.stopPropagation(); rotina.concluida ? reabrirRotina(rotina.id) : concluirRotina(rotina.id); }}
                     onKeyDown={(e) => { if (e.key === " " || e.key === "Enter") { e.stopPropagation(); rotina.concluida ? reabrirRotina(rotina.id) : concluirRotina(rotina.id); } }}
                   >
-                    {rotina.concluida ? <CheckCircle2 size={22} style={{ color: "#10b981" }} /> : <Circle size={22} style={{ color: "#74859c" }} />}
+                    {rotina.concluida ? <CheckCircle2 size={22} style={{ color: "#36C98E" }} /> : <Circle size={22} style={{ color: "#74859c" }} />}
                   </span>
                   <div className="flex-1 min-w-0">
                     <p className="text-white font-medium text-sm" style={{ textDecoration: rotina.concluida ? "line-through" : "none", opacity: rotina.concluida ? 0.5 : 1 }}>
@@ -476,7 +476,7 @@ export default function MeuDiaPage() {
                     <button
                       onClick={(e) => { e.stopPropagation(); abrirPomodoro(rotina.id, rotina.titulo); }}
                       className="text-xs px-2 py-1 rounded-lg flex items-center gap-1"
-                      style={{ background: "#ef444415", color: "#ef4444" }}
+                      style={{ background: "#F2545B15", color: "#F2545B" }}
                       data-tip="Iniciar Pomodoro — sessao de foco cronometrada"
                     >
                       🍅 <span>Foco</span>
@@ -495,7 +495,7 @@ export default function MeuDiaPage() {
                           className="w-full flex items-center gap-3 p-2.5 rounded-xl text-left transition-all hover:opacity-80"
                           style={{ background: "#1e3356" }}
                         >
-                          {sub.concluida ? <CheckCircle2 size={18} style={{ color: "#10b981" }} /> : <Circle size={18} style={{ color: "#74859c" }} />}
+                          {sub.concluida ? <CheckCircle2 size={18} style={{ color: "#36C98E" }} /> : <Circle size={18} style={{ color: "#74859c" }} />}
                           <span className="text-sm flex-1" style={{ color: sub.concluida ? "#64748b" : "#e2e8f0", textDecoration: sub.concluida ? "line-through" : "none" }}>
                             {sub.titulo}
                           </span>
@@ -591,7 +591,7 @@ export default function MeuDiaPage() {
                     <button
                       onClick={() => abrirPomodoro(t.id, t.titulo)}
                       className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium"
-                      style={{ background: "#ef444415", color: "#ef4444" }}
+                      style={{ background: "#F2545B15", color: "#F2545B" }}
                       data-tip="Iniciar Pomodoro"
                     >
                       🍅 Iniciar
@@ -599,7 +599,7 @@ export default function MeuDiaPage() {
                     <button
                       onClick={() => handleConcluirTarefa(t.id)}
                       className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium"
-                      style={{ background: "#10b98115", color: "#10b981" }}
+                      style={{ background: "#36C98E15", color: "#36C98E" }}
                     >
                       <CheckCircle2 size={12} /> Concluir
                     </button>
@@ -624,12 +624,12 @@ export default function MeuDiaPage() {
           style={{ background: "rgba(0,0,0,0.7)" }}
           onClick={dispensarSonoPopup}>
           <div className="w-full max-w-sm rounded-2xl overflow-hidden"
-            style={{ background: "#112239", border: "1px solid #8b5cf640" }}
+            style={{ background: "#112239", border: "1px solid #7C6FE040" }}
             onClick={(e) => e.stopPropagation()}>
             {sonoSalvo ? (
               <div className="flex flex-col items-center py-10 gap-3">
-                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: "#10b98122", border: "2px solid #10b981" }}>
-                  <CheckCircle2 size={24} style={{ color: "#10b981" }} />
+                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: "#36C98E22", border: "2px solid #36C98E" }}>
+                  <CheckCircle2 size={24} style={{ color: "#36C98E" }} />
                 </div>
                 <p className="text-white font-bold">Sono registrado!</p>
                 <p className="text-sm" style={{ color: "#9aa7ba" }}>
@@ -641,7 +641,7 @@ export default function MeuDiaPage() {
                 <div className="px-5 pt-5 pb-3" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Moon size={16} style={{ color: "#8b5cf6" }} />
+                      <Moon size={16} style={{ color: "#7C6FE0" }} />
                       <h2 className="font-bold text-white">Como você dormiu?</h2>
                     </div>
                     <button onClick={dispensarSonoPopup} style={{ color: "#74859c" }}>✕</button>
@@ -651,20 +651,20 @@ export default function MeuDiaPage() {
                 <div className="px-5 py-4 space-y-4">
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="text-xs font-semibold uppercase tracking-wider mb-1.5 flex items-center gap-1 block" style={{ color: "#8b5cf6" }}>
+                      <label className="text-xs font-semibold uppercase tracking-wider mb-1.5 flex items-center gap-1 block" style={{ color: "#7C6FE0" }}>
                         <Moon size={11} /> Dormiu
                       </label>
                       <input type="time" value={sonoDormir} onChange={(e) => setSonoDormir(e.target.value)}
                         className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none"
-                        style={{ background: "#1e3356", border: "1px solid #8b5cf640" }} />
+                        style={{ background: "#1e3356", border: "1px solid #7C6FE040" }} />
                     </div>
                     <div>
-                      <label className="text-xs font-semibold uppercase tracking-wider mb-1.5 flex items-center gap-1 block" style={{ color: "#f59e0b" }}>
+                      <label className="text-xs font-semibold uppercase tracking-wider mb-1.5 flex items-center gap-1 block" style={{ color: "#E8A33D" }}>
                         <Sun size={11} /> Acordou
                       </label>
                       <input type="time" value={sonoAcordar} onChange={(e) => setSonoAcordar(e.target.value)}
                         className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none"
-                        style={{ background: "#1e3356", border: "1px solid #f59e0b40" }} />
+                        style={{ background: "#1e3356", border: "1px solid #E8A33D40" }} />
                     </div>
                   </div>
                   {sonoDormir && sonoAcordar && (() => {
@@ -687,7 +687,7 @@ export default function MeuDiaPage() {
                   </button>
                   <button onClick={handleSalvarSono}
                     className="flex-1 py-2.5 rounded-xl text-sm font-bold hover:opacity-90"
-                    style={{ background: "#8b5cf6", color: "white" }}>
+                    style={{ background: "#7C6FE0", color: "white" }}>
                     Salvar
                   </button>
                 </div>

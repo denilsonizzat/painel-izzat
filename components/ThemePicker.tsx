@@ -66,14 +66,14 @@ export default function ThemePicker({ aberto, onFechar }: Props) {
           style={{ background: "var(--bg)", border: "1px solid var(--border)" }}
         >
           <div className="flex items-center gap-2">
-            <Eye size={16} style={{ color: filtroLuzAzul ? "#f59e0b" : "var(--gray)" }} />
+            <Eye size={16} style={{ color: filtroLuzAzul ? "#E8A33D" : "var(--gray)" }} />
             <div>
               <span className="text-sm font-semibold block" style={{ color: "var(--text)" }}>Filtro Quente</span>
               <span className="text-xs" style={{ color: "var(--gray)" }}>Reduz luz azul, protege os olhos</span>
             </div>
           </div>
           <button onClick={() => setFiltroLuzAzul(!filtroLuzAzul)} className="relative transition-all" style={{ width: 44, height: 24 }}>
-            <div className="w-full h-full rounded-full transition-all duration-300" style={{ background: filtroLuzAzul ? "#f59e0b" : "#334155" }} />
+            <div className="w-full h-full rounded-full transition-all duration-300" style={{ background: filtroLuzAzul ? "#E8A33D" : "#334155" }} />
             <div className="absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-all duration-300" style={{ left: filtroLuzAzul ? "calc(100% - 22px)" : "2px" }} />
           </button>
         </div>

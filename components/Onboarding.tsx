@@ -294,7 +294,7 @@ export default function Onboarding() {
               )}
               <button onClick={avancar}
                 className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-bold hover:opacity-90 active:scale-95"
-                style={{ background: isLast ? "#10b981" : "#c9a84c", color: isLast ? "white" : "#0b1624" }}>
+                style={{ background: isLast ? "#36C98E" : "#c9a84c", color: isLast ? "white" : "#0b1624" }}>
                 {isLast ? "Começar!" : "Próximo"}
                 {!isLast && <ChevronRight size={14} />}
               </button>

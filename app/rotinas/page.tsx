@@ -20,13 +20,13 @@ const FREQ_LABELS: Record<Frequencia, string> = {
 };
 
 const FREQ_CORES: Record<Frequencia, string> = {
-  diaria: "#10b981",
-  semanal: "#3b82f6",
+  diaria: "#36C98E",
+  semanal: "#4D9DE0",
   quinzenal: "#0ea5e9",
-  mensal: "#f59e0b",
-  trimestral: "#8b5cf6",
+  mensal: "#E8A33D",
+  trimestral: "#7C6FE0",
   semestral: "#ec4899",
-  anual: "#ef4444",
+  anual: "#F2545B",
 };
 
 interface FormState {
@@ -488,7 +488,7 @@ export default function RotinasPage() {
                             style={{
                               background: "#1e3356",
                               border: "none",
-                              color: "#10b981",
+                              color: "#36C98E",
                               borderRadius: 7,
                               width: 30,
                               height: 30,
@@ -517,7 +517,7 @@ export default function RotinasPage() {
                             {inativa ? (
                               <ToggleLeft size={22} style={{ color: "#74859c" }} />
                             ) : (
-                              <ToggleRight size={22} style={{ color: "#10b981" }} />
+                              <ToggleRight size={22} style={{ color: "#36C98E" }} />
                             )}
                           </button>
 
@@ -548,7 +548,7 @@ export default function RotinasPage() {
                             style={{
                               background: "#1e3356",
                               border: "none",
-                              color: "#ef4444",
+                              color: "#F2545B",
                               borderRadius: 7,
                               width: 30,
                               height: 30,
@@ -861,7 +861,7 @@ export default function RotinasPage() {
                   {verRotina.rotina.subtarefas.map((s) => (
                     <div key={s.id} style={{ display: "flex", alignItems: "center", gap: 10, background: "#1e3356", borderRadius: 10, padding: "10px 14px" }}>
                       {s.concluida
-                        ? <CheckCircle2 size={16} style={{ color: "#10b981", flexShrink: 0 }} />
+                        ? <CheckCircle2 size={16} style={{ color: "#36C98E", flexShrink: 0 }} />
                         : <Circle size={16} style={{ color: "#334155", flexShrink: 0 }} />}
                       <span style={{ color: s.concluida ? "#64748b" : "#e8edf5", fontSize: 14, textDecoration: s.concluida ? "line-through" : "none" }}>
                         {s.titulo}
@@ -879,7 +879,7 @@ export default function RotinasPage() {
                   const done = verRotina.rotina.subtarefas.filter((s) => s.concluida).length;
                   const total = verRotina.rotina.subtarefas.length;
                   const pct = Math.round((done / total) * 100);
-                  const cor = pct === 100 ? "#10b981" : pct >= 50 ? "#f59e0b" : "#ef4444";
+                  const cor = pct === 100 ? "#36C98E" : pct >= 50 ? "#E8A33D" : "#F2545B";
                   return (
                     <>
                       <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 6, color: "#9aa7ba" }}>
@@ -906,7 +906,7 @@ export default function RotinasPage() {
         >
           <div
             className="w-full max-w-xs rounded-2xl p-6 space-y-4"
-            style={{ background: "#112239", border: "1px solid #ef444440" }}
+            style={{ background: "#112239", border: "1px solid #F2545B40" }}
             onClick={(e) => e.stopPropagation()}
           >
             <p className="font-bold text-white">Deletar rotina?</p>
@@ -927,7 +927,7 @@ export default function RotinasPage() {
                   setConfirmarDel(null);
                 }}
                 className="flex-1 py-2.5 rounded-xl text-sm font-bold"
-                style={{ background: "#ef4444", color: "white" }}
+                style={{ background: "#F2545B", color: "white" }}
               >
                 Deletar
               </button>

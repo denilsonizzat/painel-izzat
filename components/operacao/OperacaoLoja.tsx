@@ -67,7 +67,7 @@ export default function OperacaoLoja({ lojaId, lojaNome }: { lojaId: string; loj
   useEffect(() => { setAnual(null); }, [lojaId]);
 
   if (!supabaseConfigurado()) {
-    return <div className="rounded-2xl p-6 text-center" style={{ background: "#112239", border: "1px solid #ef444440", color: "#ef4444" }}>
+    return <div className="rounded-2xl p-6 text-center" style={{ background: "#112239", border: "1px solid #F2545B40", color: "#F2545B" }}>
       Supabase não configurado (faltam as variáveis de ambiente).
     </div>;
   }
@@ -106,7 +106,7 @@ export default function OperacaoLoja({ lojaId, lojaNome }: { lojaId: string; loj
         })}
       </div>
 
-      {erro && <div className="rounded-xl p-3 text-sm" style={{ background: "#ef444415", color: "#ef4444" }}>Erro: {erro}</div>}
+      {erro && <div className="rounded-xl p-3 text-sm" style={{ background: "#F2545B15", color: "#F2545B" }}>Erro: {erro}</div>}
       {carregando && <div className="rounded-2xl p-8 text-center" style={{ background: "#112239", color: "#74859c" }}>Carregando...</div>}
 
       {!carregando && kpis && cfg && (
@@ -127,7 +127,7 @@ export default function OperacaoLoja({ lojaId, lojaNome }: { lojaId: string; loj
 }
 
 // ─── RESUMO (KPIs + P&L) ───────────────────────────────────
-const COR_ALERTA = { danger: "#ef4444", warn: "#f59e0b", success: "#10b981", info: "#3b82f6" };
+const COR_ALERTA = { danger: "#F2545B", warn: "#E8A33D", success: "#36C98E", info: "#4D9DE0" };
 function AbaKpis({ kpis: k, cfg, alertas }: { kpis: KpisOperacao; cfg: OpConfig; alertas: Alerta[] }) {
   const Card = ({ label, valor, cor, sub }: { label: string; valor: string; cor: string; sub?: string }) => (
     <div className="rounded-2xl p-4" style={{ background: "linear-gradient(160deg, #14243f, #111e35)", border: `1px solid ${cor}30` }}>
@@ -148,21 +148,21 @@ function AbaKpis({ kpis: k, cfg, alertas }: { kpis: KpisOperacao; cfg: OpConfig;
         </div>
       )}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-        <Card label="Faturamento" valor={fmt$(k.faturamento)} cor="#3b82f6" sub={`${k.pedidos} pedidos`} />
-        <Card label="Lucro Bruto" valor={fmt$(k.lucroBruto)} cor={k.lucroBruto >= 0 ? "#10b981" : "#ef4444"} sub={`Margem ${fmtPct(k.margem)}`} />
-        <Card label="ADS" valor={fmt$(k.ads)} cor="#f59e0b" sub={`ROAS ${k.roas.toFixed(1)}x`} />
-        <Card label="Custo (produto+frete)" valor={fmt$(k.custo)} cor="#8b5cf6" />
-        <Card label="Ticket Médio" valor={fmt$(k.ticketMedio)} cor="#3b82f6" />
+        <Card label="Faturamento" valor={fmt$(k.faturamento)} cor="#4D9DE0" sub={`${k.pedidos} pedidos`} />
+        <Card label="Lucro Bruto" valor={fmt$(k.lucroBruto)} cor={k.lucroBruto >= 0 ? "#36C98E" : "#F2545B"} sub={`Margem ${fmtPct(k.margem)}`} />
+        <Card label="ADS" valor={fmt$(k.ads)} cor="#E8A33D" sub={`ROAS ${k.roas.toFixed(1)}x`} />
+        <Card label="Custo (produto+frete)" valor={fmt$(k.custo)} cor="#7C6FE0" />
+        <Card label="Ticket Médio" valor={fmt$(k.ticketMedio)} cor="#4D9DE0" />
         <Card label="CAC" valor={fmt$(k.cac)} cor="#0ea5e9" sub="custo por pedido" />
       </div>
 
       {/* P&L real */}
-      <div className="rounded-2xl p-5" style={{ background: "linear-gradient(135deg, rgba(16,185,129,.06), rgba(16,185,129,.02))", border: "1px solid #10b98125" }}>
+      <div className="rounded-2xl p-5" style={{ background: "linear-gradient(135deg, rgba(54,201,142,.06), rgba(54,201,142,.02))", border: "1px solid #36C98E25" }}>
         <div className="flex items-center gap-2 mb-3">
-          <DollarSign size={15} style={{ color: "#10b981" }} />
+          <DollarSign size={15} style={{ color: "#36C98E" }} />
           <p className="text-sm font-bold text-white">Lucro Real (após taxas)</p>
         </div>
-        <p className="font-extrabold mb-1" style={{ fontSize: 32, color: k.lucroReal >= 0 ? "#10b981" : "#ef4444", letterSpacing: "-1px", lineHeight: 1 }}>{fmt$(k.lucroReal)}</p>
+        <p className="font-extrabold mb-1" style={{ fontSize: 32, color: k.lucroReal >= 0 ? "#36C98E" : "#F2545B", letterSpacing: "-1px", lineHeight: 1 }}>{fmt$(k.lucroReal)}</p>
         <p className="text-xs mb-3" style={{ color: "#74859c" }}>Margem real: {fmtPct(k.margemReal)} · Meta: {fmtPct(cfg.margem_alvo)}{k.margemReal >= cfg.margem_alvo ? " ✅" : " ⚠️"}</p>
         <div className="space-y-1.5 text-xs" style={{ color: "#9aa7ba" }}>
           <Linha label="Faturamento" valor={fmt$(k.faturamento)} />
@@ -180,7 +180,7 @@ function Linha({ label, valor, negativo }: { label: string; valor: string; negat
   return (
     <div className="flex justify-between py-1" style={{ borderBottom: "1px solid rgba(201,164,66,.20)" }}>
       <span>{label}</span>
-      <span style={{ color: negativo ? "#ef4444" : "#e8edf5", fontWeight: 600 }}>{valor}</span>
+      <span style={{ color: negativo ? "#F2545B" : "#e8edf5", fontWeight: 600 }}>{valor}</span>
     </div>
   );
 }
@@ -192,7 +192,7 @@ function AbaGraficos({ pedidos, ads, mes, ano }: { pedidos: OpPedido[]; ads: OpA
   const fornecedores = serieFornecedor(pedidos);
   const produtos = serieProduto(pedidos).filter((p) => p.nome !== "(sem nome)");
   const temDado = pedidos.length > 0 || ads.length > 0;
-  const corABC = { A: "#10b981", B: "#3b82f6", C: "#74859c" };
+  const corABC = { A: "#36C98E", B: "#4D9DE0", C: "#74859c" };
   const prev = preverFechamento(dias, mes, ano);
   const primDiaSemana = new Date(ano, mes - 1, 1).getDay(); // 0=Dom
   const maxLucroDia = Math.max(1, ...dias.filter((d) => d.lucro > 0).map((d) => d.lucro));
@@ -216,9 +216,9 @@ function AbaGraficos({ pedidos, ads, mes, ano }: { pedidos: OpPedido[]; ads: OpA
     <div className="space-y-4">
       {/* Legenda */}
       <div className="flex gap-4 text-xs" style={{ color: "#9aa7ba" }}>
-        <span className="flex items-center gap-1.5"><i style={{ width: 10, height: 10, borderRadius: 2, background: "#3b82f6", display: "inline-block" }} /> Faturamento</span>
-        <span className="flex items-center gap-1.5"><i style={{ width: 10, height: 10, borderRadius: 2, background: "#10b981", display: "inline-block" }} /> Lucro</span>
-        <span className="flex items-center gap-1.5"><i style={{ width: 10, height: 10, borderRadius: 2, background: "#f59e0b", display: "inline-block" }} /> ADS</span>
+        <span className="flex items-center gap-1.5"><i style={{ width: 10, height: 10, borderRadius: 2, background: "#4D9DE0", display: "inline-block" }} /> Faturamento</span>
+        <span className="flex items-center gap-1.5"><i style={{ width: 10, height: 10, borderRadius: 2, background: "#36C98E", display: "inline-block" }} /> Lucro</span>
+        <span className="flex items-center gap-1.5"><i style={{ width: 10, height: 10, borderRadius: 2, background: "#E8A33D", display: "inline-block" }} /> ADS</span>
       </div>
 
       {/* Previsão de fechamento */}
@@ -227,15 +227,15 @@ function AbaGraficos({ pedidos, ads, mes, ano }: { pedidos: OpPedido[]; ads: OpA
           <div className="grid grid-cols-3 gap-2">
             <div className="text-center rounded-xl p-3" style={{ background: "#0f1c30" }}>
               <p className="text-xs" style={{ color: "#74859c" }}>Pessimista</p>
-              <p className="font-extrabold mt-1" style={{ fontSize: 16, color: "#f59e0b" }}>{fmt$(prev.pessimista)}</p>
+              <p className="font-extrabold mt-1" style={{ fontSize: 16, color: "#E8A33D" }}>{fmt$(prev.pessimista)}</p>
             </div>
-            <div className="text-center rounded-xl p-3" style={{ background: "#0f1c30", border: "1px solid #3b82f640" }}>
+            <div className="text-center rounded-xl p-3" style={{ background: "#0f1c30", border: "1px solid #4D9DE040" }}>
               <p className="text-xs" style={{ color: "#74859c" }}>Realista</p>
-              <p className="font-extrabold mt-1" style={{ fontSize: 16, color: "#3b82f6" }}>{fmt$(prev.realista)}</p>
+              <p className="font-extrabold mt-1" style={{ fontSize: 16, color: "#4D9DE0" }}>{fmt$(prev.realista)}</p>
             </div>
             <div className="text-center rounded-xl p-3" style={{ background: "#0f1c30" }}>
               <p className="text-xs" style={{ color: "#74859c" }}>Otimista</p>
-              <p className="font-extrabold mt-1" style={{ fontSize: 16, color: "#10b981" }}>{fmt$(prev.otimista)}</p>
+              <p className="font-extrabold mt-1" style={{ fontSize: 16, color: "#36C98E" }}>{fmt$(prev.otimista)}</p>
             </div>
           </div>
           <p className="text-xs mt-2 text-center" style={{ color: "#74859c" }}>Média/dia {fmt$(prev.mediaDia)} · {prev.diasRestantes} dias restantes · atual {fmt$(prev.atual)}</p>
@@ -250,9 +250,9 @@ function AbaGraficos({ pedidos, ads, mes, ano }: { pedidos: OpPedido[]; ads: OpA
             return (
               <div key={d.dia} className="flex-1 flex flex-col items-center justify-end gap-px group relative" style={{ height: "100%" }} title={`${d.rotulo}: Fat ${fmt$(d.faturamento)} · Lucro ${fmt$(d.lucro)} · ADS ${fmt$(d.ads)}`}>
                 <div className="w-full flex items-end justify-center gap-px" style={{ height: "100%" }}>
-                  <div style={{ width: "32%", height: `${(d.faturamento / maxDia) * 100}%`, background: "#3b82f6", borderRadius: "2px 2px 0 0", minHeight: d.faturamento > 0 ? 2 : 0 }} />
-                  <div style={{ width: "32%", height: `${(Math.max(d.lucro, 0) / maxDia) * 100}%`, background: d.lucro >= 0 ? "#10b981" : "#ef4444", borderRadius: "2px 2px 0 0", minHeight: d.lucro > 0 ? 2 : 0 }} />
-                  <div style={{ width: "32%", height: `${(d.ads / maxDia) * 100}%`, background: "#f59e0b", borderRadius: "2px 2px 0 0", minHeight: d.ads > 0 ? 2 : 0 }} />
+                  <div style={{ width: "32%", height: `${(d.faturamento / maxDia) * 100}%`, background: "#4D9DE0", borderRadius: "2px 2px 0 0", minHeight: d.faturamento > 0 ? 2 : 0 }} />
+                  <div style={{ width: "32%", height: `${(Math.max(d.lucro, 0) / maxDia) * 100}%`, background: d.lucro >= 0 ? "#36C98E" : "#F2545B", borderRadius: "2px 2px 0 0", minHeight: d.lucro > 0 ? 2 : 0 }} />
+                  <div style={{ width: "32%", height: `${(d.ads / maxDia) * 100}%`, background: "#E8A33D", borderRadius: "2px 2px 0 0", minHeight: d.ads > 0 ? 2 : 0 }} />
                 </div>
                 {temD && d.dia % 5 === 0 && <span style={{ fontSize: 8, color: "#74859c" }}>{d.dia}</span>}
               </div>
@@ -272,9 +272,9 @@ function AbaGraficos({ pedidos, ads, mes, ano }: { pedidos: OpPedido[]; ads: OpA
             const temD = d.faturamento > 0 || d.ads > 0;
             let bg = "#0f1c30";
             if (temD) {
-              if (d.lucro > maxLucroDia * 0.5) bg = "#10b981";
-              else if (d.lucro > 0) bg = "rgba(16,185,129,.35)";
-              else bg = "rgba(239,68,68,.3)";
+              if (d.lucro > maxLucroDia * 0.5) bg = "#36C98E";
+              else if (d.lucro > 0) bg = "rgba(54,201,142,.35)";
+              else bg = "rgba(242,84,91,.3)";
             }
             return (
               <div key={d.dia} title={`${d.rotulo}: lucro ${fmt$(d.lucro)} · ${d.pedidos}p`}
@@ -285,9 +285,9 @@ function AbaGraficos({ pedidos, ads, mes, ano }: { pedidos: OpPedido[]; ads: OpA
           })}
         </div>
         <div className="flex gap-3 mt-2" style={{ fontSize: 9, color: "#74859c" }}>
-          <span className="flex items-center gap-1"><i style={{ width: 9, height: 9, borderRadius: 2, background: "#10b981", display: "inline-block" }} /> lucro alto</span>
-          <span className="flex items-center gap-1"><i style={{ width: 9, height: 9, borderRadius: 2, background: "rgba(16,185,129,.35)", display: "inline-block" }} /> lucro</span>
-          <span className="flex items-center gap-1"><i style={{ width: 9, height: 9, borderRadius: 2, background: "rgba(239,68,68,.3)", display: "inline-block" }} /> prejuízo</span>
+          <span className="flex items-center gap-1"><i style={{ width: 9, height: 9, borderRadius: 2, background: "#36C98E", display: "inline-block" }} /> lucro alto</span>
+          <span className="flex items-center gap-1"><i style={{ width: 9, height: 9, borderRadius: 2, background: "rgba(54,201,142,.35)", display: "inline-block" }} /> lucro</span>
+          <span className="flex items-center gap-1"><i style={{ width: 9, height: 9, borderRadius: 2, background: "rgba(242,84,91,.3)", display: "inline-block" }} /> prejuízo</span>
         </div>
       </Card>
 
@@ -298,10 +298,10 @@ function AbaGraficos({ pedidos, ads, mes, ano }: { pedidos: OpPedido[]; ads: OpA
             <div key={s.semana}>
               <div className="flex justify-between text-xs mb-1">
                 <span style={{ color: "#9aa7ba" }}>Sem {s.semana} <span style={{ color: "#74859c" }}>({s.periodo}) · {s.pedidos}p</span></span>
-                <span style={{ color: s.lucro >= 0 ? "#10b981" : "#ef4444", fontWeight: 700 }}>{fmt$(s.lucro)}</span>
+                <span style={{ color: s.lucro >= 0 ? "#36C98E" : "#F2545B", fontWeight: 700 }}>{fmt$(s.lucro)}</span>
               </div>
               <div style={{ height: 6, background: "#1e3356", borderRadius: 99, overflow: "hidden", display: "flex" }}>
-                <div style={{ width: `${(s.faturamento / maxSem) * 100}%`, background: "#3b82f6", height: "100%" }} />
+                <div style={{ width: `${(s.faturamento / maxSem) * 100}%`, background: "#4D9DE0", height: "100%" }} />
               </div>
             </div>
           ))}
@@ -319,7 +319,7 @@ function AbaGraficos({ pedidos, ads, mes, ano }: { pedidos: OpPedido[]; ads: OpA
                   <span style={{ color: "#e8edf5", fontWeight: 700 }}>{fmt$(f.faturamento)}</span>
                 </div>
                 <div style={{ height: 6, background: "#1e3356", borderRadius: 99, overflow: "hidden" }}>
-                  <div style={{ width: `${(f.faturamento / maxForn) * 100}%`, background: "linear-gradient(90deg,#3b82f6,#8b5cf6)", height: "100%", borderRadius: 99 }} />
+                  <div style={{ width: `${(f.faturamento / maxForn) * 100}%`, background: "linear-gradient(90deg,#4D9DE0,#7C6FE0)", height: "100%", borderRadius: 99 }} />
                 </div>
               </div>
             ))}
@@ -342,7 +342,7 @@ function AbaGraficos({ pedidos, ads, mes, ano }: { pedidos: OpPedido[]; ads: OpA
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between text-xs">
                     <span className="text-white font-semibold truncate">{p.nome}</span>
-                    <span style={{ color: p.lucro >= 0 ? "#10b981" : "#ef4444", fontWeight: 700, flexShrink: 0, marginLeft: 8 }}>{fmt$(p.faturamento)}</span>
+                    <span style={{ color: p.lucro >= 0 ? "#36C98E" : "#F2545B", fontWeight: 700, flexShrink: 0, marginLeft: 8 }}>{fmt$(p.faturamento)}</span>
                   </div>
                   <p className="text-xs" style={{ color: "#74859c" }}>{p.pedidos}p · margem {fmtPct(p.margem)} · lucro {fmt$(p.lucro)}</p>
                 </div>
@@ -375,7 +375,7 @@ function AbaMetas({ kpis: k, meta, lojaId, mes, ano, onSalvar }: { kpis: KpisOpe
 
   const Barra = ({ label, atual, alvo, fmt }: { label: string; atual: number; alvo: number; fmt: (n: number) => string }) => {
     const pct = alvo > 0 ? Math.min((atual / alvo) * 100, 100) : 0;
-    const cor = pct >= 100 ? "#10b981" : pct >= 60 ? "#3b82f6" : pct >= 30 ? "#f59e0b" : "#ef4444";
+    const cor = pct >= 100 ? "#36C98E" : pct >= 60 ? "#4D9DE0" : pct >= 30 ? "#E8A33D" : "#F2545B";
     return (
       <div className="mb-4">
         <div className="flex justify-between text-sm mb-1.5">
@@ -396,7 +396,7 @@ function AbaMetas({ kpis: k, meta, lojaId, mes, ano, onSalvar }: { kpis: KpisOpe
         <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Meta faturamento ($)</label><input type="number" value={f.fat} onChange={(e) => setF({ ...f, fat: e.target.value })} style={inp} /></div>
         <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Meta lucro ($)</label><input type="number" value={f.lucro} onChange={(e) => setF({ ...f, lucro: e.target.value })} style={inp} /></div>
         <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Meta pedidos</label><input type="number" value={f.peds} onChange={(e) => setF({ ...f, peds: e.target.value })} style={inp} /></div>
-        {erro && <p className="text-xs" style={{ color: "#ef4444" }}>Erro: {erro} {erro.includes("op_metas") && "→ rode supabase-metas.sql"}</p>}
+        {erro && <p className="text-xs" style={{ color: "#F2545B" }}>Erro: {erro} {erro.includes("op_metas") && "→ rode supabase-metas.sql"}</p>}
         <div className="flex gap-2">
           <button onClick={() => setEdit(false)} className="flex-1 py-2.5 rounded-xl font-bold text-sm" style={{ background: "#1e3356", color: "#94a3b8" }}>Cancelar</button>
           <button onClick={salvar} disabled={salvando} className="flex-1 py-2.5 rounded-xl font-bold text-sm disabled:opacity-40" style={{ background: "#c9a84c", color: "#0b1624" }}>{salvando ? "Salvando..." : "Salvar metas"}</button>
@@ -439,18 +439,18 @@ function AbaAnual({ anual, ano, lojaId }: { anual: MesResumo[] | null; ano: numb
           <p className="text-sm font-bold text-white mb-1">LTV — visão de todos os meses</p>
           <p className="text-xs mb-3" style={{ color: "#74859c" }}>{ltv.totalPedidos} pedidos em {ltv.mesesAtivos} mês(es) ativos</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            <MiniCard label="Ticket médio" valor={fmt$(ltv.ticketMedio)} cor="#3b82f6" />
-            <MiniCard label="Lucro/mês" valor={fmt$(ltv.lucroMes)} cor={ltv.lucroMes >= 0 ? "#10b981" : "#ef4444"} />
-            <MiniCard label="Pedidos/mês" valor={ltv.pedidosMes.toFixed(1)} cor="#8b5cf6" />
+            <MiniCard label="Ticket médio" valor={fmt$(ltv.ticketMedio)} cor="#4D9DE0" />
+            <MiniCard label="Lucro/mês" valor={fmt$(ltv.lucroMes)} cor={ltv.lucroMes >= 0 ? "#36C98E" : "#F2545B"} />
+            <MiniCard label="Pedidos/mês" valor={ltv.pedidosMes.toFixed(1)} cor="#7C6FE0" />
             <MiniCard label="LTV 12m proj." valor={fmt$(ltv.ltv12)} cor="#a8b4e8" />
           </div>
         </div>
       )}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <MiniCard label="Faturamento ano" valor={fmt$(tot.fat)} cor="#3b82f6" />
-        <MiniCard label="Lucro ano" valor={fmt$(tot.lucro)} cor={tot.lucro >= 0 ? "#10b981" : "#ef4444"} />
-        <MiniCard label="ADS ano" valor={fmt$(tot.ads)} cor="#f59e0b" />
-        <MiniCard label="Pedidos ano" valor={String(tot.peds)} cor="#8b5cf6" />
+        <MiniCard label="Faturamento ano" valor={fmt$(tot.fat)} cor="#4D9DE0" />
+        <MiniCard label="Lucro ano" valor={fmt$(tot.lucro)} cor={tot.lucro >= 0 ? "#36C98E" : "#F2545B"} />
+        <MiniCard label="ADS ano" valor={fmt$(tot.ads)} cor="#E8A33D" />
+        <MiniCard label="Pedidos ano" valor={String(tot.peds)} cor="#7C6FE0" />
       </div>
       <div className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#9aa7ba" }}>Faturamento por mês — {ano}</p>
@@ -462,10 +462,10 @@ function AbaAnual({ anual, ano, lojaId }: { anual: MesResumo[] | null; ano: numb
               <div key={m.mes}>
                 <div className="flex justify-between text-xs mb-1">
                   <span style={{ color: "#9aa7ba", width: 32 }}>{MESES[m.mes - 1]}{bateu ? " 🏆" : ""}</span>
-                  <span style={{ color: m.lucro >= 0 ? "#10b981" : "#ef4444", fontWeight: 600 }}>{m.faturamento > 0 ? fmt$(m.faturamento) : "—"}{m.meta > 0 ? ` · ${pctMeta.toFixed(0)}% meta` : ""}</span>
+                  <span style={{ color: m.lucro >= 0 ? "#36C98E" : "#F2545B", fontWeight: 600 }}>{m.faturamento > 0 ? fmt$(m.faturamento) : "—"}{m.meta > 0 ? ` · ${pctMeta.toFixed(0)}% meta` : ""}</span>
                 </div>
                 <div style={{ height: 6, background: "#1e3356", borderRadius: 99, overflow: "hidden", position: "relative" }}>
-                  <div style={{ width: `${Math.min((m.faturamento / maxFat) * 100, 100)}%`, height: "100%", background: bateu ? "#10b981" : "#3b82f6", borderRadius: 99 }} />
+                  <div style={{ width: `${Math.min((m.faturamento / maxFat) * 100, 100)}%`, height: "100%", background: bateu ? "#36C98E" : "#4D9DE0", borderRadius: 99 }} />
                   {m.meta > 0 && <div style={{ position: "absolute", top: 0, bottom: 0, left: `${Math.min((m.meta / maxFat) * 100, 100)}%`, width: 2, background: "#d4b896" }} />}
                 </div>
               </div>
@@ -491,10 +491,10 @@ function MiniCard({ label, valor, cor }: { label: string; valor: string; cor: st
 function AbaCanais({ pedidos, ads }: { pedidos: OpPedido[]; ads: OpAds[] }) {
   const canais = serieCanal(pedidos, ads);
   if (canais.length === 0) return <div className="rounded-2xl p-8 text-center" style={{ background: "#112239", color: "#74859c" }}>Sem dados. Lance pedidos com canal e gastos de ADS no mês.</div>;
-  const corCanal: Record<string, string> = { Meta: "#3b82f6", TikTok: "#ec4899", Google: "#10b981", Organico: "#c9a84c", Direto: "#94a3b8", Email: "#8b5cf6" };
+  const corCanal: Record<string, string> = { Meta: "#4D9DE0", TikTok: "#ec4899", Google: "#36C98E", Organico: "#c9a84c", Direto: "#94a3b8", Email: "#7C6FE0" };
   return (
     <div className="space-y-3">
-      <div className="rounded-xl p-3 text-xs" style={{ background: "#3b82f615", border: "1px solid #3b82f630", color: "#9aa7ba" }}>
+      <div className="rounded-xl p-3 text-xs" style={{ background: "#4D9DE015", border: "1px solid #4D9DE030", color: "#9aa7ba" }}>
         ROAS e recompra por canal de venda. Gasto vem do ADS (plataforma); receita e recompra vêm do canal marcado em cada pedido.
       </div>
       <div className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
@@ -511,10 +511,10 @@ function AbaCanais({ pedidos, ads }: { pedidos: OpPedido[]; ads: OpAds[] }) {
                   <td className="p-2" style={{ color: "#9aa7ba" }}>{c.gasto > 0 ? fmt$(c.gasto) : "—"}</td>
                   <td className="p-2 text-white">{fmt$(c.receita)}</td>
                   <td className="p-2" style={{ color: "#9aa7ba" }}>{c.pedidos}</td>
-                  <td className="p-2 font-bold" style={{ color: c.gasto === 0 ? "#74859c" : c.roas >= 3 ? "#10b981" : c.roas >= 1.5 ? "#f59e0b" : "#ef4444" }}>{c.gasto > 0 ? c.roas.toFixed(2) + "×" : "—"}</td>
+                  <td className="p-2 font-bold" style={{ color: c.gasto === 0 ? "#74859c" : c.roas >= 3 ? "#36C98E" : c.roas >= 1.5 ? "#E8A33D" : "#F2545B" }}>{c.gasto > 0 ? c.roas.toFixed(2) + "×" : "—"}</td>
                   <td className="p-2" style={{ color: "#c9a84c" }}>{c.cpa > 0 ? fmt$(c.cpa) : "—"}</td>
                   <td className="p-2" style={{ color: "#9aa7ba" }}>{fmt$(c.ticket)}</td>
-                  <td className="p-2" style={{ color: c.recompraPct >= 20 ? "#10b981" : "#9aa7ba" }}>{fmtPct(c.recompraPct)}</td>
+                  <td className="p-2" style={{ color: c.recompraPct >= 20 ? "#36C98E" : "#9aa7ba" }}>{fmtPct(c.recompraPct)}</td>
                   <td className="p-2" style={{ color: "#9aa7ba" }}>{fmtPct(c.pctReceita)}</td>
                 </tr>
               ))}
@@ -572,7 +572,7 @@ function AbaCaixa({ pedidos, ads }: { pedidos: OpPedido[]; ads: OpAds[] }) {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between flex-wrap gap-2">
-        <div className="rounded-xl p-3 text-xs flex-1" style={{ background: "#3b82f615", border: "1px solid #3b82f630", color: "#9aa7ba" }}>
+        <div className="rounded-xl p-3 text-xs flex-1" style={{ background: "#4D9DE015", border: "1px solid #4D9DE030", color: "#9aa7ba" }}>
           Descasamento: você paga fornecedor + ADS à vista, mas a Shopify libera o faturamento em ~7 dias. Câmbio do dia: R$ {cambio.toFixed(2)}/US$.
         </div>
         <div className="flex gap-1 p-1 rounded-lg" style={{ background: "#0f1c30" }}>
@@ -582,10 +582,10 @@ function AbaCaixa({ pedidos, ads }: { pedidos: OpPedido[]; ads: OpAds[] }) {
         </div>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <Card label="Saldo em caixa" usd={fx.saldoUSD} brl={fx.saldoBRL} c={fx.saldoUSD >= 0 ? "#10b981" : "#ef4444"} sub="recebido − pago" />
-        <Card label="Já recebido" usd={fx.recebidoUSD} brl={fx.recebidoBRL} c="#3b82f6" sub="liberado (>7d)" />
-        <Card label="A receber (retido)" usd={fx.aReceberUSD} brl={fx.aReceberBRL} c="#f59e0b" sub="Shopify libera em ~7d" />
-        <Card label="Pago à vista" usd={fx.pagoUSD} brl={fx.pagoBRL} c="#ef4444" sub="fornecedor + ADS" />
+        <Card label="Saldo em caixa" usd={fx.saldoUSD} brl={fx.saldoBRL} c={fx.saldoUSD >= 0 ? "#36C98E" : "#F2545B"} sub="recebido − pago" />
+        <Card label="Já recebido" usd={fx.recebidoUSD} brl={fx.recebidoBRL} c="#4D9DE0" sub="liberado (>7d)" />
+        <Card label="A receber (retido)" usd={fx.aReceberUSD} brl={fx.aReceberBRL} c="#E8A33D" sub="Shopify libera em ~7d" />
+        <Card label="Pago à vista" usd={fx.pagoUSD} brl={fx.pagoBRL} c="#F2545B" sub="fornecedor + ADS" />
       </div>
       <div className="rounded-2xl p-4 grid grid-cols-2 gap-3" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <div><p className="text-xs" style={{ color: "#74859c" }}>Custo de produto/frete</p><p className="text-sm font-bold text-white">{m(fx.custoUSD, fx.custoUSD * cambio)}</p></div>
@@ -660,16 +660,16 @@ function AbaPedidos({ lojaId, pedidos, onMudou }: { lojaId: string; pedidos: OpP
             <div key={p.id} className="rounded-xl p-3 flex items-center gap-3" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#3b82f620", color: "#3b82f6" }}>{p.fornecedor}</span>
-                  {p.status === "reembolso" && <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#ef444420", color: "#ef4444" }}>Reembolso</span>}
-                  {p.status === "disputa" && <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#f59e0b20", color: "#f59e0b" }}>Disputa</span>}
+                  <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#4D9DE020", color: "#4D9DE0" }}>{p.fornecedor}</span>
+                  {p.status === "reembolso" && <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#F2545B20", color: "#F2545B" }}>Reembolso</span>}
+                  {p.status === "disputa" && <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#E8A33D20", color: "#E8A33D" }}>Disputa</span>}
                   <span className="text-xs" style={{ color: "#74859c" }}>{p.data.slice(8, 10)}/{p.data.slice(5, 7)}</span>
                 </div>
                 <p className="text-sm text-white mt-0.5">{p.produto || p.num_pedido || "—"}</p>
               </div>
               <div className="text-right flex-shrink-0">
                 <p className="text-sm font-bold" style={{ color: "#e8edf5" }}>{fmt$(p.faturamento)}</p>
-                <p className="text-xs" style={{ color: lucro >= 0 ? "#10b981" : "#ef4444" }}>{fmt$(lucro)}</p>
+                <p className="text-xs" style={{ color: lucro >= 0 ? "#36C98E" : "#F2545B" }}>{fmt$(lucro)}</p>
               </div>
               <button onClick={() => abrirEdit(p)} className="p-1.5 rounded-lg" style={{ color: "#74859c" }}><Pencil size={13} /></button>
               <button onClick={() => excluir(p.id!)} className="p-1.5 rounded-lg" style={{ color: "#74859c" }}><Trash2 size={13} /></button>
@@ -732,11 +732,11 @@ function AbaAds({ lojaId, ads, onMudou }: { lojaId: string; ads: OpAds[]; onMudo
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <p className="text-sm" style={{ color: "#9aa7ba" }}>Total no mês: <b style={{ color: "#f59e0b" }}>{fmt$(total)}</b></p>
+        <p className="text-sm" style={{ color: "#9aa7ba" }}>Total no mês: <b style={{ color: "#E8A33D" }}>{fmt$(total)}</b></p>
         <button onClick={() => setForm(true)} className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold" style={{ background: "#c9a84c", color: "#0b1624" }}><Plus size={14} /> Novo gasto</button>
       </div>
       {/* Simulador ADS */}
-      <div className="rounded-2xl p-4" style={{ background: "linear-gradient(135deg, rgba(139,92,246,.06), rgba(139,92,246,.02))", border: "1px solid #8b5cf625" }}>
+      <div className="rounded-2xl p-4" style={{ background: "linear-gradient(135deg, rgba(124,111,224,.06), rgba(124,111,224,.02))", border: "1px solid #7C6FE025" }}>
         <p className="text-sm font-bold text-white mb-1">Simulador de ADS</p>
         <p className="text-xs mb-3" style={{ color: "#74859c" }}>E se eu investir X em ADS?</p>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -747,10 +747,10 @@ function AbaAds({ lojaId, ads, onMudou }: { lojaId: string; ads: OpAds[]; onMudo
         </div>
         {simR && (
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3">
-            <div className="text-center rounded-lg p-2" style={{ background: "#0f1c30" }}><p className="text-xs" style={{ color: "#74859c" }}>Faturamento</p><p className="font-bold" style={{ color: "#3b82f6" }}>{fmt$(simR.faturamento)}</p></div>
+            <div className="text-center rounded-lg p-2" style={{ background: "#0f1c30" }}><p className="text-xs" style={{ color: "#74859c" }}>Faturamento</p><p className="font-bold" style={{ color: "#4D9DE0" }}>{fmt$(simR.faturamento)}</p></div>
             <div className="text-center rounded-lg p-2" style={{ background: "#0f1c30" }}><p className="text-xs" style={{ color: "#74859c" }}>Pedidos</p><p className="font-bold text-white">{simR.pedidos}</p></div>
-            <div className="text-center rounded-lg p-2" style={{ background: "#0f1c30" }}><p className="text-xs" style={{ color: "#74859c" }}>Lucro</p><p className="font-bold" style={{ color: simR.lucro >= 0 ? "#10b981" : "#ef4444" }}>{fmt$(simR.lucro)}</p></div>
-            <div className="text-center rounded-lg p-2" style={{ background: "#0f1c30" }}><p className="text-xs" style={{ color: "#74859c" }}>ROI</p><p className="font-bold" style={{ color: simR.roi >= 0 ? "#10b981" : "#ef4444" }}>{(simR.roi * 100).toFixed(0)}%</p></div>
+            <div className="text-center rounded-lg p-2" style={{ background: "#0f1c30" }}><p className="text-xs" style={{ color: "#74859c" }}>Lucro</p><p className="font-bold" style={{ color: simR.lucro >= 0 ? "#36C98E" : "#F2545B" }}>{fmt$(simR.lucro)}</p></div>
+            <div className="text-center rounded-lg p-2" style={{ background: "#0f1c30" }}><p className="text-xs" style={{ color: "#74859c" }}>ROI</p><p className="font-bold" style={{ color: simR.roi >= 0 ? "#36C98E" : "#F2545B" }}>{(simR.roi * 100).toFixed(0)}%</p></div>
           </div>
         )}
         {simR && <p className="text-xs mt-2" style={{ color: "#74859c" }}>Break-even ROAS: {simR.beRoas > 0 ? simR.beRoas.toFixed(1) + "x" : "—"} · {simR.lucro >= 0 ? "rentável ✅" : "prejuízo ⚠️"}</p>}
@@ -761,10 +761,10 @@ function AbaAds({ lojaId, ads, onMudou }: { lojaId: string; ads: OpAds[]; onMudo
         {ads.map((a) => (
           <div key={a.id} className="rounded-xl p-3 flex items-center gap-3" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
             <div className="flex-1">
-              <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#8b5cf620", color: "#8b5cf6" }}>{a.plataforma}</span>
+              <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#7C6FE020", color: "#7C6FE0" }}>{a.plataforma}</span>
               <span className="text-xs ml-2" style={{ color: "#74859c" }}>{a.data.slice(8, 10)}/{a.data.slice(5, 7)}</span>
             </div>
-            <p className="text-sm font-bold" style={{ color: "#f59e0b" }}>{fmt$(a.valor)}</p>
+            <p className="text-sm font-bold" style={{ color: "#E8A33D" }}>{fmt$(a.valor)}</p>
             <button onClick={() => excluir(a.id!)} className="p-1.5 rounded-lg" style={{ color: "#74859c" }}><Trash2 size={13} /></button>
           </div>
         ))}
@@ -818,7 +818,7 @@ function AbaConfig({ cfg, onSalvar }: { cfg: OpConfig; onSalvar: (c: OpConfig) =
       </div>
 
       {/* Calculadora de preço ideal */}
-      <div className="rounded-2xl p-5" style={{ background: "linear-gradient(135deg, rgba(16,185,129,.06), rgba(16,185,129,.02))", border: "1px solid #10b98125" }}>
+      <div className="rounded-2xl p-5" style={{ background: "linear-gradient(135deg, rgba(54,201,142,.06), rgba(54,201,142,.02))", border: "1px solid #36C98E25" }}>
         <p className="text-sm font-bold text-white mb-1">Calculadora de preço de venda</p>
         <p className="text-xs mb-3" style={{ color: "#74859c" }}>Informe custo e margem desejada → preço ideal já com as taxas acima</p>
         <div className="grid grid-cols-3 gap-2 mb-3">
@@ -827,15 +827,15 @@ function AbaConfig({ cfg, onSalvar }: { cfg: OpConfig; onSalvar: (c: OpConfig) =
           <div><label className="text-xs" style={{ color: "#9aa7ba" }}>Margem %</label><input type="number" value={calc.margem} onChange={(e) => setCalc({ ...calc, margem: e.target.value })} placeholder={String(c.margem_alvo)} style={inpFull} /></div>
         </div>
         {pc && (pc.inviavel ? (
-          <p className="text-sm rounded-xl p-3" style={{ background: "#ef444415", color: "#ef4444" }}>Taxas + margem passam de 100% — impossível com esse custo.</p>
+          <p className="text-sm rounded-xl p-3" style={{ background: "#F2545B15", color: "#F2545B" }}>Taxas + margem passam de 100% — impossível com esse custo.</p>
         ) : (
-          <div className="rounded-xl p-4 text-center" style={{ background: "#0f1c30", border: "1px solid #10b98120" }}>
+          <div className="rounded-xl p-4 text-center" style={{ background: "#0f1c30", border: "1px solid #36C98E20" }}>
             <p className="text-xs uppercase tracking-wider" style={{ color: "#9aa7ba" }}>Preço de venda ideal</p>
-            <p className="font-extrabold my-1" style={{ fontSize: 34, color: "#10b981", letterSpacing: "-1px" }}>{fmt$(pc.preco)}</p>
+            <p className="font-extrabold my-1" style={{ fontSize: 34, color: "#36C98E", letterSpacing: "-1px" }}>{fmt$(pc.preco)}</p>
             <div className="grid grid-cols-3 gap-2 mt-3 text-xs">
               <div><p style={{ color: "#74859c" }}>Custo</p><p className="font-bold text-white">{fmt$(custoTotal)}</p></div>
               <div><p style={{ color: "#74859c" }}>Taxas</p><p className="font-bold text-white">{fmt$(pc.taxas)}</p></div>
-              <div><p style={{ color: "#74859c" }}>Lucro</p><p className="font-bold" style={{ color: "#10b981" }}>{fmt$(pc.lucro)}</p></div>
+              <div><p style={{ color: "#74859c" }}>Lucro</p><p className="font-bold" style={{ color: "#36C98E" }}>{fmt$(pc.lucro)}</p></div>
             </div>
           </div>
         ))}

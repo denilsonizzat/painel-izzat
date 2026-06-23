@@ -31,9 +31,9 @@ function ToastItem({
   }, [toast.id, onRemove]);
 
   const config = {
-    success: { icon: Check, bg: "#0f2a1a", border: "#10b981", text: "#10b981" },
-    warning: { icon: AlertTriangle, bg: "#2a1a0f", border: "#f59e0b", text: "#f59e0b" },
-    info: { icon: Info, bg: "#0f1a2a", border: "#3b82f6", text: "#3b82f6" },
+    success: { icon: Check, bg: "#0f2a1a", border: "#36C98E", text: "#36C98E" },
+    warning: { icon: AlertTriangle, bg: "#2a1a0f", border: "#E8A33D", text: "#E8A33D" },
+    info: { icon: Info, bg: "#0f1a2a", border: "#4D9DE0", text: "#4D9DE0" },
   }[toast.type];
 
   const Icon = config.icon;

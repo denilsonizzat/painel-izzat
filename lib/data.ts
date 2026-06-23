@@ -424,12 +424,12 @@ export interface NotificacaoInApp {
 
 export const NIVEIS = [
   { nivel: 1, nome: "Iniciante", xpMin: 0, cor: "#64748b" },
-  { nivel: 2, nome: "Aprendiz", xpMin: 150, cor: "#3b82f6" },
-  { nivel: 3, nome: "Praticante", xpMin: 400, cor: "#10b981" },
-  { nivel: 4, nome: "Avançado", xpMin: 800, cor: "#f59e0b" },
+  { nivel: 2, nome: "Aprendiz", xpMin: 150, cor: "#4D9DE0" },
+  { nivel: 3, nome: "Praticante", xpMin: 400, cor: "#36C98E" },
+  { nivel: 4, nome: "Avançado", xpMin: 800, cor: "#E8A33D" },
   { nivel: 5, nome: "Expert", xpMin: 1500, cor: "#c9a84c" },
-  { nivel: 6, nome: "Mestre", xpMin: 3000, cor: "#8b5cf6" },
-  { nivel: 7, nome: "Lendário", xpMin: 5000, cor: "#ef4444" },
+  { nivel: 6, nome: "Mestre", xpMin: 3000, cor: "#7C6FE0" },
+  { nivel: 7, nome: "Lendário", xpMin: 5000, cor: "#F2545B" },
 ] as const;
 
 export function calcNivel(xp: number) {

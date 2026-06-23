@@ -93,7 +93,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
     >
       <div
         className="modal-card w-full max-w-sm rounded-2xl p-4 overflow-y-auto"
-        style={{ background: "#112239", border: `1px solid ${isOnline ? "#10b98140" : "#1e3356"}`, maxHeight: "94vh" }}
+        style={{ background: "#112239", border: `1px solid ${isOnline ? "#36C98E40" : "#1e3356"}`, maxHeight: "94vh" }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -113,7 +113,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
         <div className="text-center mb-3">
           <p
             className="text-2xl font-black tracking-widest"
-            style={{ color: isOnline ? (foco ? "#f97316" : "#10b981") : "#334155" }}
+            style={{ color: isOnline ? (foco ? "#E8733D" : "#36C98E") : "#334155" }}
           >
             {isOnline ? (foco ? "NO FOCO" : "ONLINE") : "OFFLINE"}
           </p>
@@ -136,13 +136,13 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
           >
             <div
               className="w-full h-full rounded-full transition-all duration-300 shadow-lg"
-              style={{ background: isOnline ? "#10b981" : "#334155" }}
+              style={{ background: isOnline ? "#36C98E" : "#334155" }}
             >
               <div
                 className="absolute top-1.5 w-9 h-8 rounded-full flex items-center justify-center shadow-md transition-all duration-300"
                 style={{ left: isOnline ? "calc(100% - 40px)" : "4px", background: "white" }}
               >
-                <Zap size={18} style={{ color: isOnline ? "#10b981" : "#64748b" }} />
+                <Zap size={18} style={{ color: isOnline ? "#36C98E" : "#64748b" }} />
               </div>
             </div>
           </button>
@@ -158,19 +158,19 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
             }}
             className="w-full flex items-center justify-between px-4 py-2 rounded-xl transition-all mb-3"
             style={{
-              background: foco ? "#f9731620" : "#0b1624",
-              border: `1px solid ${foco ? "#f97316" : "#1e3356"}`,
+              background: foco ? "#E8733D20" : "#0b1624",
+              border: `1px solid ${foco ? "#E8733D" : "#1e3356"}`,
             }}
           >
             <div className="flex items-center gap-2">
               <span style={{ fontSize: 16 }}>🎯</span>
-              <span className="text-sm font-semibold" style={{ color: foco ? "#f97316" : "#94a3b8" }}>
+              <span className="text-sm font-semibold" style={{ color: foco ? "#E8733D" : "#94a3b8" }}>
                 Modo Foco — Não interromper
               </span>
             </div>
             <div
               className="w-9 h-5 rounded-full relative transition-all"
-              style={{ background: foco ? "#f97316" : "#334155" }}
+              style={{ background: foco ? "#E8733D" : "#334155" }}
             >
               <div
                 className="absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all"
@@ -240,8 +240,8 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
                 className="w-full text-center text-base font-bold px-2 py-2 rounded-xl outline-none"
                 style={{
                   background: "#112239",
-                  color: isOnline ? "#10b981" : "#e8edf5",
-                  border: `1px solid ${isOnline ? "#10b98130" : "#334155"}`,
+                  color: isOnline ? "#36C98E" : "#e8edf5",
+                  border: `1px solid ${isOnline ? "#36C98E30" : "#334155"}`,
                   colorScheme: "dark",
                 }}
               />
@@ -250,10 +250,10 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
 
           {/* Indicador automático: vira o dia sozinho quando cruza a meia-noite */}
           {proximoDia && (
-            <div className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ background: "#8b5cf615", border: "1px solid #8b5cf630" }}>
-              <Moon size={14} style={{ color: "#8b5cf6", flexShrink: 0 }} />
+            <div className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ background: "#7C6FE015", border: "1px solid #7C6FE030" }}>
+              <Moon size={14} style={{ color: "#7C6FE0", flexShrink: 0 }} />
               <span className="text-xs" style={{ color: "#c4b5fd" }}>
-                Vira a madrugada — <strong style={{ color: "#8b5cf6" }}>{fmtDataDia(0)}</strong> → <strong style={{ color: "#8b5cf6" }}>{fmtDataDia(1)}</strong>
+                Vira a madrugada — <strong style={{ color: "#7C6FE0" }}>{fmtDataDia(0)}</strong> → <strong style={{ color: "#7C6FE0" }}>{fmtDataDia(1)}</strong>
               </span>
             </div>
           )}
@@ -275,7 +275,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
           <button
             onClick={handleAtivar}
             className="w-full py-2.5 rounded-xl font-bold text-white mb-3 transition-opacity hover:opacity-90"
-            style={{ background: "#10b981" }}
+            style={{ background: "#36C98E" }}
           >
             Ativar Presenca
           </button>
@@ -283,7 +283,7 @@ export default function OnlineStatusModal({ aberto, onFechar }: Props) {
           <button
             onClick={() => { handleAtivar(); onFechar(); }}
             className="w-full py-2.5 rounded-xl font-bold text-white mb-3 transition-opacity hover:opacity-90 flex items-center justify-center gap-2"
-            style={{ background: "#10b981" }}
+            style={{ background: "#36C98E" }}
           >
             ✓ Salvar alteracoes
           </button>

@@ -396,17 +396,17 @@ export default function FormularioPage() {
                 </div>
               </div>
               {/* Sono — opcional */}
-              <div className="rounded-xl p-4 space-y-3" style={{ background: "#8b5cf608", border: "1px solid #8b5cf625" }}>
+              <div className="rounded-xl p-4 space-y-3" style={{ background: "#7C6FE008", border: "1px solid #7C6FE025" }}>
                 <div>
                   <div className="flex items-center gap-2 mb-0.5">
-                    <Moon size={14} style={{ color: "#8b5cf6" }} />
+                    <Moon size={14} style={{ color: "#7C6FE0" }} />
                     <label className="text-sm font-semibold" style={{ color: "var(--text)" }}>{"Sono de ontem (opcional)"}</label>
                   </div>
                   <p className="text-xs" style={{ color: "var(--gray)" }}>{"Acompanhe seu sono ao longo do tempo. Pode pular por agora."}</p>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-xs font-medium flex items-center gap-1 mb-1.5" style={{ color: "#8b5cf6" }}>
+                    <label className="text-xs font-medium flex items-center gap-1 mb-1.5" style={{ color: "#7C6FE0" }}>
                       <Moon size={11} /> Dormiu
                     </label>
                     <input
@@ -414,11 +414,11 @@ export default function FormularioPage() {
                       value={dados.horarioDormir}
                       onChange={(e) => upd("horarioDormir", e.target.value)}
                       className="w-full px-3 py-2.5 rounded-xl text-sm outline-none"
-                      style={{ background: "var(--card)", border: "1px solid #8b5cf640", color: "var(--text)" }}
+                      style={{ background: "var(--card)", border: "1px solid #7C6FE040", color: "var(--text)" }}
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-medium flex items-center gap-1 mb-1.5" style={{ color: "#f59e0b" }}>
+                    <label className="text-xs font-medium flex items-center gap-1 mb-1.5" style={{ color: "#E8A33D" }}>
                       <Sun size={11} /> Acordou
                     </label>
                     <input
@@ -426,7 +426,7 @@ export default function FormularioPage() {
                       value={dados.horarioAcordar}
                       onChange={(e) => upd("horarioAcordar", e.target.value)}
                       className="w-full px-3 py-2.5 rounded-xl text-sm outline-none"
-                      style={{ background: "var(--card)", border: "1px solid #f59e0b40", color: "var(--text)" }}
+                      style={{ background: "var(--card)", border: "1px solid #E8A33D40", color: "var(--text)" }}
                     />
                   </div>
                 </div>
@@ -439,7 +439,7 @@ export default function FormularioPage() {
                   const total = minA - minD;
                   const h = Math.floor(total / 60);
                   const m = total % 60;
-                  const cor = total >= 420 && total <= 540 ? "#10b981" : total >= 360 ? "#f59e0b" : "#ef4444";
+                  const cor = total >= 420 && total <= 540 ? "#36C98E" : total >= 360 ? "#E8A33D" : "#F2545B";
                   return (
                     <div className="flex items-center justify-between px-3 py-2 rounded-lg" style={{ background: "var(--bg)" }}>
                       <span className="text-xs" style={{ color: "var(--gray)" }}>Total</span>

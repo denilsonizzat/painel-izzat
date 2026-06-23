@@ -8,12 +8,12 @@ import {
 } from "lucide-react";
 
 const TIPO_CFG: Record<string, { icon: typeof Bell; cor: string; label: string }> = {
-  online:          { icon: Power,         cor: "#10b981", label: "Online" },
-  tarefa_nova:     { icon: ListTodo,      cor: "#3b82f6", label: "Nova Tarefa" },
-  tarefa_atrasada: { icon: AlertTriangle, cor: "#ef4444", label: "Tarefa Atrasada" },
+  online:          { icon: Power,         cor: "#36C98E", label: "Online" },
+  tarefa_nova:     { icon: ListTodo,      cor: "#4D9DE0", label: "Nova Tarefa" },
+  tarefa_atrasada: { icon: AlertTriangle, cor: "#F2545B", label: "Tarefa Atrasada" },
   reconhecimento:  { icon: Trophy,        cor: "#c9a84c", label: "Reconhecimento" },
   nivel_up:        { icon: Zap,           cor: "#c9a84c", label: "Subiu de Nível" },
-  streak_risco:    { icon: Flame,         cor: "#f59e0b", label: "Sequência em Risco" },
+  streak_risco:    { icon: Flame,         cor: "#E8A33D", label: "Sequência em Risco" },
   default:         { icon: Bell,          cor: "#94a3b8", label: "Notificação" },
 };
 
@@ -163,7 +163,7 @@ export default function NotificationCenter({ aberto, onFechar }: Props) {
       {label}
       {count !== undefined && count > 0 && (
         <span className="px-1.5 py-0.5 rounded-full font-bold"
-          style={{ background: aba === id ? "#c9a84c" : "#ef4444", color: "white", fontSize: 9 }}>
+          style={{ background: aba === id ? "#c9a84c" : "#F2545B", color: "white", fontSize: 9 }}>
           {count}
         </span>
       )}
@@ -193,7 +193,7 @@ export default function NotificationCenter({ aberto, onFechar }: Props) {
             <span className="text-white font-bold text-sm">Notificações</span>
             {naoLidas > 0 && (
               <span className="px-2 py-0.5 rounded-full text-xs font-bold"
-                style={{ background: "#ef4444", color: "white" }}>{naoLidas}</span>
+                style={{ background: "#F2545B", color: "white" }}>{naoLidas}</span>
             )}
           </div>
           <div className="flex items-center gap-2">
@@ -268,12 +268,12 @@ export default function NotificationCenter({ aberto, onFechar }: Props) {
                   <div key={n.id} className="relative overflow-hidden rounded-xl">
                     {/* Fundo swipe esquerda (arquivar / excluir) */}
                     <div className="absolute inset-0 flex items-center justify-end pr-4 rounded-xl"
-                      style={{ background: aba === "ativas" ? "#475569" : "#ef4444", opacity: translateX > 20 ? 1 : 0, transition: "opacity 0.1s" }}>
+                      style={{ background: aba === "ativas" ? "#475569" : "#F2545B", opacity: translateX > 20 ? 1 : 0, transition: "opacity 0.1s" }}>
                       {aba === "ativas" ? <Archive size={18} style={{ color: "white" }} /> : <Trash2 size={18} style={{ color: "white" }} />}
                     </div>
                     {/* Fundo swipe direita (marcar não lida) */}
                     <div className="absolute inset-0 flex items-center justify-start pl-4 rounded-xl"
-                      style={{ background: "#10b981", opacity: translateX < -20 ? 1 : 0, transition: "opacity 0.1s" }}>
+                      style={{ background: "#36C98E", opacity: translateX < -20 ? 1 : 0, transition: "opacity 0.1s" }}>
                       <EyeOff size={18} style={{ color: "white" }} />
                     </div>
 
@@ -368,7 +368,7 @@ export default function NotificationCenter({ aberto, onFechar }: Props) {
                               ) : (
                                 <button onClick={() => marcarNotificacaoLida(n.id)}
                                   className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-opacity hover:opacity-80"
-                                  style={{ background: "#10b98115", color: "#10b981", border: "1px solid #10b98130" }}>
+                                  style={{ background: "#36C98E15", color: "#36C98E", border: "1px solid #36C98E30" }}>
                                   <Check size={11} /> Lida
                                 </button>
                               )
@@ -377,7 +377,7 @@ export default function NotificationCenter({ aberto, onFechar }: Props) {
                             {aba === "ativas" && !n.lida && (
                               <button onClick={() => setSnoozeAberto(snoozeAberto === n.id ? null : n.id)}
                                 className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-opacity hover:opacity-80"
-                                style={{ background: "#f59e0b15", color: "#f59e0b", border: "1px solid #f59e0b30" }}>
+                                style={{ background: "#E8A33D15", color: "#E8A33D", border: "1px solid #E8A33D30" }}>
                                 <Clock size={11} /> Lembrar-me mais tarde
                               </button>
                             )}
@@ -392,12 +392,12 @@ export default function NotificationCenter({ aberto, onFechar }: Props) {
                               <>
                                 <button onClick={() => marcarNotificacaoNaoLida(n.id)}
                                   className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-opacity hover:opacity-80"
-                                  style={{ background: "#3b82f615", color: "#3b82f6", border: "1px solid #3b82f630" }}>
+                                  style={{ background: "#4D9DE015", color: "#4D9DE0", border: "1px solid #4D9DE030" }}>
                                   <RotateCcw size={11} /> Restaurar
                                 </button>
                                 <button onClick={() => excluirNotificacao(n.id)}
                                   className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-opacity hover:opacity-80 ml-auto"
-                                  style={{ background: "#ef444415", color: "#ef4444", border: "1px solid #ef444430" }}>
+                                  style={{ background: "#F2545B15", color: "#F2545B", border: "1px solid #F2545B30" }}>
                                   <Trash2 size={11} /> Excluir
                                 </button>
                               </>
@@ -412,7 +412,7 @@ export default function NotificationCenter({ aberto, onFechar }: Props) {
                                 <button key={opt.min}
                                   onClick={() => { snoozeNotificacao(n.id, opt.min); setSnoozeAberto(null); }}
                                   className="px-2.5 py-1 rounded-lg text-xs font-semibold transition-opacity hover:opacity-80"
-                                  style={{ background: "#f59e0b20", color: "#f59e0b", border: "1px solid #f59e0b40" }}>
+                                  style={{ background: "#E8A33D20", color: "#E8A33D", border: "1px solid #E8A33D40" }}>
                                   {opt.label}
                                 </button>
                               ))}

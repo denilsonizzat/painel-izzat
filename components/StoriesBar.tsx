@@ -223,16 +223,16 @@ export default function StoriesBar() {
               style={{
                 background:
                   verColabStories[0].tipo === "conquista"
-                    ? "#f59e0b20"
+                    ? "#E8A33D20"
                     : verColabStories[0].tipo === "reconhecimento"
-                    ? "#8b5cf620"
-                    : "#3b82f620",
+                    ? "#7C6FE020"
+                    : "#4D9DE020",
                 color:
                   verColabStories[0].tipo === "conquista"
-                    ? "#f59e0b"
+                    ? "#E8A33D"
                     : verColabStories[0].tipo === "reconhecimento"
-                    ? "#8b5cf6"
-                    : "#3b82f6",
+                    ? "#7C6FE0"
+                    : "#4D9DE0",
               }}
             >
               {verColabStories[0].tipo === "conquista"

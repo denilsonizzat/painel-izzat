@@ -57,7 +57,7 @@ function TierPaisSelector({ paises, paisCod, setPaisCod }: { paises: PrecPais[];
       <span className="text-xs" style={{ color: "#74859c" }}>Tier:</span>
       <div className="flex gap-1">
         {tiers.map((t) => (
-          <button key={t} onClick={() => setTier(t)} className="px-3 py-1.5 rounded-lg text-xs font-bold" style={{ background: tier === t ? "#3b82f622" : "#112239", color: tier === t ? "#4d9de0" : "#94a3b8", border: `1px solid ${tier === t ? "#4d9de0" : "#1e3356"}` }}>Tier {t}</button>
+          <button key={t} onClick={() => setTier(t)} className="px-3 py-1.5 rounded-lg text-xs font-bold" style={{ background: tier === t ? "#4D9DE022" : "#112239", color: tier === t ? "#4d9de0" : "#94a3b8", border: `1px solid ${tier === t ? "#4d9de0" : "#1e3356"}` }}>Tier {t}</button>
         ))}
       </div>
       <span className="text-xs ml-2" style={{ color: "#74859c" }}>País:</span>

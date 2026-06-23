@@ -55,7 +55,7 @@ function SessaoDots({ total, atual, fase }: { total: number; atual: number; fase
       {Array.from({ length: total }, (_, i) => (
         <div key={i} className="rounded-full transition-all" style={{
           width: i === atual-1 ? 10 : 7, height: i === atual-1 ? 10 : 7,
-          background: i < atual-1 ? "#10b981" : i === atual-1 ? (fase === "trabalho" ? "#ef4444" : "#3b82f6") : "#334155",
+          background: i < atual-1 ? "#36C98E" : i === atual-1 ? (fase === "trabalho" ? "#F2545B" : "#4D9DE0") : "#334155",
         }} />
       ))}
     </div>
@@ -131,7 +131,7 @@ export default function FloatingPomodoro() {
   const pct = totalSegundos > 0 ? (totalSegundos - segundos) / totalSegundos : 0;
   const min = Math.floor(segundos / 60).toString().padStart(2, "0");
   const sec = (segundos % 60).toString().padStart(2, "0");
-  const cor = fase === "trabalho" ? "#ef4444" : "#3b82f6";
+  const cor = fase === "trabalho" ? "#F2545B" : "#4D9DE0";
 
   // Atividades do usuario atual
   const pessoa = colaboradores.find((c) => c.id === usuarioAtual?.id);
@@ -262,8 +262,8 @@ export default function FloatingPomodoro() {
 
             {/* Atividade selecionada ou lista */}
             {atividadeSel ? (
-              <div className="rounded-xl p-2.5 flex items-center gap-2" style={{ background: "#10b98115", border: "1px solid #10b98140" }}>
-                <CheckCircle2 size={14} style={{ color: "#10b981", flexShrink: 0 }} />
+              <div className="rounded-xl p-2.5 flex items-center gap-2" style={{ background: "#36C98E15", border: "1px solid #36C98E40" }}>
+                <CheckCircle2 size={14} style={{ color: "#36C98E", flexShrink: 0 }} />
                 <span className="text-xs font-semibold flex-1 text-white truncate">{atividadeSel.titulo}</span>
                 <button onClick={() => { setAtividadeSel(null); setTitulo(""); }}
                   className="p-0.5 rounded-lg hover:bg-slate-800" style={{ color: "#9aa7ba" }}>
@@ -285,7 +285,7 @@ export default function FloatingPomodoro() {
                         <button key={t.id} onClick={() => selecionarAtividade({ tipo: "tarefa", id: t.id, titulo: t.titulo })}
                           className="w-full text-left px-2.5 py-2 rounded-xl flex items-center gap-2 transition-all hover:opacity-80"
                           style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
-                          <Circle size={12} style={{ color: "#ef4444", flexShrink: 0 }} />
+                          <Circle size={12} style={{ color: "#F2545B", flexShrink: 0 }} />
                           <span className="text-xs text-white truncate flex-1">{t.titulo}</span>
                           <span className="text-xs flex-shrink-0" style={{ color: "#74859c" }}>tarefa</span>
                         </button>
@@ -335,9 +335,9 @@ export default function FloatingPomodoro() {
                   <button key={m} onClick={() => setConfig({ ...config, minutos: m })}
                     className="py-2 rounded-xl text-sm font-bold transition-all"
                     style={{
-                      background: config.minutos === m ? "#ef444420" : "#112239",
-                      color: config.minutos === m ? "#ef4444" : "#64748b",
-                      border: `1px solid ${config.minutos === m ? "#ef444450" : "#1e3356"}`,
+                      background: config.minutos === m ? "#F2545B20" : "#112239",
+                      color: config.minutos === m ? "#F2545B" : "#64748b",
+                      border: `1px solid ${config.minutos === m ? "#F2545B50" : "#1e3356"}`,
                     }}>
                     {m} min
                   </button>
@@ -361,9 +361,9 @@ export default function FloatingPomodoro() {
                   <button key={m} onClick={() => setConfig({ ...config, minutosDescanso: m })}
                     className="py-2 rounded-xl text-sm font-bold transition-all"
                     style={{
-                      background: config.minutosDescanso === m ? "#3b82f620" : "#112239",
-                      color: config.minutosDescanso === m ? "#3b82f6" : "#64748b",
-                      border: `1px solid ${config.minutosDescanso === m ? "#3b82f650" : "#1e3356"}`,
+                      background: config.minutosDescanso === m ? "#4D9DE020" : "#112239",
+                      color: config.minutosDescanso === m ? "#4D9DE0" : "#64748b",
+                      border: `1px solid ${config.minutosDescanso === m ? "#4D9DE050" : "#1e3356"}`,
                     }}>
                     {m} min
                   </button>
@@ -411,7 +411,7 @@ export default function FloatingPomodoro() {
             <button onClick={iniciar}
               disabled={!titulo.trim() && !atividadeSel}
               className="w-full py-3 rounded-2xl font-bold text-white text-sm transition-opacity hover:opacity-90 disabled:opacity-50"
-              style={{ background: "linear-gradient(135deg, #ef4444, #dc2626)" }}>
+              style={{ background: "linear-gradient(135deg, #F2545B, #dc2626)" }}>
               &#127813; Comecar
             </button>
           </div>

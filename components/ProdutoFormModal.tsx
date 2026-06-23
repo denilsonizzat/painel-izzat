@@ -231,8 +231,8 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
 
         {sucesso ? (
           <div className="flex flex-col items-center justify-center py-10 gap-3">
-            <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: "#10b98122", border: "2px solid #10b981" }}>
-              <Check size={24} style={{ color: "#10b981" }} />
+            <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: "#36C98E22", border: "2px solid #36C98E" }}>
+              <Check size={24} style={{ color: "#36C98E" }} />
             </div>
             <p className="text-white font-bold">{isEditing ? "Produto salvo!" : "Produto criado!"}</p>
           </div>
@@ -270,9 +270,9 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
                     type="button"
                     onClick={() => setFluxo("direto")}
                     className="text-left p-3 rounded-xl transition-all"
-                    style={{ background: fluxo === "direto" ? "#3b82f618" : "#112239", border: `1px solid ${fluxo === "direto" ? "#3b82f6" : "#1e3356"}` }}
+                    style={{ background: fluxo === "direto" ? "#4D9DE018" : "#112239", border: `1px solid ${fluxo === "direto" ? "#4D9DE0" : "#1e3356"}` }}
                   >
-                    <p className="text-sm font-bold" style={{ color: fluxo === "direto" ? "#3b82f6" : "#e8edf5" }}>Direto nas lojas</p>
+                    <p className="text-sm font-bold" style={{ color: fluxo === "direto" ? "#4D9DE0" : "#e8edf5" }}>Direto nas lojas</p>
                     <p className="text-xs mt-0.5" style={{ color: "#74859c" }}>Cria já nas lojas escolhidas, testa em cada</p>
                   </button>
                 </div>
@@ -318,7 +318,7 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
                         type="button"
                         onClick={() => toggleLojaDireto(l.id)}
                         className="px-3 py-1.5 rounded-full text-xs font-semibold transition-all"
-                        style={{ background: on ? "#3b82f622" : "#112239", color: on ? "#3b82f6" : "#94a3b8", border: `1px solid ${on ? "#3b82f6" : "#1e3356"}` }}
+                        style={{ background: on ? "#4D9DE022" : "#112239", color: on ? "#4D9DE0" : "#94a3b8", border: `1px solid ${on ? "#4D9DE0" : "#1e3356"}` }}
                       >
                         {l.nome}
                       </button>
@@ -525,13 +525,13 @@ export default function ProdutoFormModal({ onClose, lojaIdInicial, produtoParaEd
               <div className="rounded-xl p-3" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
                 <div className="flex justify-between text-xs mb-1">
                   <span style={{ color: "#9aa7ba" }}>{filled}/{CAMPOS_PRODUTO.length} campos</span>
-                  <span style={{ color: filled === CAMPOS_PRODUTO.length ? "#10b981" : "#c9a84c" }}>{pct}%</span>
+                  <span style={{ color: filled === CAMPOS_PRODUTO.length ? "#36C98E" : "#c9a84c" }}>{pct}%</span>
                 </div>
                 <div className="h-2 rounded-full overflow-hidden" style={{ background: "#1e3356" }}>
-                  <div className="h-full rounded-full transition-all" style={{ width: `${pct}%`, background: filled === CAMPOS_PRODUTO.length ? "#10b981" : "#c9a84c" }} />
+                  <div className="h-full rounded-full transition-all" style={{ width: `${pct}%`, background: filled === CAMPOS_PRODUTO.length ? "#36C98E" : "#c9a84c" }} />
                 </div>
                 {filled === CAMPOS_PRODUTO.length && (
-                  <p className="text-xs mt-1.5 flex items-center gap-1" style={{ color: "#10b981" }}>
+                  <p className="text-xs mt-1.5 flex items-center gap-1" style={{ color: "#36C98E" }}>
                     <Zap size={10} /> Produto completo — poderá ir ao ar!
                   </p>
                 )}

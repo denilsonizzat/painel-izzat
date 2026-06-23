@@ -10,16 +10,16 @@ import { useRouter } from "next/navigation";
 
 const STATUS_ENTREGA_COR: Record<string, string> = {
   pendente: "#64748b",
-  em_andamento: "#3b82f6",
-  travado: "#ef4444",
-  entregue: "#10b981",
+  em_andamento: "#4D9DE0",
+  travado: "#F2545B",
+  entregue: "#36C98E",
 };
 
 const STATUS_ENTREGA_ICONE = {
   pendente: <Circle size={14} style={{ color: "#9aa7ba" }} />,
-  em_andamento: <Clock size={14} style={{ color: "#3b82f6" }} />,
-  travado: <AlertTriangle size={14} style={{ color: "#ef4444" }} />,
-  entregue: <CheckCircle2 size={14} style={{ color: "#10b981" }} />,
+  em_andamento: <Clock size={14} style={{ color: "#4D9DE0" }} />,
+  travado: <AlertTriangle size={14} style={{ color: "#F2545B" }} />,
+  entregue: <CheckCircle2 size={14} style={{ color: "#36C98E" }} />,
 };
 
 function statusGeral(
@@ -29,9 +29,9 @@ function statusGeral(
 ): { label: string; cor: string; bg: string } {
   const temTravado =
     entregas.some((e) => e.status === "travado") || tarefasColabTravadas > 0;
-  if (temTravado) return { label: "Travado", cor: "#ef4444", bg: "#ef444418" };
-  if (rotinasPct < 40) return { label: "Atenção", cor: "#f59e0b", bg: "#f59e0b18" };
-  return { label: "Em dia", cor: "#10b981", bg: "#10b98118" };
+  if (temTravado) return { label: "Travado", cor: "#F2545B", bg: "#F2545B18" };
+  if (rotinasPct < 40) return { label: "Atenção", cor: "#E8A33D", bg: "#E8A33D18" };
+  return { label: "Em dia", cor: "#36C98E", bg: "#36C98E18" };
 }
 
 export default function SemanaPage() {
@@ -78,14 +78,14 @@ export default function SemanaPage() {
         </div>
         <div className="flex items-center gap-2">
           {totalTravados > 0 && (
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl" style={{ background: "#ef444418", border: "1px solid #ef444430" }} data-tip="Pessoas com alguma entrega ou tarefa travada (bloqueada por impedimento) esta semana">
-              <AlertTriangle size={14} style={{ color: "#ef4444" }} />
-              <span className="text-sm font-bold" style={{ color: "#ef4444" }}>{totalTravados} travado{totalTravados > 1 ? "s" : ""}</span>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl" style={{ background: "#F2545B18", border: "1px solid #F2545B30" }} data-tip="Pessoas com alguma entrega ou tarefa travada (bloqueada por impedimento) esta semana">
+              <AlertTriangle size={14} style={{ color: "#F2545B" }} />
+              <span className="text-sm font-bold" style={{ color: "#F2545B" }}>{totalTravados} travado{totalTravados > 1 ? "s" : ""}</span>
             </div>
           )}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl" style={{ background: "#10b98118", border: "1px solid #10b98130" }} data-tip="Pessoas com rotinas em dia e sem nada travado">
-            <Users size={14} style={{ color: "#10b981" }} />
-            <span className="text-sm font-bold" style={{ color: "#10b981" }}>{totalEmDia} em dia</span>
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl" style={{ background: "#36C98E18", border: "1px solid #36C98E30" }} data-tip="Pessoas com rotinas em dia e sem nada travado">
+            <Users size={14} style={{ color: "#36C98E" }} />
+            <span className="text-sm font-bold" style={{ color: "#36C98E" }}>{totalEmDia} em dia</span>
           </div>
         </div>
       </div>
@@ -93,16 +93,16 @@ export default function SemanaPage() {
       {/* Legenda de status */}
       <div className="flex flex-wrap gap-3 text-xs" style={{ color: "#9aa7ba" }}>
         <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full" style={{ background: "#10b981" }} />
-          <span><strong style={{ color: "#10b981" }}>Em dia</strong> — rotinas e entregas ok</span>
+          <span className="w-2 h-2 rounded-full" style={{ background: "#36C98E" }} />
+          <span><strong style={{ color: "#36C98E" }}>Em dia</strong> — rotinas e entregas ok</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full" style={{ background: "#f59e0b" }} />
-          <span><strong style={{ color: "#f59e0b" }}>{"Atenção"}</strong>{" — rotinas com menos de 40%"}</span>
+          <span className="w-2 h-2 rounded-full" style={{ background: "#E8A33D" }} />
+          <span><strong style={{ color: "#E8A33D" }}>{"Atenção"}</strong>{" — rotinas com menos de 40%"}</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full" style={{ background: "#ef4444" }} />
-          <span><strong style={{ color: "#ef4444" }}>Travado</strong> — tarefa ou entrega bloqueada</span>
+          <span className="w-2 h-2 rounded-full" style={{ background: "#F2545B" }} />
+          <span><strong style={{ color: "#F2545B" }}>Travado</strong> — tarefa ou entrega bloqueada</span>
         </div>
       </div>
 
@@ -123,7 +123,7 @@ export default function SemanaPage() {
           const nivelInfo = calcNivel(colab.xp || 0);
           const isOnline = colab.statusOnline?.ativo ?? false;
           const isFoco = colab.statusOnline?.foco ?? false;
-          const dotCor = isOnline ? (isFoco ? "#f97316" : "#10b981") : "#334155";
+          const dotCor = isOnline ? (isFoco ? "#E8733D" : "#36C98E") : "#334155";
 
           const tarefasColab = tarefas.filter((t) => t.atribuidoPara === colab.id && t.status !== "concluida");
           const travTarefa = tarefasColab.filter((t) => t.status === "travado");
@@ -134,7 +134,7 @@ export default function SemanaPage() {
               className="rounded-2xl overflow-hidden"
               style={{
                 background: "#112239",
-                border: `1px solid ${st.label === "Travado" ? "#ef444440" : st.label === "Atenção" ? "#f59e0b30" : "#1e3356"}`,
+                border: `1px solid ${st.label === "Travado" ? "#F2545B40" : st.label === "Atenção" ? "#E8A33D30" : "#1e3356"}`,
               }}
             >
               {/* Card header */}
@@ -168,8 +168,8 @@ export default function SemanaPage() {
                 <div className="flex items-center gap-3 mt-3">
                   {(colab.streak || 0) > 0 && (
                     <div className="flex items-center gap-1">
-                      <Flame size={12} style={{ color: "#f59e0b" }} />
-                      <span className="text-xs font-semibold" style={{ color: "#f59e0b" }}>{colab.streak} dias</span>
+                      <Flame size={12} style={{ color: "#E8A33D" }} />
+                      <span className="text-xs font-semibold" style={{ color: "#E8A33D" }}>{colab.streak} dias</span>
                     </div>
                   )}
                   <div className="flex items-center gap-1">
@@ -188,7 +188,7 @@ export default function SemanaPage() {
               <div className="px-4 pb-3" style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
                 <div className="flex items-center justify-between mt-3 mb-1.5">
                   <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#74859c" }}>Rotinas</p>
-                  <span className="text-xs font-bold" style={{ color: rotinasPct === 100 ? "#10b981" : rotinasPct < 40 ? "#f59e0b" : "#c9a84c" }}>
+                  <span className="text-xs font-bold" style={{ color: rotinasPct === 100 ? "#36C98E" : rotinasPct < 40 ? "#E8A33D" : "#c9a84c" }}>
                     {rotinasPct}%
                   </span>
                 </div>
@@ -197,7 +197,7 @@ export default function SemanaPage() {
                     className="h-full rounded-full transition-all"
                     style={{
                       width: `${rotinasPct}%`,
-                      background: rotinasPct === 100 ? "#10b981" : rotinasPct < 40 ? "#f59e0b" : "linear-gradient(90deg, #c9a84c, #e0b85a)",
+                      background: rotinasPct === 100 ? "#36C98E" : rotinasPct < 40 ? "#E8A33D" : "linear-gradient(90deg, #c9a84c, #e0b85a)",
                     }}
                   />
                 </div>
@@ -208,8 +208,8 @@ export default function SemanaPage() {
                 <div className="px-4 pb-2">
                   {travTarefa.map((t) => (
                     <div key={t.id} className="flex items-center gap-2 py-1">
-                      <AlertTriangle size={12} style={{ color: "#ef4444" }} />
-                      <span className="text-xs truncate" style={{ color: "#ef4444" }}>Tarefa travada: {t.titulo}</span>
+                      <AlertTriangle size={12} style={{ color: "#F2545B" }} />
+                      <span className="text-xs truncate" style={{ color: "#F2545B" }}>Tarefa travada: {t.titulo}</span>
                     </div>
                   ))}
                 </div>
@@ -236,14 +236,14 @@ export default function SemanaPage() {
                           <p
                             className="text-xs"
                             style={{
-                              color: e.status === "entregue" ? "#64748b" : e.status === "travado" ? "#ef4444" : "#e8edf5",
+                              color: e.status === "entregue" ? "#64748b" : e.status === "travado" ? "#F2545B" : "#e8edf5",
                               textDecoration: e.status === "entregue" ? "line-through" : "none",
                             }}
                           >
                             {e.titulo}
                           </p>
                           {e.status === "travado" && e.motivoTravado && (
-                            <p className="text-xs mt-0.5" style={{ color: "#ef444480" }}>{e.motivoTravado}</p>
+                            <p className="text-xs mt-0.5" style={{ color: "#F2545B80" }}>{e.motivoTravado}</p>
                           )}
                         </div>
                         <span

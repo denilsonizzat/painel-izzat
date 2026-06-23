@@ -239,7 +239,7 @@ export default function Sidebar() {
                 {naoLidas > 0 && (
                   <span
                     className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full text-xs flex items-center justify-center font-bold"
-                    style={{ background: "#ef4444", color: "white", fontSize: 10 }}
+                    style={{ background: "#F2545B", color: "white", fontSize: 10 }}
                   >
                     {naoLidas > 9 ? "9+" : naoLidas}
                   </span>
@@ -403,7 +403,7 @@ export default function Sidebar() {
                         <Icon size={18} />
                         {badge > 0 && isCollapsed && (
                           <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full flex items-center justify-center"
-                            style={{ background: "#f59e0b", color: "#000", fontSize: 8, fontWeight: 700 }}>
+                            style={{ background: "#E8A33D", color: "#000", fontSize: 8, fontWeight: 700 }}>
                             {badge > 9 ? "9+" : badge}
                           </span>
                         )}
@@ -420,14 +420,14 @@ export default function Sidebar() {
                       </span>
                       {badge > 0 && !isCollapsed && (
                         <span className="flex-shrink-0 px-1.5 py-0.5 rounded-full text-xs font-bold"
-                          style={{ background: "#f59e0b20", color: "#f59e0b", border: "1px solid #f59e0b40" }}>
+                          style={{ background: "#E8A33D20", color: "#E8A33D", border: "1px solid #E8A33D40" }}>
                           {badge}
                         </span>
                       )}
                       {/* Badge de tarefas abertas para colaborador */}
                       {!isAdmin && (sidebarBadge || 0) > 0 && !isCollapsed && (
                         <span className="flex-shrink-0 px-1.5 py-0.5 rounded-full text-xs font-bold"
-                          style={{ background: "#3b82f620", color: "#3b82f6", border: "1px solid #3b82f640" }}>
+                          style={{ background: "#4D9DE020", color: "#4D9DE0", border: "1px solid #4D9DE040" }}>
                           {sidebarBadge}
                         </span>
                       )}
@@ -435,9 +435,9 @@ export default function Sidebar() {
                       {meuDiaBadge && !isCollapsed && (
                         <span className="flex-shrink-0 px-1.5 py-0.5 rounded-full text-xs font-bold"
                           style={{
-                            background: meuPctRotinas === 100 ? "#10b98120" : "#c9a84c15",
-                            color: meuPctRotinas === 100 ? "#10b981" : "#c9a84c",
-                            border: `1px solid ${meuPctRotinas === 100 ? "#10b98140" : "#c9a84c30"}`,
+                            background: meuPctRotinas === 100 ? "#36C98E20" : "#c9a84c15",
+                            color: meuPctRotinas === 100 ? "#36C98E" : "#c9a84c",
+                            border: `1px solid ${meuPctRotinas === 100 ? "#36C98E40" : "#c9a84c30"}`,
                           }}>
                           {meuPctRotinas}%
                         </span>
@@ -573,7 +573,7 @@ export default function Sidebar() {
                   <Avatar nome={usuarioAtual.nome} avatar={usuarioAtual.avatar} foto={usuarioAtual.foto} cor={usuarioAtual.cor} size={32} />
                   {isOnline && (
                     <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2"
-                      style={{ background: "#10b981", borderColor: "#112239" }} />
+                      style={{ background: "#36C98E", borderColor: "#112239" }} />
                   )}
                 </div>
               </Link>
@@ -585,14 +585,14 @@ export default function Sidebar() {
                   <Avatar nome={usuarioAtual.nome} avatar={usuarioAtual.avatar} foto={usuarioAtual.foto} cor={usuarioAtual.cor} size={36} />
                   {isOnline && (
                     <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2"
-                      style={{ background: "#10b981", borderColor: "#112239" }} />
+                      style={{ background: "#36C98E", borderColor: "#112239" }} />
                   )}
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-1.5">
                     <p className="text-white text-sm font-medium truncate">{usuarioAtual.nome.split(" ")[0]}</p>
                     <span className="text-xs px-1.5 py-0.5 rounded-full flex-shrink-0"
-                      style={{ background: isAdmin ? "#c9a84c15" : "#3b82f615", color: isAdmin ? "#c9a84c" : "#3b82f6", fontSize: 10, fontWeight: 700, letterSpacing: "0.04em" }}>
+                      style={{ background: isAdmin ? "#c9a84c15" : "#4D9DE015", color: isAdmin ? "#c9a84c" : "#4D9DE0", fontSize: 10, fontWeight: 700, letterSpacing: "0.04em" }}>
                       {isAdmin ? "GESTOR" : "COLAB"}
                     </span>
                   </div>
@@ -602,8 +602,8 @@ export default function Sidebar() {
                       <span className="text-xs" style={{ color: nivelInfo.cor }} data-tip={"Nivel: " + nivelInfo.nome + " · " + (usuarioAtual.xp || 0) + " XP acumulado"}>{nivelInfo.nome}</span>
                       {(usuarioAtual.streak || 0) > 0 && (
                         <>
-                          <Flame size={10} style={{ color: "#f59e0b" }} />
-                          <span className="text-xs" style={{ color: "#f59e0b" }} data-tip={"Streak: " + usuarioAtual.streak + " dias seguidos de check-in"}>{usuarioAtual.streak}d</span>
+                          <Flame size={10} style={{ color: "#E8A33D" }} />
+                          <span className="text-xs" style={{ color: "#E8A33D" }} data-tip={"Streak: " + usuarioAtual.streak + " dias seguidos de check-in"}>{usuarioAtual.streak}d</span>
                         </>
                       )}
                     </div>
@@ -680,14 +680,14 @@ export default function Sidebar() {
           {usuarioAtual && (
             <>
               <button onClick={() => setOnlineModalAberto(true)} className="relative p-1.5">
-                <Power size={17} style={{ color: isOnline ? "#10b981" : "#64748b" }} />
-                {isOnline && <div className="absolute bottom-1 right-1 w-2 h-2 rounded-full" style={{ background: "#10b981" }} />}
+                <Power size={17} style={{ color: isOnline ? "#36C98E" : "#64748b" }} />
+                {isOnline && <div className="absolute bottom-1 right-1 w-2 h-2 rounded-full" style={{ background: "#36C98E" }} />}
               </button>
               <button onClick={() => setNotifAberta((v) => !v)} className="relative p-1.5">
                 <Bell size={18} style={{ color: naoLidas > 0 ? "#c9a84c" : "#64748b" }} />
                 {naoLidas > 0 && (
                   <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full text-xs flex items-center justify-center font-bold"
-                    style={{ background: "#ef4444", color: "white", fontSize: 10 }}>
+                    style={{ background: "#F2545B", color: "white", fontSize: 10 }}>
                     {naoLidas > 9 ? "9+" : naoLidas}
                   </span>
                 )}

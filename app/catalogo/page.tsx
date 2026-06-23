@@ -24,9 +24,9 @@ const COLUNAS = [
     label: "Cadastrando",
     desc: "Campos pendentes",
     icon: AlertTriangle,
-    cor: "#ef4444",
-    bg: "#ef444408",
-    borda: "#ef444430",
+    cor: "#F2545B",
+    bg: "#F2545B08",
+    borda: "#F2545B30",
   },
   {
     id: "teste" as const,
@@ -42,27 +42,27 @@ const COLUNAS = [
     label: "Validado",
     desc: "Vendeu — pronto p/ distribuir",
     icon: ShieldCheck,
-    cor: "#3b82f6",
-    bg: "#3b82f608",
-    borda: "#3b82f630",
+    cor: "#4D9DE0",
+    bg: "#4D9DE008",
+    borda: "#4D9DE030",
   },
   {
     id: "distribuido" as const,
     label: "Distribuído",
     desc: "Em lojas nichadas",
     icon: Share2,
-    cor: "#10b981",
-    bg: "#10b98108",
-    borda: "#10b98130",
+    cor: "#36C98E",
+    bg: "#36C98E08",
+    borda: "#36C98E30",
   },
   {
     id: "reprovado" as const,
     label: "Reprovado",
     desc: "Não funcionou",
     icon: ShieldX,
-    cor: "#f97316",
-    bg: "#f9731608",
-    borda: "#f9731630",
+    cor: "#E8733D",
+    bg: "#E8733D08",
+    borda: "#E8733D30",
   },
 ] as const;
 
@@ -186,11 +186,11 @@ function KanbanCard({
   const jaDistribuido = p.distribuidoPara ?? [];
 
   const borderColor = p.reprovado
-    ? "#f9731640"
+    ? "#E8733D40"
     : p.noAr
-    ? "#10b98150"
+    ? "#36C98E50"
     : p.validado
-    ? "#3b82f640"
+    ? "#4D9DE040"
     : completo
     ? "#c9a84c30"
     : "#1e3356";
@@ -233,22 +233,22 @@ function KanbanCard({
                 </span>
               )}
               {p.produtoOrigemId && (
-                <span className="text-xs px-1.5 py-0.5 rounded-full font-medium flex items-center gap-0.5" style={{ background: "#8b5cf620", color: "#8b5cf6" }}>
+                <span className="text-xs px-1.5 py-0.5 rounded-full font-medium flex items-center gap-0.5" style={{ background: "#7C6FE020", color: "#7C6FE0" }}>
                   <Copy size={8} /> Cópia
                 </span>
               )}
               {jaDistribuido.length > 0 && (
-                <span className="text-xs px-1.5 py-0.5 rounded-full font-medium flex items-center gap-0.5" style={{ background: "#10b98118", color: "#10b981" }}>
+                <span className="text-xs px-1.5 py-0.5 rounded-full font-medium flex items-center gap-0.5" style={{ background: "#36C98E18", color: "#36C98E" }}>
                   <Share2 size={8} /> {jaDistribuido.length} {jaDistribuido.length === 1 ? "loja" : "lojas"}
                 </span>
               )}
               {p.noAr && (
-                <span className="text-xs px-1.5 py-0.5 rounded-full font-medium flex items-center gap-0.5" style={{ background: "#10b98118", color: "#10b981" }}>
+                <span className="text-xs px-1.5 py-0.5 rounded-full font-medium flex items-center gap-0.5" style={{ background: "#36C98E18", color: "#36C98E" }}>
                   <Globe size={8} /> No Ar
                 </span>
               )}
               {p.reprovado && (
-                <span className="text-xs px-1.5 py-0.5 rounded-full font-medium" style={{ background: "#f9731620", color: "#f97316" }}>
+                <span className="text-xs px-1.5 py-0.5 rounded-full font-medium" style={{ background: "#E8733D20", color: "#E8733D" }}>
                   Reprovado
                 </span>
               )}
@@ -273,7 +273,7 @@ function KanbanCard({
                 className="h-full rounded-full transition-all"
                 style={{
                   width: `${pct}%`,
-                  background: completo ? "#c9a84c" : pct >= 70 ? "#f97316" : "#ef4444",
+                  background: completo ? "#c9a84c" : pct >= 70 ? "#E8733D" : "#F2545B",
                 }}
               />
             </div>
@@ -293,7 +293,7 @@ function KanbanCard({
               {p.margemLucro && (
                 <span
                   className="text-xs font-bold"
-                  style={{ color: p.margemLucro >= 40 ? "#10b981" : p.margemLucro >= 20 ? "#c9a84c" : "#ef4444" }}
+                  style={{ color: p.margemLucro >= 40 ? "#36C98E" : p.margemLucro >= 20 ? "#c9a84c" : "#F2545B" }}
                 >
                   {p.margemLucro}% margem
                 </span>
@@ -312,7 +312,7 @@ function KanbanCard({
                 <button
                   onClick={onValidar}
                   className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-lg font-semibold"
-                  style={{ background: "#3b82f620", color: "#3b82f6", border: "1px solid #3b82f640" }}
+                  style={{ background: "#4D9DE020", color: "#4D9DE0", border: "1px solid #4D9DE040" }}
                 >
                   <ShieldCheck size={10} /> Validar
                 </button>
@@ -321,7 +321,7 @@ function KanbanCard({
                 <button
                   onClick={onDistribuir}
                   className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-lg font-semibold"
-                  style={{ background: "#8b5cf620", color: "#8b5cf6", border: "1px solid #8b5cf640" }}
+                  style={{ background: "#7C6FE020", color: "#7C6FE0", border: "1px solid #7C6FE040" }}
                 >
                   <Share2 size={10} /> Distribuir
                 </button>
@@ -331,9 +331,9 @@ function KanbanCard({
                   onClick={onToggleAr}
                   className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-lg font-semibold"
                   style={{
-                    background: p.noAr ? "#10b98122" : "#1e3356",
-                    color: p.noAr ? "#10b981" : "#64748b",
-                    border: `1px solid ${p.noAr ? "#10b98140" : "#1e3356"}`,
+                    background: p.noAr ? "#36C98E22" : "#1e3356",
+                    color: p.noAr ? "#36C98E" : "#64748b",
+                    border: `1px solid ${p.noAr ? "#36C98E40" : "#1e3356"}`,
                   }}
                 >
                   <Globe size={10} /> {p.noAr ? "No Ar ✓" : "Colocar no Ar"}
@@ -343,7 +343,7 @@ function KanbanCard({
                 <button
                   onClick={onReativar}
                   className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-lg font-semibold"
-                  style={{ background: "#3b82f615", color: "#3b82f6", border: "1px solid #3b82f630" }}
+                  style={{ background: "#4D9DE015", color: "#4D9DE0", border: "1px solid #4D9DE030" }}
                 >
                   <PackageSearch size={10} /> Reativar
                 </button>
@@ -352,7 +352,7 @@ function KanbanCard({
                 <button
                   onClick={onReprovar}
                   className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-lg font-semibold"
-                  style={{ background: "#f9731615", color: "#f97316", border: "1px solid #f9731630" }}
+                  style={{ background: "#E8733D15", color: "#E8733D", border: "1px solid #E8733D30" }}
                 >
                   <ShieldX size={10} /> Reprovar
                 </button>
@@ -385,9 +385,9 @@ function KanbanCard({
 
             {/* Campos incompletos */}
             {!completo && (
-              <div className="flex items-center gap-1.5 p-2 rounded-lg" style={{ background: "#ef444412", border: "1px solid #ef444425" }}>
-                <AlertTriangle size={10} style={{ color: "#ef4444", flexShrink: 0 }} />
-                <p className="text-xs" style={{ color: "#ef4444" }}>
+              <div className="flex items-center gap-1.5 p-2 rounded-lg" style={{ background: "#F2545B12", border: "1px solid #F2545B25" }}>
+                <AlertTriangle size={10} style={{ color: "#F2545B", flexShrink: 0 }} />
+                <p className="text-xs" style={{ color: "#F2545B" }}>
                   Faltam {CAMPOS_PRODUTO.length - preenchidos} campos obrigatórios
                 </p>
               </div>
@@ -415,11 +415,11 @@ function KanbanCard({
               <div className="flex justify-end pt-1">
                 {confirmDelete ? (
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs" style={{ color: "#ef4444" }}>Confirmar?</span>
+                    <span className="text-xs" style={{ color: "#F2545B" }}>Confirmar?</span>
                     <button
                       onClick={onDelete}
                       className="text-xs px-2 py-0.5 rounded font-bold"
-                      style={{ background: "#ef444430", color: "#ef4444" }}
+                      style={{ background: "#F2545B30", color: "#F2545B" }}
                     >
                       Excluir
                     </button>
@@ -709,7 +709,7 @@ export default function CatalogoPage() {
                 className="rounded-xl p-3 rotate-2 shadow-2xl"
                 style={{
                   background: "#1a2e4a",
-                  border: "1px solid #3b82f660",
+                  border: "1px solid #4D9DE060",
                   minWidth: "250px",
                   maxWidth: "270px",
                   boxShadow: "0 20px 60px #00000080",
@@ -768,13 +768,13 @@ export default function CatalogoPage() {
         >
           <div
             className="w-full max-w-md rounded-2xl overflow-hidden"
-            style={{ background: "#0b1624", border: "1px solid #8b5cf640", maxHeight: "90vh" }}
+            style={{ background: "#0b1624", border: "1px solid #7C6FE040", maxHeight: "90vh" }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
               <div>
                 <h2 className="font-bold text-white text-sm flex items-center gap-2">
-                  <Share2 size={14} style={{ color: "#8b5cf6" }} /> Distribuir Produto
+                  <Share2 size={14} style={{ color: "#7C6FE0" }} /> Distribuir Produto
                 </h2>
                 <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>{distribuirModal.nome}</p>
               </div>
@@ -785,8 +785,8 @@ export default function CatalogoPage() {
 
             {distribuirSucesso ? (
               <div className="flex flex-col items-center justify-center py-10 gap-3">
-                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: "#8b5cf622", border: "2px solid #8b5cf6" }}>
-                  <Check size={24} style={{ color: "#8b5cf6" }} />
+                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: "#7C6FE022", border: "2px solid #7C6FE0" }}>
+                  <Check size={24} style={{ color: "#7C6FE0" }} />
                 </div>
                 <p className="text-white font-bold">
                   Distribuído para {lojasDistribuir.length} {lojasDistribuir.length === 1 ? "loja" : "lojas"}!
@@ -815,15 +815,15 @@ export default function CatalogoPage() {
                           onClick={() => toggleLojaDistribuir(l.id)}
                           className="w-full flex items-center gap-3 p-3 rounded-xl transition-all text-left"
                           style={{
-                            background: selecionada ? "#8b5cf620" : "#112239",
-                            border: `1px solid ${selecionada ? "#8b5cf660" : "#1e3356"}`,
+                            background: selecionada ? "#7C6FE020" : "#112239",
+                            border: `1px solid ${selecionada ? "#7C6FE060" : "#1e3356"}`,
                           }}
                         >
                           <div
                             className="w-4 h-4 rounded flex items-center justify-center flex-shrink-0"
                             style={{
-                              background: selecionada ? "#8b5cf6" : "#1e3356",
-                              border: `1px solid ${selecionada ? "#8b5cf6" : "#334155"}`,
+                              background: selecionada ? "#7C6FE0" : "#1e3356",
+                              border: `1px solid ${selecionada ? "#7C6FE0" : "#334155"}`,
                             }}
                           >
                             {selecionada && <Check size={10} style={{ color: "#fff" }} />}
@@ -849,7 +849,7 @@ export default function CatalogoPage() {
                   onClick={handleDistribuir}
                   disabled={lojasDistribuir.length === 0}
                   className="w-full py-3 rounded-2xl font-bold text-sm transition-all hover:opacity-90 disabled:opacity-40"
-                  style={{ background: "#8b5cf6", color: "#fff" }}
+                  style={{ background: "#7C6FE0", color: "#fff" }}
                 >
                   Distribuir para{" "}
                   {lojasDistribuir.length > 0

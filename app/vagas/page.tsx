@@ -43,7 +43,7 @@ export default function VagasPage() {
   }
 
   function CardVaga({ rotina, tipo }: { rotina: typeof vagas[0]; tipo: AbaVagas }) {
-    const cor = tipo === "sem-responsavel" ? "#ef4444" : "#f59e0b";
+    const cor = tipo === "sem-responsavel" ? "#F2545B" : "#E8A33D";
     return (
       <div className="rounded-2xl p-4" style={{ background: "#112239", border: `1px solid ${cor}30` }}>
         <div className="flex-1 min-w-0">
@@ -87,7 +87,7 @@ export default function VagasPage() {
               <button
                 onClick={() => setDelegandoId(rotina.id)}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold"
-                style={{ background: "#10b98120", color: "#10b981" }}
+                style={{ background: "#36C98E20", color: "#36C98E" }}
               >
                 <UserPlus size={13} /> {tipo === "contratacao" ? "Contratei / delegar" : "Delegar a alguém"}
               </button>
@@ -97,7 +97,7 @@ export default function VagasPage() {
                 <button
                   onClick={() => editarRotina(rotina.id, { vagaTemporaria: true })}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold"
-                  style={{ background: "#f59e0b20", color: "#f59e0b" }}
+                  style={{ background: "#E8A33D20", color: "#E8A33D" }}
                   data-tip="Marcar que precisa contratar alguém para isso"
                 >
                   <Briefcase size={13} /> Preciso contratar
@@ -148,7 +148,7 @@ export default function VagasPage() {
       <Tabs
         value={aba}
         onChange={setAba}
-        accent={aba === "sem-responsavel" ? "#ef4444" : "#f59e0b"}
+        accent={aba === "sem-responsavel" ? "#F2545B" : "#E8A33D"}
         tabs={[
           { id: "sem-responsavel", label: "Sem responsável", icon: AlertTriangle, count: orfas.length, dica: "Rotinas que existem mas ninguém faz — delegue a alguém do time" },
           { id: "contratacao", label: "Vagas de contratação", icon: Briefcase, count: contratacoes.length, dica: "Funções que a empresa precisa preencher (contratar)" },
@@ -156,7 +156,7 @@ export default function VagasPage() {
       />
 
       {/* Explicação contextual */}
-      <div className="p-3 rounded-xl" style={{ background: (aba === "sem-responsavel" ? "#ef4444" : "#f59e0b") + "10", border: `1px solid ${(aba === "sem-responsavel" ? "#ef4444" : "#f59e0b")}25`, borderLeft: `3px solid ${aba === "sem-responsavel" ? "#ef4444" : "#f59e0b"}` }}>
+      <div className="p-3 rounded-xl" style={{ background: (aba === "sem-responsavel" ? "#F2545B" : "#E8A33D") + "10", border: `1px solid ${(aba === "sem-responsavel" ? "#F2545B" : "#E8A33D")}25`, borderLeft: `3px solid ${aba === "sem-responsavel" ? "#F2545B" : "#E8A33D"}` }}>
         <p className="text-xs" style={{ color: "#94a3b8" }}>
           {aba === "sem-responsavel"
             ? "Rotinas que existem mas ninguém faz (pessoa saiu, ou criada sem responsável). Delegue a alguém do time — ou, se precisa contratar, mande para Vagas de contratação."
@@ -169,7 +169,7 @@ export default function VagasPage() {
         <button
           onClick={() => setModalAberto(true)}
           className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm transition-opacity hover:opacity-90"
-          style={{ background: "#f59e0b20", color: "#f59e0b", border: "1px dashed #f59e0b50" }}
+          style={{ background: "#E8A33D20", color: "#E8A33D", border: "1px dashed #E8A33D50" }}
         >
           <Plus size={15} /> Criar nova vaga de contratação
         </button>
@@ -201,7 +201,7 @@ export default function VagasPage() {
           <div className="modal-card w-full max-w-md rounded-2xl p-6 space-y-4 overflow-y-auto" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)", maxHeight: "90vh" }} onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Briefcase size={16} style={{ color: "#f59e0b" }} />
+                <Briefcase size={16} style={{ color: "#E8A33D" }} />
                 <h2 className="text-white font-bold">Nova vaga de contratação</h2>
               </div>
               <button onClick={() => setModalAberto(false)} style={{ color: "#9aa7ba" }}><X size={20} /></button>
@@ -241,7 +241,7 @@ export default function VagasPage() {
 
             <div className="flex gap-3 pt-2">
               <button onClick={() => setModalAberto(false)} className="flex-1 py-2 rounded-xl text-sm font-medium" style={{ background: "#1e3356", color: "#94a3b8" }}>Cancelar</button>
-              <button onClick={criarVaga} disabled={!form.titulo.trim()} className="flex-1 py-2 rounded-xl text-sm font-bold disabled:opacity-40 flex items-center justify-center gap-2" style={{ background: "#f59e0b", color: "#0b1624" }}>
+              <button onClick={criarVaga} disabled={!form.titulo.trim()} className="flex-1 py-2 rounded-xl text-sm font-bold disabled:opacity-40 flex items-center justify-center gap-2" style={{ background: "#E8A33D", color: "#0b1624" }}>
                 <RefreshCw size={14} /> Criar vaga
               </button>
             </div>

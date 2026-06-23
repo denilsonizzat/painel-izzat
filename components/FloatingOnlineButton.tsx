@@ -12,7 +12,7 @@ export default function FloatingOnlineButton() {
 
   const isOnline = usuarioAtual.statusOnline?.ativo ?? false;
   const isFoco = usuarioAtual.statusOnline?.foco ?? false;
-  const cor = isOnline ? (isFoco ? "#f97316" : "#10b981") : "#475569";
+  const cor = isOnline ? (isFoco ? "#E8733D" : "#36C98E") : "#475569";
   const label = isOnline ? (isFoco ? "FOCO" : "ONLINE") : "OFFLINE";
 
   return (

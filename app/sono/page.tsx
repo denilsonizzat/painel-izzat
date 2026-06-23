@@ -28,9 +28,9 @@ function hToStr(h: number): string {
 }
 
 function corHoras(h: number): string {
-  if (h >= 7 && h <= 9) return "#10b981";
-  if (h >= 6 || h <= 10) return "#f59e0b";
-  return "#ef4444";
+  if (h >= 7 && h <= 9) return "#36C98E";
+  if (h >= 6 || h <= 10) return "#E8A33D";
+  return "#F2545B";
 }
 
 function corMin(min: number): string {
@@ -129,7 +129,7 @@ export default function SonoPage() {
       }))
     : 0;
   const consistencia = comDados.length >= 2 ? Math.max(0, Math.round(100 - (desvio / 90) * 100)) : 0;
-  const corConsistencia = consistencia >= 75 ? "#10b981" : consistencia >= 50 ? "#f59e0b" : "#ef4444";
+  const corConsistencia = consistencia >= 75 ? "#36C98E" : consistencia >= 50 ? "#E8A33D" : "#F2545B";
 
   // SVG Grafico
   const svgW = 600;
@@ -173,7 +173,7 @@ export default function SonoPage() {
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <Moon size={20} style={{ color: "#8b5cf6" }} />
+            <Moon size={20} style={{ color: "#7C6FE0" }} />
             <h1 className="text-2xl font-bold text-white">Sono</h1>
           </div>
           <p className="text-sm mt-1" style={{ color: "#9aa7ba" }}>
@@ -182,19 +182,19 @@ export default function SonoPage() {
         </div>
         <button onClick={() => { setFormData(hoje_); setShowForm(true); }}
           className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-opacity hover:opacity-80"
-          style={{ background: "#8b5cf6", color: "white" }}>
+          style={{ background: "#7C6FE0", color: "white" }}>
           <Plus size={14} /> Registrar
         </button>
       </div>
 
       {/* Alerta hoje sem registro */}
       {!temHoje && (
-        <div className="flex items-center gap-3 px-4 py-3 rounded-xl" style={{ background: "#8b5cf615", border: "1px solid #8b5cf630" }}>
-          <Moon size={15} style={{ color: "#8b5cf6" }} />
-          <p className="text-sm" style={{ color: "#8b5cf6" }}>Você ainda não registrou o sono de hoje</p>
+        <div className="flex items-center gap-3 px-4 py-3 rounded-xl" style={{ background: "#7C6FE015", border: "1px solid #7C6FE030" }}>
+          <Moon size={15} style={{ color: "#7C6FE0" }} />
+          <p className="text-sm" style={{ color: "#7C6FE0" }}>Você ainda não registrou o sono de hoje</p>
           <button onClick={() => { setFormData(hoje_); setShowForm(true); }}
             className="ml-auto text-xs px-3 py-1.5 rounded-lg font-bold hover:opacity-80"
-            style={{ background: "#8b5cf6", color: "white" }}>
+            style={{ background: "#7C6FE0", color: "white" }}>
             Registrar agora
           </button>
         </div>
@@ -211,12 +211,12 @@ export default function SonoPage() {
         </div>
         <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Média dormir</p>
-          <p className="text-lg font-black mt-0.5" style={{ color: "#8b5cf6" }}>{mediaDormir}</p>
+          <p className="text-lg font-black mt-0.5" style={{ color: "#7C6FE0" }}>{mediaDormir}</p>
           <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>horário médio</p>
         </div>
         <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Média acordar</p>
-          <p className="text-lg font-black mt-0.5" style={{ color: "#f59e0b" }}>{mediaAcordar}</p>
+          <p className="text-lg font-black mt-0.5" style={{ color: "#E8A33D" }}>{mediaAcordar}</p>
           <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>horário médio</p>
         </div>
         <div className="rounded-xl p-3.5" style={{ background: "#112239", border: `1px solid ${corConsistencia}25` }}>
@@ -232,7 +232,7 @@ export default function SonoPage() {
       <div className="rounded-2xl overflow-hidden" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
           <div className="flex items-center gap-2" data-tip="Gráfico das horas dormidas ao longo do tempo">
-            <TrendingUp size={15} style={{ color: "#8b5cf6" }} />
+            <TrendingUp size={15} style={{ color: "#7C6FE0" }} />
             <p className="text-sm font-semibold text-white">Evolucao do Sono</p>
           </div>
           <div className="flex gap-1">
@@ -240,7 +240,7 @@ export default function SonoPage() {
               <button key={p} onClick={() => setPeriodo(p)}
                 data-tip={`Mostrar os últimos ${p} dias`}
                 className="px-2.5 py-1 rounded-lg text-xs font-bold transition-all"
-                style={{ background: periodo === p ? "#8b5cf6" : "#1e3356", color: periodo === p ? "white" : "#64748b" }}>
+                style={{ background: periodo === p ? "#7C6FE0" : "#1e3356", color: periodo === p ? "white" : "#64748b" }}>
                 {p}d
               </button>
             ))}
@@ -257,9 +257,9 @@ export default function SonoPage() {
             <>
               {/* Legenda */}
               <div className="flex items-center gap-4 mb-3 text-xs" style={{ color: "#74859c" }}>
-                <span className="flex items-center gap-1"><span style={{ background: "#10b981", width: 8, height: 8, borderRadius: 4, display: "inline-block" }} /> 7-9h (ideal)</span>
-                <span className="flex items-center gap-1"><span style={{ background: "#f59e0b", width: 8, height: 8, borderRadius: 4, display: "inline-block" }} /> 6-7h / 9-10h</span>
-                <span className="flex items-center gap-1"><span style={{ background: "#ef4444", width: 8, height: 8, borderRadius: 4, display: "inline-block" }} /> {"<6h ou >10h"}</span>
+                <span className="flex items-center gap-1"><span style={{ background: "#36C98E", width: 8, height: 8, borderRadius: 4, display: "inline-block" }} /> 7-9h (ideal)</span>
+                <span className="flex items-center gap-1"><span style={{ background: "#E8A33D", width: 8, height: 8, borderRadius: 4, display: "inline-block" }} /> 6-7h / 9-10h</span>
+                <span className="flex items-center gap-1"><span style={{ background: "#F2545B", width: 8, height: 8, borderRadius: 4, display: "inline-block" }} /> {"<6h ou >10h"}</span>
               </div>
 
               {/* SVG */}
@@ -268,7 +268,7 @@ export default function SonoPage() {
                 <rect
                   x={padLeft} y={scaleY(9)}
                   width={plotW} height={scaleY(7) - scaleY(9)}
-                  fill="#10b98108" rx="2"
+                  fill="#36C98E08" rx="2"
                 />
 
                 {/* Grid lines H */}
@@ -282,7 +282,7 @@ export default function SonoPage() {
 
                 {/* Polyline */}
                 {polyline && (
-                  <polyline points={polyline} fill="none" stroke="#8b5cf6" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
+                  <polyline points={polyline} fill="none" stroke="#7C6FE0" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
                 )}
 
                 {/* Pontos */}
@@ -331,10 +331,10 @@ export default function SonoPage() {
                     <p className="text-xs" style={{ color: "#74859c" }}>{fmtData(r.data)}</p>
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0">
-                    <Moon size={13} style={{ color: "#8b5cf6" }} />
+                    <Moon size={13} style={{ color: "#7C6FE0" }} />
                     <span className="text-sm text-white">{r.horaDormir}</span>
                     <span style={{ color: "#334155" }}>→</span>
-                    <Sun size={13} style={{ color: "#f59e0b" }} />
+                    <Sun size={13} style={{ color: "#E8A33D" }} />
                     <span className="text-sm text-white">{r.horaAcordar}</span>
                   </div>
                   <div className="ml-auto flex items-center gap-2">
@@ -362,7 +362,7 @@ export default function SonoPage() {
             Registre seu primeiro sono para comecar a acompanhar sua consistencia.
           </p>
           <button onClick={() => { setFormData(hoje_); setShowForm(true); }}
-            className="px-5 py-2.5 rounded-xl font-bold text-sm hover:opacity-90" style={{ background: "#8b5cf6", color: "white" }}>
+            className="px-5 py-2.5 rounded-xl font-bold text-sm hover:opacity-90" style={{ background: "#7C6FE0", color: "white" }}>
             Registrar primeiro sono
           </button>
         </div>
@@ -374,13 +374,13 @@ export default function SonoPage() {
           style={{ background: "rgba(0,0,0,0.75)" }}
           onClick={() => !savedFeedback && setShowForm(false)}>
           <div className="w-full max-w-sm rounded-2xl overflow-hidden"
-            style={{ background: "#112239", border: "1px solid #8b5cf640" }}
+            style={{ background: "#112239", border: "1px solid #7C6FE040" }}
             onClick={(e) => e.stopPropagation()}>
 
             {savedFeedback ? (
               <div className="flex flex-col items-center py-10 gap-3">
-                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: "#10b98122", border: "2px solid #10b981" }}>
-                  <Check size={24} style={{ color: "#10b981" }} />
+                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: "#36C98E22", border: "2px solid #36C98E" }}>
+                  <Check size={24} style={{ color: "#36C98E" }} />
                 </div>
                 <p className="text-white font-bold">Sono registrado!</p>
                 <p className="text-sm" style={{ color: "#9aa7ba" }}>
@@ -391,7 +391,7 @@ export default function SonoPage() {
               <>
                 <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
                   <div className="flex items-center gap-2">
-                    <Moon size={16} style={{ color: "#8b5cf6" }} />
+                    <Moon size={16} style={{ color: "#7C6FE0" }} />
                     <h2 className="font-bold text-white">Registrar Sono</h2>
                   </div>
                   <button onClick={() => setShowForm(false)} style={{ color: "#9aa7ba" }}>✕</button>
@@ -406,20 +406,20 @@ export default function SonoPage() {
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="text-xs font-semibold uppercase tracking-wider mb-1.5 flex items-center gap-1.5 block" style={{ color: "#8b5cf6" }}>
+                      <label className="text-xs font-semibold uppercase tracking-wider mb-1.5 flex items-center gap-1.5 block" style={{ color: "#7C6FE0" }}>
                         <Moon size={11} /> Dormiu
                       </label>
                       <input type="time" value={formDormir} onChange={(e) => setFormDormir(e.target.value)}
                         className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none"
-                        style={{ background: "#1e3356", border: "1px solid #8b5cf640" }} />
+                        style={{ background: "#1e3356", border: "1px solid #7C6FE040" }} />
                     </div>
                     <div>
-                      <label className="text-xs font-semibold uppercase tracking-wider mb-1.5 flex items-center gap-1.5 block" style={{ color: "#f59e0b" }}>
+                      <label className="text-xs font-semibold uppercase tracking-wider mb-1.5 flex items-center gap-1.5 block" style={{ color: "#E8A33D" }}>
                         <Sun size={11} /> Acordou
                       </label>
                       <input type="time" value={formAcordar} onChange={(e) => setFormAcordar(e.target.value)}
                         className="w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none"
-                        style={{ background: "#1e3356", border: "1px solid #f59e0b40" }} />
+                        style={{ background: "#1e3356", border: "1px solid #E8A33D40" }} />
                     </div>
                   </div>
 
@@ -440,7 +440,7 @@ export default function SonoPage() {
                   <button onClick={handleSalvar}
                     disabled={!formDormir || !formAcordar}
                     className="w-full py-3 rounded-xl font-bold text-sm disabled:opacity-40 hover:opacity-90"
-                    style={{ background: "#8b5cf6", color: "white" }}>
+                    style={{ background: "#7C6FE0", color: "white" }}>
                     Salvar
                   </button>
                 </div>

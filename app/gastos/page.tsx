@@ -24,7 +24,7 @@ function BarPct({ pct, cor }: { pct: number; cor: string }) {
   );
 }
 
-const CORES = ["#c9a84c", "#3b82f6", "#10b981", "#8b5cf6", "#ef4444", "#f59e0b", "#ec4899", "#06b6d4", "#84cc16", "#f97316"];
+const CORES = ["#c9a84c", "#4D9DE0", "#36C98E", "#7C6FE0", "#F2545B", "#E8A33D", "#ec4899", "#06b6d4", "#84cc16", "#E8733D"];
 
 type Aba = "pessoas" | "ferramentas" | "resumo";
 
@@ -155,16 +155,16 @@ export default function GastosPage() {
             Folha salarial, ferramentas e custo total por pessoa — somente administradores
           </p>
         </div>
-        <div className="px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5" style={{ background: "#ef444415", color: "#ef4444", border: "1px solid #ef444430" }}>
+        <div className="px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5" style={{ background: "#F2545B15", color: "#F2545B", border: "1px solid #F2545B30" }}>
           <AlertCircle size={13} /> Confidencial
         </div>
       </div>
 
       {/* Feedback de sucesso */}
       {savedFeedback && (
-        <div className="flex items-center gap-2 px-4 py-3 rounded-xl" style={{ background: "#10b98115", border: "1px solid #10b98140" }}>
-          <Check size={15} style={{ color: "#10b981" }} />
-          <span className="text-sm font-semibold" style={{ color: "#10b981" }}>
+        <div className="flex items-center gap-2 px-4 py-3 rounded-xl" style={{ background: "#36C98E15", border: "1px solid #36C98E40" }}>
+          <Check size={15} style={{ color: "#36C98E" }} />
+          <span className="text-sm font-semibold" style={{ color: "#36C98E" }}>
             Ferramenta &quot;{savedFeedback}&quot; salva com sucesso
           </span>
         </div>
@@ -179,17 +179,17 @@ export default function GastosPage() {
         {totalGeral > 0 && (
           <div className="mt-4 flex justify-center gap-4 flex-wrap">
             <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#10b981" }} />
+              <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#36C98E" }} />
               <span className="text-sm" style={{ color: "#94a3b8" }}>
-                Salarios <strong style={{ color: "#10b981" }}>R$ {fmt(totalSalarios)}</strong>
+                Salarios <strong style={{ color: "#36C98E" }}>R$ {fmt(totalSalarios)}</strong>
                 <span className="text-xs ml-1.5" style={{ color: "#74859c" }}>({((totalSalarios / totalGeral) * 100).toFixed(0)}%)</span>
               </span>
             </div>
             <div className="w-px" style={{ background: "#1e3356" }} />
             <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#3b82f6" }} />
+              <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#4D9DE0" }} />
               <span className="text-sm" style={{ color: "#94a3b8" }}>
-                Ferramentas <strong style={{ color: "#3b82f6" }}>R$ {fmt(totalFerramentas)}</strong>
+                Ferramentas <strong style={{ color: "#4D9DE0" }}>R$ {fmt(totalFerramentas)}</strong>
                 <span className="text-xs ml-1.5" style={{ color: "#74859c" }}>({((totalFerramentas / totalGeral) * 100).toFixed(0)}%)</span>
               </span>
             </div>
@@ -197,32 +197,32 @@ export default function GastosPage() {
         )}
         {totalGeral > 0 && (
           <div className="mt-4 flex rounded-full overflow-hidden h-2" style={{ background: "#1e3356" }}>
-            <div style={{ width: `${(totalSalarios / totalGeral) * 100}%`, background: "#10b981", transition: "width 0.7s" }} />
-            <div style={{ width: `${(totalFerramentas / totalGeral) * 100}%`, background: "#3b82f6", transition: "width 0.7s" }} />
+            <div style={{ width: `${(totalSalarios / totalGeral) * 100}%`, background: "#36C98E", transition: "width 0.7s" }} />
+            <div style={{ width: `${(totalFerramentas / totalGeral) * 100}%`, background: "#4D9DE0", transition: "width 0.7s" }} />
           </div>
         )}
       </div>
 
       {/* Cards secundários */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid #10b98125" }}>
+        <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid #36C98E25" }}>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Folha Salarial</p>
-          <p className="text-lg font-black mt-0.5" style={{ color: "#10b981" }}>R$ {fmt(totalSalarios)}</p>
+          <p className="text-lg font-black mt-0.5" style={{ color: "#36C98E" }}>R$ {fmt(totalSalarios)}</p>
           <p className="text-xs mt-0.5" style={{ color: "#334155" }}>{comSalario.length}/{colaboradores.length} cadastrados</p>
         </div>
-        <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid #3b82f625" }}>
+        <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid #4D9DE025" }}>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Ferramentas</p>
-          <p className="text-lg font-black mt-0.5" style={{ color: "#3b82f6" }}>R$ {fmt(totalFerramentas)}</p>
+          <p className="text-lg font-black mt-0.5" style={{ color: "#4D9DE0" }}>R$ {fmt(totalFerramentas)}</p>
           <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>{ferramentas.length} ferramentas</p>
         </div>
-        <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid #8b5cf625" }}>
+        <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid #7C6FE025" }}>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Média Salarial</p>
-          <p className="text-lg font-black mt-0.5" style={{ color: "#8b5cf6" }}>R$ {fmt(mediaSalario)}</p>
+          <p className="text-lg font-black mt-0.5" style={{ color: "#7C6FE0" }}>R$ {fmt(mediaSalario)}</p>
           <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>{comSalario.length} pessoas</p>
         </div>
-        <div className="rounded-xl p-3.5" style={{ background: semSalario.length > 0 ? "#112239" : "#0d1928", border: semSalario.length > 0 ? "1px solid #f59e0b25" : "1px solid rgba(201,164,66,.16)" }}>
+        <div className="rounded-xl p-3.5" style={{ background: semSalario.length > 0 ? "#112239" : "#0d1928", border: semSalario.length > 0 ? "1px solid #E8A33D25" : "1px solid rgba(201,164,66,.16)" }}>
           <p className="text-xs" style={{ color: "#9aa7ba" }}>Sem Salário</p>
-          <p className="text-lg font-black mt-0.5" style={{ color: semSalario.length > 0 ? "#f59e0b" : "#334155" }}>{semSalario.length}</p>
+          <p className="text-lg font-black mt-0.5" style={{ color: semSalario.length > 0 ? "#E8A33D" : "#334155" }}>{semSalario.length}</p>
           <p className="text-xs mt-0.5" style={{ color: "#334155" }}>colaboradores</p>
         </div>
       </div>
@@ -269,7 +269,7 @@ export default function GastosPage() {
                       <div className="flex items-center gap-3">
                         <div className="w-3 flex-shrink-0" />
                         <BarPct pct={pct} cor={cor} />
-                        {sem > 0 && <span className="text-xs flex-shrink-0" style={{ color: "#f59e0b" }}>{sem} sem salário</span>}
+                        {sem > 0 && <span className="text-xs flex-shrink-0" style={{ color: "#E8A33D" }}>{sem} sem salário</span>}
                         <div className="w-32" />
                       </div>
                     </div>
@@ -312,8 +312,8 @@ export default function GastosPage() {
                       <div className="flex items-center gap-3 flex-shrink-0">
                         {ferrsPessoa.length > 0 && (
                           <div className="flex items-center gap-1">
-                            <Wrench size={11} style={{ color: "#3b82f6" }} />
-                            <span className="text-xs" style={{ color: "#3b82f6" }}>+R$ {fmt(custoFerr)}</span>
+                            <Wrench size={11} style={{ color: "#4D9DE0" }} />
+                            <span className="text-xs" style={{ color: "#4D9DE0" }}>+R$ {fmt(custoFerr)}</span>
                           </div>
                         )}
                         <span className="text-sm font-bold w-28 text-right" style={{ color: total > 0 ? "#e8edf5" : "#334155" }}>
@@ -371,9 +371,9 @@ export default function GastosPage() {
               <div className="px-5 py-2.5 flex items-center gap-3" style={{ background: "#0d1928", borderBottom: "1px solid rgba(201,164,66,.16)" }}>
                 <span className="text-xs font-semibold text-white">{filtroArea}</span>
                 <span style={{ color: "#334155" }}>·</span>
-                <span className="text-xs font-bold" style={{ color: "#10b981" }}>R$ {fmt(totalFiltrado)}</span>
+                <span className="text-xs font-bold" style={{ color: "#36C98E" }}>R$ {fmt(totalFiltrado)}</span>
                 {totalSalarios > 0 && (
-                  <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#10b98115", color: "#10b981" }}>
+                  <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#36C98E15", color: "#36C98E" }}>
                     {((totalFiltrado / totalSalarios) * 100).toFixed(1)}% da folha
                   </span>
                 )}
@@ -416,7 +416,7 @@ export default function GastosPage() {
                             className="px-2 py-1 rounded-lg text-sm text-white outline-none text-right"
                             style={{ background: "#1e3356", border: "1px solid #334155", width: 100 }}
                             onKeyDown={(e) => { if (e.key === "Enter") salvarSalario(c.id); if (e.key === "Escape") setEditandoSalId(null); }} />
-                          <button onClick={() => salvarSalario(c.id)} className="p-1.5 rounded-lg" style={{ background: "#10b98120", color: "#10b981" }}><Check size={13} /></button>
+                          <button onClick={() => salvarSalario(c.id)} className="p-1.5 rounded-lg" style={{ background: "#36C98E20", color: "#36C98E" }}><Check size={13} /></button>
                           <button onClick={() => setEditandoSalId(null)} className="p-1.5 rounded-lg" style={{ color: "#9aa7ba" }}><X size={13} /></button>
                         </>
                       ) : (
@@ -433,7 +433,7 @@ export default function GastosPage() {
                     </div>
                     <div className="w-14 flex justify-end">
                       {c.salario && totalSalarios > 0
-                        ? <span className="text-xs font-semibold" style={{ color: pct > 20 ? "#ef4444" : pct > 10 ? "#f59e0b" : "#64748b" }}>{pct.toFixed(1)}%</span>
+                        ? <span className="text-xs font-semibold" style={{ color: pct > 20 ? "#F2545B" : pct > 10 ? "#E8A33D" : "#64748b" }}>{pct.toFixed(1)}%</span>
                         : <span className="text-xs" style={{ color: "#334155" }}>—</span>}
                     </div>
                   </div>
@@ -445,17 +445,17 @@ export default function GastosPage() {
               <span className="text-sm font-bold text-white">Total {filtroArea !== "todas" ? `— ${filtroArea}` : ""}</span>
               <div className="w-32" />
               <div className="w-36 text-right">
-                <span className="text-base font-black" style={{ color: "#10b981" }}>R$ {fmt(filtroArea !== "todas" ? totalFiltrado : totalSalarios)}</span>
+                <span className="text-base font-black" style={{ color: "#36C98E" }}>R$ {fmt(filtroArea !== "todas" ? totalFiltrado : totalSalarios)}</span>
               </div>
               <div className="w-14" />
             </div>
           </div>
 
           {semSalario.length > 0 && (
-            <div className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid #f59e0b30" }}>
+            <div className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid #E8A33D30" }}>
               <div className="flex items-center gap-2 mb-3">
-                <AlertCircle size={15} style={{ color: "#f59e0b" }} />
-                <p className="text-sm font-semibold" style={{ color: "#f59e0b" }}>
+                <AlertCircle size={15} style={{ color: "#E8A33D" }} />
+                <p className="text-sm font-semibold" style={{ color: "#E8A33D" }}>
                   {semSalario.length} {semSalario.length === 1 ? "colaborador" : "colaboradores"} sem salário
                 </p>
               </div>
@@ -518,7 +518,7 @@ export default function GastosPage() {
                         {f.descricao && <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>{f.descricao}</p>}
                         <div className="flex items-center gap-2 mt-1">
                           <span className="text-xs px-2 py-0.5 rounded-full font-medium"
-                            style={{ background: f.tipo === "individual" ? "#8b5cf620" : "#10b98120", color: f.tipo === "individual" ? "#8b5cf6" : "#10b981" }}>
+                            style={{ background: f.tipo === "individual" ? "#7C6FE020" : "#36C98E20", color: f.tipo === "individual" ? "#7C6FE0" : "#36C98E" }}>
                             {f.tipo === "individual" ? "Individual" : "Compartilhada"}
                           </span>
                           <span className="text-xs" style={{ color: "#9aa7ba" }}>
@@ -542,7 +542,7 @@ export default function GastosPage() {
                       {confirmarDelete === f.id ? (
                         <div className="flex items-center gap-1">
                           <button onClick={() => { deletarFerramenta(f.id); setConfirmarDelete(null); }}
-                            className="p-1.5 rounded-lg text-xs font-bold" style={{ background: "#ef444420", color: "#ef4444" }}>
+                            className="p-1.5 rounded-lg text-xs font-bold" style={{ background: "#F2545B20", color: "#F2545B" }}>
                             Confirmar
                           </button>
                           <button onClick={() => setConfirmarDelete(null)} className="p-1.5 rounded-lg" style={{ color: "#9aa7ba" }}>
@@ -605,7 +605,7 @@ export default function GastosPage() {
           {ferramentas.length > 0 && (
             <div className="rounded-xl px-4 py-3 flex items-center justify-between" style={{ background: "#0d1928", border: "1px solid rgba(201,164,66,.16)" }}>
               <span className="text-sm font-bold text-white">Total Ferramentas</span>
-              <span className="text-base font-black" style={{ color: "#3b82f6" }}>R$ {fmt(totalFerramentas)}</span>
+              <span className="text-base font-black" style={{ color: "#4D9DE0" }}>R$ {fmt(totalFerramentas)}</span>
             </div>
           )}
         </div>
@@ -690,7 +690,7 @@ export default function GastosPage() {
                       Quem usa essa ferramenta
                     </label>
                     {formPessoas.length > 0 && (
-                      <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#3b82f620", color: "#3b82f6" }}>
+                      <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#4D9DE020", color: "#4D9DE0" }}>
                         {formPessoas.length} selecionado{formPessoas.length !== 1 ? "s" : ""}
                       </span>
                     )}
@@ -702,15 +702,15 @@ export default function GastosPage() {
                         <button key={c.id} onClick={() => togglePessoaModal(c.id)}
                           className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all text-left"
                           style={{
-                            background: sel ? (form.cor || "#3b82f6") + "20" : "#1e3356",
-                            border: `1px solid ${sel ? (form.cor || "#3b82f6") + "60" : "transparent"}`,
+                            background: sel ? (form.cor || "#4D9DE0") + "20" : "#1e3356",
+                            border: `1px solid ${sel ? (form.cor || "#4D9DE0") + "60" : "transparent"}`,
                           }}>
                           <Avatar nome={c.nome} avatar={c.avatar} foto={c.foto} cor={c.cor} size={24} />
                           <div className="min-w-0 flex-1">
                             <p className="text-xs font-medium text-white truncate">{c.nome.split(" ")[0]}</p>
                             <p className="text-xs truncate" style={{ color: "#74859c" }}>{c.cargo?.split(" ")[0]}</p>
                           </div>
-                          {sel && <Check size={13} style={{ color: form.cor || "#3b82f6", flexShrink: 0 }} />}
+                          {sel && <Check size={13} style={{ color: form.cor || "#4D9DE0", flexShrink: 0 }} />}
                         </button>
                       );
                     })}

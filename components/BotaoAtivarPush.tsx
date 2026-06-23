@@ -21,7 +21,7 @@ export default function BotaoAtivarPush() {
 
   if (estado === "ok") {
     return (
-      <div className="flex items-center gap-2 px-3 py-2 text-xs" style={{ color: "#10b981" }}>
+      <div className="flex items-center gap-2 px-3 py-2 text-xs" style={{ color: "#36C98E" }}>
         <Check size={13} /> {msg}
       </div>
     );

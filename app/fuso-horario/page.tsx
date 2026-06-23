@@ -55,7 +55,7 @@ function TierPaisSelector({ paises, paisCod, setPaisCod }: { paises: PrecPais[];
       <span className="text-xs" style={{ color: "#74859c" }}>Tier:</span>
       <div className="flex gap-1">
         {tiers.map((t) => (
-          <button key={t} onClick={() => setTier(t)} className="px-3 py-1.5 rounded-lg text-xs font-bold" style={{ background: tier === t ? "#3b82f622" : "#112239", color: tier === t ? "#4d9de0" : "#94a3b8", border: `1px solid ${tier === t ? "#4d9de0" : "#1e3356"}` }}>Tier {t}</button>
+          <button key={t} onClick={() => setTier(t)} className="px-3 py-1.5 rounded-lg text-xs font-bold" style={{ background: tier === t ? "#4D9DE022" : "#112239", color: tier === t ? "#4d9de0" : "#94a3b8", border: `1px solid ${tier === t ? "#4d9de0" : "#1e3356"}` }}>Tier {t}</button>
         ))}
       </div>
       <span className="text-xs ml-2" style={{ color: "#74859c" }}>País:</span>
@@ -89,7 +89,7 @@ function Fuso({ paises }: { paises: PrecPais[] }) {
             <div key={p.cod} className="rounded-xl p-3" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
               <div className="flex items-center justify-between">
                 <span className="text-sm font-semibold text-white">{p.nome}</span>
-                <span className="text-xs px-1.5 rounded" style={{ background: p.tier === "A" ? "#3b82f620" : "#74859c20", color: p.tier === "A" ? "#4d9de0" : "#94a3b8" }}>{p.tier}</span>
+                <span className="text-xs px-1.5 rounded" style={{ background: p.tier === "A" ? "#4D9DE020" : "#74859c20", color: p.tier === "A" ? "#4d9de0" : "#94a3b8" }}>{p.tier}</span>
               </div>
               <p className="text-xl font-extrabold tabular-nums mt-1" style={{ color: "#e8edf5" }}>{horaEm(TZ_PAIS[p.cod])}</p>
               <p className="text-xs" style={{ color: "#74859c" }}>{dataEm(TZ_PAIS[p.cod])}</p>

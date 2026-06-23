@@ -117,15 +117,15 @@ export default function ColaboradorPerfilPage() {
 
   const rotinasPessoa = rotinasDoColaborador(rotinas, pessoa.id);
   const pct = calcProgresso(rotinasPessoa);
-  const progressoCor = pct === 100 ? "#10b981" : pct >= 50 ? "#f59e0b" : "#ef4444";
+  const progressoCor = pct === 100 ? "#36C98E" : pct >= 50 ? "#E8A33D" : "#F2545B";
   const pctExp = calcExpectativas(pessoa.expectativas);
-  const expCor = pctExp === 100 ? "#10b981" : pctExp >= 50 ? "#f59e0b" : "#ef4444";
+  const expCor = pctExp === 100 ? "#36C98E" : pctExp >= 50 ? "#E8A33D" : "#F2545B";
   const expCumpridas = pessoa.expectativas.filter((e) => e.cumprida).length;
 
   const minhasTarefas = tarefas.filter((t) => t.atribuidoPara === pessoa.id);
   const tarefasAtivas = minhasTarefas.filter((t) => t.status !== "concluida");
 
-  const PRIORIDADE_COR: Record<string, string> = { alta: "#ef4444", media: "#f59e0b", baixa: "#64748b" };
+  const PRIORIDADE_COR: Record<string, string> = { alta: "#F2545B", media: "#E8A33D", baixa: "#64748b" };
   const STATUS_LABEL: Record<string, string> = {
     pendente: "Pendente",
     em_andamento: "Em andamento",
@@ -181,8 +181,8 @@ export default function ColaboradorPerfilPage() {
                     <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#c9a84c20", color: "#c9a84c" }}>Admin</span>
                   )}
                   {pessoa.statusOnline?.ativo && (
-                    <span className="flex items-center gap-1.5 text-xs px-2 py-0.5 rounded-full" style={{ background: "#10b98120", color: "#10b981" }}>
-                      <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#10b981" }} />
+                    <span className="flex items-center gap-1.5 text-xs px-2 py-0.5 rounded-full" style={{ background: "#36C98E20", color: "#36C98E" }}>
+                      <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#36C98E" }} />
                       Online{pessoa.statusOnline.ate ? " ate " + pessoa.statusOnline.ate : ""}
                     </span>
                   )}
@@ -240,7 +240,7 @@ export default function ColaboradorPerfilPage() {
                             }}
                           />
                           <button onClick={() => { setSalario(pessoa.id, Number(salarioInput)); setEditandoSalario(false); }}
-                            className="p-1.5 rounded-lg flex-shrink-0" style={{ background: "#10b98120", color: "#10b981" }}>
+                            className="p-1.5 rounded-lg flex-shrink-0" style={{ background: "#36C98E20", color: "#36C98E" }}>
                             <Check size={13} />
                           </button>
                           <button onClick={() => setEditandoSalario(false)} className="p-1.5 rounded-lg flex-shrink-0" style={{ color: "#9aa7ba" }}>
@@ -249,7 +249,7 @@ export default function ColaboradorPerfilPage() {
                         </>
                       ) : pessoa.salario ? (
                         <>
-                          <span className="text-sm font-bold flex-1" style={{ color: "#10b981" }}>
+                          <span className="text-sm font-bold flex-1" style={{ color: "#36C98E" }}>
                             R$ {pessoa.salario.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                           </span>
                           <button onClick={() => { setSalarioInput(String(pessoa.salario)); setEditandoSalario(true); }}
@@ -269,12 +269,12 @@ export default function ColaboradorPerfilPage() {
                     {ferrsPessoa.length > 0 && (
                       <div className="flex items-center gap-2 px-3 py-2" style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
                         <span className="text-xs font-semibold uppercase tracking-wider flex-shrink-0 w-24" style={{ color: "#74859c" }}>Ferramentas</span>
-                        <span className="text-sm font-bold flex-1" style={{ color: "#3b82f6" }}>
+                        <span className="text-sm font-bold flex-1" style={{ color: "#4D9DE0" }}>
                           R$ {custoFerrTotal.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                         </span>
                         <div className="flex gap-1 flex-wrap justify-end">
                           {ferrsPessoa.map((f) => (
-                            <span key={f.id} className="text-xs px-1.5 py-0.5 rounded-md" style={{ background: (f.cor || "#3b82f6") + "20", color: f.cor || "#3b82f6" }}>
+                            <span key={f.id} className="text-xs px-1.5 py-0.5 rounded-md" style={{ background: (f.cor || "#4D9DE0") + "20", color: f.cor || "#4D9DE0" }}>
                               {f.nome.split(" ")[0]}
                             </span>
                           ))}
@@ -303,7 +303,7 @@ export default function ColaboradorPerfilPage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all hover:opacity-80"
-                      style={{ background: "#10b98120", color: "#10b981", border: "1px solid #10b98130" }}
+                      style={{ background: "#36C98E20", color: "#36C98E", border: "1px solid #36C98E30" }}
                     >
                       <MessageCircle size={13} />
                       WhatsApp
@@ -311,7 +311,7 @@ export default function ColaboradorPerfilPage() {
                     <a
                       href={`tel:${pessoa.telefone.replace(/\D/g, "")}`}
                       className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all hover:opacity-80"
-                      style={{ background: "#3b82f620", color: "#3b82f6", border: "1px solid #3b82f630" }}
+                      style={{ background: "#4D9DE020", color: "#4D9DE0", border: "1px solid #4D9DE030" }}
                     >
                       <Phone size={13} />
                       Ligar
@@ -341,7 +341,7 @@ export default function ColaboradorPerfilPage() {
                         <button
                           onClick={() => { setTelefone(pessoa.id, telefoneInput); setEditandoTelefone(false); }}
                           className="p-1.5 rounded-lg"
-                          style={{ background: "#10b98120", color: "#10b981" }}
+                          style={{ background: "#36C98E20", color: "#36C98E" }}
                         >
                           <Check size={14} />
                         </button>
@@ -404,7 +404,7 @@ export default function ColaboradorPerfilPage() {
                         <button
                           onClick={() => { setGoogleChatLink(pessoa.id, googleChatInput); setEditandoGoogleChat(false); }}
                           className="p-1.5 rounded-lg"
-                          style={{ background: "#10b98120", color: "#10b981" }}
+                          style={{ background: "#36C98E20", color: "#36C98E" }}
                         >
                           <Check size={14} />
                         </button>
@@ -484,13 +484,13 @@ export default function ColaboradorPerfilPage() {
                 disabled={!podeCumprir}
                 className="w-full flex items-center gap-3 p-3 rounded-xl text-left transition-all"
                 style={{
-                  background: exp.cumprida ? "#10b98110" : "#1e3356",
-                  border: `1px solid ${exp.cumprida ? "#10b98130" : "transparent"}`,
+                  background: exp.cumprida ? "#36C98E10" : "#1e3356",
+                  border: `1px solid ${exp.cumprida ? "#36C98E30" : "transparent"}`,
                   cursor: podeCumprir ? "pointer" : "default",
                 }}
               >
                 {exp.cumprida
-                  ? <CheckCircle2 size={18} style={{ color: "#10b981", flexShrink: 0 }} />
+                  ? <CheckCircle2 size={18} style={{ color: "#36C98E", flexShrink: 0 }} />
                   : <Circle size={18} style={{ color: "#334155", flexShrink: 0 }} />
                 }
                 <span className="flex-1 text-sm" style={{ color: exp.cumprida ? "#64748b" : "#e8edf5", textDecoration: exp.cumprida ? "line-through" : "none" }}>
@@ -498,14 +498,14 @@ export default function ColaboradorPerfilPage() {
                 </span>
                 <div className="flex items-center gap-2 flex-shrink-0">
                   <span className="text-xs px-2 py-0.5 rounded-full" style={{
-                    background: exp.tipo === "diaria" ? "#3b82f620" : "#8b5cf620",
-                    color: exp.tipo === "diaria" ? "#3b82f6" : "#8b5cf6",
+                    background: exp.tipo === "diaria" ? "#4D9DE020" : "#7C6FE020",
+                    color: exp.tipo === "diaria" ? "#4D9DE0" : "#7C6FE0",
                   }}>
                     {exp.tipo === "diaria" ? "Diária" : "Semanal"}
                   </span>
                   <span className="flex gap-0.5">
                     {Array.from({ length: exp.peso }).map((_, i) => (
-                      <span key={i} className="w-1.5 h-1.5 rounded-full" style={{ background: exp.peso === 3 ? "#ef4444" : exp.peso === 2 ? "#f59e0b" : "#64748b" }} />
+                      <span key={i} className="w-1.5 h-1.5 rounded-full" style={{ background: exp.peso === 3 ? "#F2545B" : exp.peso === 2 ? "#E8A33D" : "#64748b" }} />
                     ))}
                   </span>
                 </div>
@@ -611,7 +611,7 @@ export default function ColaboradorPerfilPage() {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-white">{loja.nome}</p>
-                    <p className="text-xs" style={{ color: loja.grupo === "izzat" ? "#c9a84c" : "#3b82f6" }}>
+                    <p className="text-xs" style={{ color: loja.grupo === "izzat" ? "#c9a84c" : "#4D9DE0" }}>
                       {loja.grupo === "izzat" ? "Grupo Izzat" : "Partner"}
                     </p>
                   </div>
@@ -640,7 +640,7 @@ export default function ColaboradorPerfilPage() {
               const podeCumprir = isAdmin || usuarioAtual.id === pessoa.id;
               const aberta = rotinasExpandidas.includes(rotina.id);
               return (
-                <div key={rotina.id} className="rounded-xl overflow-hidden" style={{ background: "#1e3356", border: `1px solid ${rotina.concluida ? "#10b98130" : "#1e3356"}` }}>
+                <div key={rotina.id} className="rounded-xl overflow-hidden" style={{ background: "#1e3356", border: `1px solid ${rotina.concluida ? "#36C98E30" : "#1e3356"}` }}>
                   {/* Header clicável */}
                   <button
                     className="w-full flex items-center gap-3 px-4 py-3 text-left"
@@ -663,7 +663,7 @@ export default function ColaboradorPerfilPage() {
                       }}
                     >
                       {rotina.concluida
-                        ? <CheckCircle2 size={18} style={{ color: "#10b981" }} />
+                        ? <CheckCircle2 size={18} style={{ color: "#36C98E" }} />
                         : <Circle size={18} style={{ color: "#74859c" }} />}
                     </span>
                     <div className="flex-1 min-w-0">
@@ -676,7 +676,7 @@ export default function ColaboradorPerfilPage() {
                       <button
                         onClick={(e) => { e.stopPropagation(); abrirPomodoro(rotina.id, rotina.titulo); }}
                         className="text-xs px-2 py-1 rounded-lg flex items-center gap-1"
-                        style={{ background: "#ef444415", color: "#ef4444" }}
+                        style={{ background: "#F2545B15", color: "#F2545B" }}
                         data-tip="Iniciar Pomodoro"
                       >
                         &#127813; Foco
@@ -699,7 +699,7 @@ export default function ColaboradorPerfilPage() {
                               style={{ cursor: podeCumprir ? "pointer" : "default" }}
                             >
                               {sub.concluida
-                                ? <CheckCircle2 size={15} style={{ color: "#10b981" }} />
+                                ? <CheckCircle2 size={15} style={{ color: "#36C98E" }} />
                                 : <Circle size={15} style={{ color: "#334155" }} />}
                             </button>
                             <span className="text-xs flex-1" style={{ color: sub.concluida ? "#64748b" : "#94a3b8", textDecoration: sub.concluida ? "line-through" : "none" }}>
@@ -708,7 +708,7 @@ export default function ColaboradorPerfilPage() {
                             <button
                               onClick={() => abrirPomodoro(sub.id, sub.titulo)}
                               className="flex-shrink-0 text-xs px-1.5 py-1 rounded-lg"
-                              style={{ color: "#ef4444", background: "#ef444410" }}
+                              style={{ color: "#F2545B", background: "#F2545B10" }}
                               data-tip="Pomodoro nesta subtarefa"
                             >
                               &#127813;
@@ -766,10 +766,10 @@ export default function ColaboradorPerfilPage() {
         </div>
       )}
       {!isAdmin && isProprioUsuario && pessoa.formulario && (
-        <div className="rounded-xl px-4 py-3 flex items-center gap-3" style={{ background: "#10b98110", border: "1px solid #10b98125" }}>
+        <div className="rounded-xl px-4 py-3 flex items-center gap-3" style={{ background: "#36C98E10", border: "1px solid #36C98E25" }}>
           <span style={{ fontSize: 16 }}>✓</span>
           <div className="flex-1">
-            <p className="text-sm font-semibold" style={{ color: "#10b981" }}>Formulário preenchido</p>
+            <p className="text-sm font-semibold" style={{ color: "#36C98E" }}>Formulário preenchido</p>
             <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>Suas respostas estão disponíveis para o gestor.</p>
           </div>
         </div>
@@ -783,7 +783,7 @@ export default function ColaboradorPerfilPage() {
               Formulário de Perfil
             </p>
             {pessoa.formulario.preenchidoEm && (
-              <span className="ml-auto text-xs px-2 py-0.5 rounded-full" style={{ background: "#10b98115", color: "#10b981" }}>
+              <span className="ml-auto text-xs px-2 py-0.5 rounded-full" style={{ background: "#36C98E15", color: "#36C98E" }}>
                 Preenchido em {new Date(pessoa.formulario.preenchidoEm).toLocaleDateString("pt-BR")}
               </span>
             )}
@@ -793,7 +793,7 @@ export default function ColaboradorPerfilPage() {
             {/* Etapa 2 — Sonhos */}
             {(pessoa.formulario.sonho3anos || pessoa.formulario.sonho5anos || pessoa.formulario.oQueImpede) && (
               <div className="rounded-xl p-4" style={{ background: "#1e3356" }}>
-                <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#8b5cf6" }}>Sonhos e Objetivos</p>
+                <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#7C6FE0" }}>Sonhos e Objetivos</p>
                 <div className="space-y-3">
                   {pessoa.formulario.sonho3anos && (
                     <div>
@@ -820,7 +820,7 @@ export default function ColaboradorPerfilPage() {
             {/* Etapa 3 — Fit com empresa */}
             {(pessoa.formulario.porQueQuerTrabalhar || pessoa.formulario.comoEmpresaAjuda || pessoa.formulario.areaAprender) && (
               <div className="rounded-xl p-4" style={{ background: "#1e3356" }}>
-                <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#3b82f6" }}>Por que está aqui</p>
+                <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#4D9DE0" }}>Por que está aqui</p>
                 <div className="space-y-3">
                   {pessoa.formulario.porQueQuerTrabalhar && (
                     <div>
@@ -847,7 +847,7 @@ export default function ColaboradorPerfilPage() {
             {/* Etapa 5 — Estilo de trabalho */}
             {(pessoa.formulario.reacaoFeedback || pessoa.formulario.motivadores || pessoa.formulario.desmotivadores || pessoa.formulario.prefereComunicacao) && (
               <div className="rounded-xl p-4" style={{ background: "#1e3356" }}>
-                <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#10b981" }}>Estilo de Trabalho</p>
+                <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#36C98E" }}>Estilo de Trabalho</p>
                 <div className="grid sm:grid-cols-2 gap-3">
                   {pessoa.formulario.reacaoFeedback && (
                     <div>
@@ -880,7 +880,7 @@ export default function ColaboradorPerfilPage() {
             {/* Etapa 6 — Autoconhecimento */}
             {(pessoa.formulario.maiorForca || pessoa.formulario.aDesenvolver || pessoa.formulario.desafioSuperado) && (
               <div className="rounded-xl p-4" style={{ background: "#1e3356" }}>
-                <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#f59e0b" }}>Autoconhecimento</p>
+                <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#E8A33D" }}>Autoconhecimento</p>
                 <div className="space-y-3">
                   {pessoa.formulario.maiorForca && (
                     <div>
@@ -917,7 +917,7 @@ export default function ColaboradorPerfilPage() {
                           <div className="flex gap-1">
                             {[1,2,3,4,5].map((n) => (
                               <div key={n} className="w-5 h-5 rounded-full"
-                                style={{ background: n <= (pessoa.formulario?.nivelEnergia || 0) ? "#10b981" : "#334155" }} />
+                                style={{ background: n <= (pessoa.formulario?.nivelEnergia || 0) ? "#36C98E" : "#334155" }} />
                             ))}
                           </div>
                         </div>
@@ -929,7 +929,7 @@ export default function ColaboradorPerfilPage() {
                             {[1,2,3,4,5].map((n) => (
                               <div key={n} className="w-5 h-5 rounded-full"
                                 style={{ background: n <= (pessoa.formulario?.ansiedadeNivel || 0)
-                                  ? (pessoa.formulario?.ansiedadeNivel || 0) >= 4 ? "#ef4444" : "#f59e0b"
+                                  ? (pessoa.formulario?.ansiedadeNivel || 0) >= 4 ? "#F2545B" : "#E8A33D"
                                   : "#334155" }} />
                             ))}
                           </div>
