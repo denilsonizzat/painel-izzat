@@ -1,13 +1,12 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { Calculator, X, Minus, GripHorizontal } from "lucide-react";
-
-// Calculadora flutuante GLOBAL. Mora no RootLayout → persiste entre páginas (não remonta).
-// Estado salvo em localStorage (sobrevive a reload). Básica + modo Precificação.
+import { X, Minus, GripHorizontal } from "lucide-react";
+import { useAppStore } from "@/lib/store";
 
 type Modo = "basica" | "prec";
 
 export default function FloatingCalculator() {
+  const { calcAberta, fecharCalc } = useAppStore();
   const [aberto, setAberto] = useState(false);
   const [min, setMin] = useState(false);
   const [pos, setPos] = useState({ x: 0, y: 0 });
@@ -22,7 +21,11 @@ export default function FloatingCalculator() {
   const [pMarkup, setPMarkup] = useState("3");
   const [pTaxas, setPTaxas] = useState("5");
   const [pImposto, setPImposto] = useState("0");
+  const [pMarketing, setPMarketing] = useState("25");
   const drag = useRef<{ ox: number; oy: number } | null>(null);
+
+  // abre quando store sinaliza
+  useEffect(() => { if (calcAberta) setAberto(true); }, [calcAberta]);
 
   // restaura estado
   useEffect(() => {
@@ -33,17 +36,17 @@ export default function FloatingCalculator() {
       if (s.modo) setModo(s.modo);
       if (s.pCusto !== undefined) setPCusto(s.pCusto);
       if (s.pMarkup) setPMarkup(s.pMarkup);
+      if (s.pMarketing) setPMarketing(s.pMarketing);
       if (typeof s.aberto === "boolean") setAberto(s.aberto);
     } catch {}
   }, []);
   useEffect(() => {
-    localStorage.setItem("calc-state", JSON.stringify({ display, pos, modo, pCusto, pMarkup, aberto }));
-  }, [display, pos, modo, pCusto, pMarkup, aberto]);
+    localStorage.setItem("calc-state", JSON.stringify({ display, pos, modo, pCusto, pMarkup, pMarketing, aberto }));
+  }, [display, pos, modo, pCusto, pMarkup, pMarketing, aberto]);
 
-  // posição inicial (canto inferior direito)
   useEffect(() => {
     if (pos.x === 0 && pos.y === 0 && typeof window !== "undefined") {
-      setPos({ x: window.innerWidth - 320, y: window.innerHeight - 480 });
+      setPos({ x: window.innerWidth - 320, y: window.innerHeight - 520 });
     }
   }, []);
 
@@ -56,6 +59,8 @@ export default function FloatingCalculator() {
     setPos({ x: Math.max(0, Math.min(window.innerWidth - 60, e.clientX - drag.current.ox)), y: Math.max(0, Math.min(window.innerHeight - 60, e.clientY - drag.current.oy)) });
   }
   function onPointerUp() { drag.current = null; }
+
+  function fechar() { setAberto(false); fecharCalc(); }
 
   // ── lógica básica ──
   function digito(d: string) {
@@ -84,10 +89,14 @@ export default function FloatingCalculator() {
   function sinal() { setDisplay(String(parseFloat(display) * -1)); }
 
   // ── precificação ──
-  const custo = parseFloat(pCusto) || 0, mk = parseFloat(pMarkup) || 0, tx = (parseFloat(pTaxas) || 0) / 100, imp = (parseFloat(pImposto) || 0) / 100;
+  const custo = parseFloat(pCusto) || 0;
+  const mk = parseFloat(pMarkup) || 0;
+  const tx = (parseFloat(pTaxas) || 0) / 100;
+  const imp = (parseFloat(pImposto) || 0) / 100;
+  const mkt = (parseFloat(pMarketing) || 0) / 100;
   const preco = custo * mk;
-  const margem = mk > 0 ? 1 - tx - imp - 1 / mk : 0;
-  const cpaMax = preco * (1 - tx) - custo;
+  const margem = mk > 0 ? 1 - tx - imp - mkt - 1 / mk : 0;
+  const cpaMax = preco * (1 - tx - mkt) - custo;
   const beroas = cpaMax > 0 ? preco / cpaMax : 0;
 
   const btn = (label: string, onClick: () => void, tipo: "num" | "op" | "fn" = "num") => (
@@ -98,15 +107,7 @@ export default function FloatingCalculator() {
     }}>{label}</button>
   );
 
-  if (!aberto) {
-    return (
-      <button onClick={() => setAberto(true)} title="Calculadora"
-        className="fixed z-40 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-105 left-4 bottom-4 md:left-auto md:right-[86px] md:bottom-6"
-        style={{ width: 46, height: 46, background: "var(--grad-btn-gold)", color: "#0b1624" }}>
-        <Calculator size={20} />
-      </button>
-    );
-  }
+  if (!aberto) return null;
 
   return (
     <div className="fixed z-50 select-none" style={{ left: pos.x, top: pos.y, width: 300 }}>
@@ -117,7 +118,7 @@ export default function FloatingCalculator() {
           <span className="flex items-center gap-1.5 text-xs font-bold" style={{ color: "#e8c462" }}><GripHorizontal size={13} /> Calculadora</span>
           <div className="flex items-center gap-1">
             <button onClick={() => setMin(!min)} style={{ color: "#74859c" }}><Minus size={15} /></button>
-            <button onClick={() => setAberto(false)} style={{ color: "#74859c" }}><X size={15} /></button>
+            <button onClick={fechar} style={{ color: "#74859c" }}><X size={15} /></button>
           </div>
         </div>
 
@@ -145,15 +146,29 @@ export default function FloatingCalculator() {
               </>
             ) : (
               <div className="space-y-2">
-                {([["Custo $", pCusto, setPCusto], ["Markup ×", pMarkup, setPMarkup], ["Taxas %", pTaxas, setPTaxas], ["Imposto %", pImposto, setPImposto]] as const).map(([lbl, val, set]) => (
+                {([
+                  ["Custo $", pCusto, setPCusto],
+                  ["Markup ×", pMarkup, setPMarkup],
+                  ["Taxas %", pTaxas, setPTaxas],
+                  ["Imposto %", pImposto, setPImposto],
+                ] as const).map(([lbl, val, set]) => (
                   <div key={lbl} className="flex items-center justify-between gap-2">
                     <span className="text-xs" style={{ color: "#9aa7ba" }}>{lbl}</span>
                     <input type="number" value={val} onChange={(e) => set(e.target.value)} className="text-right" style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)", color: "#e8edf5", borderRadius: 8, padding: "5px 8px", width: 100, fontSize: 13, outline: "none" }} />
                   </div>
                 ))}
+                {/* Marketing % — configurável com padrão 25% */}
+                <div className="flex items-center justify-between gap-2 pt-1" style={{ borderTop: "1px solid #1e335680" }}>
+                  <div className="flex flex-col">
+                    <span className="text-xs font-semibold" style={{ color: "#c9a84c" }}>Tráfego/Marketing %</span>
+                    <span className="text-xs" style={{ color: "#475569" }}>padrão 25%</span>
+                  </div>
+                  <input type="number" value={pMarketing} onChange={(e) => setPMarketing(e.target.value)} className="text-right" style={{ background: "#0b1624", border: "1px solid #c9a84c40", color: "#c9a84c", borderRadius: 8, padding: "5px 8px", width: 80, fontSize: 13, outline: "none", fontWeight: 700 }} />
+                </div>
                 <div className="rounded-xl p-3 mt-2 space-y-1.5" style={{ background: "#0b1624", border: "1px solid #c9a44230" }}>
                   <Linha lbl="Preço de venda" val={"$" + preco.toFixed(2)} cor="#e8c462" forte />
                   <Linha lbl="Margem real" val={(margem * 100).toFixed(1) + "%"} cor={margem >= 0.2 ? "#46d69b" : "#f2545b"} />
+                  <Linha lbl={`Marketing (${pMarketing}%)`} val={"$" + (preco * mkt).toFixed(2)} cor="#94a3b8" />
                   <Linha lbl="CPA máximo" val={"$" + cpaMax.toFixed(2)} cor="#9aa7ba" />
                   <Linha lbl="BEROAS" val={beroas.toFixed(2) + "×"} cor="#9aa7ba" />
                 </div>
