@@ -51,7 +51,7 @@ function amanha() {
   const d = new Date(); d.setDate(d.getDate() + 1); return d.toISOString().split("T")[0];
 }
 const uid = () => `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
-const PRI_COR: Record<string, string> = { alta: "#ef4444", media: "#f59e0b", baixa: "#64748b" };
+const PRI_COR: Record<string, string> = { alta: "#F2545B", media: "#E8A33D", baixa: "#64748b" };
 const PRI_LABEL: Record<string, string> = { alta: "Alta", media: "Média", baixa: "Baixa" };
 const STATUS_LABEL: Record<string, string> = {
   pendente: "Pendente", em_andamento: "Em andamento",
@@ -177,7 +177,7 @@ export default function LojaPerfilPage() {
   const concluidas = tarefasLoja.filter((t) => t.status === "concluida").length;
   const urgentes = tarefasLoja.filter((t) => t.prioridade === "alta" && t.status !== "concluida").length;
   const pct = tarefasLoja.length ? Math.round((concluidas / tarefasLoja.length) * 100) : 0;
-  const corGrupo = loja.grupo === "izzat" ? "#c9a84c" : "#3b82f6";
+  const corGrupo = loja.grupo === "izzat" ? "#c9a84c" : "#4D9DE0";
 
   const todasLojas = [...LOJAS, ...lojasCustom];
 
@@ -260,9 +260,9 @@ export default function LojaPerfilPage() {
 
   const tarefasPorStatus = [
     { label: "Pendentes", status: "pendente", cor: "#64748b" },
-    { label: "Em andamento", status: "em_andamento", cor: "#3b82f6" },
-    { label: "Concluidas", status: "concluida", cor: "#10b981" },
-    { label: "Atrasadas", status: "atrasada", cor: "#ef4444" },
+    { label: "Em andamento", status: "em_andamento", cor: "#4D9DE0" },
+    { label: "Concluidas", status: "concluida", cor: "#36C98E" },
+    { label: "Atrasadas", status: "atrasada", cor: "#F2545B" },
   ].map((s) => ({ ...s, count: tarefasLoja.filter((t) => t.status === s.status).length }));
 
   // ── Tarefa helpers ──
@@ -482,13 +482,13 @@ export default function LojaPerfilPage() {
                               <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
                                 {confirmDeleteLinkId === link.id ? (
                                   <>
-                                    <button onClick={() => { deletarLinkRapido(link.id); setConfirmDeleteLinkId(null); }} className="text-xs px-1.5 py-0.5 rounded font-bold" style={{ background: "#ef444430", color: "#ef4444" }}>Sim</button>
+                                    <button onClick={() => { deletarLinkRapido(link.id); setConfirmDeleteLinkId(null); }} className="text-xs px-1.5 py-0.5 rounded font-bold" style={{ background: "#F2545B30", color: "#F2545B" }}>Sim</button>
                                     <button onClick={() => setConfirmDeleteLinkId(null)} className="text-xs px-1.5 py-0.5 rounded" style={{ background: "#1e3356", color: "#9aa7ba" }}>Não</button>
                                   </>
                                 ) : (
                                   <>
                                     <button onClick={() => iniciarEdicaoLink(link)} className="p-1 rounded hover:bg-white/10" style={{ color: "#9aa7ba" }}><Pencil size={10} /></button>
-                                    <button onClick={() => setConfirmDeleteLinkId(link.id)} className="p-1 rounded hover:bg-white/10" style={{ color: "#ef4444" }}><X size={10} /></button>
+                                    <button onClick={() => setConfirmDeleteLinkId(link.id)} className="p-1 rounded hover:bg-white/10" style={{ color: "#F2545B" }}><X size={10} /></button>
                                   </>
                                 )}
                               </div>
@@ -548,15 +548,15 @@ export default function LojaPerfilPage() {
                 onClick={() => setCustosPanelAberto((v) => !v)}
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all hover:opacity-80"
                 style={{
-                  background: custosPanelAberto ? "#10b98122" : "#1e3356",
-                  border: `1px solid ${custosPanelAberto ? "#10b98150" : "#334155"}`,
-                  color: custosPanelAberto ? "#10b981" : "#94a3b8",
+                  background: custosPanelAberto ? "#36C98E22" : "#1e3356",
+                  border: `1px solid ${custosPanelAberto ? "#36C98E50" : "#334155"}`,
+                  color: custosPanelAberto ? "#36C98E" : "#94a3b8",
                 }}
               >
                 <Receipt size={15} />
                 Custos
                 {(totalFixo + totalVariavel) > 0 ? (
-                  <span className="text-xs font-bold" style={{ color: custosPanelAberto ? "#10b981" : "#c9a84c" }}>
+                  <span className="text-xs font-bold" style={{ color: custosPanelAberto ? "#36C98E" : "#c9a84c" }}>
                     R$ {(totalFixo + totalVariavel).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                   </span>
                 ) : gastosLoja.length === 0 ? (
@@ -578,18 +578,18 @@ export default function LojaPerfilPage() {
               {/* Header */}
               <div className="flex items-center justify-between px-4 py-3" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
                 <div className="flex items-center gap-2">
-                  <Receipt size={14} style={{ color: "#10b981" }} />
+                  <Receipt size={14} style={{ color: "#36C98E" }} />
                   <span className="text-sm font-bold text-white">Custos Operacionais</span>
                 </div>
                 <div className="flex items-center gap-3">
                   {totalFixo > 0 && (
                     <span className="text-xs" style={{ color: "#9aa7ba" }}>
-                      Fixo: <span style={{ color: "#10b981" }}>R$ {totalFixo.toFixed(2)}</span>
+                      Fixo: <span style={{ color: "#36C98E" }}>R$ {totalFixo.toFixed(2)}</span>
                     </span>
                   )}
                   {totalVariavel > 0 && (
                     <span className="text-xs" style={{ color: "#9aa7ba" }}>
-                      Variável/mês: <span style={{ color: "#f59e0b" }}>R$ {totalVariavel.toFixed(2)}</span>
+                      Variável/mês: <span style={{ color: "#E8A33D" }}>R$ {totalVariavel.toFixed(2)}</span>
                     </span>
                   )}
                 </div>
@@ -602,8 +602,8 @@ export default function LojaPerfilPage() {
                   className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-white/5 transition-all"
                 >
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold" style={{ color: "#10b981" }}>FIXOS</span>
-                    <span className="text-xs px-1.5 rounded-full" style={{ background: "#10b98118", color: "#10b981" }}>
+                    <span className="text-xs font-bold" style={{ color: "#36C98E" }}>FIXOS</span>
+                    <span className="text-xs px-1.5 rounded-full" style={{ background: "#36C98E18", color: "#36C98E" }}>
                       {gastosLoja.filter((g) => g.tipo === "fixo").length}
                     </span>
                     <span className="text-xs" style={{ color: "#74859c" }}>Claude AI, Workspace, plataformas…</span>
@@ -623,15 +623,15 @@ export default function LojaPerfilPage() {
                             </span>
                           </div>
                         </div>
-                        <span className="text-xs font-bold flex-shrink-0" style={{ color: g.ativo ? "#10b981" : "#475569" }}>
+                        <span className="text-xs font-bold flex-shrink-0" style={{ color: g.ativo ? "#36C98E" : "#475569" }}>
                           {g.moeda} {g.valor.toFixed(2)}
                         </span>
                         {isAdmin && (
                           <div className="flex items-center gap-1 flex-shrink-0">
                             {confirmDeleteGastoId === g.id ? (
                               <>
-                                <span className="text-xs" style={{ color: "#ef4444" }}>Apagar?</span>
-                                <button onClick={() => { deletarGastoOp(g.id); setConfirmDeleteGastoId(null); }} className="text-xs px-1.5 py-0.5 rounded font-bold" style={{ background: "#ef444430", color: "#ef4444" }}>Sim</button>
+                                <span className="text-xs" style={{ color: "#F2545B" }}>Apagar?</span>
+                                <button onClick={() => { deletarGastoOp(g.id); setConfirmDeleteGastoId(null); }} className="text-xs px-1.5 py-0.5 rounded font-bold" style={{ background: "#F2545B30", color: "#F2545B" }}>Sim</button>
                                 <button onClick={() => setConfirmDeleteGastoId(null)} className="text-xs px-1.5 py-0.5 rounded" style={{ background: "#1e3356", color: "#9aa7ba" }}>Não</button>
                               </>
                             ) : (
@@ -639,10 +639,10 @@ export default function LojaPerfilPage() {
                                 <button onClick={() => iniciarEdicaoCusto(g)} className="p-1 rounded hover:bg-white/10" style={{ color: "#9aa7ba" }}>
                                   <Pencil size={10} />
                                 </button>
-                                <button onClick={() => toggleGastoOp(g.id)} className="p-1 rounded hover:bg-white/10" style={{ color: g.ativo ? "#64748b" : "#10b981" }} data-tip={g.ativo ? "Desativar" : "Ativar"}>
+                                <button onClick={() => toggleGastoOp(g.id)} className="p-1 rounded hover:bg-white/10" style={{ color: g.ativo ? "#64748b" : "#36C98E" }} data-tip={g.ativo ? "Desativar" : "Ativar"}>
                                   <Check size={10} />
                                 </button>
-                                <button onClick={() => setConfirmDeleteGastoId(g.id)} className="p-1 rounded hover:bg-white/10" style={{ color: "#ef4444" }}>
+                                <button onClick={() => setConfirmDeleteGastoId(g.id)} className="p-1 rounded hover:bg-white/10" style={{ color: "#F2545B" }}>
                                   <X size={10} />
                                 </button>
                               </>
@@ -658,7 +658,7 @@ export default function LojaPerfilPage() {
 
                     {isAdmin && (
                       adicionandoCusto === "fixo" ? (
-                        <div className="rounded-xl p-3 space-y-2" style={{ background: "#112239", border: "1px solid #3b82f640" }}>
+                        <div className="rounded-xl p-3 space-y-2" style={{ background: "#112239", border: "1px solid #4D9DE040" }}>
                           <div className="flex gap-2">
                             <input
                               className="flex-1 px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
@@ -698,7 +698,7 @@ export default function LojaPerfilPage() {
                             <button
                               onClick={() => salvarCusto("fixo")}
                               className="px-3 py-1.5 rounded-lg text-xs font-bold"
-                              style={{ background: "#10b981", color: "#fff" }}
+                              style={{ background: "#36C98E", color: "#fff" }}
                             >
                               {editandoCustoId ? "Salvar" : "Adicionar"}
                             </button>
@@ -715,7 +715,7 @@ export default function LojaPerfilPage() {
                         <button
                           onClick={() => { setAdicionandoCusto("fixo"); setEditandoCustoId(null); setCustoForm({ nome: "", categoria: "ia_tools", valor: "", moeda: "BRL", mes: mesAtual, descricao: "" }); }}
                           className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg transition-all hover:opacity-80"
-                          style={{ color: "#10b981", background: "#10b98112", border: "1px dashed #10b98140" }}
+                          style={{ color: "#36C98E", background: "#36C98E12", border: "1px dashed #36C98E40" }}
                         >
                           <Plus size={11} /> Adicionar custo fixo
                         </button>
@@ -732,8 +732,8 @@ export default function LojaPerfilPage() {
                   className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-white/5 transition-all"
                 >
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold" style={{ color: "#f59e0b" }}>VARIÁVEIS</span>
-                    <span className="text-xs px-1.5 rounded-full" style={{ background: "#f59e0b18", color: "#f59e0b" }}>
+                    <span className="text-xs font-bold" style={{ color: "#E8A33D" }}>VARIÁVEIS</span>
+                    <span className="text-xs px-1.5 rounded-full" style={{ background: "#E8A33D18", color: "#E8A33D" }}>
                       {gastosLoja.filter((g) => g.tipo === "variavel").length}
                     </span>
                     <span className="text-xs" style={{ color: "#74859c" }}>Meta Ads, TikTok, campanhas…</span>
@@ -756,15 +756,15 @@ export default function LojaPerfilPage() {
                             )}
                           </div>
                         </div>
-                        <span className="text-xs font-bold flex-shrink-0" style={{ color: "#f59e0b" }}>
+                        <span className="text-xs font-bold flex-shrink-0" style={{ color: "#E8A33D" }}>
                           {g.moeda} {g.valor.toFixed(2)}
                         </span>
                         {isAdmin && (
                           <div className="flex items-center gap-1 flex-shrink-0">
                             {confirmDeleteGastoId === g.id ? (
                               <>
-                                <span className="text-xs" style={{ color: "#ef4444" }}>Apagar?</span>
-                                <button onClick={() => { deletarGastoOp(g.id); setConfirmDeleteGastoId(null); }} className="text-xs px-1.5 py-0.5 rounded font-bold" style={{ background: "#ef444430", color: "#ef4444" }}>Sim</button>
+                                <span className="text-xs" style={{ color: "#F2545B" }}>Apagar?</span>
+                                <button onClick={() => { deletarGastoOp(g.id); setConfirmDeleteGastoId(null); }} className="text-xs px-1.5 py-0.5 rounded font-bold" style={{ background: "#F2545B30", color: "#F2545B" }}>Sim</button>
                                 <button onClick={() => setConfirmDeleteGastoId(null)} className="text-xs px-1.5 py-0.5 rounded" style={{ background: "#1e3356", color: "#9aa7ba" }}>Não</button>
                               </>
                             ) : (
@@ -772,7 +772,7 @@ export default function LojaPerfilPage() {
                                 <button onClick={() => iniciarEdicaoCusto(g)} className="p-1 rounded hover:bg-white/10" style={{ color: "#9aa7ba" }}>
                                   <Pencil size={10} />
                                 </button>
-                                <button onClick={() => setConfirmDeleteGastoId(g.id)} className="p-1 rounded hover:bg-white/10" style={{ color: "#ef4444" }}>
+                                <button onClick={() => setConfirmDeleteGastoId(g.id)} className="p-1 rounded hover:bg-white/10" style={{ color: "#F2545B" }}>
                                   <X size={10} />
                                 </button>
                               </>
@@ -788,7 +788,7 @@ export default function LojaPerfilPage() {
 
                     {isAdmin && (
                       adicionandoCusto === "variavel" ? (
-                        <div className="rounded-xl p-3 space-y-2" style={{ background: "#112239", border: "1px solid #f59e0b40" }}>
+                        <div className="rounded-xl p-3 space-y-2" style={{ background: "#112239", border: "1px solid #E8A33D40" }}>
                           <div className="flex gap-2">
                             <input
                               className="flex-1 px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
@@ -835,7 +835,7 @@ export default function LojaPerfilPage() {
                             <button
                               onClick={() => salvarCusto("variavel")}
                               className="px-3 py-1.5 rounded-lg text-xs font-bold"
-                              style={{ background: "#f59e0b", color: "#000" }}
+                              style={{ background: "#E8A33D", color: "#000" }}
                             >
                               {editandoCustoId ? "Salvar" : "Adicionar"}
                             </button>
@@ -852,7 +852,7 @@ export default function LojaPerfilPage() {
                         <button
                           onClick={() => { setAdicionandoCusto("variavel"); setEditandoCustoId(null); setCustoForm({ nome: "", categoria: "trafego_pago", valor: "", moeda: "BRL", mes: mesAtual, descricao: "" }); }}
                           className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg transition-all hover:opacity-80"
-                          style={{ color: "#f59e0b", background: "#f59e0b12", border: "1px dashed #f59e0b40" }}
+                          style={{ color: "#E8A33D", background: "#E8A33D12", border: "1px dashed #E8A33D40" }}
                         >
                           <Plus size={11} /> Adicionar gasto variável
                         </button>
@@ -926,10 +926,10 @@ export default function LojaPerfilPage() {
           {/* Resumo */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
-              { label: "Em Teste", count: produtosLoja.filter((p) => !p.validado && !p.reprovado && !p.produtoOrigemId).length, cor: "#f59e0b", bg: "#f59e0b15" },
-              { label: "Validados", count: produtosLoja.filter((p) => !!p.validado).length, cor: "#3b82f6", bg: "#3b82f615" },
-              { label: "Reprovados", count: produtosLoja.filter((p) => !!p.reprovado).length, cor: "#ef4444", bg: "#ef444415" },
-              { label: "No Ar", count: produtosLoja.filter((p) => p.noAr).length, cor: "#10b981", bg: "#10b98115" },
+              { label: "Em Teste", count: produtosLoja.filter((p) => !p.validado && !p.reprovado && !p.produtoOrigemId).length, cor: "#E8A33D", bg: "#E8A33D15" },
+              { label: "Validados", count: produtosLoja.filter((p) => !!p.validado).length, cor: "#4D9DE0", bg: "#4D9DE015" },
+              { label: "Reprovados", count: produtosLoja.filter((p) => !!p.reprovado).length, cor: "#F2545B", bg: "#F2545B15" },
+              { label: "No Ar", count: produtosLoja.filter((p) => p.noAr).length, cor: "#36C98E", bg: "#36C98E15" },
             ].map((s) => (
               <div key={s.label} className="rounded-xl p-3 text-center" style={{ background: s.bg, border: `1px solid ${s.cor}30` }}>
                 <p className="font-extrabold" style={{ fontSize: 28, letterSpacing: "-0.5px", lineHeight: 1, color: s.cor }}>{s.count}</p>
@@ -942,10 +942,10 @@ export default function LojaPerfilPage() {
           <div className="flex gap-2 flex-wrap">
             {([
               { v: "todos", label: "Todos", cor: "#64748b" },
-              { v: "teste", label: "Em Teste", cor: "#f59e0b" },
-              { v: "validado", label: "Validados", cor: "#3b82f6" },
-              { v: "reprovado", label: "Reprovados", cor: "#ef4444" },
-              { v: "no_ar", label: "No Ar", cor: "#10b981" },
+              { v: "teste", label: "Em Teste", cor: "#E8A33D" },
+              { v: "validado", label: "Validados", cor: "#4D9DE0" },
+              { v: "reprovado", label: "Reprovados", cor: "#F2545B" },
+              { v: "no_ar", label: "No Ar", cor: "#36C98E" },
             ] as const).map((f) => (
               <button
                 key={f.v}
@@ -981,7 +981,7 @@ export default function LojaPerfilPage() {
                 const jaDistribuido = p.distribuidoPara ?? [];
                 const lojasDisp = todasLojas.filter((l) => l.id !== p.lojaId && !jaDistribuido.includes(l.id));
 
-                const statusCor = p.reprovado ? "#ef4444" : p.noAr ? "#10b981" : p.validado ? "#3b82f6" : completo ? "#c9a84c" : "#f59e0b";
+                const statusCor = p.reprovado ? "#F2545B" : p.noAr ? "#36C98E" : p.validado ? "#4D9DE0" : completo ? "#c9a84c" : "#E8A33D";
                 const statusLabel = p.reprovado ? "Reprovado" : p.noAr ? "No Ar" : p.validado ? "Validado" : completo ? "Pronto" : "Em Teste";
 
                 return (
@@ -1000,19 +1000,19 @@ export default function LojaPerfilPage() {
                             {statusLabel}
                           </span>
                           {p.produtoOrigemId && (
-                            <span className="text-xs px-1.5 py-0.5 rounded-full flex items-center gap-1" style={{ background: "#8b5cf620", color: "#8b5cf6" }}>
+                            <span className="text-xs px-1.5 py-0.5 rounded-full flex items-center gap-1" style={{ background: "#7C6FE020", color: "#7C6FE0" }}>
                               <Copy size={8} /> Copia
                             </span>
                           )}
                           {jaDistribuido.length > 0 && (
-                            <span className="text-xs px-1.5 py-0.5 rounded-full flex items-center gap-1" style={{ background: "#10b98115", color: "#10b981" }}>
+                            <span className="text-xs px-1.5 py-0.5 rounded-full flex items-center gap-1" style={{ background: "#36C98E15", color: "#36C98E" }}>
                               <Share2 size={8} /> {jaDistribuido.length} {jaDistribuido.length === 1 ? "loja" : "lojas"}
                             </span>
                           )}
                         </div>
                         <div className="flex items-center gap-2 mt-1">
                           <div className="w-24 h-1 rounded-full overflow-hidden" style={{ background: "#1e3356" }}>
-                            <div className="h-full rounded-full" style={{ width: `${pctProd}%`, background: completo ? statusCor : "#f59e0b" }} />
+                            <div className="h-full rounded-full" style={{ width: `${pctProd}%`, background: completo ? statusCor : "#E8A33D" }} />
                           </div>
                           <span className="text-xs" style={{ color: "#74859c" }}>{preenchidos}/{CAMPOS_PRODUTO.length}</span>
                         </div>
@@ -1025,14 +1025,14 @@ export default function LojaPerfilPage() {
                             <button
                               onClick={() => validarProduto(p.id)}
                               className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold"
-                              style={{ background: "#3b82f620", color: "#3b82f6", border: "1px solid #3b82f640" }}
+                              style={{ background: "#4D9DE020", color: "#4D9DE0", border: "1px solid #4D9DE040" }}
                             >
                               <ShieldCheck size={10} /> Validar
                             </button>
                             <button
                               onClick={() => reprovarProduto(p.id)}
                               className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold"
-                              style={{ background: "#ef444420", color: "#ef4444", border: "1px solid #ef444440" }}
+                              style={{ background: "#F2545B20", color: "#F2545B", border: "1px solid #F2545B40" }}
                             >
                               <ShieldX size={10} /> Reprovar
                             </button>
@@ -1042,7 +1042,7 @@ export default function LojaPerfilPage() {
                           <button
                             onClick={() => validarProduto(p.id)}
                             className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold"
-                            style={{ background: "#3b82f620", color: "#3b82f6", border: "1px solid #3b82f640" }}
+                            style={{ background: "#4D9DE020", color: "#4D9DE0", border: "1px solid #4D9DE040" }}
                           >
                             <ShieldCheck size={10} /> Revalidar
                           </button>
@@ -1051,7 +1051,7 @@ export default function LojaPerfilPage() {
                           <button
                             onClick={() => abrirDistribuirLoja(p)}
                             className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold"
-                            style={{ background: "#8b5cf620", color: "#8b5cf6", border: "1px solid #8b5cf640" }}
+                            style={{ background: "#7C6FE020", color: "#7C6FE0", border: "1px solid #7C6FE040" }}
                           >
                             <Share2 size={10} /> Distribuir
                           </button>
@@ -1061,9 +1061,9 @@ export default function LojaPerfilPage() {
                           disabled={!completo && !p.noAr}
                           className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold disabled:opacity-40"
                           style={{
-                            background: p.noAr ? "#10b98120" : completo ? "#c9a84c20" : "#1e3356",
-                            color: p.noAr ? "#10b981" : completo ? "#c9a84c" : "#475569",
-                            border: `1px solid ${p.noAr ? "#10b98140" : completo ? "#c9a84c40" : "#334155"}`,
+                            background: p.noAr ? "#36C98E20" : completo ? "#c9a84c20" : "#1e3356",
+                            color: p.noAr ? "#36C98E" : completo ? "#c9a84c" : "#475569",
+                            border: `1px solid ${p.noAr ? "#36C98E40" : completo ? "#c9a84c40" : "#334155"}`,
                           }}
                         >
                           {p.noAr ? <><Check size={9} /> Ar</> : <><Globe size={9} /> Ar</>}
@@ -1092,13 +1092,13 @@ export default function LojaPerfilPage() {
                               <div
                                 key={campo.key}
                                 className="flex items-center gap-2 p-2 rounded-lg"
-                                style={{ background: preenchido ? "#10b98108" : "#0b162480", border: `1px solid ${preenchido ? "#10b98120" : "#1e3356"}` }}
+                                style={{ background: preenchido ? "#36C98E08" : "#0b162480", border: `1px solid ${preenchido ? "#36C98E20" : "#1e3356"}` }}
                               >
                                 <div className="w-3.5 h-3.5 rounded-full flex items-center justify-center flex-shrink-0"
-                                  style={{ background: preenchido ? "#10b98130" : "#ef444420" }}>
-                                  {preenchido ? <Check size={8} style={{ color: "#10b981" }} /> : <X size={8} style={{ color: "#ef4444" }} />}
+                                  style={{ background: preenchido ? "#36C98E30" : "#F2545B20" }}>
+                                  {preenchido ? <Check size={8} style={{ color: "#36C98E" }} /> : <X size={8} style={{ color: "#F2545B" }} />}
                                 </div>
-                                <span className="text-xs flex-1" style={{ color: preenchido ? "#94a3b8" : "#ef4444" }}>{campo.label}</span>
+                                <span className="text-xs flex-1" style={{ color: preenchido ? "#94a3b8" : "#F2545B" }}>{campo.label}</span>
                                 {preenchido && campo.tipo === "url" && typeof val === "string" && (
                                   <a href={val} target="_blank" rel="noopener noreferrer" style={{ color: "#c9a84c" }}>
                                     <ExternalLink size={9} />
@@ -1130,9 +1130,9 @@ export default function LojaPerfilPage() {
                         )}
 
                         {!completo && (
-                          <div className="mt-2 flex items-center gap-2 p-2 rounded-lg" style={{ background: "#ef444415", border: "1px solid #ef444430" }}>
-                            <AlertTriangle size={12} style={{ color: "#ef4444" }} />
-                            <p className="text-xs" style={{ color: "#ef4444" }}>Faltam {CAMPOS_PRODUTO.length - preenchidos} campos para ir ao ar.</p>
+                          <div className="mt-2 flex items-center gap-2 p-2 rounded-lg" style={{ background: "#F2545B15", border: "1px solid #F2545B30" }}>
+                            <AlertTriangle size={12} style={{ color: "#F2545B" }} />
+                            <p className="text-xs" style={{ color: "#F2545B" }}>Faltam {CAMPOS_PRODUTO.length - preenchidos} campos para ir ao ar.</p>
                           </div>
                         )}
                         {isAdmin && (
@@ -1176,12 +1176,12 @@ export default function LojaPerfilPage() {
             <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4"
               style={{ background: "#00000090" }} onClick={() => !distribuirSucesso && setDistribuirModal(null)}>
               <div className="w-full max-w-md rounded-2xl overflow-hidden"
-                style={{ background: "#0b1624", border: "1px solid #8b5cf640", maxHeight: "90vh" }}
+                style={{ background: "#0b1624", border: "1px solid #7C6FE040", maxHeight: "90vh" }}
                 onClick={(e) => e.stopPropagation()}>
                 <div className="flex items-center justify-between px-5 pt-5 pb-3" style={{ borderBottom: "1px solid rgba(201,164,66,.16)" }}>
                   <div>
                     <h2 className="font-bold text-white text-sm flex items-center gap-2">
-                      <Share2 size={14} style={{ color: "#8b5cf6" }} /> Distribuir Produto
+                      <Share2 size={14} style={{ color: "#7C6FE0" }} /> Distribuir Produto
                     </h2>
                     <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>{distribuirModal.nome}</p>
                   </div>
@@ -1189,8 +1189,8 @@ export default function LojaPerfilPage() {
                 </div>
                 {distribuirSucesso ? (
                   <div className="flex flex-col items-center justify-center py-10 gap-3">
-                    <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: "#8b5cf622", border: "2px solid #8b5cf6" }}>
-                      <Check size={20} style={{ color: "#8b5cf6" }} />
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: "#7C6FE022", border: "2px solid #7C6FE0" }}>
+                      <Check size={20} style={{ color: "#7C6FE0" }} />
                     </div>
                     <p className="text-white font-bold">Distribuido para {lojasDistribuir.length} {lojasDistribuir.length === 1 ? "loja" : "lojas"}!</p>
                     <p className="text-xs text-center px-6" style={{ color: "#9aa7ba" }}>Atualize o Link Shopify em cada copia.</p>
@@ -1208,9 +1208,9 @@ export default function LojaPerfilPage() {
                           return (
                             <button key={l.id} onClick={() => setLojasDistribuir((prev) => prev.includes(l.id) ? prev.filter((x) => x !== l.id) : [...prev, l.id])}
                               className="w-full flex items-center gap-3 p-3 rounded-xl transition-all text-left"
-                              style={{ background: sel ? "#8b5cf620" : "#112239", border: `1px solid ${sel ? "#8b5cf660" : "#1e3356"}` }}>
+                              style={{ background: sel ? "#7C6FE020" : "#112239", border: `1px solid ${sel ? "#7C6FE060" : "#1e3356"}` }}>
                               <div className="w-4 h-4 rounded flex items-center justify-center flex-shrink-0"
-                                style={{ background: sel ? "#8b5cf6" : "#1e3356", border: `1px solid ${sel ? "#8b5cf6" : "#334155"}` }}>
+                                style={{ background: sel ? "#7C6FE0" : "#1e3356", border: `1px solid ${sel ? "#7C6FE0" : "#334155"}` }}>
                                 {sel && <Check size={9} style={{ color: "#fff" }} />}
                               </div>
                               <div className="flex items-center gap-2 flex-1 min-w-0">
@@ -1223,7 +1223,7 @@ export default function LojaPerfilPage() {
                     </div>
                     <button onClick={handleDistribuirLoja} disabled={lojasDistribuir.length === 0}
                       className="w-full py-3 rounded-2xl font-bold text-sm transition-all hover:opacity-90 disabled:opacity-40"
-                      style={{ background: "#8b5cf6", color: "#fff" }}>
+                      style={{ background: "#7C6FE0", color: "#fff" }}>
                       Distribuir para {lojasDistribuir.length > 0 ? `${lojasDistribuir.length} ${lojasDistribuir.length === 1 ? "loja" : "lojas"}` : "lojas selecionadas"}
                     </button>
                   </div>
@@ -1242,12 +1242,12 @@ export default function LojaPerfilPage() {
           <p className="text-3xl font-bold text-white">{tarefasLoja.length}</p>
           <p className="text-xs mt-1" style={{ color: "#9aa7ba" }}>Total de Tarefas</p>
         </div>
-        <div className="rounded-2xl p-4 text-center" style={{ background: "#112239", border: "1px solid #10b98140" }}>
-          <p className="text-3xl font-bold" style={{ color: "#10b981" }}>{concluidas}</p>
+        <div className="rounded-2xl p-4 text-center" style={{ background: "#112239", border: "1px solid #36C98E40" }}>
+          <p className="text-3xl font-bold" style={{ color: "#36C98E" }}>{concluidas}</p>
           <p className="text-xs mt-1" style={{ color: "#9aa7ba" }}>Concluidas</p>
         </div>
-        <div className="rounded-2xl p-4 text-center" style={{ background: "#112239", border: `1px solid ${urgentes > 0 ? "#ef444440" : "#1e3356"}` }}>
-          <p className="text-3xl font-bold" style={{ color: urgentes > 0 ? "#ef4444" : "#475569" }}>{urgentes}</p>
+        <div className="rounded-2xl p-4 text-center" style={{ background: "#112239", border: `1px solid ${urgentes > 0 ? "#F2545B40" : "#1e3356"}` }}>
+          <p className="text-3xl font-bold" style={{ color: urgentes > 0 ? "#F2545B" : "#475569" }}>{urgentes}</p>
           <p className="text-xs mt-1" style={{ color: "#9aa7ba" }}>Urgentes</p>
         </div>
       </div>
@@ -1263,8 +1263,8 @@ export default function LojaPerfilPage() {
             </span>
             {rotinasLoja.length > 0 && (
               <span className="text-xs px-2 py-0.5 rounded-full" style={{
-                background: rotinasLoja.filter((r) => r.concluida).length === rotinasLoja.length ? "#10b98120" : "#1e3356",
-                color: rotinasLoja.filter((r) => r.concluida).length === rotinasLoja.length ? "#10b981" : "#64748b",
+                background: rotinasLoja.filter((r) => r.concluida).length === rotinasLoja.length ? "#36C98E20" : "#1e3356",
+                color: rotinasLoja.filter((r) => r.concluida).length === rotinasLoja.length ? "#36C98E" : "#64748b",
               }}>
                 {rotinasLoja.filter((r) => r.concluida).length}/{rotinasLoja.length} hoje
               </span>
@@ -1304,12 +1304,12 @@ export default function LojaPerfilPage() {
               const pctRotina = totalSub === 0
                 ? (rotina.concluida ? 100 : 0)
                 : Math.round((subFeitas / totalSub) * 100);
-              const cor = rotina.concluida ? "#10b981" : pctRotina > 0 ? "#f59e0b" : "#475569";
+              const cor = rotina.concluida ? "#36C98E" : pctRotina > 0 ? "#E8A33D" : "#475569";
 
               return (
                 <div key={rotina.id}
                   className="p-4"
-                  style={{ borderTop: idx > 0 ? "1px solid rgba(201,164,66,.16)" : "none", background: rotina.concluida ? "#10b98108" : "transparent" }}>
+                  style={{ borderTop: idx > 0 ? "1px solid rgba(201,164,66,.16)" : "none", background: rotina.concluida ? "#36C98E08" : "transparent" }}>
                   {/* Header da rotina */}
                   <div className="flex items-start gap-3">
                     <button
@@ -1319,7 +1319,7 @@ export default function LojaPerfilPage() {
                       style={{ cursor: podeCumprir ? "pointer" : "default" }}
                       data-tip={rotina.concluida ? "Marcar como não concluída" : "Marcar como concluída"}>
                       {rotina.concluida
-                        ? <CheckCircle2 size={20} style={{ color: "#10b981" }} />
+                        ? <CheckCircle2 size={20} style={{ color: "#36C98E" }} />
                         : <Circle size={20} style={{ color: "#334155" }} />}
                     </button>
 
@@ -1338,7 +1338,7 @@ export default function LojaPerfilPage() {
                               <span className="text-xs" style={{ color: "#94a3b8" }}>{colab.nome.split(" ")[0]}</span>
                             </Link>
                           ) : (
-                            <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ background: "#f59e0b20", color: "#f59e0b" }}>
+                            <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ background: "#E8A33D20", color: "#E8A33D" }}>
                               Sem responsável
                             </span>
                           )}
@@ -1363,7 +1363,7 @@ export default function LojaPerfilPage() {
                               className="flex items-center gap-2 w-full text-left"
                               style={{ cursor: podeCumprir ? "pointer" : "default" }}>
                               {sub.concluida
-                                ? <CheckCircle2 size={13} style={{ color: "#10b981", flexShrink: 0 }} />
+                                ? <CheckCircle2 size={13} style={{ color: "#36C98E", flexShrink: 0 }} />
                                 : <Circle size={13} style={{ color: "#334155", flexShrink: 0 }} />}
                               <span className="text-xs" style={{
                                 color: sub.concluida ? "#475569" : "#94a3b8",
@@ -1452,7 +1452,7 @@ export default function LojaPerfilPage() {
                           return (
                             <div key={m.colaboradorId} className="flex items-center gap-1">
                               <Avatar nome={mp.nome} avatar={mp.avatar} foto={mp.foto} cor={mp.cor} size={18} />
-                              <span className="text-xs" style={{ color: done === total && total > 0 ? "#10b981" : "#94a3b8" }}>
+                              <span className="text-xs" style={{ color: done === total && total > 0 ? "#36C98E" : "#94a3b8" }}>
                                 {mp.nome.split(" ")[0]}{total > 0 ? ` ${done}/${total}` : ""}
                               </span>
                             </div>
@@ -1511,8 +1511,8 @@ export default function LojaPerfilPage() {
 
             {sucesso ? (
               <div className="flex flex-col items-center justify-center py-10 gap-3">
-                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: "#10b98122", border: "2px solid #10b981" }}>
-                  <Check size={24} style={{ color: "#10b981" }} />
+                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: "#36C98E22", border: "2px solid #36C98E" }}>
+                  <Check size={24} style={{ color: "#36C98E" }} />
                 </div>
                 <p className="text-white font-bold">Tarefa criada!</p>
               </div>
@@ -1671,8 +1671,8 @@ export default function LojaPerfilPage() {
 
             {sucessoRotina ? (
               <div className="flex flex-col items-center justify-center py-10 gap-3">
-                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: "#10b98122", border: "2px solid #10b981" }}>
-                  <Check size={24} style={{ color: "#10b981" }} />
+                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: "#36C98E22", border: "2px solid #36C98E" }}>
+                  <Check size={24} style={{ color: "#36C98E" }} />
                 </div>
                 <p className="text-white font-bold">Rotina criada!</p>
                 <p className="text-xs text-center px-6" style={{ color: "#9aa7ba" }}>

@@ -119,38 +119,38 @@ export default function CustoTotalPage() {
         {/* Legenda */}
         <div className="flex items-center justify-center gap-6 flex-wrap mb-5">
           <span className="flex items-center gap-2 text-xs">
-            <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#10b981" }} />
+            <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#36C98E" }} />
             <span style={{ color: "#9aa7ba" }}>Time</span>
-            <span className="font-bold" style={{ color: "#10b981" }}>R$ {fmt(totalFolha + totalFerramentas)}</span>
-            <span className="px-1.5 py-0.5 rounded-full text-xs" style={{ background: "#10b98115", color: "#10b981" }}>{Math.round(pctTime + pctFerr)}%</span>
+            <span className="font-bold" style={{ color: "#36C98E" }}>R$ {fmt(totalFolha + totalFerramentas)}</span>
+            <span className="px-1.5 py-0.5 rounded-full text-xs" style={{ background: "#36C98E15", color: "#36C98E" }}>{Math.round(pctTime + pctFerr)}%</span>
           </span>
           <span className="flex items-center gap-2 text-xs">
-            <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#3b82f6" }} />
+            <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#4D9DE0" }} />
             <span style={{ color: "#9aa7ba" }}>Operações</span>
-            <span className="font-bold" style={{ color: "#3b82f6" }}>R$ {fmt(totalOperacoes)}</span>
-            <span className="px-1.5 py-0.5 rounded-full text-xs" style={{ background: "#3b82f615", color: "#3b82f6" }}>{Math.round(pctOp)}%</span>
+            <span className="font-bold" style={{ color: "#4D9DE0" }}>R$ {fmt(totalOperacoes)}</span>
+            <span className="px-1.5 py-0.5 rounded-full text-xs" style={{ background: "#4D9DE015", color: "#4D9DE0" }}>{Math.round(pctOp)}%</span>
           </span>
         </div>
 
         {/* Barra proporcional */}
         <div className="h-2 rounded-full overflow-hidden flex" style={{ background: "#1e3356" }}>
-          <div style={{ width: `${pctTime}%`, background: "#10b981" }} />
-          <div style={{ width: `${pctFerr}%`, background: "#8b5cf6" }} />
-          <div style={{ width: `${pctOp}%`, background: "#3b82f6" }} />
+          <div style={{ width: `${pctTime}%`, background: "#36C98E" }} />
+          <div style={{ width: `${pctFerr}%`, background: "#7C6FE0" }} />
+          <div style={{ width: `${pctOp}%`, background: "#4D9DE0" }} />
         </div>
         <div className="flex items-center justify-center gap-4 mt-2">
-          <span className="text-xs flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: "#10b981" }} /> Salários</span>
-          <span className="text-xs flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: "#8b5cf6" }} /> Ferramentas time</span>
-          <span className="text-xs flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: "#3b82f6" }} /> Operações lojas</span>
+          <span className="text-xs flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: "#36C98E" }} /> Salários</span>
+          <span className="text-xs flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: "#7C6FE0" }} /> Ferramentas time</span>
+          <span className="text-xs flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: "#4D9DE0" }} /> Operações lojas</span>
         </div>
       </div>
 
       {/* Cards resumo */}
       <div className="grid grid-cols-3 gap-2 sm:gap-3">
         {[
-          { label: "Folha Salarial", valor: totalFolha, sub: `${colaboradores.filter(c => c.salario).length}/${colaboradores.length} cadastrados`, cor: "#10b981", icon: Users, dica: "Soma dos salários cadastrados de todo o time" },
-          { label: "Ferramentas Time", valor: totalFerramentas, sub: `${ferramentas.length} ferramentas`, cor: "#8b5cf6", icon: Wrench, dica: "Custo mensal das ferramentas e assinaturas do time" },
-          { label: "Custos Op. Izzat", valor: totalOperacoes, sub: `${gastosIzzat.length} lançamentos`, cor: "#3b82f6", icon: Building2, dica: "Custos operacionais das lojas do grupo Izzat (não inclui Partners)" },
+          { label: "Folha Salarial", valor: totalFolha, sub: `${colaboradores.filter(c => c.salario).length}/${colaboradores.length} cadastrados`, cor: "#36C98E", icon: Users, dica: "Soma dos salários cadastrados de todo o time" },
+          { label: "Ferramentas Time", valor: totalFerramentas, sub: `${ferramentas.length} ferramentas`, cor: "#7C6FE0", icon: Wrench, dica: "Custo mensal das ferramentas e assinaturas do time" },
+          { label: "Custos Op. Izzat", valor: totalOperacoes, sub: `${gastosIzzat.length} lançamentos`, cor: "#4D9DE0", icon: Building2, dica: "Custos operacionais das lojas do grupo Izzat (não inclui Partners)" },
         ].map((card) => (
           <div key={card.label} data-tip={card.dica} className="rounded-2xl p-3 sm:p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
             <div className="flex items-center gap-2 mb-1">
@@ -172,8 +172,8 @@ export default function CustoTotalPage() {
           className="w-full flex items-center justify-between px-5 py-4 hover:bg-white/5 transition-all"
         >
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "#10b98118" }}>
-              <Users size={15} style={{ color: "#10b981" }} />
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "#36C98E18" }}>
+              <Users size={15} style={{ color: "#36C98E" }} />
             </div>
             <div className="text-left">
               <p className="text-sm font-bold text-white">Time — Folha Salarial</p>
@@ -181,7 +181,7 @@ export default function CustoTotalPage() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <p className="text-lg font-bold" style={{ color: "#10b981" }}>R$ {fmt(totalFolha)}</p>
+            <p className="text-lg font-bold" style={{ color: "#36C98E" }}>R$ {fmt(totalFolha)}</p>
             {secaoAberta === "time" ? <ChevronUp size={16} style={{ color: "#9aa7ba" }} /> : <ChevronDown size={16} style={{ color: "#9aa7ba" }} />}
           </div>
         </button>
@@ -197,9 +197,9 @@ export default function CustoTotalPage() {
                     <p className="text-xs" style={{ color: "#74859c" }}>{c.cargo || "Sem cargo"}</p>
                   </div>
                   {c.salario ? (
-                    <span className="text-sm font-bold" style={{ color: "#10b981" }}>R$ {fmt(c.salario)}</span>
+                    <span className="text-sm font-bold" style={{ color: "#36C98E" }}>R$ {fmt(c.salario)}</span>
                   ) : (
-                    <span className="flex items-center gap-1 text-xs" style={{ color: "#ef4444" }}>
+                    <span className="flex items-center gap-1 text-xs" style={{ color: "#F2545B" }}>
                       <AlertCircle size={11} /> Sem salário
                     </span>
                   )}
@@ -213,7 +213,7 @@ export default function CustoTotalPage() {
               <Link href="/gastos" className="text-xs flex items-center gap-1.5 hover:opacity-80 transition-opacity" style={{ color: "#c9a84c" }}>
                 <ExternalLink size={11} /> Gerenciar em Gastos Equipe
               </Link>
-              <span className="text-xs font-bold" style={{ color: "#10b981" }}>Total: R$ {fmt(totalFolha)}</span>
+              <span className="text-xs font-bold" style={{ color: "#36C98E" }}>Total: R$ {fmt(totalFolha)}</span>
             </div>
           </div>
         )}
@@ -226,8 +226,8 @@ export default function CustoTotalPage() {
           className="w-full flex items-center justify-between px-5 py-4 hover:bg-white/5 transition-all"
         >
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "#8b5cf618" }}>
-              <Wrench size={15} style={{ color: "#8b5cf6" }} />
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "#7C6FE018" }}>
+              <Wrench size={15} style={{ color: "#7C6FE0" }} />
             </div>
             <div className="text-left">
               <p className="text-sm font-bold text-white">Ferramentas do Time</p>
@@ -235,7 +235,7 @@ export default function CustoTotalPage() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <p className="text-lg font-bold" style={{ color: "#8b5cf6" }}>R$ {fmt(totalFerramentas)}</p>
+            <p className="text-lg font-bold" style={{ color: "#7C6FE0" }}>R$ {fmt(totalFerramentas)}</p>
             {secaoAberta === "ferramentas" ? <ChevronUp size={16} style={{ color: "#9aa7ba" }} /> : <ChevronDown size={16} style={{ color: "#9aa7ba" }} />}
           </div>
         </button>
@@ -248,7 +248,7 @@ export default function CustoTotalPage() {
               )}
               {ferramentas.map((f) => (
                 <div key={f.id} className="flex items-center gap-3 px-3 py-2 rounded-xl" style={{ background: "#0a1a2e", border: "1px solid rgba(201,164,66,.16)" }}>
-                  <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: f.cor || "#8b5cf6" }} />
+                  <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: f.cor || "#7C6FE0" }} />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-white">{f.nome}</p>
                     <p className="text-xs" style={{ color: "#74859c" }}>
@@ -260,17 +260,17 @@ export default function CustoTotalPage() {
                       <input
                         autoFocus
                         className="w-24 px-2 py-1 rounded-lg text-xs text-white outline-none"
-                        style={{ background: "#112239", border: "1px solid #8b5cf660" }}
+                        style={{ background: "#112239", border: "1px solid #7C6FE060" }}
                         value={valorEdit}
                         onChange={(e) => setValorEdit(e.target.value)}
                         onKeyDown={(e) => { if (e.key === "Enter") salvarEditFerr(f.id); if (e.key === "Escape") setEditandoFerrId(null); }}
                       />
-                      <button onClick={() => salvarEditFerr(f.id)} className="p-1 rounded" style={{ color: "#10b981" }}><Check size={12} /></button>
+                      <button onClick={() => salvarEditFerr(f.id)} className="p-1 rounded" style={{ color: "#36C98E" }}><Check size={12} /></button>
                       <button onClick={() => setEditandoFerrId(null)} className="p-1 rounded" style={{ color: "#9aa7ba" }}><X size={12} /></button>
                     </div>
                   ) : (
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-bold" style={{ color: "#8b5cf6" }}>R$ {fmt(f.preco)}</span>
+                      <span className="text-sm font-bold" style={{ color: "#7C6FE0" }}>R$ {fmt(f.preco)}</span>
                       <button onClick={() => iniciarEditFerr(f.id, f.preco)} className="p-1 rounded hover:bg-white/10" style={{ color: "#74859c" }}>
                         <Pencil size={11} />
                       </button>
@@ -283,7 +283,7 @@ export default function CustoTotalPage() {
               <Link href="/gastos" className="text-xs flex items-center gap-1.5 hover:opacity-80 transition-opacity" style={{ color: "#c9a84c" }}>
                 <ExternalLink size={11} /> Gerenciar em Gastos Equipe
               </Link>
-              <span className="text-xs font-bold" style={{ color: "#8b5cf6" }}>Total: R$ {fmt(totalFerramentas)}</span>
+              <span className="text-xs font-bold" style={{ color: "#7C6FE0" }}>Total: R$ {fmt(totalFerramentas)}</span>
             </div>
           </div>
         )}
@@ -296,8 +296,8 @@ export default function CustoTotalPage() {
           className="w-full flex items-center justify-between px-5 py-4 hover:bg-white/5 transition-all"
         >
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "#3b82f618" }}>
-              <Building2 size={15} style={{ color: "#3b82f6" }} />
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "#4D9DE018" }}>
+              <Building2 size={15} style={{ color: "#4D9DE0" }} />
             </div>
             <div className="text-left">
               <p className="text-sm font-bold text-white">Operações — Lojas Izzat</p>
@@ -307,7 +307,7 @@ export default function CustoTotalPage() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <p className="text-lg font-bold" style={{ color: "#3b82f6" }}>R$ {fmt(totalOperacoes)}</p>
+            <p className="text-lg font-bold" style={{ color: "#4D9DE0" }}>R$ {fmt(totalOperacoes)}</p>
             {secaoAberta === "operacoes" ? <ChevronUp size={16} style={{ color: "#9aa7ba" }} /> : <ChevronDown size={16} style={{ color: "#9aa7ba" }} />}
           </div>
         </button>
@@ -333,7 +333,7 @@ export default function CustoTotalPage() {
                       <span className="text-xs" style={{ color: "#74859c" }}>
                         {gastosLoja.length === 0 ? "sem custos" : `${gastosLoja.length} lançamentos`}
                       </span>
-                      <span className="text-sm font-bold ml-2" style={{ color: totalLoja > 0 ? "#3b82f6" : "#334155" }}>
+                      <span className="text-sm font-bold ml-2" style={{ color: totalLoja > 0 ? "#4D9DE0" : "#334155" }}>
                         R$ {fmt(totalLoja)}
                       </span>
                       {expandida ? <ChevronUp size={12} style={{ color: "#9aa7ba" }} /> : <ChevronDown size={12} style={{ color: "#9aa7ba" }} />}
@@ -352,8 +352,8 @@ export default function CustoTotalPage() {
                         {[...fixosLoja, ...varLoja].map((g) => (
                           <div key={g.id} className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg" style={{ background: "#112239" }}>
                             <span className="text-xs px-1.5 py-0 rounded-full font-bold flex-shrink-0" style={{
-                              background: g.tipo === "fixo" ? "#10b98118" : "#f59e0b18",
-                              color: g.tipo === "fixo" ? "#10b981" : "#f59e0b",
+                              background: g.tipo === "fixo" ? "#36C98E18" : "#E8A33D18",
+                              color: g.tipo === "fixo" ? "#36C98E" : "#E8A33D",
                             }}>
                               {g.tipo === "fixo" ? "F" : "V"}
                             </span>
@@ -366,17 +366,17 @@ export default function CustoTotalPage() {
                                 <input
                                   autoFocus
                                   className="w-20 px-2 py-0.5 rounded-lg text-xs text-white outline-none"
-                                  style={{ background: "#0b1624", border: "1px solid #3b82f660" }}
+                                  style={{ background: "#0b1624", border: "1px solid #4D9DE060" }}
                                   value={valorEdit}
                                   onChange={(e) => setValorEdit(e.target.value)}
                                   onKeyDown={(e) => { if (e.key === "Enter") salvarEditGasto(g.id); if (e.key === "Escape") setEditandoGastoId(null); }}
                                 />
-                                <button onClick={() => salvarEditGasto(g.id)} className="p-0.5 rounded" style={{ color: "#10b981" }}><Check size={11} /></button>
+                                <button onClick={() => salvarEditGasto(g.id)} className="p-0.5 rounded" style={{ color: "#36C98E" }}><Check size={11} /></button>
                                 <button onClick={() => setEditandoGastoId(null)} className="p-0.5 rounded" style={{ color: "#9aa7ba" }}><X size={11} /></button>
                               </div>
                             ) : (
                               <div className="flex items-center gap-1.5">
-                                <span className="text-xs font-bold" style={{ color: g.tipo === "fixo" ? "#10b981" : "#f59e0b" }}>
+                                <span className="text-xs font-bold" style={{ color: g.tipo === "fixo" ? "#36C98E" : "#E8A33D" }}>
                                   R$ {fmt(g.valor)}
                                 </span>
                                 <button onClick={() => iniciarEditGasto(g)} className="p-0.5 rounded hover:bg-white/10" style={{ color: "#74859c" }}>
@@ -408,7 +408,7 @@ export default function CustoTotalPage() {
               <Link href="/gastos-operacoes" className="text-xs flex items-center gap-1.5 hover:opacity-80 transition-opacity" style={{ color: "#c9a84c" }}>
                 <ExternalLink size={11} /> Ver em Custos Operacionais
               </Link>
-              <span className="text-xs font-bold" style={{ color: "#3b82f6" }}>Total: R$ {fmt(totalOperacoes)}</span>
+              <span className="text-xs font-bold" style={{ color: "#4D9DE0" }}>Total: R$ {fmt(totalOperacoes)}</span>
             </div>
           </div>
         )}
@@ -420,7 +420,7 @@ export default function CustoTotalPage() {
         <p className="text-xs" style={{ color: "#74859c" }}>
           Partners não entram neste total — os custos operacionais deles são pagos pelos próprios parceiros.
           Ver em{" "}
-          <Link href="/gastos-operacoes" className="hover:underline" style={{ color: "#3b82f6" }}>
+          <Link href="/gastos-operacoes" className="hover:underline" style={{ color: "#4D9DE0" }}>
             Custos Operacionais → aba Partners
           </Link>.
         </p>

@@ -13,7 +13,7 @@ type FiltroGrupo = "todos" | "izzat" | "partner";
 type FiltroMercado = "todos" | "global" | "brasil";
 type FiltroRisco = "todos" | "alto" | "atencao" | "ok";
 
-const CORES_PRESET = ["#c9a84c", "#3b82f6", "#10b981", "#8b5cf6", "#ef4444", "#f59e0b", "#ec4899", "#06b6d4"];
+const CORES_PRESET = ["#c9a84c", "#4D9DE0", "#36C98E", "#7C6FE0", "#F2545B", "#E8A33D", "#ec4899", "#06b6d4"];
 
 const FORM_INICIAL = {
   nome: "",
@@ -166,9 +166,9 @@ export default function LojasPage() {
             <span className="text-xs" style={{ color: "#74859c" }}>{lojasAtivas.length} lojas ativas</span>
             <span style={{ color: "#334155" }}>·</span>
             <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#c9a84c15", color: "#c9a84c" }}>{izzatCount} Grupo Izzat</span>
-            <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#3b82f615", color: "#3b82f6" }}>{partnerCount} Partners</span>
+            <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "#4D9DE015", color: "#4D9DE0" }}>{partnerCount} Partners</span>
             {emRiscoCount > 0 && (
-              <span className="text-xs px-2 py-0.5 rounded-full font-bold" style={{ background: "#ef444420", color: "#ef4444" }}>
+              <span className="text-xs px-2 py-0.5 rounded-full font-bold" style={{ background: "#F2545B20", color: "#F2545B" }}>
                 ⚠ {emRiscoCount} em risco
               </span>
             )}
@@ -221,9 +221,9 @@ export default function LojasPage() {
               data-tip={f === "todos" ? "Todos os mercados" : f === "global" ? "Lojas que vendem para o mundo (global)" : "Lojas focadas no mercado brasileiro"}
               className="px-4 py-1.5 rounded-full text-sm font-medium transition-all"
               style={{
-                background: mercado === f ? "#3b82f6" : "#112239",
+                background: mercado === f ? "#4D9DE0" : "#112239",
                 color: mercado === f ? "#ffffff" : "#64748b",
-                border: `1px solid ${mercado === f ? "#3b82f6" : "#1e3356"}`,
+                border: `1px solid ${mercado === f ? "#4D9DE0" : "#1e3356"}`,
               }}
             >
               {f === "todos" ? "Global + BR" : f === "global" ? "Global" : "Brasil"}
@@ -237,9 +237,9 @@ export default function LojasPage() {
           <span className="text-xs" data-tip="Risco é calculado com base em tarefas atrasadas e rotinas não cumpridas da loja" style={{ color: "#74859c", cursor: "help" }}>ⓘ</span>
           {([
             { v: "todos", label: "Todos", cor: "#64748b", bg: "#112239" },
-            { v: "alto", label: "Alto Risco", cor: "#ef4444", bg: "#ef444420" },
-            { v: "atencao", label: "Atenção", cor: "#f59e0b", bg: "#f59e0b20" },
-            { v: "ok", label: "OK", cor: "#10b981", bg: "#10b98120" },
+            { v: "alto", label: "Alto Risco", cor: "#F2545B", bg: "#F2545B20" },
+            { v: "atencao", label: "Atenção", cor: "#E8A33D", bg: "#E8A33D20" },
+            { v: "ok", label: "OK", cor: "#36C98E", bg: "#36C98E20" },
           ] as const).map((f) => (
             <button
               key={f.v}
@@ -277,11 +277,11 @@ export default function LojasPage() {
           const urgentes = tarefasLoja.filter((t) => t.prioridade === "alta" && t.status !== "concluida").length;
           const atrasadas = tarefasLoja.filter((t) => t.status === "atrasada").length;
           const pct = tarefasLoja.length ? Math.round((concluidas / tarefasLoja.length) * 100) : 0;
-          const corGrupo = loja.grupo === "izzat" ? "#c9a84c" : "#3b82f6";
+          const corGrupo = loja.grupo === "izzat" ? "#c9a84c" : "#4D9DE0";
           const labelMercado = loja.mercado === "global" ? "Global" : "BR";
-          const corMercado = loja.mercado === "global" ? "#8b5cf6" : "#10b981";
+          const corMercado = loja.mercado === "global" ? "#7C6FE0" : "#36C98E";
           const nivelRisco = calcRisco(loja.id);
-          const corRisco = nivelRisco === "alto" ? "#ef4444" : nivelRisco === "atencao" ? "#f59e0b" : "#10b981";
+          const corRisco = nivelRisco === "alto" ? "#F2545B" : nivelRisco === "atencao" ? "#E8A33D" : "#36C98E";
           const isArquivando = arquivarConfirm === loja.id;
           const custom = isCustom(loja.id);
 
@@ -291,7 +291,7 @@ export default function LojasPage() {
               className="rounded-2xl overflow-hidden"
               style={{
                 background: "#112239",
-                border: `1px solid ${nivelRisco === "alto" ? "#ef444440" : nivelRisco === "atencao" ? "#f59e0b40" : "#1e3356"}`,
+                border: `1px solid ${nivelRisco === "alto" ? "#F2545B40" : nivelRisco === "atencao" ? "#E8A33D40" : "#1e3356"}`,
                 transition: "all 150ms cubic-bezier(0.4,0,0.2,1)",
               }}
               onMouseEnter={(e) => {
@@ -339,7 +339,7 @@ export default function LojasPage() {
                   )}
                   {nivelRisco === "ok" && tarefasLoja.length > 0 && (
                     <span className="absolute bottom-2.5 right-2.5 flex items-center gap-1 text-xs px-2 py-0.5 rounded-full font-bold"
-                      style={{ background: "rgba(0,0,0,0.7)", color: "#10b981", border: "1px solid #10b98150" }}>
+                      style={{ background: "rgba(0,0,0,0.7)", color: "#36C98E", border: "1px solid #36C98E50" }}>
                       <ShieldCheck size={10} />
                       OK
                     </span>
@@ -369,7 +369,7 @@ export default function LojasPage() {
                       onClick={() => setArquivarConfirm(isArquivando ? null : loja.id)}
                       className="p-1.5 rounded-lg transition-colors hover:bg-slate-800"
                       data-tip="Arquivar loja"
-                      style={{ color: isArquivando ? "#ef4444" : "#64748b" }}
+                      style={{ color: isArquivando ? "#F2545B" : "#64748b" }}
                     >
                       <Archive size={13} />
                     </button>
@@ -379,12 +379,12 @@ export default function LojasPage() {
                 {/* Confirm archive */}
                 {isArquivando && (
                   <div className="mb-3 p-2.5 rounded-xl flex items-center justify-between gap-2"
-                    style={{ background: "#ef444415", border: "1px solid #ef444440" }}>
-                    <span className="text-xs" style={{ color: "#ef4444" }}>Arquivar esta loja?</span>
+                    style={{ background: "#F2545B15", border: "1px solid #F2545B40" }}>
+                    <span className="text-xs" style={{ color: "#F2545B" }}>Arquivar esta loja?</span>
                     <div className="flex gap-1.5">
                       <button onClick={() => handleArquivar(loja.id)}
                         className="text-xs px-2.5 py-1 rounded-lg font-bold"
-                        style={{ background: "#ef444430", color: "#ef4444" }}>
+                        style={{ background: "#F2545B30", color: "#F2545B" }}>
                         Sim
                       </button>
                       <button onClick={() => setArquivarConfirm(null)}
@@ -414,7 +414,7 @@ export default function LojasPage() {
                 {/* Dono parceiro */}
                 {loja.grupo === "partner" && (loja.donoParceiro || loja.whatsappParceiro) && (
                   <div className="flex items-center gap-2 mb-3 p-2 rounded-xl" style={{ background: "#1e3356" }}>
-                    <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: "#3b82f6" }} />
+                    <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: "#4D9DE0" }} />
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-medium" style={{ color: loja.donoParceiro ? "#e8edf5" : "#475569" }}>
                         {loja.donoParceiro || "A definir"}
@@ -426,7 +426,7 @@ export default function LojasPage() {
                         target="_blank" rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
                         className="text-xs px-2 py-0.5 rounded-lg font-medium flex-shrink-0"
-                        style={{ background: "#10b98120", color: "#10b981" }}>
+                        style={{ background: "#36C98E20", color: "#36C98E" }}>
                         WhatsApp
                       </a>
                     )}
@@ -440,11 +440,11 @@ export default function LojasPage() {
                     <p className="text-xs" style={{ color: "#9aa7ba" }}>Tarefas</p>
                   </div>
                   <div className="rounded-xl p-2 text-center" style={{ background: "#1e3356" }}>
-                    <p className="text-base font-bold" style={{ color: "#10b981" }}>{concluidas}</p>
+                    <p className="text-base font-bold" style={{ color: "#36C98E" }}>{concluidas}</p>
                     <p className="text-xs" style={{ color: "#9aa7ba" }}>Feitas</p>
                   </div>
                   <div className="rounded-xl p-2 text-center" style={{ background: "#1e3356" }}>
-                    <p className="text-base font-bold" style={{ color: atrasadas > 0 ? "#ef4444" : urgentes > 0 ? "#f59e0b" : "#475569" }}>
+                    <p className="text-base font-bold" style={{ color: atrasadas > 0 ? "#F2545B" : urgentes > 0 ? "#E8A33D" : "#475569" }}>
                       {atrasadas > 0 ? atrasadas : urgentes}
                     </p>
                     <p className="text-xs" style={{ color: "#9aa7ba" }}>{atrasadas > 0 ? "Atrasadas" : "Urgentes"}</p>
@@ -504,7 +504,7 @@ export default function LojasPage() {
                 <button
                   onClick={() => restaurarLoja(loja.id)}
                   className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold transition-opacity hover:opacity-80 flex-shrink-0"
-                  style={{ background: "#10b98120", color: "#10b981", border: "1px solid #10b98140" }}
+                  style={{ background: "#36C98E20", color: "#36C98E", border: "1px solid #36C98E40" }}
                 >
                   <ArchiveRestore size={12} />
                   Restaurar
@@ -523,15 +523,15 @@ export default function LojasPage() {
           <span className="text-sm" style={{ color: "#94a3b8" }}>Grupo Izzat</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full" style={{ background: "#3b82f6" }} />
+          <div className="w-3 h-3 rounded-full" style={{ background: "#4D9DE0" }} />
           <span className="text-sm" style={{ color: "#94a3b8" }}>Partners</span>
         </div>
         <div className="flex items-center gap-2">
-          <AlertTriangle size={12} style={{ color: "#ef4444" }} />
+          <AlertTriangle size={12} style={{ color: "#F2545B" }} />
           <span className="text-sm" style={{ color: "#94a3b8" }}>Alto Risco — tarefas atrasadas</span>
         </div>
         <div className="flex items-center gap-2">
-          <AlertTriangle size={12} style={{ color: "#f59e0b" }} />
+          <AlertTriangle size={12} style={{ color: "#E8A33D" }} />
           <span className="text-sm" style={{ color: "#94a3b8" }}>{"Atenção — prazos prestes a vencer"}</span>
         </div>
       </div>
@@ -559,8 +559,8 @@ export default function LojasPage() {
             {sucesso ? (
               <div className="flex flex-col items-center justify-center py-10 gap-3">
                 <div className="w-14 h-14 rounded-full flex items-center justify-center"
-                  style={{ background: "#10b98122", border: "2px solid #10b981" }}>
-                  <Check size={24} style={{ color: "#10b981" }} />
+                  style={{ background: "#36C98E22", border: "2px solid #36C98E" }}>
+                  <Check size={24} style={{ color: "#36C98E" }} />
                 </div>
                 <p className="text-white font-bold">{editarModal ? "Loja atualizada!" : "Loja criada!"}</p>
               </div>
@@ -607,9 +607,9 @@ export default function LojasPage() {
                           onClick={() => setForm((f) => ({ ...f, mercado: m }))}
                           className="flex-1 py-2 rounded-xl text-xs font-bold transition-all"
                           style={{
-                            background: form.mercado === m ? "#3b82f622" : "#112239",
-                            border: `1px solid ${form.mercado === m ? "#3b82f6" : "#1e3356"}`,
-                            color: form.mercado === m ? "#3b82f6" : "#64748b",
+                            background: form.mercado === m ? "#4D9DE022" : "#112239",
+                            border: `1px solid ${form.mercado === m ? "#4D9DE0" : "#1e3356"}`,
+                            color: form.mercado === m ? "#4D9DE0" : "#64748b",
                           }}>
                           {m === "global" ? "Global" : "BR"}
                         </button>

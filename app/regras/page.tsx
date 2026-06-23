@@ -6,18 +6,18 @@ import { Plus, X, Pencil, Trash2, ShieldAlert, BookOpen, Check } from "lucide-re
 import BackButton from "@/components/BackButton";
 
 const CATEGORIAS: { value: CategoriaRegraEmpresa; label: string; cor: string; emoji: string }[] = [
-  { value: "operacional", label: "Operacional", cor: "#3b82f6", emoji: "⚙️" },
-  { value: "arquivos", label: "Arquivos", cor: "#10b981", emoji: "📁" },
-  { value: "qualidade", label: "Qualidade", cor: "#8b5cf6", emoji: "✅" },
-  { value: "comunicacao", label: "Comunicação", cor: "#f59e0b", emoji: "💬" },
-  { value: "seguranca", label: "Segurança", cor: "#ef4444", emoji: "🔐" },
+  { value: "operacional", label: "Operacional", cor: "#4D9DE0", emoji: "⚙️" },
+  { value: "arquivos", label: "Arquivos", cor: "#36C98E", emoji: "📁" },
+  { value: "qualidade", label: "Qualidade", cor: "#7C6FE0", emoji: "✅" },
+  { value: "comunicacao", label: "Comunicação", cor: "#E8A33D", emoji: "💬" },
+  { value: "seguranca", label: "Segurança", cor: "#F2545B", emoji: "🔐" },
   { value: "outro", label: "Outro", cor: "#64748b", emoji: "📌" },
 ];
 
 const RIGIDEZ: { value: RigidzRegraEmpresa; label: string; desc: string; cor: string; bg: string; icone: string }[] = [
-  { value: "inflexivel", label: "Inegociável", desc: "Sem exceções. Obrigatório sempre.", cor: "#ef4444", bg: "#ef444415", icone: "🔴" },
-  { value: "recomendado", label: "Recomendado", desc: "Fortemente recomendado. Desvios precisam de justificativa.", cor: "#f59e0b", bg: "#f59e0b15", icone: "🟡" },
-  { value: "maleavel", label: "Maleável", desc: "Diretriz flexível. Adaptável ao contexto.", cor: "#10b981", bg: "#10b98115", icone: "🟢" },
+  { value: "inflexivel", label: "Inegociável", desc: "Sem exceções. Obrigatório sempre.", cor: "#F2545B", bg: "#F2545B15", icone: "🔴" },
+  { value: "recomendado", label: "Recomendado", desc: "Fortemente recomendado. Desvios precisam de justificativa.", cor: "#E8A33D", bg: "#E8A33D15", icone: "🟡" },
+  { value: "maleavel", label: "Maleável", desc: "Diretriz flexível. Adaptável ao contexto.", cor: "#36C98E", bg: "#36C98E15", icone: "🟢" },
 ];
 
 const ICONES_SUGERIDOS = ["🛒", "☁️", "📁", "🔐", "💬", "✅", "⚙️", "📌", "🚫", "📋", "🎯", "⚠️", "🔑", "📱", "💻", "🤝", "🕐", "💰", "📊", "🔧"];
@@ -164,15 +164,15 @@ export default function RegrasPage() {
       {/* Legenda */}
       <div className="flex items-center gap-4 px-4 py-2 rounded-xl" style={{ background: "#0d1928", border: "1px solid rgba(201,164,66,.16)" }}>
         <div className="flex items-center gap-1.5">
-          <ShieldAlert size={12} style={{ color: "#ef4444" }} />
+          <ShieldAlert size={12} style={{ color: "#F2545B" }} />
           <span className="text-xs" style={{ color: "#9aa7ba" }}>Inegociável = sem exceções</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <BookOpen size={12} style={{ color: "#f59e0b" }} />
+          <BookOpen size={12} style={{ color: "#E8A33D" }} />
           <span className="text-xs" style={{ color: "#9aa7ba" }}>Recomendado = desvio precisa de justificativa</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <Check size={12} style={{ color: "#10b981" }} />
+          <Check size={12} style={{ color: "#36C98E" }} />
           <span className="text-xs" style={{ color: "#9aa7ba" }}>Maleável = adaptar ao contexto</span>
         </div>
       </div>
@@ -250,7 +250,7 @@ export default function RegrasPage() {
                         <button
                           onClick={() => toggleRegra(regra.id)}
                           className="p-1.5 rounded-lg transition-all hover:opacity-80"
-                          style={{ background: regra.ativa ? "#10b98115" : "#1e3356", color: regra.ativa ? "#10b981" : "#475569" }}
+                          style={{ background: regra.ativa ? "#36C98E15" : "#1e3356", color: regra.ativa ? "#36C98E" : "#475569" }}
                           data-tip={regra.ativa ? "Desativar regra" : "Ativar regra"}
                         >
                           <Check size={13} />
@@ -268,7 +268,7 @@ export default function RegrasPage() {
                             <button
                               onClick={() => { deletarRegra(regra.id); setConfirmDeleteId(null); }}
                               className="px-2 py-1 rounded-lg text-xs font-bold"
-                              style={{ background: "#ef444420", color: "#ef4444" }}
+                              style={{ background: "#F2545B20", color: "#F2545B" }}
                             >
                               Confirmar
                             </button>

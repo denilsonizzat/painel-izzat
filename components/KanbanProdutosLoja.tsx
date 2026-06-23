@@ -12,10 +12,10 @@ import ProdutoFormModal from "./ProdutoFormModal";
 type ColId = "cadastrando" | "teste" | "validado" | "reprovado";
 
 const COLUNAS: { id: ColId; label: string; desc: string; icon: typeof AlertTriangle; cor: string }[] = [
-  { id: "cadastrando", label: "Cadastrando", desc: "Campos pendentes", icon: AlertTriangle, cor: "#ef4444" },
+  { id: "cadastrando", label: "Cadastrando", desc: "Campos pendentes", icon: AlertTriangle, cor: "#F2545B" },
   { id: "teste", label: "Em Teste", desc: "Testando nesta loja", icon: PackageSearch, cor: "#94a3b8" },
-  { id: "validado", label: "Aprovado", desc: "Funcionou nesta loja", icon: ShieldCheck, cor: "#10b981" },
-  { id: "reprovado", label: "Reprovado", desc: "Não funcionou aqui", icon: ShieldX, cor: "#f97316" },
+  { id: "validado", label: "Aprovado", desc: "Funcionou nesta loja", icon: ShieldCheck, cor: "#36C98E" },
+  { id: "reprovado", label: "Reprovado", desc: "Não funcionou aqui", icon: ShieldX, cor: "#E8733D" },
 ];
 
 function produtoCompleto(p: Produto): boolean {
@@ -60,12 +60,12 @@ function Card({ p, onEdit }: { p: Produto; onEdit: () => void }) {
           <Pencil size={12} />
         </button>
       </div>
-      {p.noAr && <span className="inline-block mt-1.5 text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#10b98120", color: "#10b981" }}>No ar</span>}
+      {p.noAr && <span className="inline-block mt-1.5 text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#36C98E20", color: "#36C98E" }}>No ar</span>}
       <div className="mt-2 flex items-center gap-2">
         <div className="h-1.5 flex-1 rounded-full overflow-hidden" style={{ background: "#1e3356" }}>
-          <div className="h-full rounded-full" style={{ width: `${pct}%`, background: completo ? "#10b981" : "#c9a84c" }} />
+          <div className="h-full rounded-full" style={{ width: `${pct}%`, background: completo ? "#36C98E" : "#c9a84c" }} />
         </div>
-        <span className="text-xs" style={{ color: completo ? "#10b981" : "#74859c" }}>{feitos}/{CAMPOS_PRODUTO.length}</span>
+        <span className="text-xs" style={{ color: completo ? "#36C98E" : "#74859c" }}>{feitos}/{CAMPOS_PRODUTO.length}</span>
       </div>
     </div>
   );

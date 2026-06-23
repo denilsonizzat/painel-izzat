@@ -3,9 +3,9 @@ import { useState, useEffect } from "react";
 import { X, Link2, Check } from "lucide-react";
 import { PLATAFORMAS, listarIntegracoes, salvarIntegracao, Integracao, StatusIntegracao } from "@/lib/integracoes";
 
-const COR_STATUS: Record<StatusIntegracao, string> = { nao_conectado: "#74859c", configurando: "#f59e0b", conectado: "#10b981" };
+const COR_STATUS: Record<StatusIntegracao, string> = { nao_conectado: "#74859c", configurando: "#E8A33D", conectado: "#36C98E" };
 const LBL_STATUS: Record<StatusIntegracao, string> = { nao_conectado: "Não conectado", configurando: "Configurando", conectado: "Conectado" };
-const COR_DIF: Record<string, string> = { "fácil": "#10b981", "médio": "#f59e0b", "burocrático": "#ef4444" };
+const COR_DIF: Record<string, string> = { "fácil": "#36C98E", "médio": "#E8A33D", "burocrático": "#F2545B" };
 const inp = { background: "#1e3356", border: "1px solid #334155", color: "#e8edf5", borderRadius: 9, padding: "7px 9px", outline: "none", fontSize: 13 } as React.CSSProperties;
 
 export default function ConexoesModal({ lojaId, lojaNome, aberto, onFechar }: { lojaId: string; lojaNome: string; aberto: boolean; onFechar: () => void }) {
@@ -69,7 +69,7 @@ export default function ConexoesModal({ lojaId, lojaNome, aberto, onFechar }: { 
                 </div>
               );
             })}
-            <div className="rounded-xl p-3 text-xs" style={{ background: "#ef444410", border: "1px solid #ef444425", color: "#9aa7ba" }}>
+            <div className="rounded-xl p-3 text-xs" style={{ background: "#F2545B10", border: "1px solid #F2545B25", color: "#9aa7ba" }}>
               <b style={{ color: "#e8edf5" }}>Twitter/X Ads:</b> API paga e restrita — não recomendado, fora do escopo.
             </div>
           </div>

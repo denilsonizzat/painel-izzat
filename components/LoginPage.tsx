@@ -69,7 +69,7 @@ export default function LoginPage() {
             ))}
           </div>
 
-          {erro && <p className="text-sm mb-3 text-center" style={{ color: "#ef4444" }}>{erro}</p>}
+          {erro && <p className="text-sm mb-3 text-center" style={{ color: "#F2545B" }}>{erro}</p>}
 
           <button
             onClick={handleLogin}

@@ -8,7 +8,7 @@ import { PLATAFORMAS, listarTodasIntegracoes, Integracao } from "@/lib/integraco
 import ConexoesModal from "@/components/integracoes/ConexoesModal";
 import { Link2 } from "lucide-react";
 
-const COR_STATUS: Record<string, string> = { nao_conectado: "#74859c", configurando: "#f59e0b", conectado: "#10b981" };
+const COR_STATUS: Record<string, string> = { nao_conectado: "#74859c", configurando: "#E8A33D", conectado: "#36C98E" };
 
 export default function IntegracoesPage() {
   const { lojasCustom } = useAppStore();

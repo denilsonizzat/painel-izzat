@@ -24,7 +24,7 @@ export default function Tabs<T extends string>({
 }) {
   const idx = Math.max(0, tabs.findIndex((t) => t.id === value));
   const pct = 100 / tabs.length;
-  const escuro = accent === "#c9a84c" || accent === "#f59e0b" || accent === "#10b981";
+  const escuro = accent === "#c9a84c" || accent === "#E8A33D" || accent === "#36C98E";
 
   return (
     <div

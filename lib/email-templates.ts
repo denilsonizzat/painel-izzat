@@ -75,7 +75,7 @@ export interface DadosEmailManha {
 
 export function emailManha(d: DadosEmailManha): string {
   const hoje = new Date().toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" });
-  const prioridadeCor: Record<string, string> = { alta: "#ef4444", media: "#f59e0b", baixa: "#64748b" };
+  const prioridadeCor: Record<string, string> = { alta: "#F2545B", media: "#E8A33D", baixa: "#64748b" };
   const prioridadeLabel: Record<string, string> = { alta: "URGENTE", media: "Media", baixa: "Baixa" };
 
   const linhasRotinas = d.rotinas.map(r => `
@@ -101,9 +101,9 @@ export function emailManha(d: DadosEmailManha): string {
 </div>
 
 ${d.streak > 1 ? `<div style="padding:12px 28px;">
-  <div style="background:#f59e0b10;border:1px solid #f59e0b20;border-radius:12px;padding:12px 16px;">
+  <div style="background:#E8A33D10;border:1px solid #E8A33D20;border-radius:12px;padding:12px 16px;">
     <span style="font-size:16px;">&#128293;</span>
-    <span style="color:#f59e0b;font-size:13px;font-weight:600;margin-left:8px;">Sequencia de ${d.streak} dias! Continue assim.</span>
+    <span style="color:#E8A33D;font-size:13px;font-weight:600;margin-left:8px;">Sequencia de ${d.streak} dias! Continue assim.</span>
   </div>
 </div>` : ""}
 
@@ -120,9 +120,9 @@ ${d.tarefas.length > 0 ? `<div style="padding:16px 28px 8px;">
     ${linhasTarefas}
   </table>
 </div>` : `<div style="padding:16px 28px;">
-  <div style="background:#10b98115;border:1px solid #10b98130;border-radius:12px;padding:16px;text-align:center;">
+  <div style="background:#36C98E15;border:1px solid #36C98E30;border-radius:12px;padding:16px;text-align:center;">
     <span style="font-size:20px;">&#127881;</span>
-    <p style="margin:4px 0 0;color:#10b981;font-size:13px;">Nenhuma tarefa aberta! Dia tranquilo.</p>
+    <p style="margin:4px 0 0;color:#36C98E;font-size:13px;">Nenhuma tarefa aberta! Dia tranquilo.</p>
   </div>
 </div>`}
 
@@ -157,7 +157,7 @@ export interface DadosEmailTarde {
 
 export function emailTarde(d: DadosEmailTarde): string {
   const hoje = new Date().toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" });
-  const corPct = d.pctRotinas === 100 ? "#10b981" : d.pctRotinas >= 50 ? "#f59e0b" : "#ef4444";
+  const corPct = d.pctRotinas === 100 ? "#36C98E" : d.pctRotinas >= 50 ? "#E8A33D" : "#F2545B";
 
   const conteudo = `
 <div style="padding:28px 28px 8px;">
@@ -184,7 +184,7 @@ export function emailTarde(d: DadosEmailTarde): string {
 </div>
 
 ${d.tarefasConcluidas.length > 0 ? `<div style="padding:8px 28px;">
-  <p style="margin:0 0 10px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#10b981;">&#10003; Conclu&iacute;do hoje</p>
+  <p style="margin:0 0 10px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#36C98E;">&#10003; Conclu&iacute;do hoje</p>
   ${d.tarefasConcluidas.map(t => `<p style="margin:0 0 6px;font-size:13px;color:#64748b;">&#10003; ${t.titulo}</p>`).join("")}
 </div>` : ""}
 
@@ -192,8 +192,8 @@ ${d.tarefasPendentes.length > 0 ? `<div style="padding:8px 28px 28px;">
   <p style="margin:0 0 10px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#64748b;">Pendente para amanh&atilde;</p>
   ${d.tarefasPendentes.map(t => `<p style="margin:0 0 6px;font-size:13px;color:#475569;">&#8250; ${t.titulo}</p>`).join("")}
 </div>` : `<div style="padding:8px 28px 28px;">
-  <div style="background:#10b98115;border:1px solid #10b98130;border-radius:12px;padding:16px;text-align:center;">
-    <p style="margin:0;color:#10b981;font-size:14px;font-weight:700;">&#127881; Nenhuma pendencia! Excelente dia.</p>
+  <div style="background:#36C98E15;border:1px solid #36C98E30;border-radius:12px;padding:16px;text-align:center;">
+    <p style="margin:0;color:#36C98E;font-size:14px;font-weight:700;">&#127881; Nenhuma pendencia! Excelente dia.</p>
   </div>
 </div>`}`;
 
@@ -228,7 +228,7 @@ export interface DadosEmailAdminDiario {
 
 export function emailAdminDiario(d: DadosEmailAdminDiario): string {
   const secaoPessoa = (p: DadosPessoa) => {
-    const corPct = p.pctRotinas === 100 ? "#10b981" : p.pctRotinas >= 50 ? "#f59e0b" : "#ef4444";
+    const corPct = p.pctRotinas === 100 ? "#36C98E" : p.pctRotinas >= 50 ? "#E8A33D" : "#F2545B";
     return `
 <tr><td style="padding:16px 20px;border-bottom:1px solid #0b1624;">
   <table width="100%" cellpadding="0" cellspacing="0">
@@ -240,7 +240,7 @@ export function emailAdminDiario(d: DadosEmailAdminDiario): string {
     </td>
     <td valign="top">
       <p style="margin:0 0 1px;font-size:14px;font-weight:700;color:#e8edf5;">${p.nome.split(" ")[0]} ${p.humor || ""}</p>
-      <p style="margin:0 0 8px;font-size:11px;color:#475569;">${p.cargo} &middot; ${p.checkIn ? '<span style="color:#10b981;">&#10003; Check-in</span>' : '<span style="color:#ef4444;">&#10005; Sem check-in</span>'}</p>
+      <p style="margin:0 0 8px;font-size:11px;color:#475569;">${p.cargo} &middot; ${p.checkIn ? '<span style="color:#36C98E;">&#10003; Check-in</span>' : '<span style="color:#F2545B;">&#10005; Sem check-in</span>'}</p>
 
       <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:8px;">
       <tr>
@@ -250,13 +250,13 @@ export function emailAdminDiario(d: DadosEmailAdminDiario): string {
       </table>
       ${barra(p.pctRotinas, corPct)}
 
-      ${p.tarefasConcluidas.length > 0 ? `<p style="margin:8px 0 4px;font-size:11px;color:#10b981;font-weight:700;">Conclu&iacute;das (${p.tarefasConcluidas.length})</p>
+      ${p.tarefasConcluidas.length > 0 ? `<p style="margin:8px 0 4px;font-size:11px;color:#36C98E;font-weight:700;">Conclu&iacute;das (${p.tarefasConcluidas.length})</p>
       ${p.tarefasConcluidas.map(t => `<p style="margin:0 0 2px;font-size:12px;color:#64748b;">&#10003; ${t}</p>`).join("")}` : ""}
 
-      ${p.tarefasAguardando.length > 0 ? `<p style="margin:8px 0 4px;font-size:11px;color:#f59e0b;font-weight:700;">Aguardando revis&atilde;o (${p.tarefasAguardando.length})</p>
+      ${p.tarefasAguardando.length > 0 ? `<p style="margin:8px 0 4px;font-size:11px;color:#E8A33D;font-weight:700;">Aguardando revis&atilde;o (${p.tarefasAguardando.length})</p>
       ${p.tarefasAguardando.map(t => `<p style="margin:0 0 2px;font-size:12px;color:#94a3b8;">&#9200; ${t}</p>`).join("")}` : ""}
 
-      ${p.tarefasAtrasadas.length > 0 ? `<p style="margin:8px 0 4px;font-size:11px;color:#ef4444;font-weight:700;">Atrasadas (${p.tarefasAtrasadas.length})</p>
+      ${p.tarefasAtrasadas.length > 0 ? `<p style="margin:8px 0 4px;font-size:11px;color:#F2545B;font-weight:700;">Atrasadas (${p.tarefasAtrasadas.length})</p>
       ${p.tarefasAtrasadas.map(t => `<p style="margin:0 0 2px;font-size:12px;color:#94a3b8;">&#9888; ${t}</p>`).join("")}` : ""}
     </td>
   </tr>
@@ -274,7 +274,7 @@ export function emailAdminDiario(d: DadosEmailAdminDiario): string {
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#122039;border-radius:12px;overflow:hidden;border:1px solid #1e3356;">
   <tr>
     <td style="padding:14px 16px;border-right:1px solid #1e3356;text-align:center;" width="33%">
-      <p style="margin:0;font-size:24px;font-weight:800;color:#10b981;">${d.mediaProgresso}%</p>
+      <p style="margin:0;font-size:24px;font-weight:800;color:#36C98E;">${d.mediaProgresso}%</p>
       <p style="margin:2px 0 0;font-size:11px;color:#475569;">Media rotinas</p>
     </td>
     <td style="padding:14px 16px;border-right:1px solid #1e3356;text-align:center;" width="33%">
@@ -282,7 +282,7 @@ export function emailAdminDiario(d: DadosEmailAdminDiario): string {
       <p style="margin:2px 0 0;font-size:11px;color:#475569;">Tarefas conclu&iacute;das</p>
     </td>
     <td style="padding:14px 16px;text-align:center;" width="33%">
-      <p style="margin:0;font-size:24px;font-weight:800;color:${d.totalUrgentes > 0 ? "#ef4444" : "#64748b"};">${d.totalUrgentes}</p>
+      <p style="margin:0;font-size:24px;font-weight:800;color:${d.totalUrgentes > 0 ? "#F2545B" : "#64748b"};">${d.totalUrgentes}</p>
       <p style="margin:2px 0 0;font-size:11px;color:#475569;">Urgentes abertas</p>
     </td>
   </tr>
@@ -345,7 +345,7 @@ export function emailAdminSemanal(d: DadosEmailAdminSemanal): string {
   const corMedalha = ["#c9a84c", "#94a3b8", "#b87333"];
 
   const secaoPessoa = (p: DadosPessoaSemanal, i: number) => {
-    const corPct = p.mediaPctRotinas >= 80 ? "#10b981" : p.mediaPctRotinas >= 50 ? "#f59e0b" : "#ef4444";
+    const corPct = p.mediaPctRotinas >= 80 ? "#36C98E" : p.mediaPctRotinas >= 50 ? "#E8A33D" : "#F2545B";
     return `
 <tr style="background:${i % 2 === 0 ? "#122039" : "#0f1d2e"};">
   <td style="padding:12px 16px;border-bottom:1px solid #0b1624;">
@@ -353,7 +353,7 @@ export function emailAdminSemanal(d: DadosEmailAdminSemanal): string {
       <span style="font-size:11px;font-weight:700;color:${p.corNivel};">${p.nivel}</span>
       &nbsp;
       <strong style="font-size:13px;color:#e8edf5;">${p.nome.split(" ")[0]}</strong>
-      ${p.streakAtual > 0 ? `<span style="font-size:11px;color:#f59e0b;">&#128293; ${p.streakAtual}</span>` : ""}
+      ${p.streakAtual > 0 ? `<span style="font-size:11px;color:#E8A33D;">&#128293; ${p.streakAtual}</span>` : ""}
     </div>
     <p style="margin:2px 0 0;font-size:11px;color:#475569;">${p.cargo}</p>
   </td>
@@ -362,7 +362,7 @@ export function emailAdminSemanal(d: DadosEmailAdminSemanal): string {
     ${barra(p.mediaPctRotinas, corPct)}
   </td>
   <td style="padding:12px 16px;border-bottom:1px solid #0b1624;text-align:center;">
-    <span style="font-size:14px;font-weight:700;color:#10b981;">${p.tarefasConcluidas}</span>
+    <span style="font-size:14px;font-weight:700;color:#36C98E;">${p.tarefasConcluidas}</span>
     <span style="font-size:11px;color:#475569;"> / ${p.tarefasConcluidas + p.tarefasAbertas}</span>
   </td>
   <td style="padding:12px 16px;border-bottom:1px solid #0b1624;text-align:center;">
@@ -389,15 +389,15 @@ export function emailAdminSemanal(d: DadosEmailAdminSemanal): string {
       <p style="margin:2px 0 0;font-size:11px;color:#475569;">Tarefas criadas</p>
     </td>
     <td style="padding:14px 16px;border-right:1px solid #1e3356;text-align:center;" width="25%">
-      <p style="margin:0;font-size:22px;font-weight:800;color:#10b981;">${d.totalConcluidas}</p>
+      <p style="margin:0;font-size:22px;font-weight:800;color:#36C98E;">${d.totalConcluidas}</p>
       <p style="margin:2px 0 0;font-size:11px;color:#475569;">Conclu&iacute;das</p>
     </td>
     <td style="padding:14px 16px;border-right:1px solid #1e3356;text-align:center;" width="25%">
-      <p style="margin:0;font-size:22px;font-weight:800;color:#3b82f6;">${d.taxaConclusao}%</p>
+      <p style="margin:0;font-size:22px;font-weight:800;color:#4D9DE0;">${d.taxaConclusao}%</p>
       <p style="margin:2px 0 0;font-size:11px;color:#475569;">Taxa conclus&atilde;o</p>
     </td>
     <td style="padding:14px 16px;text-align:center;" width="25%">
-      <p style="margin:0;font-size:22px;font-weight:800;color:#8b5cf6;">${d.equipe.length}</p>
+      <p style="margin:0;font-size:22px;font-weight:800;color:#7C6FE0;">${d.equipe.length}</p>
       <p style="margin:2px 0 0;font-size:11px;color:#475569;">Colaboradores</p>
     </td>
   </tr>

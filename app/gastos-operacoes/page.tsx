@@ -136,7 +136,7 @@ export default function GastosOperacoesPage() {
         <div className="flex items-start justify-between gap-4">
           <div>
             <h1 className="font-extrabold text-white flex items-center gap-2.5" style={{ fontSize: 26, letterSpacing: "-0.3px" }}>
-              <Receipt size={22} style={{ color: "#10b981" }} />
+              <Receipt size={22} style={{ color: "#36C98E" }} />
               Gastos Operacionais
             </h1>
             <p className="text-xs mt-1.5" style={{ color: "#9aa7ba" }}>
@@ -162,9 +162,9 @@ export default function GastosOperacoesPage() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
           { label: "Fixo Izzat/mês", valor: lojasGrupo.reduce((s, l) => s + totalFixoLoja(l.id), 0), cor: "#c9a84c", dica: "Soma dos custos fixos mensais das lojas do grupo Izzat (pagos pela empresa)" },
-          { label: "Variável Izzat", valor: lojasGrupo.reduce((s, l) => s + totalVariavelLoja(l.id), 0), cor: "#f59e0b", dica: "Custos variáveis das lojas do grupo Izzat (ex: ads, que mudam mês a mês)" },
-          { label: "Fixo Partners/mês", valor: lojasPartner.reduce((s, l) => s + totalFixoLoja(l.id), 0), cor: "#3b82f6", dica: "Custos fixos mensais das lojas parceiras (pagos pelo parceiro, não pela Izzat)" },
-          { label: "Variável Partners", valor: lojasPartner.reduce((s, l) => s + totalVariavelLoja(l.id), 0), cor: "#8b5cf6", dica: "Custos variáveis das lojas parceiras (pagos pelo parceiro)" },
+          { label: "Variável Izzat", valor: lojasGrupo.reduce((s, l) => s + totalVariavelLoja(l.id), 0), cor: "#E8A33D", dica: "Custos variáveis das lojas do grupo Izzat (ex: ads, que mudam mês a mês)" },
+          { label: "Fixo Partners/mês", valor: lojasPartner.reduce((s, l) => s + totalFixoLoja(l.id), 0), cor: "#4D9DE0", dica: "Custos fixos mensais das lojas parceiras (pagos pelo parceiro, não pela Izzat)" },
+          { label: "Variável Partners", valor: lojasPartner.reduce((s, l) => s + totalVariavelLoja(l.id), 0), cor: "#7C6FE0", dica: "Custos variáveis das lojas parceiras (pagos pelo parceiro)" },
         ].map((card) => (
           <div
             key={card.label}
@@ -196,7 +196,7 @@ export default function GastosOperacoesPage() {
       <div className="flex gap-1 p-1 rounded-xl w-fit" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         {([
           { v: "izzat" as GrupoTab, label: "Grupo Izzat", icon: Building2, cor: "#c9a84c", dica: "Lojas próprias da Izzat. Estes custos são pagos pela empresa." },
-          { v: "partner" as GrupoTab, label: "Partners", icon: Users2, cor: "#3b82f6", dica: "Lojas de parceiros. Os custos são pagos pelo parceiro — registramos para acompanhar o investimento dele." },
+          { v: "partner" as GrupoTab, label: "Partners", icon: Users2, cor: "#4D9DE0", dica: "Lojas de parceiros. Os custos são pagos pelo parceiro — registramos para acompanhar o investimento dele." },
         ]).map((tab) => (
           <button
             key={tab.v}
@@ -219,8 +219,8 @@ export default function GastosOperacoesPage() {
 
       {/* Banner contextual por grupo */}
       <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl" style={{
-        background: grupoTab === "izzat" ? "#c9a84c12" : "#3b82f612",
-        border: `1px solid ${grupoTab === "izzat" ? "#c9a84c30" : "#3b82f630"}`,
+        background: grupoTab === "izzat" ? "#c9a84c12" : "#4D9DE012",
+        border: `1px solid ${grupoTab === "izzat" ? "#c9a84c30" : "#4D9DE030"}`,
       }}>
         {grupoTab === "izzat" ? (
           <p className="text-xs" style={{ color: "#94a3b8" }}>
@@ -229,15 +229,15 @@ export default function GastosOperacoesPage() {
           </p>
         ) : (
           <p className="text-xs" style={{ color: "#94a3b8" }}>
-            <span className="font-bold" style={{ color: "#3b82f6" }}>Custo do parceiro</span> — não da Izzat.{" "}
+            <span className="font-bold" style={{ color: "#4D9DE0" }}>Custo do parceiro</span> — não da Izzat.{" "}
             Cada parceiro investiu $50k USD pela gestão e arca com ads, IA tools e plataforma.
             Registre aqui para acompanhar o investimento deles rumo ao retorno em 18 meses.
           </p>
         )}
         {(totalFixoGrupo > 0 || totalVariavelGrupo > 0) && (
           <div className="ml-auto flex items-center gap-3 flex-shrink-0">
-            {totalFixoGrupo > 0 && <span className="text-xs" style={{ color: "#9aa7ba" }}>Fixo: <span className="font-bold" style={{ color: "#10b981" }}>R$ {totalFixoGrupo.toFixed(2)}</span></span>}
-            {totalVariavelGrupo > 0 && <span className="text-xs" style={{ color: "#9aa7ba" }}>Var: <span className="font-bold" style={{ color: "#f59e0b" }}>R$ {totalVariavelGrupo.toFixed(2)}</span></span>}
+            {totalFixoGrupo > 0 && <span className="text-xs" style={{ color: "#9aa7ba" }}>Fixo: <span className="font-bold" style={{ color: "#36C98E" }}>R$ {totalFixoGrupo.toFixed(2)}</span></span>}
+            {totalVariavelGrupo > 0 && <span className="text-xs" style={{ color: "#9aa7ba" }}>Var: <span className="font-bold" style={{ color: "#E8A33D" }}>R$ {totalVariavelGrupo.toFixed(2)}</span></span>}
             <span className="text-xs font-bold text-white">= R$ {(totalFixoGrupo + totalVariavelGrupo).toFixed(2)}</span>
           </div>
         )}
@@ -265,12 +265,12 @@ export default function GastosOperacoesPage() {
                 <div className="flex items-center gap-3">
                   {fixoLoja > 0 && (
                     <span className="text-xs" style={{ color: "#9aa7ba" }}>
-                      Fixo: <span style={{ color: "#10b981" }}>R$ {fixoLoja.toFixed(2)}</span>
+                      Fixo: <span style={{ color: "#36C98E" }}>R$ {fixoLoja.toFixed(2)}</span>
                     </span>
                   )}
                   {variLoja > 0 && (
                     <span className="text-xs" style={{ color: "#9aa7ba" }}>
-                      Var: <span style={{ color: "#f59e0b" }}>R$ {variLoja.toFixed(2)}</span>
+                      Var: <span style={{ color: "#E8A33D" }}>R$ {variLoja.toFixed(2)}</span>
                     </span>
                   )}
                   {totalLoja > 0 && (
@@ -296,13 +296,13 @@ export default function GastosOperacoesPage() {
                       className="w-full flex items-center justify-between px-5 py-2 hover:bg-white/5 transition-all"
                     >
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold" style={{ color: "#10b981" }}>FIXOS</span>
-                        <span className="text-xs px-1.5 rounded-full" style={{ background: "#10b98115", color: "#10b981" }}>
+                        <span className="text-xs font-bold" style={{ color: "#36C98E" }}>FIXOS</span>
+                        <span className="text-xs px-1.5 rounded-full" style={{ background: "#36C98E15", color: "#36C98E" }}>
                           {todosGastosLoja.filter((g) => g.tipo === "fixo").length}
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        {fixoLoja > 0 && <span className="text-xs font-bold" style={{ color: "#10b981" }}>R$ {fixoLoja.toFixed(2)}/mês</span>}
+                        {fixoLoja > 0 && <span className="text-xs font-bold" style={{ color: "#36C98E" }}>R$ {fixoLoja.toFixed(2)}/mês</span>}
                         {secaoAberta[loja.id] === "fixo" ? <ChevronUp size={12} style={{ color: "#9aa7ba" }} /> : <ChevronDown size={12} style={{ color: "#9aa7ba" }} />}
                       </div>
                     </button>
@@ -319,14 +319,14 @@ export default function GastosOperacoesPage() {
                                 </span>
                               </div>
                             </div>
-                            <span className="text-xs font-bold" style={{ color: g.ativo ? "#10b981" : "#475569" }}>
+                            <span className="text-xs font-bold" style={{ color: g.ativo ? "#36C98E" : "#475569" }}>
                               {g.moeda} {g.valor.toFixed(2)}
                             </span>
                             <div className="flex items-center gap-1">
                               {confirmDeleteId === g.id ? (
                                 <>
-                                  <span className="text-xs" style={{ color: "#ef4444" }}>Apagar?</span>
-                                  <button onClick={() => { deletarGastoOp(g.id); setConfirmDeleteId(null); }} className="text-xs px-1.5 py-0.5 rounded font-bold" style={{ background: "#ef444430", color: "#ef4444" }}>Sim</button>
+                                  <span className="text-xs" style={{ color: "#F2545B" }}>Apagar?</span>
+                                  <button onClick={() => { deletarGastoOp(g.id); setConfirmDeleteId(null); }} className="text-xs px-1.5 py-0.5 rounded font-bold" style={{ background: "#F2545B30", color: "#F2545B" }}>Sim</button>
                                   <button onClick={() => setConfirmDeleteId(null)} className="text-xs px-1.5 py-0.5 rounded" style={{ background: "#1e3356", color: "#9aa7ba" }}>Não</button>
                                 </>
                               ) : (
@@ -334,10 +334,10 @@ export default function GastosOperacoesPage() {
                                   <button onClick={() => iniciarEdicao(g)} className="p-1 rounded hover:bg-white/10" style={{ color: "#9aa7ba" }}>
                                     <Pencil size={10} />
                                   </button>
-                                  <button onClick={() => toggleGastoOp(g.id)} className="p-1 rounded hover:bg-white/10" style={{ color: g.ativo ? "#64748b" : "#10b981" }}>
+                                  <button onClick={() => toggleGastoOp(g.id)} className="p-1 rounded hover:bg-white/10" style={{ color: g.ativo ? "#64748b" : "#36C98E" }}>
                                     <Check size={10} />
                                   </button>
-                                  <button onClick={() => setConfirmDeleteId(g.id)} className="p-1 rounded hover:bg-white/10" style={{ color: "#ef4444" }}>
+                                  <button onClick={() => setConfirmDeleteId(g.id)} className="p-1 rounded hover:bg-white/10" style={{ color: "#F2545B" }}>
                                     <X size={10} />
                                   </button>
                                 </>
@@ -351,7 +351,7 @@ export default function GastosOperacoesPage() {
                         )}
 
                         {adicionandoCusto?.lojaId === loja.id && adicionandoCusto.tipo === "fixo" ? (
-                          <div className="rounded-xl p-3 space-y-2" style={{ background: "#0a1a2e", border: "1px solid #10b98140" }}>
+                          <div className="rounded-xl p-3 space-y-2" style={{ background: "#0a1a2e", border: "1px solid #36C98E40" }}>
                             <div className="flex gap-2">
                               <input
                                 className="flex-1 px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
@@ -388,7 +388,7 @@ export default function GastosOperacoesPage() {
                                   <option key={k} value={k}>{v}</option>
                                 ))}
                               </select>
-                              <button onClick={() => salvarCusto(loja.id, "fixo")} className="px-3 py-1.5 rounded-lg text-xs font-bold" style={{ background: "#10b981", color: "#fff" }}>
+                              <button onClick={() => salvarCusto(loja.id, "fixo")} className="px-3 py-1.5 rounded-lg text-xs font-bold" style={{ background: "#36C98E", color: "#fff" }}>
                                 {editandoId ? "Salvar" : "Adicionar"}
                               </button>
                               <button onClick={cancelarForm} className="px-2 py-1.5 rounded-lg text-xs" style={{ background: "#1e3356", color: "#9aa7ba" }}>
@@ -400,7 +400,7 @@ export default function GastosOperacoesPage() {
                           <button
                             onClick={() => iniciarAdicao(loja.id, "fixo")}
                             className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg hover:opacity-80"
-                            style={{ color: "#10b981", background: "#10b98110", border: "1px dashed #10b98140" }}
+                            style={{ color: "#36C98E", background: "#36C98E10", border: "1px dashed #36C98E40" }}
                           >
                             <Plus size={11} /> Adicionar custo fixo
                           </button>
@@ -416,14 +416,14 @@ export default function GastosOperacoesPage() {
                       className="w-full flex items-center justify-between px-5 py-2 hover:bg-white/5 transition-all"
                     >
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold" style={{ color: "#f59e0b" }}>VARIÁVEIS</span>
-                        <span className="text-xs px-1.5 rounded-full" style={{ background: "#f59e0b15", color: "#f59e0b" }}>
+                        <span className="text-xs font-bold" style={{ color: "#E8A33D" }}>VARIÁVEIS</span>
+                        <span className="text-xs px-1.5 rounded-full" style={{ background: "#E8A33D15", color: "#E8A33D" }}>
                           {todosGastosLoja.filter((g) => g.tipo === "variavel" && g.mes === mesSelecionado).length}
                         </span>
                         <span className="text-xs" style={{ color: "#74859c" }}>{mesLabel(mesSelecionado)}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        {variLoja > 0 && <span className="text-xs font-bold" style={{ color: "#f59e0b" }}>R$ {variLoja.toFixed(2)}</span>}
+                        {variLoja > 0 && <span className="text-xs font-bold" style={{ color: "#E8A33D" }}>R$ {variLoja.toFixed(2)}</span>}
                         {secaoAberta[loja.id] === "variavel" ? <ChevronUp size={12} style={{ color: "#9aa7ba" }} /> : <ChevronDown size={12} style={{ color: "#9aa7ba" }} />}
                       </div>
                     </button>
@@ -440,14 +440,14 @@ export default function GastosOperacoesPage() {
                                 </span>
                               </div>
                             </div>
-                            <span className="text-xs font-bold" style={{ color: "#f59e0b" }}>
+                            <span className="text-xs font-bold" style={{ color: "#E8A33D" }}>
                               {g.moeda} {g.valor.toFixed(2)}
                             </span>
                             <div className="flex items-center gap-1">
                               {confirmDeleteId === g.id ? (
                                 <>
-                                  <span className="text-xs" style={{ color: "#ef4444" }}>Apagar?</span>
-                                  <button onClick={() => { deletarGastoOp(g.id); setConfirmDeleteId(null); }} className="text-xs px-1.5 py-0.5 rounded font-bold" style={{ background: "#ef444430", color: "#ef4444" }}>Sim</button>
+                                  <span className="text-xs" style={{ color: "#F2545B" }}>Apagar?</span>
+                                  <button onClick={() => { deletarGastoOp(g.id); setConfirmDeleteId(null); }} className="text-xs px-1.5 py-0.5 rounded font-bold" style={{ background: "#F2545B30", color: "#F2545B" }}>Sim</button>
                                   <button onClick={() => setConfirmDeleteId(null)} className="text-xs px-1.5 py-0.5 rounded" style={{ background: "#1e3356", color: "#9aa7ba" }}>Não</button>
                                 </>
                               ) : (
@@ -455,7 +455,7 @@ export default function GastosOperacoesPage() {
                                   <button onClick={() => iniciarEdicao(g)} className="p-1 rounded hover:bg-white/10" style={{ color: "#9aa7ba" }}>
                                     <Pencil size={10} />
                                   </button>
-                                  <button onClick={() => setConfirmDeleteId(g.id)} className="p-1 rounded hover:bg-white/10" style={{ color: "#ef4444" }}>
+                                  <button onClick={() => setConfirmDeleteId(g.id)} className="p-1 rounded hover:bg-white/10" style={{ color: "#F2545B" }}>
                                     <X size={10} />
                                   </button>
                                 </>
@@ -469,7 +469,7 @@ export default function GastosOperacoesPage() {
                         )}
 
                         {adicionandoCusto?.lojaId === loja.id && adicionandoCusto.tipo === "variavel" ? (
-                          <div className="rounded-xl p-3 space-y-2" style={{ background: "#0a1a2e", border: "1px solid #f59e0b40" }}>
+                          <div className="rounded-xl p-3 space-y-2" style={{ background: "#0a1a2e", border: "1px solid #E8A33D40" }}>
                             <div className="flex gap-2">
                               <input
                                 className="flex-1 px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
@@ -506,7 +506,7 @@ export default function GastosOperacoesPage() {
                                   <option key={k} value={k}>{v}</option>
                                 ))}
                               </select>
-                              <button onClick={() => salvarCusto(loja.id, "variavel")} className="px-3 py-1.5 rounded-lg text-xs font-bold" style={{ background: "#f59e0b", color: "#000" }}>
+                              <button onClick={() => salvarCusto(loja.id, "variavel")} className="px-3 py-1.5 rounded-lg text-xs font-bold" style={{ background: "#E8A33D", color: "#000" }}>
                                 {editandoId ? "Salvar" : "Adicionar"}
                               </button>
                               <button onClick={cancelarForm} className="px-2 py-1.5 rounded-lg text-xs" style={{ background: "#1e3356", color: "#9aa7ba" }}>
@@ -518,7 +518,7 @@ export default function GastosOperacoesPage() {
                           <button
                             onClick={() => iniciarAdicao(loja.id, "variavel")}
                             className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg hover:opacity-80"
-                            style={{ color: "#f59e0b", background: "#f59e0b10", border: "1px dashed #f59e0b40" }}
+                            style={{ color: "#E8A33D", background: "#E8A33D10", border: "1px dashed #E8A33D40" }}
                           >
                             <Plus size={11} /> Adicionar gasto variável
                           </button>

@@ -24,11 +24,11 @@ export default function AbaEntregas() {
   return (
     <div className="space-y-3">
       {/* Cabeçalho */}
-      <div className="flex items-center justify-between p-3 rounded-xl" style={{ background: "#10b98110", border: "1px solid #10b98125", borderLeft: "3px solid #10b981" }}>
+      <div className="flex items-center justify-between p-3 rounded-xl" style={{ background: "#36C98E10", border: "1px solid #36C98E25", borderLeft: "3px solid #36C98E" }}>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-0.5">
-            <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "#10b981" }}>ENTREGAS DA SEMANA</span>
-            <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#10b98120", color: "#10b981" }}>Compromissos até sexta</span>
+            <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "#36C98E" }}>ENTREGAS DA SEMANA</span>
+            <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#36C98E20", color: "#36C98E" }}>Compromissos até sexta</span>
           </div>
           <p className="text-xs" style={{ color: "#74859c" }}>
             O que você se comprometeu a entregar esta semana. Registre e atualize o status.
@@ -36,14 +36,14 @@ export default function AbaEntregas() {
         </div>
         <div className="flex items-center gap-2 flex-shrink-0 ml-3">
           {minhasEntregas.length > 0 && (
-            <span className="text-sm font-bold px-2 py-0.5 rounded-full" style={{ background: "#10b98120", color: "#10b981" }}>
+            <span className="text-sm font-bold px-2 py-0.5 rounded-full" style={{ background: "#36C98E20", color: "#36C98E" }}>
               {minhasEntregas.filter(e => e.status === "entregue").length}/{minhasEntregas.length}
             </span>
           )}
           <button
             onClick={() => setShowAdd(true)}
             className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium"
-            style={{ background: "#10b98120", color: "#10b981" }}
+            style={{ background: "#36C98E20", color: "#36C98E" }}
           >
             <Plus size={12} /> Adicionar
           </button>
@@ -87,20 +87,20 @@ export default function AbaEntregas() {
       )}
 
       {minhasEntregas.map((e) => (
-        <div key={e.id} className="rounded-2xl p-3" style={{ background: "#112239", border: `1px solid ${e.status === "travado" ? "#ef444440" : "#1e3356"}` }}>
+        <div key={e.id} className="rounded-2xl p-3" style={{ background: "#112239", border: `1px solid ${e.status === "travado" ? "#F2545B40" : "#1e3356"}` }}>
           <div className="flex items-start gap-2">
             <div className="flex-shrink-0 mt-0.5">
-              {e.status === "entregue" && <CheckCircle2 size={16} style={{ color: "#10b981" }} />}
-              {e.status === "em_andamento" && <Clock size={16} style={{ color: "#3b82f6" }} />}
-              {e.status === "travado" && <AlertTriangle size={16} style={{ color: "#ef4444" }} />}
+              {e.status === "entregue" && <CheckCircle2 size={16} style={{ color: "#36C98E" }} />}
+              {e.status === "em_andamento" && <Clock size={16} style={{ color: "#4D9DE0" }} />}
+              {e.status === "travado" && <AlertTriangle size={16} style={{ color: "#F2545B" }} />}
               {e.status === "pendente" && <Circle size={16} style={{ color: "#9aa7ba" }} />}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm" style={{ color: e.status === "entregue" ? "#64748b" : e.status === "travado" ? "#ef4444" : "#e8edf5", textDecoration: e.status === "entregue" ? "line-through" : "none" }}>
+              <p className="text-sm" style={{ color: e.status === "entregue" ? "#64748b" : e.status === "travado" ? "#F2545B" : "#e8edf5", textDecoration: e.status === "entregue" ? "line-through" : "none" }}>
                 {e.titulo}
               </p>
               {e.status === "travado" && e.motivoTravado && (
-                <p className="text-xs mt-0.5" style={{ color: "#ef444480" }}>{e.motivoTravado}</p>
+                <p className="text-xs mt-0.5" style={{ color: "#F2545B80" }}>{e.motivoTravado}</p>
               )}
               {travandoId === e.id && (
                 <div className="mt-2 flex gap-2">
@@ -110,29 +110,29 @@ export default function AbaEntregas() {
                     onChange={(ev) => setMotivoTravado(ev.target.value)}
                     placeholder="Por que está travado? (opcional)"
                     className="flex-1 px-2.5 py-1.5 rounded-lg text-xs text-white outline-none"
-                    style={{ background: "#1e3356", border: "1px solid #ef444440" }}
+                    style={{ background: "#1e3356", border: "1px solid #F2545B40" }}
                     onKeyDown={(ev) => {
                       if (ev.key === "Enter") { atualizarStatusEntrega(e.id, "travado", motivoTravado || undefined); setTravandoId(null); setMotivoTravado(""); }
                       if (ev.key === "Escape") { setTravandoId(null); setMotivoTravado(""); }
                     }}
                   />
-                  <button onClick={() => { atualizarStatusEntrega(e.id, "travado", motivoTravado || undefined); setTravandoId(null); setMotivoTravado(""); }} className="px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#ef444420", color: "#ef4444" }}>Confirmar</button>
+                  <button onClick={() => { atualizarStatusEntrega(e.id, "travado", motivoTravado || undefined); setTravandoId(null); setMotivoTravado(""); }} className="px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#F2545B20", color: "#F2545B" }}>Confirmar</button>
                   <button onClick={() => { setTravandoId(null); setMotivoTravado(""); }} className="px-2 py-1 rounded-lg" style={{ color: "#9aa7ba" }}><X size={12} /></button>
                 </div>
               )}
             </div>
             <div className="flex items-center gap-1 flex-shrink-0">
               {e.status === "pendente" && (
-                <button onClick={() => atualizarStatusEntrega(e.id, "em_andamento")} className="px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#3b82f615", color: "#3b82f6" }}>Iniciar</button>
+                <button onClick={() => atualizarStatusEntrega(e.id, "em_andamento")} className="px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#4D9DE015", color: "#4D9DE0" }}>Iniciar</button>
               )}
               {e.status === "em_andamento" && travandoId !== e.id && (
                 <>
-                  <button onClick={() => atualizarStatusEntrega(e.id, "entregue")} className="px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#10b98115", color: "#10b981" }}>Entregar</button>
-                  <button onClick={() => setTravandoId(e.id)} className="px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#ef444415", color: "#ef4444" }}>Travado</button>
+                  <button onClick={() => atualizarStatusEntrega(e.id, "entregue")} className="px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#36C98E15", color: "#36C98E" }}>Entregar</button>
+                  <button onClick={() => setTravandoId(e.id)} className="px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#F2545B15", color: "#F2545B" }}>Travado</button>
                 </>
               )}
               {e.status === "travado" && travandoId !== e.id && (
-                <button onClick={() => atualizarStatusEntrega(e.id, "em_andamento")} className="px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#3b82f615", color: "#3b82f6" }}>Retomar</button>
+                <button onClick={() => atualizarStatusEntrega(e.id, "em_andamento")} className="px-2 py-1 rounded-lg text-xs font-medium" style={{ background: "#4D9DE015", color: "#4D9DE0" }}>Retomar</button>
               )}
               <button onClick={() => deletarEntregaSemanal(e.id)} className="p-1 rounded-lg ml-0.5" style={{ color: "#334155" }}><Trash2 size={12} /></button>
             </div>

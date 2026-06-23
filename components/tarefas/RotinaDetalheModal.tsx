@@ -59,14 +59,14 @@ export default function RotinaDetalheModal({ rotinaId, onClose }: { rotinaId: st
             <button
               onClick={() => concluirRotina(rotina.id)}
               className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-bold"
-              style={{ background: "#10b98120", color: "#10b981" }}
+              style={{ background: "#36C98E20", color: "#36C98E" }}
             >
               <CheckCircle2 size={15} /> Concluir
             </button>
             <button
               onClick={() => abrirPomodoro(rotina.id, rotina.titulo)}
               className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-bold"
-              style={{ background: "#3b82f620", color: "#3b82f6" }}
+              style={{ background: "#4D9DE020", color: "#4D9DE0" }}
               data-tip="Inicia um cronômetro de foco de 25 min para você fazer esta tarefa sem distração"
             >
               <Play size={15} /> Iniciar tarefa
@@ -105,7 +105,7 @@ export default function RotinaDetalheModal({ rotinaId, onClose }: { rotinaId: st
                   <div key={sub.id} className="rounded-xl" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
                     <div className="flex items-center gap-2 p-2.5">
                       <button onClick={() => marcarSubtarefa(rotina.id, sub.id, !sub.concluida)} className="flex-shrink-0" data-tip="Marcar como feita">
-                        {sub.concluida ? <CheckCircle2 size={18} style={{ color: "#10b981" }} /> : <Circle size={18} style={{ color: "#74859c" }} />}
+                        {sub.concluida ? <CheckCircle2 size={18} style={{ color: "#36C98E" }} /> : <Circle size={18} style={{ color: "#74859c" }} />}
                       </button>
                       <input
                         defaultValue={sub.titulo}
@@ -113,10 +113,10 @@ export default function RotinaDetalheModal({ rotinaId, onClose }: { rotinaId: st
                         className="flex-1 bg-transparent text-sm outline-none"
                         style={{ color: sub.concluida ? "#64748b" : "#e2e8f0", textDecoration: sub.concluida ? "line-through" : "none" }}
                       />
-                      <button onClick={() => setSubAberta(aberta ? null : sub.id)} className="flex-shrink-0 p-1 rounded-lg" style={{ color: sub.descricao ? "#3b82f6" : "#475569" }} data-tip="Adicionar descrição / observação">
+                      <button onClick={() => setSubAberta(aberta ? null : sub.id)} className="flex-shrink-0 p-1 rounded-lg" style={{ color: sub.descricao ? "#4D9DE0" : "#475569" }} data-tip="Adicionar descrição / observação">
                         <AlignLeft size={14} />
                       </button>
-                      <button onClick={() => abrirPomodoro(rotina.id, `${rotina.titulo} — ${sub.titulo}`)} className="flex-shrink-0 p-1 rounded-lg" style={{ color: "#3b82f6" }} data-tip="Iniciar foco só nesta subtarefa">
+                      <button onClick={() => abrirPomodoro(rotina.id, `${rotina.titulo} — ${sub.titulo}`)} className="flex-shrink-0 p-1 rounded-lg" style={{ color: "#4D9DE0" }} data-tip="Iniciar foco só nesta subtarefa">
                         <Play size={14} />
                       </button>
                       <button onClick={() => removeSub(sub.id)} className="flex-shrink-0 p-1 rounded-lg" style={{ color: "#74859c" }} data-tip="Remover subtarefa">

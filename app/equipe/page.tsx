@@ -65,7 +65,7 @@ export default function EquipePage() {
             {"Todos os membros da sua equipe em um lugar só"}
           </p>
           <div className="flex items-center gap-3 mt-2 flex-wrap">
-            <span className="px-2.5 py-1 rounded-lg text-xs font-semibold" style={{ background: "#10b98120", color: "#10b981" }}>
+            <span className="px-2.5 py-1 rounded-lg text-xs font-semibold" style={{ background: "#36C98E20", color: "#36C98E" }}>
               {colaboradores.filter((c) => c.statusOnline?.ativo).length} online agora
             </span>
             <span className="text-xs" style={{ color: "#74859c" }}>
@@ -89,8 +89,8 @@ export default function EquipePage() {
         {colaboradores.map((c) => {
           const pctRotina = calcProgresso(rotinasDoColaborador(rotinas, c.id));
           const pctExp = calcExpectativas(c.expectativas);
-          const corRotina = pctRotina === 100 ? "#10b981" : pctRotina >= 50 ? "#f59e0b" : "#ef4444";
-          const corExp = pctExp === 100 ? "#10b981" : pctExp >= 50 ? "#f59e0b" : "#ef4444";
+          const corRotina = pctRotina === 100 ? "#36C98E" : pctRotina >= 50 ? "#E8A33D" : "#F2545B";
+          const corExp = pctExp === 100 ? "#36C98E" : pctExp >= 50 ? "#E8A33D" : "#F2545B";
           const top3 = [...c.habilidades].sort((a, b) => b.nivel - a.nivel).slice(0, 3);
           const nivelInfo = calcNivel(c.xp || 0);
           return (
@@ -106,7 +106,7 @@ export default function EquipePage() {
                   <div className="flex items-center gap-2">
                     <p className="text-white font-semibold text-sm truncate">{c.nome}</p>
                     <div className="w-2 h-2 rounded-full flex-shrink-0"
-                      style={{ background: c.statusOnline?.ativo ? (c.statusOnline.foco ? "#f97316" : "#10b981") : "#475569" }} />
+                      style={{ background: c.statusOnline?.ativo ? (c.statusOnline.foco ? "#E8733D" : "#36C98E") : "#475569" }} />
                   </div>
                   <p className="text-xs truncate" style={{ color: "#9aa7ba" }}>{c.cargo}</p>
                   {c.statusOnline?.ativo && c.statusOnline?.trabalhando && (
@@ -119,8 +119,8 @@ export default function EquipePage() {
                     <span className="text-xs" style={{ color: nivelInfo.cor }}>{nivelInfo.nome}</span>
                     {(c.streak || 0) > 0 && (
                       <>
-                        <Flame size={10} style={{ color: "#f59e0b" }} />
-                        <span className="text-xs" style={{ color: "#f59e0b" }}>{c.streak}d</span>
+                        <Flame size={10} style={{ color: "#E8A33D" }} />
+                        <span className="text-xs" style={{ color: "#E8A33D" }}>{c.streak}d</span>
                       </>
                     )}
                   </div>
@@ -128,7 +128,7 @@ export default function EquipePage() {
                 <div className="flex flex-col items-end gap-1">
                   <span className="text-xs font-bold" style={{ color: "#74859c" }}>{c.xp || 0} XP</span>
                   <span className="text-xs font-semibold"
-                    style={{ color: c.statusOnline?.ativo ? (c.statusOnline.foco ? "#f97316" : "#10b981") : "#475569" }}>
+                    style={{ color: c.statusOnline?.ativo ? (c.statusOnline.foco ? "#E8733D" : "#36C98E") : "#475569" }}>
                     {c.statusOnline?.ativo ? (c.statusOnline.foco ? "No Foco" : "Online") : "Offline"}
                   </span>
                 </div>
@@ -328,9 +328,9 @@ export default function EquipePage() {
                       onClick={() => setForm({ ...form, nivelAcesso: n })}
                       className="py-2 rounded-xl text-sm font-semibold transition-all"
                       style={{
-                        background: form.nivelAcesso === n ? (n === "admin" ? "#c9a84c20" : "#10b98120") : "#0b1624",
-                        color: form.nivelAcesso === n ? (n === "admin" ? "#c9a84c" : "#10b981") : "#64748b",
-                        border: `1px solid ${form.nivelAcesso === n ? (n === "admin" ? "#c9a84c50" : "#10b98150") : "#1e3356"}`,
+                        background: form.nivelAcesso === n ? (n === "admin" ? "#c9a84c20" : "#36C98E20") : "#0b1624",
+                        color: form.nivelAcesso === n ? (n === "admin" ? "#c9a84c" : "#36C98E") : "#64748b",
+                        border: `1px solid ${form.nivelAcesso === n ? (n === "admin" ? "#c9a84c50" : "#36C98E50") : "#1e3356"}`,
                       }}
                     >
                       {n === "admin" ? "Admin / Gestor" : "Colaborador"}
@@ -344,7 +344,7 @@ export default function EquipePage() {
                 </p>
               </div>
 
-              {erro && <p className="text-xs" style={{ color: "#ef4444" }}>{erro}</p>}
+              {erro && <p className="text-xs" style={{ color: "#F2545B" }}>{erro}</p>}
 
               <button
                 onClick={handleCriar}

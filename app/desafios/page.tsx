@@ -10,11 +10,11 @@ import MeuProgresso from "@/components/MeuProgresso";
 // ─── CONFIG ────────────────────────────────────────────────────────────────────
 
 const CAT: Record<CategoriaDesafio, { label: string; emoji: string; cor: string }> = {
-  movimento:   { label: "Movimento",   emoji: "🏃", cor: "#10b981" },
-  hidratacao:  { label: "Hidratação",  emoji: "💧", cor: "#3b82f6" },
-  estudo:      { label: "Estudo",      emoji: "📚", cor: "#8b5cf6" },
+  movimento:   { label: "Movimento",   emoji: "🏃", cor: "#36C98E" },
+  hidratacao:  { label: "Hidratação",  emoji: "💧", cor: "#4D9DE0" },
+  estudo:      { label: "Estudo",      emoji: "📚", cor: "#7C6FE0" },
   sono:        { label: "Sono",        emoji: "😴", cor: "#6366f1" },
-  alimentacao: { label: "Alimentação", emoji: "🥗", cor: "#f59e0b" },
+  alimentacao: { label: "Alimentação", emoji: "🥗", cor: "#E8A33D" },
   outro:       { label: "Outro",       emoji: "⭐", cor: "#c9a84c" },
 };
 
@@ -162,7 +162,7 @@ function Heatmap({ datas, dataInicio, dataFim, h }: { datas: Set<string>; dataIn
                     style={{
                       width: 14, height: 14,
                       borderRadius: 3,
-                      background: !inRange ? "transparent" : isFuture ? "#1e335640" : done ? "#10b981" : "#1e3356",
+                      background: !inRange ? "transparent" : isFuture ? "#1e335640" : done ? "#36C98E" : "#1e3356",
                       border: isToday ? "1.5px solid #c9a84c" : "1px solid transparent",
                       opacity: !inRange ? 0 : 1,
                     }}
@@ -202,7 +202,7 @@ function BarChart7({ datas, dataInicio, dataFim, h }: { datas: Set<string>; data
                   style={{
                     height: done ? "100%" : "14%",
                     borderRadius: done ? 4 : "0 0 4px 4px",
-                    background: done ? "#10b981" : "#ef444440",
+                    background: done ? "#36C98E" : "#F2545B40",
                   }}
                 />
               )}
@@ -402,7 +402,7 @@ function DetalheDesafio({
         </div>
         <div className="rounded-xl p-3 text-center" style={{ background: "#1e335640" }}>
           <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Streak atual</p>
-          <p className="font-black text-lg" style={{ color: streak > 0 ? "#f59e0b" : "#334155" }}>
+          <p className="font-black text-lg" style={{ color: streak > 0 ? "#E8A33D" : "#334155" }}>
             {streak > 0 ? "🔥" : "💤"} {streak}d
           </p>
         </div>
@@ -441,7 +441,7 @@ function DetalheDesafio({
         <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "#74859c" }}>Calendário do Desafio</p>
         <Heatmap datas={meuSet} dataInicio={desafio.dataInicio} dataFim={desafio.dataFim} h={h} />
         <div className="flex items-center gap-3 mt-2">
-          <div className="flex items-center gap-1"><div style={{ width: 10, height: 10, borderRadius: 2, background: "#10b981" }} /><span className="text-xs" style={{ color: "#74859c" }}>Feito</span></div>
+          <div className="flex items-center gap-1"><div style={{ width: 10, height: 10, borderRadius: 2, background: "#36C98E" }} /><span className="text-xs" style={{ color: "#74859c" }}>Feito</span></div>
           <div className="flex items-center gap-1"><div style={{ width: 10, height: 10, borderRadius: 2, background: "#1e3356" }} /><span className="text-xs" style={{ color: "#74859c" }}>Não feito</span></div>
           <div className="flex items-center gap-1"><div style={{ width: 10, height: 10, borderRadius: 2, background: "#1e335640", border: "1px dashed #334155" }} /><span className="text-xs" style={{ color: "#74859c" }}>Futuro</span></div>
         </div>
@@ -460,7 +460,7 @@ function DetalheDesafio({
           <div className="space-y-1.5">
             {ranking.slice(0, 5).map((r, i) => (
               <div key={r.c.id} className="flex items-center gap-3 px-3 py-2 rounded-xl" style={{ background: i === 0 ? "#c9a84c12" : "#1e335430", border: i === 0 ? "1px solid #c9a84c25" : "1px solid transparent" }}>
-                <span className="text-sm w-5 text-center font-black" style={{ color: i === 0 ? "#c9a84c" : i === 1 ? "#94a3b8" : i === 2 ? "#f59e0b80" : "#475569" }}>
+                <span className="text-sm w-5 text-center font-black" style={{ color: i === 0 ? "#c9a84c" : i === 1 ? "#94a3b8" : i === 2 ? "#E8A33D80" : "#475569" }}>
                   {i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}`}
                 </span>
                 <Avatar nome={r.c.nome} avatar={r.c.avatar} foto={r.c.foto} cor={r.c.cor} size={24} />
@@ -574,8 +574,8 @@ export default function DesafiosPage() {
   }
 
   const FILTROS: { key: typeof filtro; label: string; cor: string; dica: string }[] = [
-    { key: "andamento", label: "Em andamento", cor: "#10b981", dica: "Desafios acontecendo agora (entre a data de início e fim)" },
-    { key: "proximo", label: "Próximos", cor: "#3b82f6", dica: "Desafios que ainda vão começar" },
+    { key: "andamento", label: "Em andamento", cor: "#36C98E", dica: "Desafios acontecendo agora (entre a data de início e fim)" },
+    { key: "proximo", label: "Próximos", cor: "#4D9DE0", dica: "Desafios que ainda vão começar" },
     { key: "encerrado", label: "Encerrados", cor: "#64748b", dica: "Desafios que já terminaram" },
     { key: "todos", label: "Todos", cor: "#c9a84c", dica: "Mostrar todos os desafios" },
   ];
@@ -614,7 +614,7 @@ export default function DesafiosPage() {
         </div>
         <div className="rounded-2xl p-4 text-center" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }} data-tip="Sua maior sequência de dias seguidos fazendo check-in num desafio">
           <p className="text-xs mb-1" style={{ color: "#9aa7ba" }}>Streak ativo</p>
-          <p className="text-2xl font-black" style={{ color: meuMelhorStreak > 0 ? "#f59e0b" : "#334155" }}>
+          <p className="text-2xl font-black" style={{ color: meuMelhorStreak > 0 ? "#E8A33D" : "#334155" }}>
             {meuMelhorStreak > 0 ? "🔥" : "💤"} {meuMelhorStreak}
           </p>
           <p className="text-xs mt-0.5" style={{ color: "#74859c" }}>dias seguidos</p>
@@ -687,8 +687,8 @@ export default function DesafiosPage() {
             const pctTime = colaboradores.length > 0 ? Math.round((new Set(teamHoje.map((ci) => ci.colaboradorId)).size / colaboradores.length) * 100) : 0;
 
             const STATUS_LABEL: Record<string, { label: string; cor: string; bg: string }> = {
-              andamento: { label: "Em andamento", cor: "#10b981", bg: "#10b98120" },
-              proximo:   { label: "Próximo",       cor: "#3b82f6", bg: "#3b82f620" },
+              andamento: { label: "Em andamento", cor: "#36C98E", bg: "#36C98E20" },
+              proximo:   { label: "Próximo",       cor: "#4D9DE0", bg: "#4D9DE020" },
               encerrado: { label: "Encerrado",     cor: "#64748b", bg: "#64748b20" },
             };
             const sl = STATUS_LABEL[status];
@@ -745,7 +745,7 @@ export default function DesafiosPage() {
                         </button>
                         {confirmDelete === desafio.id ? (
                           <div className="flex items-center gap-1">
-                            <button onClick={() => { deletarDesafio(desafio.id); setConfirmDelete(null); if (selectedId === desafio.id) setSelectedId(null); }} className="px-2 py-1 rounded-lg text-xs font-bold" style={{ background: "#ef444420", color: "#ef4444" }}>
+                            <button onClick={() => { deletarDesafio(desafio.id); setConfirmDelete(null); if (selectedId === desafio.id) setSelectedId(null); }} className="px-2 py-1 rounded-lg text-xs font-bold" style={{ background: "#F2545B20", color: "#F2545B" }}>
                               Sim
                             </button>
                             <button onClick={() => setConfirmDelete(null)} className="px-2 py-1 rounded-lg text-xs" style={{ color: "#9aa7ba" }}>
@@ -769,10 +769,10 @@ export default function DesafiosPage() {
                           <Users size={11} className="inline mr-1" />
                           {new Set(teamHoje.map((ci) => ci.colaboradorId)).size}/{colaboradores.length} hoje
                         </span>
-                        <span className="text-xs font-semibold" style={{ color: pctTime >= 80 ? "#10b981" : pctTime >= 50 ? "#f59e0b" : "#94a3b8" }}>{pctTime}%</span>
+                        <span className="text-xs font-semibold" style={{ color: pctTime >= 80 ? "#36C98E" : pctTime >= 50 ? "#E8A33D" : "#94a3b8" }}>{pctTime}%</span>
                       </div>
                       <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "#1e3356" }}>
-                        <div className="h-full rounded-full transition-all" style={{ width: `${pctTime}%`, background: pctTime >= 80 ? "#10b981" : pctTime >= 50 ? "#f59e0b" : "#3b82f6" }} />
+                        <div className="h-full rounded-full transition-all" style={{ width: `${pctTime}%`, background: pctTime >= 80 ? "#36C98E" : pctTime >= 50 ? "#E8A33D" : "#4D9DE0" }} />
                       </div>
                       {membrosHoje.length > 0 && (
                         <div className="flex items-center gap-1 mt-2 flex-wrap">
@@ -793,7 +793,7 @@ export default function DesafiosPage() {
                   <div className="flex items-center justify-between mt-4 pt-3" style={{ borderTop: "1px solid rgba(201,164,66,.16)" }}>
                     <div className="flex items-center gap-3">
                       {meuStreak > 0 && (
-                        <span className="flex items-center gap-1 text-sm font-bold" style={{ color: "#f59e0b" }}>
+                        <span className="flex items-center gap-1 text-sm font-bold" style={{ color: "#E8A33D" }}>
                           <Flame size={14} /> {meuStreak} dias
                         </span>
                       )}
@@ -819,7 +819,7 @@ export default function DesafiosPage() {
                           <button
                             onClick={() => desfazerCheckIn(desafio.id, h)}
                             className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-bold transition-all hover:opacity-80"
-                            style={{ background: "#10b98125", color: "#10b981", border: "1px solid #10b98140" }}
+                            style={{ background: "#36C98E25", color: "#36C98E", border: "1px solid #36C98E40" }}
                           >
                             <CheckCircle2 size={14} /> Feito hoje!
                           </button>
@@ -856,7 +856,7 @@ export default function DesafiosPage() {
           <div className="flex items-center gap-2 mb-4">
             <Trophy size={16} style={{ color: "#c9a84c" }} />
             <p className="text-sm font-bold text-white">Ranking da Semana</p>
-            <span className="text-xs px-2 py-0.5 rounded-full ml-auto" style={{ background: "#3b82f615", color: "#3b82f6", border: "1px solid #3b82f620" }}>
+            <span className="text-xs px-2 py-0.5 rounded-full ml-auto" style={{ background: "#4D9DE015", color: "#4D9DE0", border: "1px solid #4D9DE020" }}>
               reseta segunda
             </span>
           </div>
@@ -874,10 +874,10 @@ export default function DesafiosPage() {
                   <div className="flex items-center gap-1">
                     <div className="flex gap-0.5">
                       {Array.from({ length: Math.min(r.n, 7) }).map((_, j) => (
-                        <div key={j} style={{ width: 6, height: 6, borderRadius: 2, background: "#10b981" }} />
+                        <div key={j} style={{ width: 6, height: 6, borderRadius: 2, background: "#36C98E" }} />
                       ))}
                     </div>
-                    <span className="text-xs font-bold ml-1" style={{ color: "#10b981" }}>{r.n}</span>
+                    <span className="text-xs font-bold ml-1" style={{ color: "#36C98E" }}>{r.n}</span>
                   </div>
                 </div>
               ))}
