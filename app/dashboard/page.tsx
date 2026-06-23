@@ -8,9 +8,88 @@ import Image from "next/image";
 import { calcNivel } from "@/lib/data";
 import { rotinasDoColaborador } from "@/lib/recorrencia";
 import Tip from "@/components/Tip";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { useNotifications } from "@/hooks/useNotifications";
 import StoriesBar from "@/components/StoriesBar";
+
+const QUICK_ACCESS_TOOLS: {
+  label: string; href: string; desc: string;
+  bg?: string; icon?: string; light?: boolean; svgIcon?: ReactNode;
+}[] = [
+  {
+    label: "Chat", href: "https://chat.google.com/app/home",
+    desc: "Google Chat — conversas e grupos do time",
+    bg: "transparent",
+    svgIcon: (
+      <svg viewBox="0 0 256 256" width={32} height={32}>
+        <path fill="#00AC47" d="M208 32H48A16 16 0 0 0 32 48V192a16 16 0 0 0 16 16h54.06l14.09 25.65A8 8 0 0 0 123 236a8 8 0 0 0 6.95-4.35L144.06 208H208a16 16 0 0 0 16-16V48A16 16 0 0 0 208 32Z"/>
+        <circle fill="white" cx="88" cy="120" r="12"/>
+        <circle fill="white" cx="128" cy="120" r="12"/>
+        <circle fill="white" cx="168" cy="120" r="12"/>
+      </svg>
+    ),
+  },
+  {
+    label: "Meet", href: "https://meet.google.com/",
+    desc: "Google Meet — reuniões por vídeo",
+    bg: "transparent",
+    svgIcon: (
+      <svg viewBox="0 0 48 48" width={32} height={32}>
+        <path fill="#00897B" d="M5 16.5A3.5 3.5 0 0 1 8.5 13H28a3.5 3.5 0 0 1 3.5 3.5V24l9-7v14l-9-7v7.5A3.5 3.5 0 0 1 28 35H8.5A3.5 3.5 0 0 1 5 31.5Z"/>
+      </svg>
+    ),
+  },
+  {
+    label: "Drive", href: "https://drive.google.com/",
+    desc: "Google Drive — arquivos, criativos e documentos das lojas",
+    bg: "transparent",
+    svgIcon: (
+      <svg viewBox="0 0 87.3 78" width={32} height={28}>
+        <path d="M6.6 66.85l3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8H0A15.46 15.46 0 0 0 6.6 66.85z" fill="#0066da"/>
+        <path d="M43.65 25 29.9 1.2c-1.35.8-2.5 1.9-3.3 3.3L.85 45.15A15.55 15.55 0 0 0 0 53h27.5z" fill="#00ac47"/>
+        <path d="M73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5H59.8l5.85 11.5z" fill="#ea4335"/>
+        <path d="M43.65 25 57.4 1.2C56.05.4 54.5 0 52.9 0H34.4c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/>
+        <path d="M59.8 53h27.5c0-1.55-.4-3.1-1.2-4.5L73.7 26.6c-.8-1.4-1.95-2.5-3.3-3.3L56.65 46.35z" fill="#2684fc"/>
+        <path d="M27.5 53 13.75 76.8c1.35.8 2.9 1.2 4.5 1.2h51.4c1.6 0 3.1-.45 4.5-1.2z" fill="#ffba00"/>
+      </svg>
+    ),
+  },
+  {
+    label: "Miro", href: "https://miro.com/",
+    desc: "Miro — quadros colaborativos e brainstorm",
+    bg: "#FFD02F", icon: "/icons/miro.svg", light: true,
+  },
+  {
+    label: "WhatsApp", href: "https://wa.me/",
+    desc: "WhatsApp — toque para abrir no app",
+    bg: "#25D366",
+    svgIcon: (
+      <svg viewBox="0 0 32 32" width={22} height={22}>
+        <path fill="white" d="M16 3C8.832 3 3 8.832 3 16c0 2.35.633 4.547 1.73 6.45L3 29l6.727-1.703A12.9 12.9 0 0 0 16 29c7.168 0 13-5.832 13-13S23.168 3 16 3zm0 2c6.086 0 11 4.914 11 11s-4.914 11-11 11c-2.02 0-3.902-.55-5.52-1.504l-.387-.23-4.004 1.016 1.04-3.91-.254-.406A10.94 10.94 0 0 1 5 16c0-6.086 4.914-11 11-11zm-3.547 5.379c-.2 0-.527.074-.8.371-.274.3-1.047 1.02-1.047 2.489s1.07 2.887 1.22 3.086c.15.2 2.075 3.168 5.07 4.316 2.51.988 3.02.793 3.563.742.543-.05 1.754-.715 2-.406.246.31.246 1.774.246 1.774s-.742.578-1.078.7c-.336.12-.8.15-.8.15s-1.32.15-3.082-.5c-1.762-.65-3.672-2.262-4.91-3.727-1.235-1.46-2.41-3.355-2.527-4.898-.117-1.543.633-2.68 1.148-3.14.516-.46 1.114-.5 1.372-.5.254 0 .508 0 .73.008.234.008.547-.09.856.652.31.742 1.05 2.566 1.14 2.754.09.188.15.41.02.664-.133.254-.2.41-.39.633-.188.223-.403.496-.574.668-.188.188-.383.39-.164.766.218.375.965 1.59 2.07 2.578 1.42 1.265 2.617 1.656 2.988 1.84.375.184.594.156.813-.094.218-.25.937-1.094 1.187-1.469.25-.375.5-.312.844-.187.34.125 2.164 1.02 2.535 1.207.375.188.625.28.715.438.086.156.086.89-.21 1.75z"/>
+      </svg>
+    ),
+  },
+  {
+    label: "Claude", href: "https://claude.ai/",
+    desc: "Claude (IA) — assistente para trabalho e criação",
+    bg: "#C96442",
+    svgIcon: (
+      <svg viewBox="0 0 24 24" width={22} height={22} fill="none">
+        <path fill="white" d="M12 2L7 8.5 2 12l5 3.5L12 22l5-6.5L22 12l-5-3.5z"/>
+      </svg>
+    ),
+  },
+  {
+    label: "tl;dv", href: "https://tldv.io/",
+    desc: "tl;dv — gravação e transcrição de reuniões com IA",
+    bg: "#0F0F0F",
+    svgIcon: (
+      <svg viewBox="0 0 40 40" width={26} height={26}>
+        <text x="20" y="27" textAnchor="middle" fill="#F5A623" fontSize="14" fontWeight="900" fontFamily="monospace">tl;dv</text>
+      </svg>
+    ),
+  },
+];
 
 function calcProgresso(rotinas: { concluida: boolean; subtarefas: { concluida: boolean }[] }[]) {
   if (!rotinas.length) return 100;
@@ -339,6 +418,7 @@ export default function DashboardPage() {
       </div>
 
       {/* KPI Cards */}
+      <div data-tour="kpis">
       {isAdmin ? (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <KPICard icon={<TrendingUp size={20} />} label="Progresso do Time" value={`${mediaProgresso}%`} cor="#10b981" dica="Média de conclusão de rotinas diárias de toda a equipe hoje. 100% = todos concluíram suas rotinas." href="/equipe" />
@@ -369,51 +449,32 @@ export default function DashboardPage() {
           })()}
         </div>
       )}
+      </div>
 
       {/* Acesso Rapido — Ferramentas */}
-      <div className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
+      <div data-tour="acesso-rapido" className="rounded-2xl p-4" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
         <div className="flex items-center gap-2 mb-3">
           <p className="text-section-label" data-tip="Atalhos para as ferramentas externas que o time usa no dia a dia. Abrem em nova aba.">Acesso Rápido</p>
         </div>
         <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
-          {([
-            { label: "Chat",     icon: "/icons/googlechat.svg",  href: "https://chat.google.com/app/home", bg: "#00AC47", light: false, desc: "Google Chat — conversas e grupos do time" },
-            { label: "Meet",     icon: "/icons/googlemeet.svg",  href: "https://meet.google.com/",          bg: "#00897B", light: false, desc: "Google Meet — reuniões por vídeo" },
-            { label: "Drive",    icon: "/icons/googledrive.svg", href: "https://drive.google.com/",         bg: "#1A73E8", light: false, desc: "Google Drive — arquivos, criativos e documentos das lojas" },
-            { label: "Miro",     icon: "/icons/miro.svg",        href: "https://miro.com/",                bg: "#FFD02F", light: true, desc: "Miro — quadros colaborativos e brainstorm" },
-            { label: "WhatsApp", icon: "/icons/whatsapp.svg",    href: "https://web.whatsapp.com/",        bg: "#25D366", light: false, desc: "WhatsApp Web — atendimento e contato rápido" },
-            { label: "Claude",   icon: "/icons/anthropic.svg",   href: "https://claude.ai/",               bg: "#C96442", light: false, desc: "Claude (IA) — assistente para trabalho e criação" },
-            { label: "tldv",     icon: "/icons/tldv.svg",        href: "https://tldv.io/",                 bg: "#6D28D9", light: false, desc: "tl;dv — gravação e resumo de reuniões" },
-          ] as { label: string; icon: string; href: string; bg: string; light: boolean; desc: string }[]).map((tool) => (
+          {QUICK_ACCESS_TOOLS.map((tool) => (
             <Tip key={tool.label} titulo={tool.label} texto={tool.desc} place="top">
-            <a
-              href={tool.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-col items-center gap-2 py-3 px-1 rounded-xl transition-all hover:scale-105 hover:opacity-90 active:scale-95"
-              style={{ background: "#1e335450", border: "1px solid #1e335480" }}
-            >
-              <div
-                className="w-9 h-9 rounded-xl flex items-center justify-center"
-                style={{ background: tool.bg }}
+              <a
+                href={tool.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col items-center gap-2 py-3 px-1 rounded-xl transition-all hover:scale-105 hover:opacity-90 active:scale-95"
+                style={{ background: "#1e335450", border: "1px solid #1e335480" }}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={tool.icon}
-                  alt={tool.label}
-                  width={20}
-                  height={20}
-                  style={{
-                    filter: tool.light
-                      ? "brightness(0)"
-                      : "brightness(0) invert(1)",
-                    width: 20,
-                    height: 20,
-                  }}
-                />
-              </div>
-              <span className="text-xs font-medium text-center leading-tight" style={{ color: "#94a3b8" }}>{tool.label}</span>
-            </a>
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center overflow-hidden" style={{ background: tool.bg ?? "transparent" }}>
+                  {tool.svgIcon ?? (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img src={tool.icon!} alt={tool.label} width={20} height={20}
+                      style={{ filter: tool.light ? "brightness(0)" : "brightness(0) invert(1)", width: 20, height: 20 }} />
+                  )}
+                </div>
+                <span className="text-xs font-medium text-center leading-tight" style={{ color: "#94a3b8" }}>{tool.label}</span>
+              </a>
             </Tip>
           ))}
         </div>
@@ -544,18 +605,26 @@ export default function DashboardPage() {
 
       {/* Resumo rapido admin */}
       {isAdmin && (
-        <div className="rounded-xl px-4 py-3 flex flex-wrap gap-4" style={{ background: "#0d1928", border: "1px solid rgba(201,164,66,.16)" }}>
-          <span className="text-xs" style={{ color: "#9aa7ba" }}>
-            Você gerencia <span className="font-bold text-white">{colaboradores.length} pessoas</span>
-          </span>
-          <span className="text-xs" style={{ color: "#334155" }}>·</span>
-          <span className="text-xs" style={{ color: "#9aa7ba" }}>
-            <span className="font-bold" style={{ color: "#10b981" }}>{emDia.length}</span> em dia com as rotinas
-          </span>
-          <span className="text-xs" style={{ color: "#334155" }}>·</span>
-          <span className="text-xs" style={{ color: "#9aa7ba" }}>
-            <span className="font-bold" style={{ color: tarefasAtrasadas > 0 ? "#ef4444" : "#10b981" }}>{tarefasAtrasadas}</span> tarefas atrasadas
-          </span>
+        <div className="rounded-xl p-4 space-y-3" style={{ background: "#0d1928", border: "1px solid rgba(201,164,66,.16)" }}>
+          <p className="text-xs" style={{ color: "#74859c" }}>
+            Você gerencia <span className="font-semibold" style={{ color: "#e8edf5" }}>{colaboradores.length} pessoas</span>
+          </p>
+          <div className="grid grid-cols-2 gap-2">
+            <div className="rounded-xl p-3 flex items-center gap-3" style={{ background: "#112239" }}>
+              <span style={{ fontSize: 22, lineHeight: 1 }}>✅</span>
+              <div>
+                <p className="text-xl font-extrabold leading-none" style={{ color: "#10b981" }}>{emDia.length}</p>
+                <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>em dia com as rotinas</p>
+              </div>
+            </div>
+            <div className="rounded-xl p-3 flex items-center gap-3" style={{ background: "#112239" }}>
+              <span style={{ fontSize: 22, lineHeight: 1 }}>{tarefasAtrasadas > 0 ? "⚠️" : "✅"}</span>
+              <div>
+                <p className="text-xl font-extrabold leading-none" style={{ color: tarefasAtrasadas > 0 ? "#ef4444" : "#10b981" }}>{tarefasAtrasadas}</p>
+                <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>tarefas atrasadas</p>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 

@@ -168,7 +168,7 @@ export default function TarefasPage() {
   const labelStyle = { color: "#94a3b8" };
 
   return (
-    <div className="mx-auto space-y-6">
+    <div data-tour="tarefas-main" className="mx-auto space-y-6">
       <BackButton href="/dashboard" />
 
       {/* WhatsApp notification banner */}

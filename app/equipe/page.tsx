@@ -56,7 +56,7 @@ export default function EquipePage() {
   };
 
   return (
-    <div className="mx-auto space-y-6">
+    <div data-tour="equipe-main" className="mx-auto space-y-6">
       <BackButton href="/dashboard" />
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>

@@ -150,7 +150,7 @@ export default function LojasPage() {
   const isCustom = (id: string) => lojasCustom.some((l) => l.id === id);
 
   return (
-    <div className="mx-auto space-y-6">
+    <div data-tour="lojas-main" className="mx-auto space-y-6">
       <div className="flex items-start gap-3">
         <BackButton href="/dashboard" />
       </div>

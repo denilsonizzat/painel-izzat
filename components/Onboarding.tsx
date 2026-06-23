@@ -1,179 +1,279 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { useAppStore } from "@/lib/store";
 import { X, ChevronRight, ChevronLeft, Zap } from "lucide-react";
 
-const STEPS = [
+interface TourStep {
+  titulo: string;
+  descricao: string;
+  dica?: string;
+  emoji: string;
+  href: string;
+  selector: string | null;
+  place: "top" | "bottom" | "left" | "right" | "center";
+}
+
+const STEPS: TourStep[] = [
   {
-    emoji: "🎯",
-    titulo: "Bem-vindo ao Painel Izzat",
-    descricao: "Seu espaço de gestão de equipe. Complete rotinas, acumule XP e suba de nível. Vamos fazer um tour rápido.",
-    dica: null,
+    emoji: "🎯", titulo: "Bem-vindo ao Painel Izzat",
+    descricao: "Seu centro de operações do Grupo Izzat. Gerencie equipe, lojas, rotinas e produtos em um só lugar. Vamos fazer um tour rápido — menos de 2 minutos!",
+    href: "/dashboard", selector: null, place: "center",
   },
   {
-    emoji: "🧭",
-    titulo: "Menu Lateral",
-    descricao: "O menu à esquerda é sua central de navegação: Dashboard, Tarefas, Equipe, Lojas e mais. Passe o mouse em qualquer item para ver o que ele faz.",
-    dica: "No desktop, você pode recolher o menu clicando na seta para ter mais espaço de trabalho.",
+    emoji: "🧭", titulo: "Menu Lateral",
+    descricao: "Sua central de navegação. Aqui ficam todas as seções: Dashboard, Tarefas, Equipe, Lojas, Operação e muito mais. Você pode recolher o menu pela seta para ganhar espaço.",
+    href: "/dashboard", selector: "[data-tour='sidebar']", place: "right",
   },
   {
-    emoji: "✅",
-    titulo: "Tarefas — seu dia a dia",
-    descricao: "Abra Tarefas e comece pela aba 'Hoje': tudo que você precisa fazer hoje (rotinas do dia + tarefas avulsas). As outras abas separam Rotinas (por frequência) e Avulsas.",
-    dica: "Rotinas se repetem (diária, semanal, mensal...) e reaparecem sozinhas no dia que vencem. Avulsas são pontuais.",
+    emoji: "📊", titulo: "Dashboard — Visão Geral",
+    descricao: "KPIs do time em tempo real: progresso de rotinas, tarefas abertas, urgentes. Acompanhe o time antes de começar o dia.",
+    href: "/dashboard", selector: "[data-tour='kpis']", place: "bottom",
   },
   {
-    emoji: "🍅",
-    titulo: "Foco com Pomodoro",
-    descricao: "Clique no botão 🍅 'Foco' em qualquer tarefa, rotina ou subtarefa para iniciar uma sessão de 25 minutos focado naquele item.",
-    dica: "Ótimo para não se perder: escolhe o que fazer, aperta Foco, e trabalha sem distração até o tempo acabar.",
+    emoji: "⚡", titulo: "Acesso Rápido",
+    descricao: "Atalhos diretos para Google Drive, Meet, Chat, WhatsApp, Claude e tl;dv. Um clique e abre o app correto no celular ou desktop.",
+    href: "/dashboard", selector: "[data-tour='acesso-rapido']", place: "top",
   },
   {
-    emoji: "⚡",
-    titulo: "XP, Níveis e Desafios",
-    descricao: "Cada ação gera XP: +10 subtarefa, +25 Pomodoro, +30 tarefa, +50 check-in diário. Veja seu progresso e os desafios do time na seção Desafios.",
-    dica: "Mantenha um streak de dias consecutivos com check-in para bônus extras.",
+    emoji: "✅", titulo: "Tarefas e Rotinas",
+    descricao: "A aba 'Hoje' mostra tudo que precisa ser feito agora: rotinas diárias + avulsas. Rotinas se repetem automaticamente. Use o 🍅 Pomodoro para focar em qualquer item.",
+    dica: "Cada ação gera XP: +25 Pomodoro, +30 tarefa concluída, +50 check-in diário.",
+    href: "/tarefas", selector: "[data-tour='tarefas-main']", place: "top",
   },
   {
-    emoji: "✅",
-    titulo: "Tudo certo!",
-    descricao: "Agora você já conhece o básico. Explore as seções, complete suas metas e faça parte do time Izzat.",
-    dica: null,
+    emoji: "👥", titulo: "Equipe",
+    descricao: "Perfil de cada colaborador: rotinas, nível de XP, histórico de atividades e contato direto. Clique em qualquer pessoa para ver detalhes e progresso.",
+    href: "/equipe", selector: "[data-tour='equipe-main']", place: "top",
+  },
+  {
+    emoji: "🏪", titulo: "Lojas",
+    descricao: "Todas as lojas do Grupo Izzat e parceiras. Acesso rápido ao Drive de cada loja, status operacional, rotinas específicas e métricas de performance.",
+    href: "/lojas", selector: "[data-tour='lojas-main']", place: "top",
+  },
+  {
+    emoji: "🚀", titulo: "Tudo pronto!",
+    descricao: "Você já conhece o essencial. Explore as outras seções (Operação, Precificação, Guia) pelo menu lateral. Dúvidas? Acesse Guia do App para tutoriais detalhados.",
+    href: "/dashboard", selector: null, place: "center",
   },
 ];
 
+const PADDING = 10;
+const CARD_W = 340;
+const CARD_H = 300;
+const OV_BG = "rgba(0,0,0,0.30)";
+
+interface SpRect { top: number; left: number; right: number; bottom: number }
+
+function clamp(v: number, min: number, max: number) { return Math.max(min, Math.min(max, v)); }
+
 export default function Onboarding() {
+  const router = useRouter();
+  const pathname = usePathname();
   const { onboardingConcluido, setOnboardingConcluido, usuarioAtual } = useAppStore();
   const [step, setStep] = useState(0);
   const [visible, setVisible] = useState(false);
+  const [sp, setSp] = useState<SpRect | null>(null);
+  const [navigating, setNavigating] = useState(false);
+  const stepRef = useRef(step);
+  stepRef.current = step;
 
   useEffect(() => {
     if (usuarioAtual && !onboardingConcluido) {
-      const t = setTimeout(() => setVisible(true), 700);
+      const t = setTimeout(() => setVisible(true), 800);
       return () => clearTimeout(t);
     }
   }, [usuarioAtual?.id, onboardingConcluido]);
 
-  if (!visible) return null;
+  const localizarElemento = useCallback((sel: string | null) => {
+    if (!sel) { setSp(null); setNavigating(false); return; }
+    const el = document.querySelector(sel) as HTMLElement | null;
+    if (!el) { setSp(null); setNavigating(false); return; }
+    el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    setTimeout(() => {
+      const r = el.getBoundingClientRect();
+      setSp({
+        top: Math.max(0, r.top - PADDING),
+        left: Math.max(0, r.left - PADDING),
+        right: Math.min(window.innerWidth, r.right + PADDING),
+        bottom: Math.min(window.innerHeight, r.bottom + PADDING),
+      });
+      setNavigating(false);
+    }, 350);
+  }, []);
 
-  const concluir = () => { setOnboardingConcluido(true); setVisible(false); };
-  const avancar = () => { if (step < STEPS.length - 1) setStep((s) => s + 1); else concluir(); };
-  const voltar = () => { if (step > 0) setStep((s) => s - 1); };
+  // After pathname changes, locate element for current step
+  useEffect(() => {
+    if (!visible) return;
+    const current = STEPS[stepRef.current];
+    if (!current) return;
+    // Only act if we're on the right page
+    if (pathname !== current.href) return;
+    const t = setTimeout(() => localizarElemento(current.selector), 500);
+    return () => clearTimeout(t);
+  }, [pathname, visible, localizarElemento]);
+
+  const irParaStep = useCallback((novoStep: number) => {
+    if (novoStep < 0 || novoStep >= STEPS.length) return;
+    const next = STEPS[novoStep];
+    setSp(null);
+    setStep(novoStep);
+    if (next.href !== pathname) {
+      setNavigating(true);
+      router.push(next.href);
+      // pathname effect will handle locating element after navigation
+    } else {
+      // Same page
+      localizarElemento(next.selector);
+    }
+  }, [pathname, router, localizarElemento]);
+
+  if (!visible) return null;
 
   const current = STEPS[step];
   const isFirst = step === 0;
   const isLast = step === STEPS.length - 1;
+  const isCenter = !current.selector || !sp;
+
+  const concluir = () => { setOnboardingConcluido(true); setVisible(false); router.push("/dashboard"); };
+  const avancar = () => { if (isLast) concluir(); else irParaStep(step + 1); };
+  const voltar = () => { if (!isFirst) irParaStep(step - 1); };
+
+  // Tooltip position
+  let tooltipStyle: React.CSSProperties = {};
+  if (isCenter || !sp) {
+    tooltipStyle = { position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: 10000, width: Math.min(CARD_W, window.innerWidth - 24) };
+  } else {
+    const ww = typeof window !== "undefined" ? window.innerWidth : 800;
+    const wh = typeof window !== "undefined" ? window.innerHeight : 600;
+    const cx = (sp.left + sp.right) / 2;
+    const cy = (sp.top + sp.bottom) / 2;
+
+    if (current.place === "right" || (current.place === "left" && sp.left < CARD_W + 20)) {
+      tooltipStyle = {
+        position: "fixed", zIndex: 10000,
+        top: clamp(cy - CARD_H / 2, 12, wh - CARD_H - 12),
+        left: Math.min(sp.right + 14, ww - Math.min(CARD_W, ww - 24) - 12),
+        width: Math.min(CARD_W, ww - 24),
+      };
+    } else if (current.place === "left") {
+      tooltipStyle = {
+        position: "fixed", zIndex: 10000,
+        top: clamp(cy - CARD_H / 2, 12, wh - CARD_H - 12),
+        left: Math.max(12, sp.left - CARD_W - 14),
+        width: Math.min(CARD_W, ww - 24),
+      };
+    } else if (current.place === "bottom" || (current.place === "top" && sp.top < CARD_H + 20)) {
+      tooltipStyle = {
+        position: "fixed", zIndex: 10000,
+        top: Math.min(sp.bottom + 14, wh - CARD_H - 12),
+        left: clamp(cx - CARD_W / 2, 12, ww - Math.min(CARD_W, ww - 24) - 12),
+        width: Math.min(CARD_W, ww - 24),
+      };
+    } else {
+      // top (default)
+      tooltipStyle = {
+        position: "fixed", zIndex: 10000,
+        top: Math.max(12, sp.top - CARD_H - 14),
+        left: clamp(cx - CARD_W / 2, 12, ww - Math.min(CARD_W, ww - 24) - 12),
+        width: Math.min(CARD_W, ww - 24),
+      };
+    }
+  }
 
   return (
     <>
-      {/* Overlay — semi-transparente para o usuário ver o app por baixo */}
-      <div
-        className="fixed inset-0"
-        style={{ zIndex: 9998, background: "rgba(7,12,22,0.60)", backdropFilter: "blur(3px)" }}
-        onClick={concluir}
-      />
+      {/* Overlay */}
+      {sp && !isCenter ? (
+        <>
+          <div style={{ position: "fixed", zIndex: 9998, top: 0, left: 0, right: 0, height: sp.top, background: OV_BG, pointerEvents: "auto" }} />
+          <div style={{ position: "fixed", zIndex: 9998, top: sp.bottom, left: 0, right: 0, bottom: 0, background: OV_BG, pointerEvents: "auto" }} />
+          <div style={{ position: "fixed", zIndex: 9998, top: sp.top, left: 0, width: sp.left, height: sp.bottom - sp.top, background: OV_BG, pointerEvents: "auto" }} />
+          <div style={{ position: "fixed", zIndex: 9998, top: sp.top, left: sp.right, right: 0, height: sp.bottom - sp.top, background: OV_BG, pointerEvents: "auto" }} />
+          {/* Glow border ao redor do elemento */}
+          <div style={{
+            position: "fixed", zIndex: 9999, pointerEvents: "none",
+            top: sp.top, left: sp.left, width: sp.right - sp.left, height: sp.bottom - sp.top,
+            border: "2px solid #c9a84c", borderRadius: 12,
+            boxShadow: "0 0 0 4px #c9a84c18, 0 0 24px #c9a84c30",
+            animation: "pulse-border 2s infinite",
+          }} />
+        </>
+      ) : (
+        <div style={{ position: "fixed", zIndex: 9998, inset: 0, background: OV_BG }} onClick={concluir} />
+      )}
 
-      {/* Card centralizado */}
-      <div
-        className="fixed"
-        style={{
-          zIndex: 9999,
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: "min(420px, calc(100vw - 32px))",
-        }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div
-          className="rounded-2xl p-7"
-          style={{
-            background: "linear-gradient(145deg, #112239, #0d1a2e)",
+      {/* Loading */}
+      {navigating && (
+        <div style={{ position: "fixed", zIndex: 10001, top: 20, left: "50%", transform: "translateX(-50%)", background: "#112239", borderRadius: 12, padding: "8px 20px", border: "1px solid #c9a84c30" }}>
+          <p style={{ color: "#c9a84c", fontSize: 12, fontWeight: 600 }}>Navegando...</p>
+        </div>
+      )}
+
+      {/* Tour card */}
+      {!navigating && (
+        <div style={tooltipStyle} onClick={(e) => e.stopPropagation()}>
+          <div className="rounded-2xl p-5" style={{
+            background: "linear-gradient(145deg,#112239,#0d1a2e)",
             border: "1px solid #c9a84c30",
-            boxShadow: "0 24px 80px rgba(0,0,0,0.8), 0 0 0 1px #c9a84c18",
-          }}
-        >
-          {/* Dots de progresso + fechar na mesma linha */}
-          <div className="flex items-center gap-1.5 mb-5">
-            {STEPS.map((_, i) => (
-              <div key={i} className="rounded-full transition-all flex-shrink-0" style={{
-                width: i === step ? 20 : 6,
-                height: 6,
-                background: i === step ? "#c9a84c" : i < step ? "#c9a84c60" : "#1e3356",
-              }} />
-            ))}
-            <span className="mx-2 text-xs whitespace-nowrap" style={{ color: "#74859c" }}>{step + 1} / {STEPS.length}</span>
-            <button
-              onClick={concluir}
-              className="ml-auto w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-all hover:opacity-80"
-              style={{ background: "#1e3356", color: "#9aa7ba" }}
-            >
-              <X size={13} />
-            </button>
-          </div>
-
-          {/* Emoji */}
-          <div
-            className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 text-3xl"
-            style={{ background: "#1e3356" }}
-          >
-            {current.emoji}
-          </div>
-
-          {/* Título */}
-          <h2 className="font-black mb-2 leading-tight" style={{ fontSize: 20, color: "#e8edf5", letterSpacing: "-0.02em" }}>
-            {current.titulo}
-          </h2>
-
-          {/* Descrição */}
-          <p className="text-sm leading-relaxed mb-3" style={{ color: "#94a3b8" }}>
-            {current.descricao}
-          </p>
-
-          {/* Dica */}
-          {current.dica && (
-            <div
-              className="flex items-start gap-2 p-3 rounded-xl mb-4"
-              style={{ background: "#c9a84c12", border: "1px solid #c9a84c25" }}
-            >
-              <Zap size={13} style={{ color: "#c9a84c", flexShrink: 0, marginTop: 2 }} />
-              <p className="text-xs leading-relaxed" style={{ color: "#c9a84c99" }}>{current.dica}</p>
+            boxShadow: "0 24px 64px rgba(0,0,0,.8), 0 0 0 1px #c9a84c18",
+          }}>
+            {/* Dots + fechar */}
+            <div className="flex items-center gap-1 mb-4">
+              {STEPS.map((_, i) => (
+                <div key={i} className="rounded-full transition-all flex-shrink-0"
+                  style={{ width: i === step ? 18 : 5, height: 5, background: i === step ? "#c9a84c" : i < step ? "#c9a84c60" : "#1e3356" }} />
+              ))}
+              <span className="mx-2 text-xs whitespace-nowrap" style={{ color: "#74859c" }}>{step + 1}/{STEPS.length}</span>
+              <button onClick={concluir}
+                className="ml-auto w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 hover:opacity-80"
+                style={{ background: "#1e3356", color: "#9aa7ba" }}>
+                <X size={13} />
+              </button>
             </div>
-          )}
 
-          {/* Navegação */}
-          <div className="flex items-center gap-3 mt-5">
-            {!isFirst && (
-              <button
-                onClick={voltar}
-                className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-medium transition-all hover:opacity-80"
-                style={{ background: "#1e3356", color: "#94a3b8" }}
-              >
-                <ChevronLeft size={15} />
-                Voltar
+            <div className="flex items-start gap-3 mb-3">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-xl" style={{ background: "#1e3356" }}>
+                {current.emoji}
+              </div>
+              <h2 className="font-black leading-tight" style={{ fontSize: 16, color: "#e8edf5", letterSpacing: "-0.02em" }}>
+                {current.titulo}
+              </h2>
+            </div>
+
+            <p className="text-sm leading-relaxed mb-3" style={{ color: "#94a3b8" }}>{current.descricao}</p>
+
+            {current.dica && (
+              <div className="flex items-start gap-2 p-2.5 rounded-xl mb-3" style={{ background: "#c9a84c10", border: "1px solid #c9a84c22" }}>
+                <Zap size={12} style={{ color: "#c9a84c", flexShrink: 0, marginTop: 2 }} />
+                <p className="text-xs leading-relaxed" style={{ color: "#c9a84c90" }}>{current.dica}</p>
+              </div>
+            )}
+
+            <div className="flex items-center gap-2 mt-4">
+              {!isFirst && (
+                <button onClick={voltar}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium hover:opacity-80"
+                  style={{ background: "#1e3356", color: "#94a3b8" }}>
+                  <ChevronLeft size={14} /> Voltar
+                </button>
+              )}
+              <button onClick={avancar}
+                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-bold hover:opacity-90 active:scale-95"
+                style={{ background: isLast ? "#10b981" : "#c9a84c", color: isLast ? "white" : "#0b1624" }}>
+                {isLast ? "Começar!" : "Próximo"}
+                {!isLast && <ChevronRight size={14} />}
+              </button>
+            </div>
+
+            {!isLast && (
+              <button onClick={concluir} className="w-full text-center mt-2.5 text-xs hover:opacity-80" style={{ color: "#334155" }}>
+                Pular tour
               </button>
             )}
-            <button
-              onClick={avancar}
-              className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold transition-all hover:opacity-90 active:scale-95"
-              style={{ background: isLast ? "#10b981" : "#c9a84c", color: isLast ? "white" : "#0b1624" }}
-            >
-              {isLast ? "Começar agora!" : "Próximo"}
-              {!isLast && <ChevronRight size={15} />}
-            </button>
           </div>
-
-          {!isLast && (
-            <button
-              onClick={concluir}
-              className="w-full text-center mt-3 text-xs transition-opacity hover:opacity-80"
-              style={{ color: "#334155" }}
-            >
-              Pular tour
-            </button>
-          )}
         </div>
-      </div>
+      )}
     </>
   );
 }
