@@ -11,6 +11,7 @@ interface TourStep {
   emoji: string;
   href: string;
   selector: string | null;
+  selectorMobile?: string | null;
   place: "top" | "bottom" | "left" | "right" | "center";
 }
 
@@ -21,9 +22,9 @@ const STEPS: TourStep[] = [
     href: "/dashboard", selector: null, place: "center",
   },
   {
-    emoji: "🧭", titulo: "Menu Lateral",
-    descricao: "Sua central de navegação. Aqui ficam todas as seções: Dashboard, Tarefas, Equipe, Lojas, Operação e muito mais. Você pode recolher o menu pela seta para ganhar espaço.",
-    href: "/dashboard", selector: "[data-tour='sidebar']", place: "right",
+    emoji: "🧭", titulo: "Menu de Navegação",
+    descricao: "Sua central de navegação. Aqui ficam todas as seções: Dashboard, Tarefas, Equipe, Lojas, Operação e muito mais. No celular, toque no menu (☰) para abrir.",
+    href: "/dashboard", selector: "[data-tour='sidebar']", selectorMobile: "[data-tour='menu-mobile']", place: "right",
   },
   {
     emoji: "📊", titulo: "Dashboard — Visão Geral",
@@ -60,8 +61,15 @@ const STEPS: TourStep[] = [
 
 const PADDING = 10;
 const CARD_W = 340;
-const CARD_H = 300;
+const CARD_H = 300; // fallback até medir altura real do card
 const OV_BG = "rgba(0,0,0,0.30)";
+
+function selByViewport(s: TourStep): string | null {
+  if (typeof window !== "undefined" && window.innerWidth < 768 && s.selectorMobile !== undefined) {
+    return s.selectorMobile;
+  }
+  return s.selector;
+}
 
 interface SpRect { top: number; left: number; right: number; bottom: number }
 
@@ -75,8 +83,28 @@ export default function Onboarding() {
   const [visible, setVisible] = useState(false);
   const [sp, setSp] = useState<SpRect | null>(null);
   const [navigating, setNavigating] = useState(false);
+  const [cardH, setCardH] = useState(CARD_H);
+  const cardRef = useRef<HTMLDivElement | null>(null);
   const stepRef = useRef(step);
   stepRef.current = step;
+
+  // Mede altura real do card (evita vazar em tela curta)
+  useEffect(() => {
+    if (cardRef.current) {
+      const h = cardRef.current.getBoundingClientRect().height;
+      if (h > 0 && Math.abs(h - cardH) > 4) setCardH(h);
+    }
+  });
+
+  // Esc encerra o tour
+  useEffect(() => {
+    if (!visible) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") { setOnboardingConcluido(true); setVisible(false); router.push("/dashboard"); }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [visible, setOnboardingConcluido, router]);
 
   useEffect(() => {
     if (usuarioAtual && !onboardingConcluido) {
@@ -88,10 +116,15 @@ export default function Onboarding() {
   const localizarElemento = useCallback((sel: string | null) => {
     if (!sel) { setSp(null); setNavigating(false); return; }
     const el = document.querySelector(sel) as HTMLElement | null;
-    if (!el) { setSp(null); setNavigating(false); return; }
+    // Elemento ausente OU oculto (display:none → offsetParent null) → card centralizado
+    if (!el || (el.offsetParent === null && el.getClientRects().length === 0)) {
+      setSp(null); setNavigating(false); return;
+    }
     el.scrollIntoView({ behavior: "smooth", block: "nearest" });
     setTimeout(() => {
       const r = el.getBoundingClientRect();
+      // Rect colapsado (0×0) = elemento não renderizado de fato → fallback centralizado
+      if (r.width < 2 || r.height < 2) { setSp(null); setNavigating(false); return; }
       setSp({
         top: Math.max(0, r.top - PADDING),
         left: Math.max(0, r.left - PADDING),
@@ -109,7 +142,7 @@ export default function Onboarding() {
     if (!current) return;
     // Only act if we're on the right page
     if (pathname !== current.href) return;
-    const t = setTimeout(() => localizarElemento(current.selector), 500);
+    const t = setTimeout(() => localizarElemento(selByViewport(current)), 500);
     return () => clearTimeout(t);
   }, [pathname, visible, localizarElemento]);
 
@@ -124,7 +157,7 @@ export default function Onboarding() {
       // pathname effect will handle locating element after navigation
     } else {
       // Same page
-      localizarElemento(next.selector);
+      localizarElemento(selByViewport(next));
     }
   }, [pathname, router, localizarElemento]);
 
@@ -152,21 +185,21 @@ export default function Onboarding() {
     if (current.place === "right" || (current.place === "left" && sp.left < CARD_W + 20)) {
       tooltipStyle = {
         position: "fixed", zIndex: 10000,
-        top: clamp(cy - CARD_H / 2, 12, wh - CARD_H - 12),
+        top: clamp(cy - cardH / 2, 12, wh - cardH - 12),
         left: Math.min(sp.right + 14, ww - Math.min(CARD_W, ww - 24) - 12),
         width: Math.min(CARD_W, ww - 24),
       };
     } else if (current.place === "left") {
       tooltipStyle = {
         position: "fixed", zIndex: 10000,
-        top: clamp(cy - CARD_H / 2, 12, wh - CARD_H - 12),
+        top: clamp(cy - cardH / 2, 12, wh - cardH - 12),
         left: Math.max(12, sp.left - CARD_W - 14),
         width: Math.min(CARD_W, ww - 24),
       };
-    } else if (current.place === "bottom" || (current.place === "top" && sp.top < CARD_H + 20)) {
+    } else if (current.place === "bottom" || (current.place === "top" && sp.top < cardH + 20)) {
       tooltipStyle = {
         position: "fixed", zIndex: 10000,
-        top: Math.min(sp.bottom + 14, wh - CARD_H - 12),
+        top: clamp(sp.bottom + 14, 12, wh - cardH - 12),
         left: clamp(cx - CARD_W / 2, 12, ww - Math.min(CARD_W, ww - 24) - 12),
         width: Math.min(CARD_W, ww - 24),
       };
@@ -174,7 +207,7 @@ export default function Onboarding() {
       // top (default)
       tooltipStyle = {
         position: "fixed", zIndex: 10000,
-        top: Math.max(12, sp.top - CARD_H - 14),
+        top: Math.max(12, sp.top - cardH - 14),
         left: clamp(cx - CARD_W / 2, 12, ww - Math.min(CARD_W, ww - 24) - 12),
         width: Math.min(CARD_W, ww - 24),
       };
@@ -200,7 +233,8 @@ export default function Onboarding() {
           }} />
         </>
       ) : (
-        <div style={{ position: "fixed", zIndex: 9998, inset: 0, background: OV_BG }} onClick={concluir} />
+        // Backdrop NÃO encerra o tour (evita fechar sem querer). Só "Pular" ou X.
+        <div style={{ position: "fixed", zIndex: 9998, inset: 0, background: OV_BG }} />
       )}
 
       {/* Loading */}
@@ -213,7 +247,7 @@ export default function Onboarding() {
       {/* Tour card */}
       {!navigating && (
         <div style={tooltipStyle} onClick={(e) => e.stopPropagation()}>
-          <div className="rounded-2xl p-5" style={{
+          <div ref={cardRef} className="rounded-2xl p-5" style={{
             background: "linear-gradient(145deg,#112239,#0d1a2e)",
             border: "1px solid #c9a84c30",
             boxShadow: "0 24px 64px rgba(0,0,0,.8), 0 0 0 1px #c9a84c18",
@@ -267,7 +301,7 @@ export default function Onboarding() {
             </div>
 
             {!isLast && (
-              <button onClick={concluir} className="w-full text-center mt-2.5 text-xs hover:opacity-80" style={{ color: "#334155" }}>
+              <button onClick={concluir} className="w-full text-center mt-2.5 text-xs hover:opacity-80" style={{ color: "#64748b" }}>
                 Pular tour
               </button>
             )}

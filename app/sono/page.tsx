@@ -215,7 +215,7 @@ export default function SonoPage() {
           <p className="text-xs mt-0.5" style={{ color: "#334155" }}>horário médio</p>
         </div>
         <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
-          <p className="text-xs" style={{ color: "#9aa7ba" }}>Media acordar</p>
+          <p className="text-xs" style={{ color: "#9aa7ba" }}>Média acordar</p>
           <p className="text-lg font-black mt-0.5" style={{ color: "#f59e0b" }}>{mediaAcordar}</p>
           <p className="text-xs mt-0.5" style={{ color: "#334155" }}>horário médio</p>
         </div>

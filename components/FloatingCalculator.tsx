@@ -46,7 +46,7 @@ export default function FloatingCalculator() {
 
   useEffect(() => {
     if (pos.x === 0 && pos.y === 0 && typeof window !== "undefined") {
-      setPos({ x: window.innerWidth - 320, y: window.innerHeight - 520 });
+      setPos({ x: Math.max(12, window.innerWidth - 320 - 24), y: Math.max(64, window.innerHeight - 540) });
     }
   }, []);
 

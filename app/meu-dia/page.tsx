@@ -333,7 +333,7 @@ export default function MeuDiaPage() {
             <div className="text-2xl mb-2">📦</div>
             <p className="text-sm font-medium" style={{ color: "#74859c" }}>Nenhuma entrega desta semana ainda</p>
             <p className="text-xs mt-1 mb-3" style={{ color: "#334155" }}>
-              Registre o que voce se compromete a entregar ate sexta-feira.
+              Registre o que você se compromete a entregar até sexta-feira.
             </p>
             <button
               onClick={() => setShowAddEntrega(true)}
@@ -428,7 +428,7 @@ export default function MeuDiaPage() {
           <div className="text-4xl mb-3">📋</div>
           <p className="font-semibold text-white mb-1">Nenhuma rotina cadastrada ainda</p>
           <p className="text-sm leading-relaxed" style={{ color: "#9aa7ba" }}>
-            Rotinas sao tarefas que voce repete todo dia — por exemplo: verificar pedidos, responder mensagens, atualizar planilha. Seu gestor vai cadastrar as suas.
+            Rotinas são tarefas que você repete todo dia — por exemplo: verificar pedidos, responder mensagens, atualizar planilha. Seu gestor vai cadastrar as suas.
           </p>
         </div>
       )}
@@ -642,7 +642,7 @@ export default function MeuDiaPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Moon size={16} style={{ color: "#8b5cf6" }} />
-                      <h2 className="font-bold text-white">Como voce dormiu?</h2>
+                      <h2 className="font-bold text-white">Como você dormiu?</h2>
                     </div>
                     <button onClick={dispensarSonoPopup} style={{ color: "#74859c" }}>✕</button>
                   </div>

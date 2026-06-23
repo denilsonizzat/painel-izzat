@@ -663,10 +663,10 @@ export default function Sidebar() {
       </aside>
 
       {/* Mobile header */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3"
+      <div className="md:hidden fixed top-0 left-0 right-0 z-[60] flex items-center justify-between px-4 py-3"
         style={{ background: "var(--card)", borderBottom: "1px solid var(--border)" }}>
         <div className="flex items-center gap-2">
-          <button onClick={() => setMenuAberto(!menuAberto)} className="text-white p-1 -ml-1">
+          <button onClick={() => setMenuAberto(!menuAberto)} data-tour="menu-mobile" aria-label="Abrir menu de navegação" className="text-white p-1 -ml-1">
             {menuAberto ? <X size={22} /> : <Menu size={22} />}
           </button>
           <Link href="/dashboard" className="flex items-center gap-2" onClick={() => setMenuAberto(false)}>
@@ -699,7 +699,7 @@ export default function Sidebar() {
 
       {/* Mobile menu overlay */}
       {menuAberto && (
-        <div className="md:hidden fixed inset-0 z-40" onClick={() => setMenuAberto(false)} style={{ background: "#00000080" }}>
+        <div className="md:hidden fixed inset-0 z-[58]" onClick={() => setMenuAberto(false)} style={{ background: "#00000080" }}>
           <div className="absolute left-0 w-72 max-w-[85vw]" style={{ top: 56, bottom: 0, background: "var(--card)", borderRight: "1px solid var(--border)" }} onClick={(e) => e.stopPropagation()}>
             {SidebarContent()}
           </div>

@@ -216,7 +216,7 @@ export default function GastosPage() {
           <p className="text-xs mt-0.5" style={{ color: "#334155" }}>{ferramentas.length} ferramentas</p>
         </div>
         <div className="rounded-xl p-3.5" style={{ background: "#112239", border: "1px solid #8b5cf625" }}>
-          <p className="text-xs" style={{ color: "#9aa7ba" }}>Media Salarial</p>
+          <p className="text-xs" style={{ color: "#9aa7ba" }}>Média Salarial</p>
           <p className="text-lg font-black mt-0.5" style={{ color: "#8b5cf6" }}>R$ {fmt(mediaSalario)}</p>
           <p className="text-xs mt-0.5" style={{ color: "#334155" }}>{comSalario.length} pessoas</p>
         </div>
@@ -423,9 +423,9 @@ export default function GastosPage() {
                         <>
                           {c.salario
                             ? <span className="text-sm font-bold" style={{ color: "#e8edf5" }}>R$ {fmt(c.salario)}</span>
-                            : <span className="text-xs italic" style={{ color: "#334155" }}>nao cadastrado</span>}
+                            : <span className="text-xs italic" style={{ color: "#64748b" }}>não cadastrado</span>}
                           <button onClick={() => { setEditandoSalId(c.id); setSalInput(c.salario ? String(c.salario) : ""); }}
-                            className="p-1 rounded-lg hover:opacity-80" style={{ color: "#74859c" }} data-tip="Editar salario">
+                            className="p-1 rounded-lg hover:opacity-80" style={{ color: "#74859c" }} data-tip="Editar salário">
                             <Edit2 size={12} />
                           </button>
                         </>
@@ -560,7 +560,7 @@ export default function GastosPage() {
                   {/* Usuarios vinculados */}
                   <div className="mt-3 flex items-center gap-2 flex-wrap">
                     {vinculados.length === 0 ? (
-                      <span className="text-xs italic" style={{ color: "#334155" }}>Nenhum usuario vinculado</span>
+                      <span className="text-xs italic" style={{ color: "#64748b" }}>Nenhum usuário vinculado</span>
                     ) : (
                       vinculados.map((c) => (
                         <div key={c.id} className="flex items-center gap-1.5 px-2 py-1 rounded-xl" style={{ background: "#1e3356" }}>
@@ -595,7 +595,7 @@ export default function GastosPage() {
                     </div>
                   )}
                   {vinculando && naoVinculados.length === 0 && (
-                    <p className="mt-2 text-xs" style={{ color: "#9aa7ba" }}>Todos os colaboradores ja estao vinculados.</p>
+                    <p className="mt-2 text-xs" style={{ color: "#9aa7ba" }}>Todos os colaboradores já estão vinculados.</p>
                   )}
                 </div>
               </div>

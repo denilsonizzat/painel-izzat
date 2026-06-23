@@ -87,7 +87,7 @@ export default function FloatingPomodoro() {
 
   useEffect(() => {
     if (pos.x === 0 && pos.y === 0 && typeof window !== "undefined") {
-      setPos({ x: Math.max(0, window.innerWidth - 340), y: Math.max(0, window.innerHeight - 580) });
+      setPos({ x: Math.max(12, window.innerWidth - 320 - 144), y: Math.max(64, window.innerHeight - 600) });
     }
   }, []);
 

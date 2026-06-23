@@ -22,6 +22,12 @@ export default function FloatingToolsMenu() {
     localStorage.setItem("tools-fab-offset", JSON.stringify(offset));
   }, [offset]);
 
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setAberto(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   if (!usuarioAtual) return null;
 
   function fechar() { setAberto(false); }
@@ -99,6 +105,7 @@ export default function FloatingToolsMenu() {
               {tool.label}
             </span>
             <button onClick={tool.onClick}
+              aria-label={tool.label}
               className="flex items-center justify-center rounded-full shadow-xl transition-all hover:scale-110 active:scale-95"
               style={{ width: 48, height: 48, background: GOLD, color: "#0b1624", flexShrink: 0 }}
               data-tip={tool.tip} data-tip-place="left">
@@ -113,6 +120,7 @@ export default function FloatingToolsMenu() {
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
           className="flex items-center justify-center rounded-full shadow-2xl"
+          aria-label={aberto ? "Fechar ferramentas" : "Abrir ferramentas"}
           style={{
             width: 56, height: 56,
             background: aberto ? "#1e3356" : GOLD,

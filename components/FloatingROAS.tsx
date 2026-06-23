@@ -17,7 +17,7 @@ export default function FloatingROAS() {
 
   useEffect(() => {
     if (pos.x === 0 && pos.y === 0 && typeof window !== "undefined") {
-      setPos({ x: window.innerWidth - 280, y: window.innerHeight - 340 });
+      setPos({ x: Math.max(12, window.innerWidth - 260 - 64), y: Math.max(64, window.innerHeight - 380 - 48) });
     }
   }, []);
 

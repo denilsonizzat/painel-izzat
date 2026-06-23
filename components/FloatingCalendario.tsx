@@ -64,7 +64,7 @@ export default function FloatingCalendario() {
 
   useEffect(() => {
     if (pos.x === 0 && pos.y === 0 && typeof window !== "undefined") {
-      setPos({ x: Math.max(0, window.innerWidth - 320), y: Math.max(0, window.innerHeight - 420) });
+      setPos({ x: Math.max(12, window.innerWidth - 290 - 104), y: Math.max(64, window.innerHeight - 460 - 96) });
     }
   }, []);
 

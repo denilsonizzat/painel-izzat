@@ -11,7 +11,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <main className="flex-1 min-w-0 md:p-6 p-4 pt-16 md:pt-6 overflow-auto">
         <BreadcrumbNav />
         {/* key por rota → entrada suave a cada navegação (P0/P2) */}
-        <div key={pathname} className="page-enter">
+        {/* max-w de leitura: em telas widescreen o conteúdo não estica de ponta a ponta */}
+        <div key={pathname} className="page-enter mx-auto w-full max-w-[1600px]">
           {children}
         </div>
       </main>

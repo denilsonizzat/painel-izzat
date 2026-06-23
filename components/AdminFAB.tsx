@@ -23,6 +23,13 @@ export default function AdminFAB() {
     localStorage.setItem("admin-fab-offset", JSON.stringify(offset));
   }, [offset]);
 
+  useEffect(() => {
+    if (!modalAberto) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setModalAberto(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [modalAberto]);
+
   function onPointerDown(e: React.PointerEvent) {
     moved.current = false;
     drag.current = { ox: e.clientX, oy: e.clientY, sx: offset.x, sy: offset.y };
@@ -57,6 +64,7 @@ export default function AdminFAB() {
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         className="fixed z-30 w-14 h-14 rounded-full shadow-2xl flex items-center justify-center"
+        aria-label="Nova tarefa rápida"
         style={{
           bottom: 24, right: 24,
           background: "#c9a84c", color: "#0b1624",
