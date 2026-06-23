@@ -58,12 +58,20 @@ const NAV_SECTIONS = [
     items: [],
     adminItems: [
       { href: "/operacao", label: "Operação", icon: TrendingUp, desc: "Pedidos, ADS e P&L real por loja — custos reais da operação (produto, frete, taxas, processamento)" },
-      { href: "/socios", label: "Sócios & Variável", icon: Handshake, desc: "Sócios-gestores que ganham % do lucro/faturamento da loja + consolidação fixo+variável" },
-      { href: "/gastos", label: "Custos da Equipe", icon: DollarSign, desc: "Salários e custos relacionados à mão de obra do time" },
-      { href: "/gastos-operacoes", label: "Custos Operacionais", icon: Receipt, desc: "Custos fixos por loja: ads, ferramentas, IA e plataforma" },
-      { href: "/custo-total", label: "Custo Total", icon: Wallet, desc: "Soma dos custos da equipe + operações = quanto custa manter o grupo Izzat" },
       { href: "/vagas", label: "Vagas & Pendências", icon: Briefcase, desc: "Rotinas sem responsável e necessidades de contratação do grupo" },
       { href: "/integracoes", label: "Integrações", icon: Link2, desc: "Conexões de API por loja: Shopify, Meta, Google, TikTok" },
+    ],
+    adminGrupos: [
+      {
+        label: "Custos",
+        icon: Wallet,
+        subitems: [
+          { href: "/custo-total", label: "Custo Total", icon: Wallet, desc: "Soma dos custos da equipe + operações = quanto custa manter o grupo Izzat" },
+          { href: "/gastos", label: "Custo de Equipe", icon: DollarSign, desc: "Salários e custos relacionados à mão de obra do time" },
+          { href: "/socios", label: "Custo Variável", icon: Handshake, desc: "Sócios-gestores que ganham % do lucro/faturamento da loja + consolidação fixo+variável" },
+          { href: "/gastos-operacoes", label: "Custo Operacional", icon: Receipt, desc: "Custos fixos por loja: ads, ferramentas, IA e plataforma" },
+        ],
+      },
     ],
   },
   {
@@ -102,6 +110,7 @@ export default function Sidebar() {
   const [busca, setBusca] = useState("");
   const [hoverExpand, setHoverExpand] = useState(false);
   const [secoesColapsadas, setSecoesColapsadas] = useState<Record<string, boolean>>({});
+  const [gruposAbertos, setGruposAbertos] = useState<Record<string, boolean>>({});
   const [form, setForm] = useState({ titulo: "", prioridade: "alta" as Prioridade, atribuidoPara: "", lojaId: "" });
 
   useEffect(() => {
@@ -434,6 +443,117 @@ export default function Sidebar() {
                   );
                   })}
               </div>}
+
+              {/* ── Grupos expansíveis (ex: Custos) ── */}
+              {!secoesColapsadas[section.label] && isAdmin && (section as { adminGrupos?: { label: string; icon: typeof LayoutDashboard; subitems: { href: string; label: string; icon: typeof LayoutDashboard; desc: string }[] }[] }).adminGrupos?.map((grupo) => {
+                const grupoKey = section.label + "_" + grupo.label;
+                const grupoAberto = gruposAbertos[grupoKey] ?? false;
+                const GrupoIcon = grupo.icon;
+                const qualquerAtivo = grupo.subitems.some((s) => pathname === s.href || pathname.startsWith(s.href + "/"));
+                return (
+                  <div key={grupoKey} style={{ marginTop: 2 }}>
+                    {/* Botão pai do grupo */}
+                    <button
+                      onClick={() => setGruposAbertos((p) => ({ ...p, [grupoKey]: !p[grupoKey] }))}
+                      className="w-full flex items-center rounded-xl font-semibold"
+                      style={{
+                        fontSize: "14.5px",
+                        background: qualquerAtivo ? "var(--gold-dim)" : "transparent",
+                        color: qualquerAtivo ? "var(--gold-br)" : "var(--text-dim)",
+                        padding: isCollapsed ? "11px 0" : "11px 13px",
+                        justifyContent: isCollapsed ? "center" : "flex-start",
+                        gap: isCollapsed ? 0 : 12,
+                        transition: "all 150ms cubic-bezier(0.4,0,0.2,1)",
+                        boxShadow: qualquerAtivo ? "0 0 0 1px #c9a44230 inset" : "none",
+                      }}
+                    >
+                      <GrupoIcon size={18} className="flex-shrink-0" />
+                      <span
+                        className="overflow-hidden transition-all whitespace-nowrap flex-1 text-left"
+                        style={{ maxWidth: isCollapsed ? 0 : 160, opacity: isCollapsed ? 0 : 1, transition: "max-width 0.2s ease, opacity 0.15s ease" }}
+                      >
+                        {grupo.label}
+                      </span>
+                      {!isCollapsed && (
+                        <ChevronRight
+                          size={13}
+                          className="flex-shrink-0 transition-transform"
+                          style={{
+                            color: "#74859c",
+                            transform: grupoAberto ? "rotate(90deg)" : "rotate(0deg)",
+                            transition: "transform 0.18s ease",
+                          }}
+                        />
+                      )}
+                    </button>
+
+                    {/* Sub-itens */}
+                    {grupoAberto && !isCollapsed && (
+                      <div className="ml-4 mt-1 flex flex-col gap-0.5 pl-2" style={{ borderLeft: "1px solid #1e3356" }}>
+                        {grupo.subitems.map((sub) => {
+                          const SubIcon = sub.icon;
+                          const subAtivo = pathname === sub.href || pathname.startsWith(sub.href + "/");
+                          return (
+                            <Tip key={sub.href} titulo={sub.label} texto={sub.desc} place="right">
+                              <Link
+                                href={sub.href}
+                                onClick={() => setMenuAberto(false)}
+                                className="flex items-center gap-2.5 rounded-lg font-medium"
+                                style={{
+                                  fontSize: 13,
+                                  padding: "8px 10px",
+                                  background: subAtivo ? "var(--gold-dim)" : "transparent",
+                                  color: subAtivo ? "var(--gold-br)" : "var(--text-dim)",
+                                  transition: "all 150ms ease",
+                                  boxShadow: subAtivo ? "0 0 0 1px #c9a44220 inset" : "none",
+                                }}
+                                onMouseEnter={(e) => {
+                                  if (!subAtivo) {
+                                    (e.currentTarget as HTMLElement).style.background = "#1e334560";
+                                    (e.currentTarget as HTMLElement).style.color = "var(--text)";
+                                  }
+                                }}
+                                onMouseLeave={(e) => {
+                                  if (!subAtivo) {
+                                    (e.currentTarget as HTMLElement).style.background = "transparent";
+                                    (e.currentTarget as HTMLElement).style.color = "var(--text-dim)";
+                                  }
+                                }}
+                              >
+                                <SubIcon size={14} className="flex-shrink-0" />
+                                <span className="truncate">{sub.label}</span>
+                              </Link>
+                            </Tip>
+                          );
+                        })}
+                      </div>
+                    )}
+
+                    {/* No modo colapsado: mostra subitems direto com ícones */}
+                    {isCollapsed && grupo.subitems.map((sub) => {
+                      const SubIcon = sub.icon;
+                      const subAtivo = pathname === sub.href || pathname.startsWith(sub.href + "/");
+                      return (
+                        <Tip key={sub.href} titulo={sub.label} texto={sub.desc} place="right">
+                          <Link
+                            href={sub.href}
+                            onClick={() => setMenuAberto(false)}
+                            className="flex items-center justify-center rounded-xl"
+                            style={{
+                              padding: "9px 0",
+                              background: subAtivo ? "var(--gold-dim)" : "transparent",
+                              color: subAtivo ? "var(--gold-br)" : "var(--text-dim)",
+                              transition: "all 150ms ease",
+                            }}
+                          >
+                            <SubIcon size={16} />
+                          </Link>
+                        </Tip>
+                      );
+                    })}
+                  </div>
+                );
+              })}
             </div>
           );
         })}
