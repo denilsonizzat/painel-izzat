@@ -8,7 +8,7 @@ export default function ToastContainer() {
 
   return (
     <div
-      className="fixed bottom-6 right-6 z-[9999] flex flex-col gap-2 pointer-events-none"
+      className="fixed top-20 right-4 z-[9999] flex flex-col gap-2 pointer-events-none"
       style={{ maxWidth: 320 }}
     >
       {toasts.map((toast) => (

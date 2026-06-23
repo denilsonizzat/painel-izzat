@@ -226,32 +226,32 @@ export default function NotificationCenter({ aberto, onFechar }: Props) {
                               </button>
                             )}
                             {/* Snooze */}
-                            <div className="relative">
-                              <button onClick={() => setSnoozeAberto(snoozeAberto === n.id ? null : n.id)}
-                                className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-opacity hover:opacity-80"
-                                style={{ background: "#f59e0b15", color: "#f59e0b", border: "1px solid #f59e0b30" }}>
-                                <Clock size={11} /> Lembrar
-                              </button>
-                              {snoozeAberto === n.id && (
-                                <div className="absolute bottom-full left-0 mb-1 z-50 rounded-xl overflow-hidden shadow-2xl"
-                                  style={{ background: "#112239", border: "1px solid rgba(201,164,66,.2)", minWidth: 140 }}>
-                                  {SNOOZE_OPTS.map((opt) => (
-                                    <button key={opt.min}
-                                      onClick={() => { snoozeNotificacao(n.id, opt.min); setSnoozeAberto(null); }}
-                                      className="w-full text-left px-3 py-2 text-xs hover:opacity-70 transition-opacity"
-                                      style={{ color: "#e8edf5", borderBottom: "1px solid #1e3356" }}>
-                                      {opt.label}
-                                    </button>
-                                  ))}
-                                </div>
-                              )}
-                            </div>
+                            <button onClick={() => setSnoozeAberto(snoozeAberto === n.id ? null : n.id)}
+                              className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-opacity hover:opacity-80"
+                              style={{ background: "#f59e0b15", color: "#f59e0b", border: "1px solid #f59e0b30" }}>
+                              <Clock size={11} /> Lembrar
+                            </button>
                             <button onClick={() => excluirNotificacao(n.id)}
                               className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-opacity hover:opacity-80 ml-auto"
                               style={{ background: "#ef444415", color: "#ef4444", border: "1px solid #ef444430" }}>
                               <Trash2 size={11} /> Excluir
                             </button>
                           </div>
+
+                          {/* Snooze expandido — inline sem overflow */}
+                          {snoozeAberto === n.id && (
+                            <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+                              <span className="text-xs mr-1" style={{ color: "#74859c" }}>Lembrar em:</span>
+                              {SNOOZE_OPTS.map((opt) => (
+                                <button key={opt.min}
+                                  onClick={() => { snoozeNotificacao(n.id, opt.min); setSnoozeAberto(null); }}
+                                  className="px-2.5 py-1 rounded-lg text-xs font-semibold transition-opacity hover:opacity-80"
+                                  style={{ background: "#f59e0b20", color: "#f59e0b", border: "1px solid #f59e0b40" }}>
+                                  {opt.label}
+                                </button>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
