@@ -356,6 +356,10 @@ button:active:not(:disabled) {
   from { opacity: 0; transform: translateY(10px) scale(0.97); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
+@keyframes pulse-border {
+  0%, 100% { box-shadow: 0 0 0 4px #c9a84c18, 0 0 24px #c9a84c30; }
+  50%       { box-shadow: 0 0 0 8px #c9a84c28, 0 0 40px #c9a84c50; }
+}
 /* Estado vazio — ícone com leve respiração */
 @keyframes breathe {
   0%, 100% { transform: scale(1); opacity: 0.9; }
