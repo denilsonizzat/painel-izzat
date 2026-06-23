@@ -168,7 +168,7 @@ export default function TarefasPage() {
   const labelStyle = { color: "#94a3b8" };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-6xl mx-auto space-y-6">
       <BackButton href="/dashboard" />
 
       {/* WhatsApp notification banner */}
@@ -254,7 +254,7 @@ export default function TarefasPage() {
         <p className="text-xs mb-2" style={{ color: "#74859c" }}>
           Clique em um status para filtrar a lista abaixo
         </p>
-        <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
           {(["pendente", "em_andamento", "atrasada", "travado", "concluida"] as const).map((s) => (
             <button
               key={s}

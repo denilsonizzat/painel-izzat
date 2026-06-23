@@ -269,7 +269,7 @@ export default function LojasPage() {
       </div>
 
       {/* Grid ativo */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {lojasFiltradas.map((loja) => {
           const responsavel = colaboradores.find((c) => c.id === loja.responsavel);
           const tarefasLoja = tarefas.filter((t) => t.lojaId === loja.id);
@@ -485,7 +485,7 @@ export default function LojasPage() {
           <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#74859c" }}>
             Lojas Arquivadas ({lojasArqList.length})
           </p>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
             {lojasArqList.map((loja) => (
               <div key={loja.id} className="rounded-2xl p-4 flex items-center justify-between gap-3 opacity-60"
                 style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>

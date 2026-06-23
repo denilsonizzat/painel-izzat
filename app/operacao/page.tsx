@@ -13,7 +13,7 @@ export default function OperacaoPage() {
   const loja = todasLojas.find((l) => l.id === lojaId);
 
   return (
-    <div className="max-w-4xl mx-auto space-y-5">
+    <div className="max-w-7xl mx-auto space-y-5">
       <BackButton href="/dashboard" />
       <div>
         <h1 className="text-2xl font-bold text-white">Operação</h1>
