@@ -252,7 +252,7 @@ export default function Sidebar() {
                 {naoLidas > 0 && (
                   <span
                     className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full text-xs flex items-center justify-center font-bold"
-                    style={{ background: "#ef4444", color: "white", fontSize: 9 }}
+                    style={{ background: "#ef4444", color: "white", fontSize: 10 }}
                   >
                     {naoLidas > 9 ? "9+" : naoLidas}
                   </span>
@@ -286,7 +286,7 @@ export default function Sidebar() {
         {!isCollapsed && notifAberta && (
           <div className="mt-3 rounded-xl overflow-hidden" style={{ background: "var(--bg)", border: "1px solid var(--border)" }}>
             <div className="flex items-center justify-between px-3 py-2" style={{ borderBottom: "1px solid var(--border)" }}>
-              <span className="text-xs font-semibold" style={{ color: "#9aa7ba" }}>Notificacoes</span>
+              <span className="text-xs font-semibold" style={{ color: "#9aa7ba" }}>Notificações</span>
               {naoLidas > 0 && (
                 <button
                   onClick={() => minhasNotifs.filter((n) => !n.lida).forEach((n) => marcarNotificacaoLida(n.id))}
@@ -411,14 +411,14 @@ export default function Sidebar() {
                     {(section as { emoji?: string }).emoji && (
                       <span style={{ fontSize: 11 }}>{(section as { emoji?: string }).emoji}</span>
                     )}
-                    <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "#334155" }}>
+                    <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "#74859c" }}>
                       {section.label}
                     </p>
                   </div>
                   <ChevronRight
                     size={10}
                     style={{
-                      color: "#334155",
+                      color: "#74859c",
                       transform: secoesColapsadas[section.label] ? "rotate(0deg)" : "rotate(90deg)",
                       transition: "transform 0.2s ease",
                       flexShrink: 0,
@@ -554,7 +554,7 @@ export default function Sidebar() {
                   <div className="flex items-center gap-1.5">
                     <p className="text-white text-sm font-medium truncate">{usuarioAtual.nome.split(" ")[0]}</p>
                     <span className="text-xs px-1.5 py-0.5 rounded-full flex-shrink-0"
-                      style={{ background: isAdmin ? "#c9a84c15" : "#3b82f615", color: isAdmin ? "#c9a84c" : "#3b82f6", fontSize: 9, fontWeight: 700, letterSpacing: "0.04em" }}>
+                      style={{ background: isAdmin ? "#c9a84c15" : "#3b82f615", color: isAdmin ? "#c9a84c" : "#3b82f6", fontSize: 10, fontWeight: 700, letterSpacing: "0.04em" }}>
                       {isAdmin ? "GESTOR" : "COLAB"}
                     </span>
                   </div>
@@ -645,7 +645,7 @@ export default function Sidebar() {
                 <Bell size={18} style={{ color: naoLidas > 0 ? "#c9a84c" : "#64748b" }} />
                 {naoLidas > 0 && (
                   <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full text-xs flex items-center justify-center font-bold"
-                    style={{ background: "#ef4444", color: "white", fontSize: 9 }}>
+                    style={{ background: "#ef4444", color: "white", fontSize: 10 }}>
                     {naoLidas > 9 ? "9+" : naoLidas}
                   </span>
                 )}

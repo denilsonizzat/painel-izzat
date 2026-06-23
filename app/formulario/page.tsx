@@ -482,7 +482,7 @@ export default function FormularioPage() {
                   ))}
                 </div>
               </div>
-              <Txt label="Quais sao suas principais distracoes no dia a dia?" value={dados.distracoes} onChange={(v) => upd("distracoes", v)}
+              <Txt label="Quais são suas principais distrações no dia a dia?" value={dados.distracoes} onChange={(v) => upd("distracoes", v)}
                 placeholder="Ex: Filhos em casa, rede social, barulho da rua, outros afazeres..." rows={2} />
             </>
           )}

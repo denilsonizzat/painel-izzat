@@ -442,7 +442,7 @@ export default function MeuDiaPage() {
                 <span className="text-xs px-1.5 py-0.5 rounded-full" style={{ background: "#0ea5e920", color: "#0ea5e9" }}>O minimo de hoje</span>
               </div>
               <p className="text-xs" style={{ color: "#74859c" }}>
-                Habitos diarios — o que se espera de voce todo dia. Complete todas para +50 XP bonus.
+                Hábitos diários — o que se espera de você todo dia. Complete todas para +50 XP bônus.
               </p>
             </div>
             <span className="text-sm font-bold px-2 py-0.5 rounded-full flex-shrink-0"
@@ -539,7 +539,7 @@ export default function MeuDiaPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ background: `${cor}20`, color: cor }}>
-                        {t.prioridade === "alta" ? "Alta" : t.prioridade === "media" ? "Media" : "Baixa"}
+                        {t.prioridade === "alta" ? "Alta" : t.prioridade === "media" ? "Média" : "Baixa"}
                       </span>
                       {loja && <span className="text-xs" style={{ color: "#9aa7ba" }}>{loja.nome}</span>}
                     </div>
@@ -683,7 +683,7 @@ export default function MeuDiaPage() {
                   <button onClick={dispensarSonoPopup}
                     className="flex-1 py-2.5 rounded-xl text-sm font-medium hover:opacity-80"
                     style={{ background: "#1e3356", color: "#9aa7ba" }}>
-                    Agora nao
+                    Agora não
                   </button>
                   <button onClick={handleSalvarSono}
                     className="flex-1 py-2.5 rounded-xl text-sm font-bold hover:opacity-90"

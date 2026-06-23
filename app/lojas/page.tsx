@@ -234,7 +234,7 @@ export default function LojasPage() {
         {/* Risco */}
         <div className="flex gap-2 flex-wrap items-center">
           <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#74859c" }}>Risco:</span>
-          <span className="text-xs" data-tip="Risco e calculado com base em tarefas atrasadas e rotinas nao cumpridas da loja" style={{ color: "#334155", cursor: "help" }}>ⓘ</span>
+          <span className="text-xs" data-tip="Risco é calculado com base em tarefas atrasadas e rotinas não cumpridas da loja" style={{ color: "#74859c", cursor: "help" }}>ⓘ</span>
           {([
             { v: "todos", label: "Todos", cor: "#64748b", bg: "#112239" },
             { v: "alto", label: "Alto Risco", cor: "#ef4444", bg: "#ef444420" },
@@ -334,7 +334,7 @@ export default function LojasPage() {
                       data-tip={nivelRisco === "alto" ? "Alto Risco: 2+ tarefas atrasadas ou >=30% das tarefas atrasadas" : "Atenção: 1 tarefa atrasada ou >=10% das tarefas atrasadas"}
                     >
                       <AlertTriangle size={10} />
-                      {nivelRisco === "alto" ? "Alto Risco" : "Atencao"}
+                      {nivelRisco === "alto" ? "Alto Risco" : "Atenção"}
                     </span>
                   )}
                   {nivelRisco === "ok" && tarefasLoja.length > 0 && (

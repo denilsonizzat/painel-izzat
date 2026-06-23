@@ -107,7 +107,7 @@ export default function ColaboradorPerfilPage() {
   if (!pessoa) {
     return (
       <div className="max-w-2xl mx-auto p-8 text-center">
-        <p className="text-white font-semibold text-lg">Colaborador nao encontrado.</p>
+        <p className="text-white font-semibold text-lg">Colaborador não encontrado.</p>
         <Link href="/equipe" className="text-sm mt-2 inline-block hover:underline" style={{ color: "#c9a84c" }}>
           Voltar para Equipe
         </Link>
@@ -501,7 +501,7 @@ export default function ColaboradorPerfilPage() {
                     background: exp.tipo === "diaria" ? "#3b82f620" : "#8b5cf620",
                     color: exp.tipo === "diaria" ? "#3b82f6" : "#8b5cf6",
                   }}>
-                    {exp.tipo === "diaria" ? "Diaria" : "Semanal"}
+                    {exp.tipo === "diaria" ? "Diária" : "Semanal"}
                   </span>
                   <span className="flex gap-0.5">
                     {Array.from({ length: exp.peso }).map((_, i) => (
@@ -757,7 +757,7 @@ export default function ColaboradorPerfilPage() {
         <div className="rounded-xl px-4 py-3 flex items-center gap-3" style={{ background: "#c9a84c10", border: "1px solid #c9a84c25" }}>
           <span style={{ fontSize: 16 }}>📋</span>
           <div className="flex-1">
-            <p className="text-sm font-semibold text-white">Formulario de perfil nao preenchido</p>
+            <p className="text-sm font-semibold text-white">Formulário de perfil não preenchido</p>
             <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>Compartilhe seus sonhos, estilo de trabalho e bem-estar com o lider.</p>
           </div>
           <Link href="/formulario" className="text-xs px-3 py-1.5 rounded-lg font-semibold transition-opacity hover:opacity-80 flex-shrink-0" style={{ background: "#c9a84c", color: "#0b1624" }}>
@@ -769,8 +769,8 @@ export default function ColaboradorPerfilPage() {
         <div className="rounded-xl px-4 py-3 flex items-center gap-3" style={{ background: "#10b98110", border: "1px solid #10b98125" }}>
           <span style={{ fontSize: 16 }}>✓</span>
           <div className="flex-1">
-            <p className="text-sm font-semibold" style={{ color: "#10b981" }}>Formulario preenchido</p>
-            <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>Suas respostas estao disponiveis para o gestor.</p>
+            <p className="text-sm font-semibold" style={{ color: "#10b981" }}>Formulário preenchido</p>
+            <p className="text-xs mt-0.5" style={{ color: "#9aa7ba" }}>Suas respostas estão disponíveis para o gestor.</p>
           </div>
         </div>
       )}
@@ -780,7 +780,7 @@ export default function ColaboradorPerfilPage() {
           <div className="flex items-center gap-2 mb-5">
             <span style={{ fontSize: 16 }}>📋</span>
             <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#9aa7ba" }}>
-              Formulario de Perfil
+              Formulário de Perfil
             </p>
             {pessoa.formulario.preenchidoEm && (
               <span className="ml-auto text-xs px-2 py-0.5 rounded-full" style={{ background: "#10b98115", color: "#10b981" }}>
@@ -961,7 +961,7 @@ export default function ColaboradorPerfilPage() {
         <div className="rounded-xl px-4 py-3 flex items-center gap-3" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
           <span style={{ fontSize: 16 }}>📋</span>
           <p className="text-sm" style={{ color: "#74859c" }}>
-            {pessoa.nome.split(" ")[0]} ainda nao preencheu o formulario de perfil.
+            {pessoa.nome.split(" ")[0]} ainda não preencheu o formulário de perfil.
           </p>
         </div>
       )}
