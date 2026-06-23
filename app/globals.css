@@ -9,7 +9,12 @@
   --bg:          #0A1626;
   --card:        #112239;
   --card-hover:  #16294a;
+  /* Escala oficial de bordas douradas (usar SEMPRE estes tons, nunca rgba()+digitos):
+     subtle .12 (divisórias internas) · padrão .16 (cards/listas) ·
+     strong .30 (destaque) · bright .34 (foco/ativo) */
+  --border-subtle: rgba(201,164,66,.12);
   --border:      rgba(201,164,66,.16);   /* hairline dourada do BIG APP */
+  --border-strong: rgba(201,164,66,.30);
   --border-bright: rgba(201,164,66,.34);
   --gold:        #C9A442;
   --gold-br:     #E8C462;   /* dourado brilhante (destaques) */

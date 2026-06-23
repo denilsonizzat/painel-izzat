@@ -456,14 +456,15 @@ export default function DashboardPage() {
         <div className="flex items-center gap-2 mb-3">
           <p className="text-section-label" data-tip="Atalhos para as ferramentas externas que o time usa no dia a dia. Abrem em nova aba.">Acesso Rápido</p>
         </div>
-        <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
+        <div className="flex flex-wrap justify-center gap-2 sm:grid sm:grid-cols-7">
           {QUICK_ACCESS_TOOLS.map((tool) => (
-            <Tip key={tool.label} titulo={tool.label} texto={tool.desc} place="top">
+            <div key={tool.label} className="w-[calc(25%-0.375rem)] sm:w-auto">
+            <Tip titulo={tool.label} texto={tool.desc} place="top">
               <a
                 href={tool.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-col items-center gap-2 py-3 px-1 rounded-xl transition-all hover:scale-105 hover:opacity-90 active:scale-95"
+                className="flex flex-col items-center gap-2 py-3 px-1 rounded-xl transition-all hover:scale-105 hover:opacity-90 active:scale-95 w-full"
                 style={{ background: "#1e335450", border: "1px solid #1e335480" }}
               >
                 <div className="w-9 h-9 rounded-xl flex items-center justify-center overflow-hidden" style={{ background: tool.bg ?? "transparent" }}>
@@ -476,6 +477,7 @@ export default function DashboardPage() {
                 <span className="text-xs font-medium text-center leading-tight" style={{ color: "#94a3b8" }}>{tool.label}</span>
               </a>
             </Tip>
+            </div>
           ))}
         </div>
       </div>
