@@ -1,13 +1,15 @@
 "use client";
 import { useState, useMemo } from "react";
-import { ARTIGOS_GUIA, CATEGORIAS_GUIA, Artigo } from "@/lib/guia";
-import { Search, BookOpen, ChevronDown, ChevronUp, ChevronRight } from "lucide-react";
+import { ARTIGOS_GUIA, CATEGORIAS_GUIA, CHANGELOG, DESENVOLVEDOR } from "@/lib/guia";
+import { Search, BookOpen, ChevronDown, ChevronUp, ChevronRight, Code2, Calendar, Zap, Wrench, Bug } from "lucide-react";
 
 export default function GuiaPage() {
   const [busca, setBusca] = useState("");
   const [categoriaAtiva, setCategoriaAtiva] = useState<string>("todos");
   const [artigoAtivo, setArtigoAtivo] = useState<string>(ARTIGOS_GUIA[0].id);
   const [secoesAbertas, setSecoesAbertas] = useState<Record<string, boolean>>({});
+
+  const MODO_ESPECIAL = artigoAtivo === "__changelog__" || artigoAtivo === "__sobre__";
 
   const artigosFiltrados = useMemo(() => {
     return ARTIGOS_GUIA.filter((a) => {
@@ -21,7 +23,7 @@ export default function GuiaPage() {
     });
   }, [busca, categoriaAtiva]);
 
-  const artigo = ARTIGOS_GUIA.find((a) => a.id === artigoAtivo) ?? ARTIGOS_GUIA[0];
+  const artigo = ARTIGOS_GUIA.find((a) => a.id === artigoAtivo);
 
   function toggleSecao(id: string) {
     setSecoesAbertas((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -106,6 +108,23 @@ export default function GuiaPage() {
               </button>
             ))
           )}
+          {/* Links especiais — sempre visíveis */}
+          <div className="mt-3 pt-3" style={{ borderTop: "1px solid var(--border)" }}>
+            {[{ id: "__changelog__", emoji: "📋", label: "Changelog / Versões" }, { id: "__sobre__", emoji: "👤", label: "Sobre o App" }].map((item) => (
+              <button
+                key={item.id}
+                onClick={() => { setArtigoAtivo(item.id); setSecoesAbertas({}); }}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all mb-0.5"
+                style={{
+                  background: artigoAtivo === item.id ? "#c9a84c15" : "transparent",
+                  borderLeft: artigoAtivo === item.id ? "3px solid #c9a84c" : "3px solid transparent",
+                }}
+              >
+                <span className="text-base flex-shrink-0">{item.emoji}</span>
+                <span className="text-sm font-medium" style={{ color: artigoAtivo === item.id ? "#c9a84c" : "#64748b" }}>{item.label}</span>
+              </button>
+            ))}
+          </div>
         </nav>
       </aside>
 
@@ -126,6 +145,117 @@ export default function GuiaPage() {
         </div>
 
         <div className="p-6 md:p-8 max-w-3xl">
+
+          {/* ── Changelog ── */}
+          {artigoAtivo === "__changelog__" && (
+            <div>
+              <div className="mb-8">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="text-3xl">📋</span>
+                  <h1 className="text-2xl font-black" style={{ color: "#e2e8f0", fontFamily: "var(--font-display)" }}>Changelog — Histórico de Versões</h1>
+                </div>
+                <div className="h-0.5 w-16 rounded-full mt-3" style={{ background: "linear-gradient(90deg, #c9a84c, transparent)" }} />
+              </div>
+              <div className="flex flex-col gap-6">
+                {CHANGELOG.map((v, vi) => (
+                  <div key={v.versao} className="rounded-2xl overflow-hidden" style={{ border: "1px solid var(--border)", background: "var(--card)" }}>
+                    <div className="flex items-center gap-3 px-5 py-4" style={{ borderBottom: "1px solid var(--border)", background: vi === 0 ? "#c9a84c12" : "transparent" }}>
+                      <span className="px-2.5 py-1 rounded-lg text-xs font-black" style={{ background: vi === 0 ? "#c9a84c" : "#112239", color: vi === 0 ? "#0b1624" : "#94a3b8" }}>v{v.versao}</span>
+                      <div>
+                        <p className="font-bold text-sm" style={{ color: "#e2e8f0" }}>{v.titulo}</p>
+                        <p className="text-xs flex items-center gap-1" style={{ color: "#475569" }}>
+                          <Calendar size={11} /> {v.data}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="p-4 space-y-2">
+                      {v.mudancas.map((m, mi) => {
+                        const icon = m.tipo === "novo" ? <Zap size={12} style={{ color: "#c9a84c", flexShrink: 0 }} /> : m.tipo === "melhoria" ? <Wrench size={12} style={{ color: "#3b82f6", flexShrink: 0 }} /> : <Bug size={12} style={{ color: "#10b981", flexShrink: 0 }} />;
+                        const cor = m.tipo === "novo" ? "#c9a84c20" : m.tipo === "melhoria" ? "#3b82f620" : "#10b98120";
+                        const corLabel = m.tipo === "novo" ? "#c9a84c" : m.tipo === "melhoria" ? "#3b82f6" : "#10b981";
+                        return (
+                          <div key={mi} className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl" style={{ background: cor }}>
+                            <div className="mt-0.5">{icon}</div>
+                            <div className="flex-1">
+                              <p className="text-sm" style={{ color: "#cbd5e1" }}>{m.descricao}</p>
+                              {m.onde && <p className="text-xs mt-0.5" style={{ color: corLabel }}>📍 {m.onde}</p>}
+                            </div>
+                            <span className="text-xs px-1.5 py-0.5 rounded-md font-bold flex-shrink-0" style={{ background: cor, color: corLabel }}>
+                              {m.tipo === "novo" ? "NOVO" : m.tipo === "melhoria" ? "MELHORIA" : "FIX"}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ── Sobre o App ── */}
+          {artigoAtivo === "__sobre__" && (
+            <div>
+              <div className="mb-8">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="text-3xl">👤</span>
+                  <h1 className="text-2xl font-black" style={{ color: "#e2e8f0", fontFamily: "var(--font-display)" }}>Sobre o App</h1>
+                </div>
+                <div className="h-0.5 w-16 rounded-full mt-3" style={{ background: "linear-gradient(90deg, #c9a84c, transparent)" }} />
+              </div>
+              <div className="space-y-5">
+                <div className="rounded-2xl p-6" style={{ background: "var(--card)", border: "1px solid var(--border)" }}>
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl" style={{ background: "#c9a84c20", border: "1px solid #c9a84c40" }}>👨‍💻</div>
+                    <div>
+                      <p className="font-black text-lg" style={{ color: "#e2e8f0" }}>{DESENVOLVEDOR.nome}</p>
+                      <p className="text-sm" style={{ color: "#c9a84c" }}>{DESENVOLVEDOR.cargo}</p>
+                      <p className="text-xs" style={{ color: "#475569" }}>{DESENVOLVEDOR.email}</p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3 mt-4">
+                    <div className="rounded-xl p-3" style={{ background: "#112239" }}>
+                      <p className="text-xs" style={{ color: "#475569" }}>Primeiro deploy</p>
+                      <p className="font-bold text-sm mt-0.5" style={{ color: "#e2e8f0" }}>{DESENVOLVEDOR.primeiroDeploy}</p>
+                    </div>
+                    <div className="rounded-xl p-3" style={{ background: "#112239" }}>
+                      <p className="text-xs" style={{ color: "#475569" }}>Versão atual</p>
+                      <p className="font-bold text-sm mt-0.5" style={{ color: "#c9a84c" }}>v{CHANGELOG[0].versao} — {CHANGELOG[0].data}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="rounded-2xl p-5" style={{ background: "var(--card)", border: "1px solid var(--border)" }}>
+                  <div className="flex items-center gap-2 mb-3">
+                    <Code2 size={15} style={{ color: "#c9a84c" }} />
+                    <p className="font-bold text-sm" style={{ color: "#e2e8f0" }}>Stack técnica</p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {["Next.js App Router", "TypeScript", "Tailwind CSS v4", "Zustand", "Supabase", "Vercel", "PWA", "Shopify API"].map((tech) => (
+                      <span key={tech} className="px-2.5 py-1 rounded-lg text-xs font-semibold" style={{ background: "#112239", color: "#94a3b8", border: "1px solid #1e3356" }}>{tech}</span>
+                    ))}
+                  </div>
+                </div>
+                <div className="rounded-2xl p-5" style={{ background: "var(--card)", border: "1px solid var(--border)" }}>
+                  <p className="font-bold text-sm mb-2" style={{ color: "#e2e8f0" }}>📊 Estatísticas do projeto</p>
+                  <div className="grid grid-cols-3 gap-3">
+                    {[
+                      { label: "Versões lançadas", val: CHANGELOG.length },
+                      { label: "Páginas no app", val: "24+" },
+                      { label: "Módulos ativos", val: "12+" },
+                    ].map((s) => (
+                      <div key={s.label} className="rounded-xl p-3 text-center" style={{ background: "#112239" }}>
+                        <p className="font-black text-xl" style={{ color: "#c9a84c" }}>{s.val}</p>
+                        <p className="text-xs mt-0.5" style={{ color: "#475569" }}>{s.label}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ── Artigo normal ── */}
+          {!MODO_ESPECIAL && artigo && <>
           {/* Cabeçalho do artigo */}
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-2">
@@ -195,6 +325,7 @@ export default function GuiaPage() {
               );
             })()}
           </div>
+          </>}
         </div>
       </main>
     </div>

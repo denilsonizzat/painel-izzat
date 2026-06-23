@@ -17,6 +17,87 @@ export const CATEGORIAS_GUIA = [
   { id: "equipe", label: "Equipe" },
   { id: "controle", label: "Controle & Custos" },
   { id: "ferramentas", label: "Ferramentas" },
+  { id: "meta", label: "Sobre o App" },
+];
+
+export interface Versao {
+  versao: string;
+  data: string;
+  titulo: string;
+  mudancas: { tipo: "novo" | "melhoria" | "fix"; descricao: string; onde?: string }[];
+}
+
+export const DESENVOLVEDOR = {
+  nome: "Denilson Bitencourt",
+  cargo: "Fundador & Dev — Izzat Group",
+  email: "denilson@izzatexpress.com",
+  primeiroDeploy: "2025-01",
+};
+
+export const CHANGELOG: Versao[] = [
+  {
+    versao: "2.5",
+    data: "23/06/2026",
+    titulo: "Menu Ferramentas + Guia do App",
+    mudancas: [
+      { tipo: "novo", descricao: "Menu flutuante Ferramentas — botão único que abre Pomodoro, Calculadora, Fuso Horários e ROAS", onde: "Canto inferior direito" },
+      { tipo: "novo", descricao: "Fuso Horários — relógio mundial com SP, NY, Londres, Dubai e Xangai em tempo real" },
+      { tipo: "novo", descricao: "ROAS & Lucro — calculadora rápida de desempenho de ADS (receita, gasto, custo, margem)", onde: "Menu Ferramentas" },
+      { tipo: "novo", descricao: "Campo Tráfego/Marketing % na Calculadora de Precificação — padrão 25%, editável", onde: "Calculadora → Precificação" },
+      { tipo: "novo", descricao: "Guia do App com 12 artigos tutoriais e changelog", onde: "Menu lateral → Ajuda" },
+      { tipo: "melhoria", descricao: "Todas as páginas agora ocupam 100% da tela ao recolher o menu lateral" },
+      { tipo: "melhoria", descricao: "Sidebar: scroll do menu preservado ao navegar entre sub-páginas (ex: Custos)" },
+      { tipo: "fix", descricao: "Badge do sino de notificações não é mais cortado quando menu lateral está expandido" },
+      { tipo: "fix", descricao: "Tooltip OFFLINE não quebra linha — aparece à esquerda do botão" },
+    ],
+  },
+  {
+    versao: "2.4",
+    data: "22/06/2026",
+    titulo: "Notificações + Sidebar Custos + Branding",
+    mudancas: [
+      { tipo: "novo", descricao: "Central de Notificações — drawer no topo com abas Ativas/Arquivadas, swipe, snooze e filtro de data" },
+      { tipo: "novo", descricao: "Submenu Custos no sidebar — Custo Total, Custo de Equipe, Custo Variável, Custo Operacional agrupados" },
+      { tipo: "melhoria", descricao: "Nome do app: Grupo Izzat (era Izzat Group), favicon Z+, título da aba atualizado" },
+      { tipo: "melhoria", descricao: "Botões na página de Lojas reorganizados em grupos Criar e Ferramentas" },
+      { tipo: "melhoria", descricao: "Cache PWA forçado a atualizar (versão izzat-v3)" },
+      { tipo: "fix", descricao: "Toast de notificações movido para topo para não cobrir botões FAB" },
+    ],
+  },
+  {
+    versao: "2.3",
+    data: "01/06/2026",
+    titulo: "Módulo Operação + Supabase",
+    mudancas: [
+      { tipo: "novo", descricao: "Banco de dados real com Supabase — dados persistem entre dispositivos" },
+      { tipo: "novo", descricao: "Módulo Operação completo — pedidos, ADS e P&L real por loja" },
+      { tipo: "novo", descricao: "Vagas & Pendências — rotinas sem responsável e necessidades de contratação" },
+      { tipo: "melhoria", descricao: "Precificação: suporte a 19 países, 3 bundles, fornecedores AliExpress/Wiio/3Cliques/DV" },
+    ],
+  },
+  {
+    versao: "2.0",
+    data: "15/04/2026",
+    titulo: "VisionGlow PDP + Lojas v2",
+    mudancas: [
+      { tipo: "novo", descricao: "Página de produto Shopify VisionGlow com 12 seções, reviews Facebook-style" },
+      { tipo: "novo", descricao: "Lojas: organização por grupo (Izzat / Partners / Arquivadas)" },
+      { tipo: "melhoria", descricao: "Desempenho geral: carregamento inicial 40% mais rápido" },
+    ],
+  },
+  {
+    versao: "1.0",
+    data: "01/2025",
+    titulo: "Lançamento inicial",
+    mudancas: [
+      { tipo: "novo", descricao: "Dashboard com progresso do time, stories e KPIs" },
+      { tipo: "novo", descricao: "Sistema de tarefas e rotinas com XP e nível" },
+      { tipo: "novo", descricao: "Gestão de equipe — perfis, salários, Google Chat" },
+      { tipo: "novo", descricao: "Módulo de Custos — folha salarial e ferramentas" },
+      { tipo: "novo", descricao: "Pomodoro timer com registro de atividade" },
+      { tipo: "novo", descricao: "PWA installável no celular e desktop" },
+    ],
+  },
 ];
 
 export const ARTIGOS_GUIA: Artigo[] = [

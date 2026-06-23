@@ -122,6 +122,9 @@ interface AppState {
   setTema: (temaId: string) => void;
   abrirPomodoro: (tarefaId?: string | null, titulo?: string) => void;
   fecharPomodoro: () => void;
+  calcAberta: boolean;
+  abrirCalc: () => void;
+  fecharCalc: () => void;
   criarEntregaSemanal: (colaboradorId: string, titulo: string) => void;
   atualizarStatusEntrega: (entregaId: string, status: EntregaSemanal["status"], motivoTravado?: string) => void;
   deletarEntregaSemanal: (entregaId: string) => void;
@@ -217,6 +220,7 @@ export const useAppStore = create<AppState>()(
       pomodoroAberto: false,
       pomodoroTarefaId: null,
       pomodoroTarefaTitulo: "",
+      calcAberta: false,
       sidebarColapsada: false,
       onboardingConcluido: false,
       filtroLuzAzul: false,
@@ -1137,6 +1141,8 @@ export const useAppStore = create<AppState>()(
 
       abrirPomodoro: (tarefaId, titulo) => set({ pomodoroAberto: true, pomodoroTarefaId: tarefaId ?? null, pomodoroTarefaTitulo: titulo ?? "" }),
       fecharPomodoro: () => set({ pomodoroAberto: false, pomodoroTarefaId: null, pomodoroTarefaTitulo: "" }),
+      abrirCalc: () => set({ calcAberta: true }),
+      fecharCalc: () => set({ calcAberta: false }),
 
       criarEntregaSemanal: (colaboradorId, titulo) => {
         const nova: EntregaSemanal = {

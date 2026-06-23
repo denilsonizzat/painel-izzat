@@ -192,26 +192,7 @@ export default function FloatingPomodoro() {
     if (etapa !== "ativo") resetar();
   }
 
-  // FAB — circular, bottom-right, acima do nivel padrao
-  if (!aberto) {
-    return (
-      <button
-        data-tour="pomodoro-fab"
-        onClick={() => setAberto(true)}
-        className="fixed z-50 hidden md:flex items-center justify-center rounded-full shadow-2xl transition-all hover:scale-110 active:scale-95"
-        style={{
-          bottom: 90, right: 24, width: 56, height: 56,
-          background: etapa === "ativo" ? cor : "#112239",
-          border: `2px solid ${etapa === "ativo" ? cor + "80" : "#1e3356"}`,
-          boxShadow: etapa === "ativo" ? `0 4px 24px ${cor}60` : "0 4px 20px #00000080",
-        }}
-      >
-        {etapa === "ativo"
-          ? <span className="font-mono text-xs font-black tracking-tight text-white leading-none">{min}:{sec}</span>
-          : <span style={{ fontSize: 22 }}>&#127813;</span>}
-      </button>
-    );
-  }
+  if (!aberto) return null;
 
   return (
     <div
