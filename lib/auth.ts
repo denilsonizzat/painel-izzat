@@ -76,3 +76,57 @@ export async function restaurarSessaoSupabase(): Promise<Colaborador | null> {
 export async function logoutSupabase() {
   await supabase.auth.signOut();
 }
+
+function colaboradorParaRow(c: Colaborador) {
+  return {
+    id: c.id,
+    nome: c.nome,
+    cargo: c.cargo || null,
+    email: c.email || null,
+    telefone: c.telefone ?? null,
+    nivel_acesso: c.nivelAcesso,
+    avatar: c.avatar || null,
+    foto: c.foto ?? null,
+    cor: c.cor || null,
+    xp: c.xp ?? 0,
+    streak: c.streak ?? 0,
+    salario: c.salario ?? null,
+    estado: c.estado ?? null,
+    ultimo_checkin: c.ultimoCheckIn ?? null,
+    horario_inicio: c.horarioInicio ?? null,
+    horario_fim: c.horarioFim ?? null,
+    horas_disponiveis: c.horasDisponiveis ?? null,
+    dados: {
+      habilidades: c.habilidades,
+      lojas: c.lojas,
+      rotinas: c.rotinas,
+      expectativas: c.expectativas,
+      reconhecimentos: c.reconhecimentos,
+      formulario: c.formulario,
+      statusOnline: c.statusOnline,
+      ferramentasIds: c.ferramentasIds,
+      registrosSono: c.registrosSono,
+      googleChatLink: c.googleChatLink,
+      dataNascimento: c.dataNascimento,
+    },
+  };
+}
+
+export async function buscarColaboradoresSupabase(): Promise<Colaborador[]> {
+  const { data, error } = await supabase.from("colaboradores").select("*");
+  if (error || !data) {
+    if (error) console.error("Erro ao buscar colaboradores:", error.message);
+    return [];
+  }
+  return (data as ColaboradorRow[]).map(rowParaColaborador);
+}
+
+export async function salvarColaboradorSupabase(colaborador: Colaborador) {
+  const { error } = await supabase.from("colaboradores").upsert(colaboradorParaRow(colaborador));
+  if (error) console.error("Erro ao salvar colaborador:", error.message);
+}
+
+export async function excluirColaboradorSupabase(id: string) {
+  const { error } = await supabase.from("colaboradores").delete().eq("id", id);
+  if (error) console.error("Erro ao excluir colaborador:", error.message);
+}
