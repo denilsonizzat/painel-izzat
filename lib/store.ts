@@ -35,6 +35,7 @@ import {
 import { calcularProximaOcorrencia, hojeStr } from "./recorrencia";
 import { tocarSomNotificacao, tocarSomOnline } from "./som";
 import { logoutSupabase } from "./auth";
+import { buscarRotinasSupabase, salvarRotinaSupabase, excluirRotinaSupabase } from "./rotinasSync";
 
 function semanaAtual(): string {
   const d = new Date();
@@ -85,6 +86,7 @@ interface AppState {
 
   login: (id: string) => void;
   entrarComSupabase: (colaborador: Colaborador) => void;
+  carregarRotinasSupabase: () => Promise<void>;
   logout: () => void;
   rotinas: Rotina[];
   marcarSubtarefa: (rotinaId: string, subtarefaId: string, valor: boolean) => void;
@@ -259,6 +261,12 @@ export const useAppStore = create<AppState>()(
             ? state.colaboradores.map((c) => (c.id === colaborador.id ? colaborador : c))
             : [...state.colaboradores, colaborador],
         }));
+        get().carregarRotinasSupabase();
+      },
+
+      carregarRotinasSupabase: async () => {
+        const rotinas = await buscarRotinasSupabase();
+        if (rotinas.length > 0) set({ rotinas });
       },
 
       logout: () => {
@@ -283,15 +291,18 @@ export const useAppStore = create<AppState>()(
         const sub = rotina?.subtarefas.find((s) => s.id === subtarefaId);
         const quem = sub?.colaboradorId || rotina?.colaboradorId || get().usuarioAtual?.id;
 
+        let atualizada: Rotina | undefined;
         set((state) => ({
           rotinas: state.rotinas.map((r) => {
             if (r.id !== rotinaId) return r;
             const novasSub = r.subtarefas.map((s) =>
               s.id === subtarefaId ? { ...s, concluida: valor } : s
             );
-            return { ...r, subtarefas: novasSub, concluida: novasSub.every((s) => s.concluida) };
+            atualizada = { ...r, subtarefas: novasSub, concluida: novasSub.every((s) => s.concluida) };
+            return atualizada;
           }),
         }));
+        if (atualizada) salvarRotinaSupabase(atualizada);
 
         if (valor && quem) {
           get().ganharXP(quem, 10);
@@ -317,17 +328,21 @@ export const useAppStore = create<AppState>()(
         const jaConcluidaHoje = rotina.ultimaConclusao === hojeStr();
         const quem = rotina.colaboradorId || get().usuarioAtual?.id;
 
+        let atualizada: Rotina | undefined;
         set((state) => ({
-          rotinas: state.rotinas.map((r) =>
-            r.id !== rotinaId ? r : {
+          rotinas: state.rotinas.map((r) => {
+            if (r.id !== rotinaId) return r;
+            atualizada = {
               ...r,
               concluida: true,
               ultimaConclusao: hojeStr(),
               proximaOcorrencia: calcularProximaOcorrencia(r.frequencia, hojeStr()),
               subtarefas: r.subtarefas.map((s) => ({ ...s, concluida: true })),
-            }
-          ),
+            };
+            return atualizada;
+          }),
         }));
+        if (atualizada) salvarRotinaSupabase(atualizada);
 
         if (!jaConcluidaHoje && quem) {
           const bonus = Math.random() < 0.10;
@@ -348,26 +363,34 @@ export const useAppStore = create<AppState>()(
 
       // Reabre rotina concluída: volta a próxima ocorrência para hoje (vence de novo).
       reabrirRotina: (rotinaId) => {
+        let atualizada: Rotina | undefined;
         set((state) => ({
-          rotinas: state.rotinas.map((r) =>
-            r.id !== rotinaId ? r : {
+          rotinas: state.rotinas.map((r) => {
+            if (r.id !== rotinaId) return r;
+            atualizada = {
               ...r,
               concluida: false,
               ultimaConclusao: undefined,
               proximaOcorrencia: hojeStr(),
               subtarefas: r.subtarefas.map((s) => ({ ...s, concluida: false })),
-            }
-          ),
+            };
+            return atualizada;
+          }),
         }));
+        if (atualizada) salvarRotinaSupabase(atualizada);
       },
 
       // Define (ou remove) o responsável de uma rotina. undefined = vai para Vagas.
       delegarRotina: (rotinaId, colaboradorId) => {
+        let atualizada: Rotina | undefined;
         set((state) => ({
-          rotinas: state.rotinas.map((r) =>
-            r.id !== rotinaId ? r : { ...r, colaboradorId, vagaTemporaria: colaboradorId ? false : r.vagaTemporaria }
-          ),
+          rotinas: state.rotinas.map((r) => {
+            if (r.id !== rotinaId) return r;
+            atualizada = { ...r, colaboradorId, vagaTemporaria: colaboradorId ? false : r.vagaTemporaria };
+            return atualizada;
+          }),
         }));
+        if (atualizada) salvarRotinaSupabase(atualizada);
       },
 
       marcarExpectativa: (colaboradorId, expectativaId, valor) => {
@@ -809,16 +832,24 @@ export const useAppStore = create<AppState>()(
           proximaOcorrencia: rotina.proximaOcorrencia || inicio,
         };
         set((state) => ({ rotinas: [...state.rotinas, novaRotina] }));
+        salvarRotinaSupabase(novaRotina);
       },
 
       editarRotina: (rotinaId, updates) => {
+        let atualizada: Rotina | undefined;
         set((state) => ({
-          rotinas: state.rotinas.map((r) => r.id !== rotinaId ? r : { ...r, ...updates }),
+          rotinas: state.rotinas.map((r) => {
+            if (r.id !== rotinaId) return r;
+            atualizada = { ...r, ...updates };
+            return atualizada;
+          }),
         }));
+        if (atualizada) salvarRotinaSupabase(atualizada);
       },
 
       deletarRotina: (rotinaId) => {
         set((state) => ({ rotinas: state.rotinas.filter((r) => r.id !== rotinaId) }));
+        excluirRotinaSupabase(rotinaId);
       },
 
       usarFichaReconhecimento: (doId) => {
