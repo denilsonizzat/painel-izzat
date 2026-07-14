@@ -241,21 +241,10 @@ begin
   end loop;
 end $$;
 
--- ── op_* (Operação) já existem; garantir RLS liberado pro time também ──
-do $$
-declare t text;
-begin
-  foreach t in array array['op_pedidos','op_ads','op_metas','op_config'] loop
-    if exists (select 1 from information_schema.tables
-               where table_schema='public' and table_name=t) then
-      execute format('alter table public.%I enable row level security;', t);
-      execute format('drop policy if exists "auth_all_%1$s" on public.%1$s;', t);
-      execute format(
-        'create policy "auth_all_%1$s" on public.%1$s
-           for all to authenticated using (true) with check (true);', t);
-    end if;
-  end loop;
-end $$;
+-- NOTA: op_* e prec_* NÃO são tocadas aqui de propósito — já estão em
+-- produção usando a anon key (sem Supabase Auth ainda). Mexer na RLS delas
+-- pra exigir "authenticated" quebraria o módulo Operação/Precificação no ar.
+-- Isso entra só na Fase 3 (RLS por papel), junto com o login real.
 
 -- ═══════════════════════════════════════════════════════════════════════
 --  FIM. Próximo passo: popular colaboradores (seed) e migrar o store.

@@ -34,6 +34,7 @@ import {
 } from "./data";
 import { calcularProximaOcorrencia, hojeStr } from "./recorrencia";
 import { tocarSomNotificacao, tocarSomOnline } from "./som";
+import { logoutSupabase } from "./auth";
 
 function semanaAtual(): string {
   const d = new Date();
@@ -83,6 +84,7 @@ interface AppState {
   socios: SocioGestor[];
 
   login: (id: string) => void;
+  entrarComSupabase: (colaborador: Colaborador) => void;
   logout: () => void;
   rotinas: Rotina[];
   marcarSubtarefa: (rotinaId: string, subtarefaId: string, valor: boolean) => void;
@@ -250,7 +252,19 @@ export const useAppStore = create<AppState>()(
         if (colab) set({ usuarioAtual: colab });
       },
 
-      logout: () => set({ usuarioAtual: null }),
+      entrarComSupabase: (colaborador) => {
+        set((state) => ({
+          usuarioAtual: colaborador,
+          colaboradores: state.colaboradores.some((c) => c.id === colaborador.id)
+            ? state.colaboradores.map((c) => (c.id === colaborador.id ? colaborador : c))
+            : [...state.colaboradores, colaborador],
+        }));
+      },
+
+      logout: () => {
+        logoutSupabase();
+        set({ usuarioAtual: null });
+      },
 
       ganharXP: (colaboradorId, quantidade) => {
         set((state) => ({
