@@ -34,8 +34,22 @@ import {
 } from "./data";
 import { calcularProximaOcorrencia, hojeStr } from "./recorrencia";
 import { tocarSomNotificacao, tocarSomOnline } from "./som";
-import { logoutSupabase } from "./auth";
+import { logoutSupabase, buscarColaboradoresSupabase, salvarColaboradorSupabase } from "./auth";
 import { buscarRotinasSupabase, salvarRotinaSupabase, excluirRotinaSupabase } from "./rotinasSync";
+import {
+  buscarTarefasSupabase, salvarTarefaSupabase, excluirTarefaSupabase,
+  buscarNotificacoesSupabase, salvarNotificacaoSupabase, excluirNotificacaoSupabase,
+  registrarAtividadeSupabase,
+  buscarEntregasSupabase, salvarEntregaSupabase, excluirEntregaSupabase,
+  buscarDesafiosSupabase, salvarDesafioSupabase, excluirDesafioSupabase,
+  buscarCheckInsSupabase, registrarCheckInSupabase, atualizarCheckInSupabase, excluirCheckInSupabase,
+  buscarProdutosSupabase, salvarProdutoSupabase, excluirProdutoSupabase,
+  buscarFerramentasSupabase, salvarFerramentaSupabase, excluirFerramentaSupabase,
+  buscarGastosSupabase, salvarGastoSupabase, excluirGastoSupabase,
+  buscarLojasCustomSupabase, salvarLojaCustomSupabase, excluirLojaCustomSupabase,
+  buscarSociosSupabase, salvarSocioSupabase, excluirSocioSupabase,
+  buscarEstadoSupabase, salvarEstadoSupabase,
+} from "./cloudMappers";
 
 function semanaAtual(): string {
   const d = new Date();
@@ -87,6 +101,7 @@ interface AppState {
   login: (id: string) => void;
   entrarComSupabase: (colaborador: Colaborador) => void;
   carregarRotinasSupabase: () => Promise<void>;
+  carregarDadosSupabase: () => Promise<void>;
   logout: () => void;
   rotinas: Rotina[];
   marcarSubtarefa: (rotinaId: string, subtarefaId: string, valor: boolean) => void;
@@ -261,12 +276,54 @@ export const useAppStore = create<AppState>()(
             ? state.colaboradores.map((c) => (c.id === colaborador.id ? colaborador : c))
             : [...state.colaboradores, colaborador],
         }));
-        get().carregarRotinasSupabase();
+        get().carregarDadosSupabase();
       },
 
       carregarRotinasSupabase: async () => {
         const rotinas = await buscarRotinasSupabase();
         if (rotinas.length > 0) set({ rotinas });
+      },
+
+      carregarDadosSupabase: async () => {
+        const [
+          colaboradores, rotinas, tarefas, notificacoes, entregas, desafios, checkins,
+          produtos, ferramentas, gastos, lojasCustom, socios,
+          regrasEmpresa, linksRapidos, pulsoAtual, missoesSemana, fichasReconhecimento, lojasArquivadas,
+        ] = await Promise.all([
+          buscarColaboradoresSupabase(), buscarRotinasSupabase(), buscarTarefasSupabase(),
+          buscarNotificacoesSupabase(), buscarEntregasSupabase(), buscarDesafiosSupabase(),
+          buscarCheckInsSupabase(), buscarProdutosSupabase(), buscarFerramentasSupabase(),
+          buscarGastosSupabase(), buscarLojasCustomSupabase(), buscarSociosSupabase(),
+          buscarEstadoSupabase<RegraEmpresa[]>("regrasEmpresa"),
+          buscarEstadoSupabase<LinkRapido[]>("linksRapidos"),
+          buscarEstadoSupabase<{ semana: string; notas: Record<string, number> }>("pulsoAtual"),
+          buscarEstadoSupabase<Record<string, { semana: string; concluida: boolean }>>("missoesSemana"),
+          buscarEstadoSupabase<Record<string, number>>("fichasReconhecimento"),
+          buscarEstadoSupabase<string[]>("lojasArquivadas"),
+        ]);
+        set((state) => ({
+          colaboradores: colaboradores.length > 0 ? colaboradores : state.colaboradores,
+          rotinas: rotinas.length > 0 ? rotinas : state.rotinas,
+          tarefas: tarefas.length > 0 ? tarefas : state.tarefas,
+          notificacoesInApp: notificacoes.length > 0 ? notificacoes : state.notificacoesInApp,
+          entregasSemanais: entregas,
+          desafios,
+          checkInsDesafio: checkins,
+          produtos,
+          ferramentas,
+          gastosOperacionais: gastos,
+          lojasCustom,
+          socios,
+          regrasEmpresa: regrasEmpresa ?? state.regrasEmpresa,
+          linksRapidos: linksRapidos ?? state.linksRapidos,
+          pulsoAtual: pulsoAtual ?? state.pulsoAtual,
+          missoesSemana: missoesSemana ?? state.missoesSemana,
+          fichasReconhecimento: fichasReconhecimento ?? state.fichasReconhecimento,
+          lojasArquivadas: lojasArquivadas ?? state.lojasArquivadas,
+          usuarioAtual: state.usuarioAtual && colaboradores.length > 0
+            ? colaboradores.find((c) => c.id === state.usuarioAtual!.id) ?? state.usuarioAtual
+            : state.usuarioAtual,
+        }));
       },
 
       logout: () => {
@@ -281,7 +338,10 @@ export const useAppStore = create<AppState>()(
           ),
         }));
         const updated = get().colaboradores.find((c) => c.id === colaboradorId);
-        if (updated && get().usuarioAtual?.id === colaboradorId) set({ usuarioAtual: updated });
+        if (updated) {
+          if (get().usuarioAtual?.id === colaboradorId) set({ usuarioAtual: updated });
+          salvarColaboradorSupabase(updated);
+        }
       },
 
       // Marca subtarefa de uma rotina (lista top-level). Quem ganha XP é o
@@ -423,7 +483,10 @@ export const useAppStore = create<AppState>()(
           }
         }
         const updated = get().colaboradores.find((c) => c.id === colaboradorId);
-        if (updated && get().usuarioAtual?.id === colaboradorId) set({ usuarioAtual: updated });
+        if (updated) {
+          if (get().usuarioAtual?.id === colaboradorId) set({ usuarioAtual: updated });
+          salvarColaboradorSupabase(updated);
+        }
       },
 
       darReconhecimento: (paraId, mensagem, emoji) => {
@@ -458,14 +521,18 @@ export const useAppStore = create<AppState>()(
       verificarAtrasadas: () => {
         const hoje = new Date().toISOString().split("T")[0];
         const FINAIS = ["concluida", "atrasada", "aguardando_revisao"] as const;
+        const mudadas: Tarefa[] = [];
         set((state) => ({
           tarefas: state.tarefas.map((t) => {
             if (t.dataLimite && t.dataLimite < hoje && !FINAIS.includes(t.status as typeof FINAIS[number])) {
-              return { ...t, status: "atrasada" as const };
+              const atualizada = { ...t, status: "atrasada" as const };
+              mudadas.push(atualizada);
+              return atualizada;
             }
             return t;
           }),
         }));
+        mudadas.forEach(salvarTarefaSupabase);
       },
 
       adicionarComentario: (tarefaId, texto) => {
@@ -482,6 +549,8 @@ export const useAppStore = create<AppState>()(
             t.id === tarefaId ? { ...t, comentarios: [...(t.comentarios || []), comentario] } : t
           ),
         }));
+        const tarefaAtualizada = get().tarefas.find((t) => t.id === tarefaId);
+        if (tarefaAtualizada) salvarTarefaSupabase(tarefaAtualizada);
       },
 
       registrarCheckIn: (colaboradorId) => {
@@ -543,7 +612,10 @@ export const useAppStore = create<AppState>()(
         });
 
         const updated = get().colaboradores.find((c) => c.id === colaboradorId);
-        if (updated && get().usuarioAtual?.id === colaboradorId) set({ usuarioAtual: updated });
+        if (updated) {
+          if (get().usuarioAtual?.id === colaboradorId) set({ usuarioAtual: updated });
+          salvarColaboradorSupabase(updated);
+        }
       },
 
       criarTarefa: (tarefa) => {
@@ -554,6 +626,7 @@ export const useAppStore = create<AppState>()(
           comentarios: [],
         };
         set((state) => ({ tarefas: [nova, ...state.tarefas] }));
+        salvarTarefaSupabase(nova);
         if (tarefa.atribuidoPara && tarefa.atribuidoPara !== tarefa.criadoPor) {
           const criador = get().colaboradores.find((c) => c.id === tarefa.criadoPor);
           get().adicionarNotificacaoInApp({
@@ -577,6 +650,8 @@ export const useAppStore = create<AppState>()(
             ? { ...t, status: finalStatus, ...(concluidaEm ? { concluidaEm } : {}) }
             : t),
         }));
+        const tarefaSync = get().tarefas.find((t) => t.id === tarefaId);
+        if (tarefaSync) salvarTarefaSupabase(tarefaSync);
         if (finalStatus === "aguardando_revisao") {
           get().addToast("Enviado para revisao do gestor!", "info");
           const admin = get().colaboradores.find((c) => c.nivelAcesso === "admin");
@@ -614,6 +689,8 @@ export const useAppStore = create<AppState>()(
         set((state) => ({
           tarefas: state.tarefas.map((t) => t.id === tarefaId ? { ...t, status: "concluida" as const } : t),
         }));
+        const tarefaAprovada = get().tarefas.find((t) => t.id === tarefaId);
+        if (tarefaAprovada) salvarTarefaSupabase(tarefaAprovada);
         get().ganharXP(tarefa.atribuidoPara, 30);
         get().addToast("+30 XP · tarefa aprovada!", "success", 30);
         get().adicionarAtividadeEntry({
@@ -663,6 +740,8 @@ export const useAppStore = create<AppState>()(
             };
           }),
         }));
+        const tarefaSub = get().tarefas.find((t) => t.id === tarefaId);
+        if (tarefaSub) salvarTarefaSupabase(tarefaSub);
         if (concluida) {
           get().ganharXP(colaboradorId, 10);
           get().addToast("+10 XP · subtarefa concluída!", "success", 10);
@@ -683,7 +762,10 @@ export const useAppStore = create<AppState>()(
           ),
         }));
         const updated = get().colaboradores.find((c) => c.id === colaboradorId);
-        if (updated && get().usuarioAtual?.id === colaboradorId) set({ usuarioAtual: updated });
+        if (updated) {
+          if (get().usuarioAtual?.id === colaboradorId) set({ usuarioAtual: updated });
+          salvarColaboradorSupabase(updated);
+        }
 
         // Avisa o time quando alguém ENTRA online (transição offline→online).
         // (Cross-device passa a funcionar de verdade após o deploy com realtime.)
@@ -717,6 +799,7 @@ export const useAppStore = create<AppState>()(
             historicoAtividades: historico,
           };
         });
+        registrarAtividadeSupabase(nova);
       },
 
       adicionarStory: (autorId, conteudo, emoji, tipo) => {
@@ -752,6 +835,7 @@ export const useAppStore = create<AppState>()(
           criadaEm: new Date().toISOString(),
         };
         set((state) => ({ notificacoesInApp: [nova, ...state.notificacoesInApp].slice(0, 50) }));
+        salvarNotificacaoSupabase(nova);
         // Som: só toca para o destinatário logado. "online" tem som próprio (tocado em setStatusOnline).
         if (notif.paraId === get().usuarioAtual?.id && notif.tipo !== "online") {
           tocarSomNotificacao();
@@ -764,6 +848,8 @@ export const useAppStore = create<AppState>()(
             n.id === notifId ? { ...n, lida: true } : n
           ),
         }));
+        const n = get().notificacoesInApp.find((x) => x.id === notifId);
+        if (n) salvarNotificacaoSupabase(n);
       },
 
       marcarNotificacaoNaoLida: (notifId) => {
@@ -772,6 +858,8 @@ export const useAppStore = create<AppState>()(
             n.id === notifId ? { ...n, lida: false, arquivada: false } : n
           ),
         }));
+        const n = get().notificacoesInApp.find((x) => x.id === notifId);
+        if (n) salvarNotificacaoSupabase(n);
       },
 
       arquivarNotificacao: (notifId) => {
@@ -780,12 +868,15 @@ export const useAppStore = create<AppState>()(
             n.id === notifId ? { ...n, lida: true, arquivada: true } : n
           ),
         }));
+        const n = get().notificacoesInApp.find((x) => x.id === notifId);
+        if (n) salvarNotificacaoSupabase(n);
       },
 
       excluirNotificacao: (notifId) => {
         set((state) => ({
           notificacoesInApp: state.notificacoesInApp.filter((n) => n.id !== notifId),
         }));
+        excluirNotificacaoSupabase(notifId);
       },
 
       snoozeNotificacao: (notifId, minutos) => {
@@ -795,19 +886,25 @@ export const useAppStore = create<AppState>()(
             n.id === notifId ? { ...n, lida: true, snoozedUntil: until } : n
           ),
         }));
+        const nSnooze = get().notificacoesInApp.find((x) => x.id === notifId);
+        if (nSnooze) salvarNotificacaoSupabase(nSnooze);
         setTimeout(() => {
           set((state) => ({
             notificacoesInApp: state.notificacoesInApp.map((n) =>
               n.id === notifId ? { ...n, lida: false, snoozedUntil: undefined } : n
             ),
           }));
+          const nDone = get().notificacoesInApp.find((x) => x.id === notifId);
+          if (nDone) salvarNotificacaoSupabase(nDone);
         }, minutos * 60 * 1000);
       },
 
       limparNotificacoesLidas: () => {
+        const idsLidos = get().notificacoesInApp.filter((n) => n.lida).map((n) => n.id);
         set((state) => ({
           notificacoesInApp: state.notificacoesInApp.filter((n) => !n.lida),
         }));
+        idsLidos.forEach(excluirNotificacaoSupabase);
       },
 
       addToast: (message, type, xp) => {
@@ -859,6 +956,7 @@ export const useAppStore = create<AppState>()(
         set((state) => ({
           fichasReconhecimento: { ...state.fichasReconhecimento, [doId]: disponiveis - 1 },
         }));
+        salvarEstadoSupabase("fichasReconhecimento", get().fichasReconhecimento);
         return true;
       },
 
@@ -874,7 +972,10 @@ export const useAppStore = create<AppState>()(
           ),
         }));
         const updated = get().colaboradores.find((c) => c.id === colaboradorId);
-        if (updated && get().usuarioAtual?.id === colaboradorId) set({ usuarioAtual: updated });
+        if (updated) {
+          if (get().usuarioAtual?.id === colaboradorId) set({ usuarioAtual: updated });
+          salvarColaboradorSupabase(updated);
+        }
       },
 
       registrarPulso: (userId, nota) => {
@@ -896,6 +997,7 @@ export const useAppStore = create<AppState>()(
             },
           };
         });
+        salvarEstadoSupabase("pulsoAtual", get().pulsoAtual);
       },
 
       concluirMissao: (userId) => {
@@ -908,6 +1010,7 @@ export const useAppStore = create<AppState>()(
             [userId]: { semana, concluida: true },
           },
         }));
+        salvarEstadoSupabase("missoesSemana", get().missoesSemana);
         get().ganharXP(userId, 100);
         get().addToast("+100 XP · Missao da semana concluida!", "success", 100);
       },
@@ -915,73 +1018,116 @@ export const useAppStore = create<AppState>()(
       setTema: (temaId) => set({ temaId }),
       setFiltroLuzAzul: (v) => set({ filtroLuzAzul: v }),
       setCorAcentoCustom: (cor) => set({ corAcentoCustom: cor }),
-      setTelefone: (colaboradorId, telefone) => set((s) => ({
-        colaboradores: s.colaboradores.map((c) => c.id === colaboradorId ? { ...c, telefone } : c),
-      })),
-      setSalario: (colaboradorId, salario) => set((s) => ({
-        colaboradores: s.colaboradores.map((c) => c.id === colaboradorId ? { ...c, salario } : c),
-      })),
-      setGoogleChatLink: (colaboradorId, link) => set((s) => ({
-        colaboradores: s.colaboradores.map((c) => c.id === colaboradorId ? { ...c, googleChatLink: link } : c),
-      })),
-      setDataNascimento: (colaboradorId, data) => set((s) => ({
-        colaboradores: s.colaboradores.map((c) => c.id === colaboradorId ? { ...c, dataNascimento: data } : c),
-      })),
+      setTelefone: (colaboradorId, telefone) => {
+        set((s) => ({ colaboradores: s.colaboradores.map((c) => c.id === colaboradorId ? { ...c, telefone } : c) }));
+        const updated = get().colaboradores.find((c) => c.id === colaboradorId);
+        if (updated) salvarColaboradorSupabase(updated);
+      },
+      setSalario: (colaboradorId, salario) => {
+        set((s) => ({ colaboradores: s.colaboradores.map((c) => c.id === colaboradorId ? { ...c, salario } : c) }));
+        const updated = get().colaboradores.find((c) => c.id === colaboradorId);
+        if (updated) salvarColaboradorSupabase(updated);
+      },
+      setGoogleChatLink: (colaboradorId, link) => {
+        set((s) => ({ colaboradores: s.colaboradores.map((c) => c.id === colaboradorId ? { ...c, googleChatLink: link } : c) }));
+        const updated = get().colaboradores.find((c) => c.id === colaboradorId);
+        if (updated) salvarColaboradorSupabase(updated);
+      },
+      setDataNascimento: (colaboradorId, data) => {
+        set((s) => ({ colaboradores: s.colaboradores.map((c) => c.id === colaboradorId ? { ...c, dataNascimento: data } : c) }));
+        const updated = get().colaboradores.find((c) => c.id === colaboradorId);
+        if (updated) salvarColaboradorSupabase(updated);
+      },
       marcarVisualizacaoTarefa: (tarefaId, colaboradorId) => set((s) => ({
         tarefas: s.tarefas.map((t) => t.id === tarefaId
           ? { ...t, visualizacoes: { ...(t.visualizacoes || {}), [colaboradorId]: new Date().toISOString() } }
           : t),
       })),
-      adicionarMiniTarefa: (tarefaId, colaboradorId, titulo) => set((s) => ({
-        tarefas: s.tarefas.map((t) => t.id === tarefaId ? {
-          ...t,
-          miniTarefas: [...(t.miniTarefas || []), {
-            id: `mt-${Date.now()}`,
-            colaboradorId,
-            titulo,
-            concluida: false,
-            criadaEm: new Date().toISOString(),
-          }],
-        } : t),
-      })),
-      toggleMiniTarefa: (tarefaId, miniId, concluida) => set((s) => ({
-        tarefas: s.tarefas.map((t) => t.id === tarefaId ? {
-          ...t,
-          miniTarefas: (t.miniTarefas || []).map((m) => m.id === miniId ? { ...m, concluida } : m),
-        } : t),
-      })),
-      deletarMiniTarefa: (tarefaId, miniId) => set((s) => ({
-        tarefas: s.tarefas.map((t) => t.id === tarefaId ? {
-          ...t,
-          miniTarefas: (t.miniTarefas || []).filter((m) => m.id !== miniId),
-        } : t),
-      })),
+      adicionarMiniTarefa: (tarefaId, colaboradorId, titulo) => {
+        set((s) => ({
+          tarefas: s.tarefas.map((t) => t.id === tarefaId ? {
+            ...t,
+            miniTarefas: [...(t.miniTarefas || []), {
+              id: `mt-${Date.now()}`,
+              colaboradorId,
+              titulo,
+              concluida: false,
+              criadaEm: new Date().toISOString(),
+            }],
+          } : t),
+        }));
+        const t = get().tarefas.find((x) => x.id === tarefaId);
+        if (t) salvarTarefaSupabase(t);
+      },
+      toggleMiniTarefa: (tarefaId, miniId, concluida) => {
+        set((s) => ({
+          tarefas: s.tarefas.map((t) => t.id === tarefaId ? {
+            ...t,
+            miniTarefas: (t.miniTarefas || []).map((m) => m.id === miniId ? { ...m, concluida } : m),
+          } : t),
+        }));
+        const t = get().tarefas.find((x) => x.id === tarefaId);
+        if (t) salvarTarefaSupabase(t);
+      },
+      deletarMiniTarefa: (tarefaId, miniId) => {
+        set((s) => ({
+          tarefas: s.tarefas.map((t) => t.id === tarefaId ? {
+            ...t,
+            miniTarefas: (t.miniTarefas || []).filter((m) => m.id !== miniId),
+          } : t),
+        }));
+        const t = get().tarefas.find((x) => x.id === tarefaId);
+        if (t) salvarTarefaSupabase(t);
+      },
 
       criarLoja: (dados) => {
         const nova: Loja = { ...dados, id: `loja-custom-${Date.now()}` };
         set((s) => ({ lojasCustom: [...s.lojasCustom, nova] }));
+        salvarLojaCustomSupabase(nova);
       },
       editarLoja: (id, updates) => {
         set((s) => ({
           lojasCustom: s.lojasCustom.map((l) => l.id === id ? { ...l, ...updates } : l),
         }));
+        const l = get().lojasCustom.find((x) => x.id === id);
+        if (l) salvarLojaCustomSupabase(l);
       },
-      deletarLoja: (id) => set((s) => ({
-        lojasCustom: s.lojasCustom.filter((l) => l.id !== id),
-        socios: s.socios.filter((so) => so.lojaId !== id), // remove sócios órfãos da loja excluída
-      })),
-      arquivarLoja: (id) => set((s) => ({ lojasArquivadas: [...s.lojasArquivadas.filter((i) => i !== id), id] })),
-      restaurarLoja: (id) => set((s) => ({ lojasArquivadas: s.lojasArquivadas.filter((i) => i !== id) })),
+      deletarLoja: (id) => {
+        const sociosOrfaos = get().socios.filter((so) => so.lojaId === id);
+        set((s) => ({
+          lojasCustom: s.lojasCustom.filter((l) => l.id !== id),
+          socios: s.socios.filter((so) => so.lojaId !== id), // remove sócios órfãos da loja excluída
+        }));
+        excluirLojaCustomSupabase(id);
+        sociosOrfaos.forEach((so) => excluirSocioSupabase(so.id));
+      },
+      arquivarLoja: (id) => {
+        set((s) => ({ lojasArquivadas: [...s.lojasArquivadas.filter((i) => i !== id), id] }));
+        salvarEstadoSupabase("lojasArquivadas", get().lojasArquivadas);
+      },
+      restaurarLoja: (id) => {
+        set((s) => ({ lojasArquivadas: s.lojasArquivadas.filter((i) => i !== id) }));
+        salvarEstadoSupabase("lojasArquivadas", get().lojasArquivadas);
+      },
       criarSocio: (dados) => {
         const novo: SocioGestor = { ...dados, id: `socio-${Date.now()}`, criadoEm: new Date().toISOString().split("T")[0] };
         set((s) => ({ socios: [...s.socios, novo] }));
+        salvarSocioSupabase(novo);
       },
-      editarSocio: (id, updates) => set((s) => ({ socios: s.socios.map((so) => so.id === id ? { ...so, ...updates } : so) })),
-      deletarSocio: (id) => set((s) => ({ socios: s.socios.filter((so) => so.id !== id) })),
+      editarSocio: (id, updates) => {
+        set((s) => ({ socios: s.socios.map((so) => so.id === id ? { ...so, ...updates } : so) }));
+        const so = get().socios.find((x) => x.id === id);
+        if (so) salvarSocioSupabase(so);
+      },
+      deletarSocio: (id) => {
+        set((s) => ({ socios: s.socios.filter((so) => so.id !== id) }));
+        excluirSocioSupabase(id);
+      },
 
       criarProduto: (dados) => {
         const novo: Produto = { ...dados, id: `prod-${Date.now()}`, dataCriacao: new Date().toISOString().split("T")[0], noAr: false };
         set((s) => ({ produtos: [...s.produtos, novo] }));
+        salvarProdutoSupabase(novo);
       },
       // Fluxo "direto": cria uma cópia independente do produto em cada loja escolhida.
       // Cada cópia tem status próprio (em teste/aprovado/reprovado por loja).
@@ -994,23 +1140,41 @@ export const useAppStore = create<AppState>()(
           dataCriacao: data, noAr: false, emTeste: true,
         }));
         set((s) => ({ produtos: [...s.produtos, ...novos] }));
+        novos.forEach(salvarProdutoSupabase);
       },
-      editarProduto: (id, updates) => set((s) => ({
-        produtos: s.produtos.map((p) => p.id === id ? { ...p, ...updates } : p),
-      })),
-      deletarProduto: (id) => set((s) => ({ produtos: s.produtos.filter((p) => p.id !== id) })),
+      editarProduto: (id, updates) => {
+        set((s) => ({
+          produtos: s.produtos.map((p) => p.id === id ? { ...p, ...updates } : p),
+        }));
+        const p = get().produtos.find((x) => x.id === id);
+        if (p) salvarProdutoSupabase(p);
+      },
+      deletarProduto: (id) => {
+        set((s) => ({ produtos: s.produtos.filter((p) => p.id !== id) }));
+        excluirProdutoSupabase(id);
+      },
       toggleProdutoNoAr: (id) => {
         const { produtos } = get();
         const p = produtos.find((x) => x.id === id);
         if (!p) return;
         set((s) => ({ produtos: s.produtos.map((x) => x.id === id ? { ...x, noAr: !x.noAr } : x) }));
+        const atualizado = get().produtos.find((x) => x.id === id);
+        if (atualizado) salvarProdutoSupabase(atualizado);
       },
-      validarProduto: (id) => set((s) => ({
-        produtos: s.produtos.map((p) => p.id === id ? { ...p, validado: true, reprovado: false } : p),
-      })),
-      reprovarProduto: (id) => set((s) => ({
-        produtos: s.produtos.map((p) => p.id === id ? { ...p, reprovado: true, validado: false, noAr: false } : p),
-      })),
+      validarProduto: (id) => {
+        set((s) => ({
+          produtos: s.produtos.map((p) => p.id === id ? { ...p, validado: true, reprovado: false } : p),
+        }));
+        const p = get().produtos.find((x) => x.id === id);
+        if (p) salvarProdutoSupabase(p);
+      },
+      reprovarProduto: (id) => {
+        set((s) => ({
+          produtos: s.produtos.map((p) => p.id === id ? { ...p, reprovado: true, validado: false, noAr: false } : p),
+        }));
+        const p = get().produtos.find((x) => x.id === id);
+        if (p) salvarProdutoSupabase(p);
+      },
       distribuirProduto: (id, lojaIds) => {
         const { produtos } = get();
         const origem = produtos.find((p) => p.id === id);
@@ -1032,31 +1196,50 @@ export const useAppStore = create<AppState>()(
             ...copias,
           ],
         }));
+        const origemAtualizada = get().produtos.find((p) => p.id === id);
+        if (origemAtualizada) salvarProdutoSupabase(origemAtualizada);
+        copias.forEach(salvarProdutoSupabase);
       },
 
       criarFerramenta: (dados) => {
         const nova: Ferramenta = { ...dados, id: `ferr-${Date.now()}` };
         set((s) => ({ ferramentas: [...s.ferramentas, nova] }));
+        salvarFerramentaSupabase(nova);
       },
-      editarFerramenta: (id, updates) => set((s) => ({
-        ferramentas: s.ferramentas.map((f) => f.id === id ? { ...f, ...updates } : f),
-      })),
-      deletarFerramenta: (id) => set((s) => ({
-        ferramentas: s.ferramentas.filter((f) => f.id !== id),
-      })),
-      vincularFerramenta: (ferramentaId, colaboradorId) => set((s) => ({
-        ferramentas: s.ferramentas.map((f) =>
-          f.id !== ferramentaId ? f :
-          f.colaboradoresIds.includes(colaboradorId) ? f :
-          { ...f, colaboradoresIds: [...f.colaboradoresIds, colaboradorId] }
-        ),
-      })),
-      desvincularFerramenta: (ferramentaId, colaboradorId) => set((s) => ({
-        ferramentas: s.ferramentas.map((f) =>
-          f.id !== ferramentaId ? f :
-          { ...f, colaboradoresIds: f.colaboradoresIds.filter((id) => id !== colaboradorId) }
-        ),
-      })),
+      editarFerramenta: (id, updates) => {
+        set((s) => ({
+          ferramentas: s.ferramentas.map((f) => f.id === id ? { ...f, ...updates } : f),
+        }));
+        const f = get().ferramentas.find((x) => x.id === id);
+        if (f) salvarFerramentaSupabase(f);
+      },
+      deletarFerramenta: (id) => {
+        set((s) => ({
+          ferramentas: s.ferramentas.filter((f) => f.id !== id),
+        }));
+        excluirFerramentaSupabase(id);
+      },
+      vincularFerramenta: (ferramentaId, colaboradorId) => {
+        set((s) => ({
+          ferramentas: s.ferramentas.map((f) =>
+            f.id !== ferramentaId ? f :
+            f.colaboradoresIds.includes(colaboradorId) ? f :
+            { ...f, colaboradoresIds: [...f.colaboradoresIds, colaboradorId] }
+          ),
+        }));
+        const f = get().ferramentas.find((x) => x.id === ferramentaId);
+        if (f) salvarFerramentaSupabase(f);
+      },
+      desvincularFerramenta: (ferramentaId, colaboradorId) => {
+        set((s) => ({
+          ferramentas: s.ferramentas.map((f) =>
+            f.id !== ferramentaId ? f :
+            { ...f, colaboradoresIds: f.colaboradoresIds.filter((id) => id !== colaboradorId) }
+          ),
+        }));
+        const f = get().ferramentas.find((x) => x.id === ferramentaId);
+        if (f) salvarFerramentaSupabase(f);
+      },
 
       registrarSono: (colaboradorId, dados) => {
         const hd = dados.horaDormir.split(":").map(Number);
@@ -1078,6 +1261,8 @@ export const useAppStore = create<AppState>()(
             }
           ),
         }));
+        const updated = get().colaboradores.find((c) => c.id === colaboradorId);
+        if (updated) salvarColaboradorSupabase(updated);
       },
 
       criarRegra: (dados) => {
@@ -1089,16 +1274,26 @@ export const useAppStore = create<AppState>()(
           ativa: true,
         };
         set((s) => ({ regrasEmpresa: [...s.regrasEmpresa, nova] }));
+        salvarEstadoSupabase("regrasEmpresa", get().regrasEmpresa);
       },
-      editarRegra: (id, updates) => set((s) => ({
-        regrasEmpresa: s.regrasEmpresa.map((r) => r.id === id ? { ...r, ...updates } : r),
-      })),
-      deletarRegra: (id) => set((s) => ({
-        regrasEmpresa: s.regrasEmpresa.filter((r) => r.id !== id),
-      })),
-      toggleRegra: (id) => set((s) => ({
-        regrasEmpresa: s.regrasEmpresa.map((r) => r.id === id ? { ...r, ativa: !r.ativa } : r),
-      })),
+      editarRegra: (id, updates) => {
+        set((s) => ({
+          regrasEmpresa: s.regrasEmpresa.map((r) => r.id === id ? { ...r, ...updates } : r),
+        }));
+        salvarEstadoSupabase("regrasEmpresa", get().regrasEmpresa);
+      },
+      deletarRegra: (id) => {
+        set((s) => ({
+          regrasEmpresa: s.regrasEmpresa.filter((r) => r.id !== id),
+        }));
+        salvarEstadoSupabase("regrasEmpresa", get().regrasEmpresa);
+      },
+      toggleRegra: (id) => {
+        set((s) => ({
+          regrasEmpresa: s.regrasEmpresa.map((r) => r.id === id ? { ...r, ativa: !r.ativa } : r),
+        }));
+        salvarEstadoSupabase("regrasEmpresa", get().regrasEmpresa);
+      },
 
       criarDesafio: (dados) => {
         const novo: Desafio = {
@@ -1109,14 +1304,22 @@ export const useAppStore = create<AppState>()(
           ativo: true,
         };
         set((s) => ({ desafios: [...s.desafios, novo] }));
+        salvarDesafioSupabase(novo);
       },
-      editarDesafio: (id, updates) => set((s) => ({
-        desafios: s.desafios.map((d) => d.id === id ? { ...d, ...updates } : d),
-      })),
-      deletarDesafio: (id) => set((s) => ({
-        desafios: s.desafios.filter((d) => d.id !== id),
-        checkInsDesafio: s.checkInsDesafio.filter((ci) => ci.desafioId !== id),
-      })),
+      editarDesafio: (id, updates) => {
+        set((s) => ({
+          desafios: s.desafios.map((d) => d.id === id ? { ...d, ...updates } : d),
+        }));
+        const d = get().desafios.find((x) => x.id === id);
+        if (d) salvarDesafioSupabase(d);
+      },
+      deletarDesafio: (id) => {
+        set((s) => ({
+          desafios: s.desafios.filter((d) => d.id !== id),
+          checkInsDesafio: s.checkInsDesafio.filter((ci) => ci.desafioId !== id),
+        }));
+        excluirDesafioSupabase(id);
+      },
       fazerCheckIn: (desafioId, data, nota) => {
         const userId = get().usuarioAtual?.id;
         if (!userId) return;
@@ -1131,6 +1334,7 @@ export const useAppStore = create<AppState>()(
           nota, reacoes: [],
         };
         set((s) => ({ checkInsDesafio: [...s.checkInsDesafio, novo] }));
+        registrarCheckInSupabase(novo);
       },
       desfazerCheckIn: (desafioId, data) => {
         const userId = get().usuarioAtual?.id;
@@ -1140,23 +1344,27 @@ export const useAppStore = create<AppState>()(
             (ci) => !(ci.desafioId === desafioId && ci.colaboradorId === userId && ci.data === data)
           ),
         }));
+        excluirCheckInSupabase(desafioId, userId, data);
       },
       reagirCheckIn: (checkInId, emoji) => {
         const userId = get().usuarioAtual?.id;
         if (!userId) return;
+        let atualizado: CheckInDesafio | undefined;
         set((s) => ({
           checkInsDesafio: s.checkInsDesafio.map((ci) => {
             if (ci.id !== checkInId) return ci;
             const existing = ci.reacoes.find((r) => r.colaboradorId === userId);
             if (existing) {
-              if (existing.emoji === emoji) {
-                return { ...ci, reacoes: ci.reacoes.filter((r) => r.colaboradorId !== userId) };
-              }
-              return { ...ci, reacoes: ci.reacoes.map((r) => r.colaboradorId === userId ? { ...r, emoji } : r) };
+              atualizado = existing.emoji === emoji
+                ? { ...ci, reacoes: ci.reacoes.filter((r) => r.colaboradorId !== userId) }
+                : { ...ci, reacoes: ci.reacoes.map((r) => r.colaboradorId === userId ? { ...r, emoji } : r) };
+            } else {
+              atualizado = { ...ci, reacoes: [...ci.reacoes, { colaboradorId: userId, emoji }] };
             }
-            return { ...ci, reacoes: [...ci.reacoes, { colaboradorId: userId, emoji }] };
+            return atualizado;
           }),
         }));
+        if (atualizado) atualizarCheckInSupabase(atualizado);
       },
 
       criarGastoOp: (dados) => {
@@ -1166,16 +1374,28 @@ export const useAppStore = create<AppState>()(
           criadoEm: new Date().toISOString().split("T")[0],
         };
         set((s) => ({ gastosOperacionais: [...s.gastosOperacionais, novo] }));
+        salvarGastoSupabase(novo);
       },
-      editarGastoOp: (id, updates) => set((s) => ({
-        gastosOperacionais: s.gastosOperacionais.map((g) => g.id === id ? { ...g, ...updates } : g),
-      })),
-      deletarGastoOp: (id) => set((s) => ({
-        gastosOperacionais: s.gastosOperacionais.filter((g) => g.id !== id),
-      })),
-      toggleGastoOp: (id) => set((s) => ({
-        gastosOperacionais: s.gastosOperacionais.map((g) => g.id === id ? { ...g, ativo: !g.ativo } : g),
-      })),
+      editarGastoOp: (id, updates) => {
+        set((s) => ({
+          gastosOperacionais: s.gastosOperacionais.map((g) => g.id === id ? { ...g, ...updates } : g),
+        }));
+        const g = get().gastosOperacionais.find((x) => x.id === id);
+        if (g) salvarGastoSupabase(g);
+      },
+      deletarGastoOp: (id) => {
+        set((s) => ({
+          gastosOperacionais: s.gastosOperacionais.filter((g) => g.id !== id),
+        }));
+        excluirGastoSupabase(id);
+      },
+      toggleGastoOp: (id) => {
+        set((s) => ({
+          gastosOperacionais: s.gastosOperacionais.map((g) => g.id === id ? { ...g, ativo: !g.ativo } : g),
+        }));
+        const g = get().gastosOperacionais.find((x) => x.id === id);
+        if (g) salvarGastoSupabase(g);
+      },
 
       criarLinkRapido: (dados) => {
         const novo: LinkRapido = {
@@ -1184,13 +1404,20 @@ export const useAppStore = create<AppState>()(
           criadoEm: new Date().toISOString().split("T")[0],
         };
         set((s) => ({ linksRapidos: [...s.linksRapidos, novo] }));
+        salvarEstadoSupabase("linksRapidos", get().linksRapidos);
       },
-      editarLinkRapido: (id, updates) => set((s) => ({
-        linksRapidos: s.linksRapidos.map((l) => l.id === id ? { ...l, ...updates } : l),
-      })),
-      deletarLinkRapido: (id) => set((s) => ({
-        linksRapidos: s.linksRapidos.filter((l) => l.id !== id),
-      })),
+      editarLinkRapido: (id, updates) => {
+        set((s) => ({
+          linksRapidos: s.linksRapidos.map((l) => l.id === id ? { ...l, ...updates } : l),
+        }));
+        salvarEstadoSupabase("linksRapidos", get().linksRapidos);
+      },
+      deletarLinkRapido: (id) => {
+        set((s) => ({
+          linksRapidos: s.linksRapidos.filter((l) => l.id !== id),
+        }));
+        salvarEstadoSupabase("linksRapidos", get().linksRapidos);
+      },
 
       abrirPomodoro: (tarefaId, titulo) => set({ pomodoroAberto: true, pomodoroTarefaId: tarefaId ?? null, pomodoroTarefaTitulo: titulo ?? "" }),
       fecharPomodoro: () => set({ pomodoroAberto: false, pomodoroTarefaId: null, pomodoroTarefaTitulo: "" }),
@@ -1211,6 +1438,7 @@ export const useAppStore = create<AppState>()(
           criadoEm: new Date().toISOString(),
         };
         set((state) => ({ entregasSemanais: [...state.entregasSemanais, nova] }));
+        salvarEntregaSupabase(nova);
       },
 
       atualizarStatusEntrega: (entregaId, status, motivoTravado) => {
@@ -1224,6 +1452,8 @@ export const useAppStore = create<AppState>()(
             }
           ),
         }));
+        const entregaSync = get().entregasSemanais.find((e) => e.id === entregaId);
+        if (entregaSync) salvarEntregaSupabase(entregaSync);
         if (status === "entregue") {
           const entrega = get().entregasSemanais.find((e) => e.id === entregaId);
           if (entrega) {
@@ -1235,6 +1465,7 @@ export const useAppStore = create<AppState>()(
 
       deletarEntregaSemanal: (entregaId) => {
         set((state) => ({ entregasSemanais: state.entregasSemanais.filter((e) => e.id !== entregaId) }));
+        excluirEntregaSupabase(entregaId);
       },
 
       salvarFormulario: (colaboradorId, dados) => {
@@ -1244,7 +1475,10 @@ export const useAppStore = create<AppState>()(
           ),
         }));
         const updated = get().colaboradores.find((c) => c.id === colaboradorId);
-        if (updated && get().usuarioAtual?.id === colaboradorId) set({ usuarioAtual: updated });
+        if (updated) {
+          if (get().usuarioAtual?.id === colaboradorId) set({ usuarioAtual: updated });
+          salvarColaboradorSupabase(updated);
+        }
       },
 
       setSidebarColapsada: (v) => set({ sidebarColapsada: v }),
@@ -1272,6 +1506,7 @@ export const useAppStore = create<AppState>()(
           reconhecimentos: [],
         };
         set((state) => ({ colaboradores: [...state.colaboradores, novoColab] }));
+        salvarColaboradorSupabase(novoColab);
       },
     }),
     {
