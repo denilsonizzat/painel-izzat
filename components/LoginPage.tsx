@@ -2,19 +2,25 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAppStore } from "@/lib/store";
-import { COLABORADORES } from "@/lib/data";
-import { LogIn, Users } from "lucide-react";
-import Avatar from "./Avatar";
+import { loginComEmailSenha } from "@/lib/auth";
+import { LogIn, Mail, Lock } from "lucide-react";
 
 export default function LoginPage() {
-  const { login } = useAppStore();
+  const { entrarComSupabase } = useAppStore();
   const router = useRouter();
-  const [selecionado, setSelecionado] = useState("");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
+  const [carregando, setCarregando] = useState(false);
 
-  const handleLogin = () => {
-    if (!selecionado) { setErro("Selecione seu perfil para continuar."); return; }
-    login(selecionado);
+  const handleLogin = async () => {
+    if (!email || !senha) { setErro("Preencha e-mail e senha."); return; }
+    setErro("");
+    setCarregando(true);
+    const { colaborador, erro: erroLogin } = await loginComEmailSenha(email.trim(), senha);
+    setCarregando(false);
+    if (erroLogin || !colaborador) { setErro(erroLogin || "Não foi possível entrar."); return; }
+    entrarComSupabase(colaborador);
     router.push("/dashboard");
   };
 
@@ -32,52 +38,43 @@ export default function LoginPage() {
         </div>
 
         <div className="rounded-2xl p-6" style={{ background: "#112239", border: "1px solid rgba(201,164,66,.16)" }}>
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <Users size={18} style={{ color: "#c9a84c" }} />
-              <h2 className="text-white font-semibold">{"Quem é você?"}</h2>
-            </div>
-            <div className="flex items-center gap-3 text-xs" style={{ color: "#74859c" }}>
-              <span className="flex items-center gap-1">
-                <span className="px-1.5 py-0.5 rounded text-xs" style={{ background: "#c9a84c20", color: "#c9a84c" }}>Admin</span>
-                <span>= gestor</span>
-              </span>
-            </div>
-          </div>
+          <h2 className="text-white font-semibold mb-4">Entrar</h2>
 
-          <div className="space-y-1.5 mb-5 max-h-64 overflow-y-auto pr-1">
-            {COLABORADORES.map((c) => (
-              <button
-                key={c.id}
-                onClick={() => { setSelecionado(c.id); setErro(""); }}
-                className="w-full flex items-center gap-3 p-2.5 rounded-xl text-left transition-all"
-                style={{
-                  background: selecionado === c.id ? "#1e3356" : "transparent",
-                  border: selecionado === c.id ? `2px solid ${c.cor}` : "2px solid transparent",
-                }}
-              >
-                <Avatar nome={c.nome} avatar={c.avatar} foto={c.foto} cor={c.cor} size={38} />
-                <div className="flex-1 min-w-0">
-                  <p className="text-white font-medium text-sm">{c.nome}</p>
-                  <p className="text-xs" style={{ color: "#9aa7ba" }}>{c.cargo}</p>
-                </div>
-                {c.nivelAcesso === "admin" && (
-                  <span className="text-xs px-2 py-0.5 rounded-full font-medium flex-shrink-0"
-                    style={{ background: "#c9a84c20", color: "#c9a84c" }}>Admin</span>
-                )}
-              </button>
-            ))}
+          <div className="space-y-3 mb-5">
+            <div className="flex items-center gap-2 rounded-xl px-3 py-2.5" style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}>
+              <Mail size={16} style={{ color: "#74859c" }} />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => { setEmail(e.target.value); setErro(""); }}
+                onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+                placeholder="seu@email.com"
+                className="flex-1 bg-transparent text-white text-sm outline-none placeholder:text-[#4a5a72]"
+              />
+            </div>
+            <div className="flex items-center gap-2 rounded-xl px-3 py-2.5" style={{ background: "#0b1624", border: "1px solid rgba(201,164,66,.16)" }}>
+              <Lock size={16} style={{ color: "#74859c" }} />
+              <input
+                type="password"
+                value={senha}
+                onChange={(e) => { setSenha(e.target.value); setErro(""); }}
+                onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+                placeholder="Senha"
+                className="flex-1 bg-transparent text-white text-sm outline-none placeholder:text-[#4a5a72]"
+              />
+            </div>
           </div>
 
           {erro && <p className="text-sm mb-3 text-center" style={{ color: "#F2545B" }}>{erro}</p>}
 
           <button
             onClick={handleLogin}
-            className="w-full py-3 rounded-xl font-semibold text-white flex items-center justify-center gap-2 transition-opacity hover:opacity-90"
+            disabled={carregando}
+            className="w-full py-3 rounded-xl font-semibold text-white flex items-center justify-center gap-2 transition-opacity hover:opacity-90 disabled:opacity-60"
             style={{ background: "#c9a84c" }}
           >
             <LogIn size={18} />
-            Entrar
+            {carregando ? "Entrando..." : "Entrar"}
           </button>
         </div>
 

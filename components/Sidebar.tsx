@@ -108,6 +108,7 @@ export default function Sidebar() {
     usuarioAtual, logout, colaboradores, tarefas,
     notificacoesInApp,
     sidebarColapsada, setSidebarColapsada,
+    onboardingConcluido,
   } = useAppStore();
 
   const [menuAberto, setMenuAberto] = useState(false);
@@ -127,13 +128,15 @@ export default function Sidebar() {
 
   useEffect(() => {
     if (!usuarioAtual) return;
+    // Não abrir junto com o Onboarding (tour) — os dois disputam a tela no primeiro login.
+    if (!onboardingConcluido) return;
     const hoje = new Date().toISOString().split("T")[0];
     const hiddenDate = localStorage.getItem("online-popup-hidden");
     if (hiddenDate !== hoje) {
       const timer = setTimeout(() => setOnlineModalAberto(true), 800);
       return () => clearTimeout(timer);
     }
-  }, [usuarioAtual?.id]);
+  }, [usuarioAtual?.id, onboardingConcluido]);
 
   const handleLogout = () => { logout(); router.push("/"); };
 

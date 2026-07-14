@@ -47,3 +47,29 @@ export interface OpConfig {
   ads_budget: number;      // $/dia
   margem_alvo: number;     // %
 }
+
+// ─── Tabela colaboradores (Fase 2 — schema híbrido) ───
+export interface ColaboradorRow {
+  id: string;
+  auth_id: string | null;
+  nome: string;
+  cargo: string | null;
+  email: string | null;
+  telefone: string | null;
+  nivel_acesso: string;
+  avatar: string | null;
+  foto: string | null;
+  cor: string | null;
+  xp: number;
+  streak: number;
+  salario: number | null;
+  estado: string | null;
+  ultimo_checkin: string | null;
+  horario_inicio: string | null;
+  horario_fim: string | null;
+  horas_disponiveis: number | null;
+  status_online: string | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dados: Record<string, any>;
+  updated_at: string;
+}
