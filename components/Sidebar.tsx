@@ -712,7 +712,16 @@ export default function Sidebar() {
       {/* Central de Notificações — nível raiz para funcionar mobile e desktop */}
       <NotificationCenter aberto={notifAberta} onFechar={() => setNotifAberta(false)} />
 
-      <OnlineStatusModal aberto={onlineModalAberto} onFechar={() => setOnlineModalAberto(false)} />
+      <OnlineStatusModal
+        aberto={onlineModalAberto}
+        onFechar={() => {
+          setOnlineModalAberto(false);
+          // Fechar de qualquer jeito (X, clicar fora, ativar) conta como "já vi hoje" —
+          // evita o popup insistir de novo a cada troca de página/F5 no mesmo dia.
+          const hoje = new Date().toISOString().split("T")[0];
+          localStorage.setItem("online-popup-hidden", hoje);
+        }}
+      />
     </>
   );
 }
