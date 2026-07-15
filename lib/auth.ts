@@ -130,3 +130,20 @@ export async function excluirColaboradorSupabase(id: string) {
   const { error } = await supabase.from("colaboradores").delete().eq("id", id);
   if (error) console.error("Erro ao excluir colaborador:", error.message);
 }
+
+// Tempo real: qualquer alteração de colaboradores (ex: presença/foco de outro
+// device) chega aqui sem precisar de F5. Retorna função de unsubscribe.
+export function assinarColaboradoresRealtime(onMudanca: (colaborador: Colaborador) => void): () => void {
+  const canal = supabase
+    .channel("colaboradores-realtime")
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "colaboradores" },
+      (payload) => {
+        const row = payload.new as ColaboradorRow | undefined;
+        if (row && "id" in row) onMudanca(rowParaColaborador(row));
+      }
+    )
+    .subscribe();
+  return () => { supabase.removeChannel(canal); };
+}

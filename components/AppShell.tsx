@@ -4,15 +4,24 @@ import Sidebar from "./Sidebar";
 import BreadcrumbNav from "./BreadcrumbNav";
 import { usePathname } from "next/navigation";
 import { useAppStore } from "@/lib/store";
+import { assinarColaboradoresRealtime } from "@/lib/auth";
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const carregarDadosSupabase = useAppStore((s) => s.carregarDadosSupabase);
+  const aplicarColaboradorRealtime = useAppStore((s) => s.aplicarColaboradorRealtime);
 
   // Busca os dados reais do Supabase uma vez por sessão de página (cobre o F5,
   // já que o login só dispara essa busca no momento de entrar).
   useEffect(() => {
     carregarDadosSupabase();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Tempo real: presença/foco/salário etc. de outro device chegam sem F5.
+  useEffect(() => {
+    const cancelar = assinarColaboradoresRealtime(aplicarColaboradorRealtime);
+    return cancelar;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
