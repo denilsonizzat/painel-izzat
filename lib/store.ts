@@ -102,6 +102,7 @@ interface AppState {
   entrarComSupabase: (colaborador: Colaborador) => void;
   carregarRotinasSupabase: () => Promise<void>;
   carregarDadosSupabase: () => Promise<void>;
+  aplicarColaboradorRealtime: (colaborador: Colaborador) => void;
   logout: () => void;
   rotinas: Rotina[];
   marcarSubtarefa: (rotinaId: string, subtarefaId: string, valor: boolean) => void;
@@ -282,6 +283,17 @@ export const useAppStore = create<AppState>()(
       carregarRotinasSupabase: async () => {
         const rotinas = await buscarRotinasSupabase();
         if (rotinas.length > 0) set({ rotinas });
+      },
+
+      // Chamado pelo listener Realtime — só aplica local, nunca reescreve no
+      // Supabase (senão o eco da própria escrita vira um loop infinito).
+      aplicarColaboradorRealtime: (colaborador) => {
+        set((state) => ({
+          colaboradores: state.colaboradores.some((c) => c.id === colaborador.id)
+            ? state.colaboradores.map((c) => (c.id === colaborador.id ? colaborador : c))
+            : [...state.colaboradores, colaborador],
+          usuarioAtual: state.usuarioAtual?.id === colaborador.id ? colaborador : state.usuarioAtual,
+        }));
       },
 
       carregarDadosSupabase: async () => {
