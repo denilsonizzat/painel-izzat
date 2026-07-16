@@ -39,3 +39,31 @@ export async function excluirPorFiltro(tabela: string, filtros: Record<string, s
   const { error } = await query;
   if (error) console.error(`Erro ao excluir de ${tabela}:`, error.message);
 }
+
+// Tempo real genérico: qualquer INSERT/UPDATE vira onUpsert(item mapeado);
+// DELETE vira onDelete(id) — usa só payload.old.id (replica identity default
+// do Postgres não garante o resto das colunas no DELETE). Retorna unsubscribe.
+export function assinarTabelaRealtime<T>(
+  tabela: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  rowParaItem: (row: any) => T,
+  handlers: { onUpsert: (item: T) => void; onDelete?: (id: string) => void }
+): () => void {
+  const canal = supabase
+    .channel(`${tabela}-realtime`)
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: tabela },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (payload: any) => {
+        if (payload.eventType === "DELETE") {
+          const id = payload.old?.id;
+          if (id && handlers.onDelete) handlers.onDelete(String(id));
+        } else {
+          handlers.onUpsert(rowParaItem(payload.new));
+        }
+      }
+    )
+    .subscribe();
+  return () => { supabase.removeChannel(canal); };
+}

@@ -103,6 +103,12 @@ interface AppState {
   carregarRotinasSupabase: () => Promise<void>;
   carregarDadosSupabase: () => Promise<void>;
   aplicarColaboradorRealtime: (colaborador: Colaborador) => void;
+  aplicarRotinaRealtime: (rotina: Rotina) => void;
+  removerRotinaRealtime: (id: string) => void;
+  aplicarTarefaRealtime: (tarefa: Tarefa) => void;
+  removerTarefaRealtime: (id: string) => void;
+  aplicarNotificacaoRealtime: (notif: NotificacaoInApp) => void;
+  removerNotificacaoRealtime: (id: string) => void;
   logout: () => void;
   rotinas: Rotina[];
   marcarSubtarefa: (rotinaId: string, subtarefaId: string, valor: boolean) => void;
@@ -294,6 +300,39 @@ export const useAppStore = create<AppState>()(
             : [...state.colaboradores, colaborador],
           usuarioAtual: state.usuarioAtual?.id === colaborador.id ? colaborador : state.usuarioAtual,
         }));
+      },
+
+      aplicarRotinaRealtime: (rotina) => {
+        set((state) => ({
+          rotinas: state.rotinas.some((r) => r.id === rotina.id)
+            ? state.rotinas.map((r) => (r.id === rotina.id ? rotina : r))
+            : [...state.rotinas, rotina],
+        }));
+      },
+      removerRotinaRealtime: (id) => {
+        set((state) => ({ rotinas: state.rotinas.filter((r) => r.id !== id) }));
+      },
+
+      aplicarTarefaRealtime: (tarefa) => {
+        set((state) => ({
+          tarefas: state.tarefas.some((t) => t.id === tarefa.id)
+            ? state.tarefas.map((t) => (t.id === tarefa.id ? tarefa : t))
+            : [tarefa, ...state.tarefas],
+        }));
+      },
+      removerTarefaRealtime: (id) => {
+        set((state) => ({ tarefas: state.tarefas.filter((t) => t.id !== id) }));
+      },
+
+      aplicarNotificacaoRealtime: (notif) => {
+        set((state) => ({
+          notificacoesInApp: state.notificacoesInApp.some((n) => n.id === notif.id)
+            ? state.notificacoesInApp.map((n) => (n.id === notif.id ? notif : n))
+            : [notif, ...state.notificacoesInApp].slice(0, 50),
+        }));
+      },
+      removerNotificacaoRealtime: (id) => {
+        set((state) => ({ notificacoesInApp: state.notificacoesInApp.filter((n) => n.id !== id) }));
       },
 
       carregarDadosSupabase: async () => {
