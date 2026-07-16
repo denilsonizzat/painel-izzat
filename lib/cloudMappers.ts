@@ -1,6 +1,6 @@
 "use client";
 import { supabase } from "./supabase";
-import { buscarTabela, upsertLinha, inserirLinha, excluirLinha, excluirPorFiltro } from "./cloudSync";
+import { buscarTabela, upsertLinha, inserirLinha, excluirLinha, excluirPorFiltro, assinarTabelaRealtime } from "./cloudSync";
 import type {
   Tarefa, NotificacaoInApp, EntradaAtividade, EntregaSemanal, Desafio, CheckInDesafio,
   Produto, Ferramenta, GastoOperacional, Loja, SocioGestor,
@@ -12,15 +12,17 @@ import type {
 // verdade quando divergirem do snapshot salvo em `dados`.
 
 // ─── Tarefas ───
-export const buscarTarefasSupabase = () =>
-  buscarTabela<Tarefa>("tarefas", (row) => ({
-    ...row.dados, id: row.id, titulo: row.titulo, descricao: row.descricao ?? undefined,
-    tipo: row.tipo ?? undefined, prioridade: row.prioridade, status: row.status,
-    atribuidoPara: row.atribuido_para, criadoPor: row.criado_por, lojaId: row.loja_id ?? undefined,
-    dataCriacao: (row.data_criacao || "").slice(0, 10),
-    dataLimite: row.data_limite ? String(row.data_limite).slice(0, 10) : undefined,
-    concluidaEm: row.concluida_em ?? undefined,
-  }));
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const rowParaTarefa = (row: any): Tarefa => ({
+  ...row.dados, id: row.id, titulo: row.titulo, descricao: row.descricao ?? undefined,
+  tipo: row.tipo ?? undefined, prioridade: row.prioridade, status: row.status,
+  atribuidoPara: row.atribuido_para, criadoPor: row.criado_por, lojaId: row.loja_id ?? undefined,
+  dataCriacao: (row.data_criacao || "").slice(0, 10),
+  dataLimite: row.data_limite ? String(row.data_limite).slice(0, 10) : undefined,
+  concluidaEm: row.concluida_em ?? undefined,
+});
+
+export const buscarTarefasSupabase = () => buscarTabela<Tarefa>("tarefas", rowParaTarefa);
 
 export const salvarTarefaSupabase = (t: Tarefa) => upsertLinha("tarefas", {
   id: t.id, titulo: t.titulo, descricao: t.descricao ?? null, tipo: t.tipo ?? null,
@@ -31,18 +33,26 @@ export const salvarTarefaSupabase = (t: Tarefa) => upsertLinha("tarefas", {
 
 export const excluirTarefaSupabase = (id: string) => excluirLinha("tarefas", id);
 
+export const assinarTarefasRealtime = (onUpsert: (t: Tarefa) => void, onDelete: (id: string) => void) =>
+  assinarTabelaRealtime("tarefas", rowParaTarefa, { onUpsert, onDelete });
+
 // ─── Notificações ───
-export const buscarNotificacoesSupabase = () =>
-  buscarTabela<NotificacaoInApp>("notificacoes", (row) => ({
-    ...row.dados, id: row.id, paraId: row.para_id, tipo: row.tipo,
-    lida: row.lida, arquivada: row.arquivada, criadaEm: row.dados?.criadaEm ?? row.criado_em,
-  }));
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const rowParaNotif = (row: any): NotificacaoInApp => ({
+  ...row.dados, id: row.id, paraId: row.para_id, tipo: row.tipo,
+  lida: row.lida, arquivada: row.arquivada, criadaEm: row.dados?.criadaEm ?? row.criado_em,
+});
+
+export const buscarNotificacoesSupabase = () => buscarTabela<NotificacaoInApp>("notificacoes", rowParaNotif);
 
 export const salvarNotificacaoSupabase = (n: NotificacaoInApp) => upsertLinha("notificacoes", {
   id: n.id, para_id: n.paraId, tipo: n.tipo, lida: n.lida, arquivada: n.arquivada ?? false, dados: n,
 });
 
 export const excluirNotificacaoSupabase = (id: string) => excluirLinha("notificacoes", id);
+
+export const assinarNotificacoesRealtime = (onUpsert: (n: NotificacaoInApp) => void, onDelete: (id: string) => void) =>
+  assinarTabelaRealtime("notificacoes", rowParaNotif, { onUpsert, onDelete });
 
 // ─── Atividades (append-only; id é gerado pelo banco) ───
 export const registrarAtividadeSupabase = (entry: EntradaAtividade) => inserirLinha("atividades", {

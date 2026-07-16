@@ -1,5 +1,6 @@
 "use client";
 import { supabase } from "./supabase";
+import { assinarTabelaRealtime } from "./cloudSync";
 import type { Rotina, Frequencia } from "./data";
 
 interface RotinaRow {
@@ -80,3 +81,7 @@ export async function excluirRotinaSupabase(rotinaId: string) {
   const { error } = await supabase.from("rotinas").delete().eq("id", rotinaId);
   if (error) console.error("Erro ao excluir rotina no Supabase:", error.message);
 }
+
+export const assinarRotinasRealtime = (onUpsert: (r: Rotina) => void, onDelete: (id: string) => void) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  assinarTabelaRealtime<Rotina>("rotinas", (row: any) => rowParaRotina(row as RotinaRow), { onUpsert, onDelete });
