@@ -5,15 +5,18 @@ import { supabase } from "./supabase";
 // vários domínios (tarefas, produtos, gastos etc.) que seguem o mesmo padrão
 // híbrido do schema: algumas colunas reais + resto no jsonb `dados`.
 
+// Retorna null quando a busca falha (erro de rede/permissão) — diferente de
+// "[]", que significa genuinamente vazio. Quem chama deve manter o estado
+// local em caso de null, nunca sobrescrever com lista vazia por causa de erro.
 export async function buscarTabela<T>(
   tabela: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   rowParaItem: (row: any) => T
-): Promise<T[]> {
+): Promise<T[] | null> {
   const { data, error } = await supabase.from(tabela).select("*");
   if (error || !data) {
     if (error) console.error(`Erro ao buscar ${tabela}:`, error.message);
-    return [];
+    return null;
   }
   return data.map(rowParaItem);
 }

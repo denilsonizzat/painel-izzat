@@ -8,6 +8,13 @@ import { assinarColaboradoresRealtime } from "@/lib/auth";
 import { assinarRotinasRealtime } from "@/lib/rotinasSync";
 import { assinarTarefasRealtime, assinarNotificacoesRealtime } from "@/lib/cloudMappers";
 
+// Módulo só é reavaliado num F5/carregamento novo da página — variável aqui
+// fora do componente sobrevive a remounts do AppShell (cada seção do menu
+// tem seu próprio layout, então trocar de página remonta o AppShell). Sem
+// isso, cada clique no menu repetia a busca inteira e podia sobrescrever uma
+// ação recém-feita com um snapshot desatualizado (corrida).
+let dadosCarregadosNestaSessao = false;
+
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const carregarDadosSupabase = useAppStore((s) => s.carregarDadosSupabase);
@@ -20,9 +27,13 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const removerNotificacaoRealtime = useAppStore((s) => s.removerNotificacaoRealtime);
 
   // Busca os dados reais do Supabase uma vez por sessão de página (cobre o F5,
-  // já que o login só dispara essa busca no momento de entrar).
+  // já que o login só dispara essa busca no momento de entrar). Não repete a
+  // cada troca de menu — o Realtime já mantém tudo atualizado depois disso.
   useEffect(() => {
-    carregarDadosSupabase();
+    if (!dadosCarregadosNestaSessao) {
+      dadosCarregadosNestaSessao = true;
+      carregarDadosSupabase();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

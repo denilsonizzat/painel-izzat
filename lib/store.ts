@@ -288,7 +288,7 @@ export const useAppStore = create<AppState>()(
 
       carregarRotinasSupabase: async () => {
         const rotinas = await buscarRotinasSupabase();
-        if (rotinas.length > 0) set({ rotinas });
+        if (rotinas) set({ rotinas });
       },
 
       // Chamado pelo listener Realtime — só aplica local, nunca reescreve no
@@ -353,25 +353,25 @@ export const useAppStore = create<AppState>()(
           buscarEstadoSupabase<string[]>("lojasArquivadas"),
         ]);
         set((state) => ({
-          colaboradores: colaboradores.length > 0 ? colaboradores : state.colaboradores,
-          rotinas: rotinas.length > 0 ? rotinas : state.rotinas,
-          tarefas: tarefas.length > 0 ? tarefas : state.tarefas,
-          notificacoesInApp: notificacoes.length > 0 ? notificacoes : state.notificacoesInApp,
-          entregasSemanais: entregas,
-          desafios,
-          checkInsDesafio: checkins,
-          produtos,
-          ferramentas,
-          gastosOperacionais: gastos,
-          lojasCustom,
-          socios,
+          colaboradores: colaboradores ?? state.colaboradores,
+          rotinas: rotinas ?? state.rotinas,
+          tarefas: tarefas ?? state.tarefas,
+          notificacoesInApp: notificacoes ?? state.notificacoesInApp,
+          entregasSemanais: entregas ?? state.entregasSemanais,
+          desafios: desafios ?? state.desafios,
+          checkInsDesafio: checkins ?? state.checkInsDesafio,
+          produtos: produtos ?? state.produtos,
+          ferramentas: ferramentas ?? state.ferramentas,
+          gastosOperacionais: gastos ?? state.gastosOperacionais,
+          lojasCustom: lojasCustom ?? state.lojasCustom,
+          socios: socios ?? state.socios,
           regrasEmpresa: regrasEmpresa ?? state.regrasEmpresa,
           linksRapidos: linksRapidos ?? state.linksRapidos,
           pulsoAtual: pulsoAtual ?? state.pulsoAtual,
           missoesSemana: missoesSemana ?? state.missoesSemana,
           fichasReconhecimento: fichasReconhecimento ?? state.fichasReconhecimento,
           lojasArquivadas: lojasArquivadas ?? state.lojasArquivadas,
-          usuarioAtual: state.usuarioAtual && colaboradores.length > 0
+          usuarioAtual: state.usuarioAtual && colaboradores
             ? colaboradores.find((c) => c.id === state.usuarioAtual!.id) ?? state.usuarioAtual
             : state.usuarioAtual,
         }));
