@@ -112,11 +112,12 @@ function colaboradorParaRow(c: Colaborador) {
   };
 }
 
-export async function buscarColaboradoresSupabase(): Promise<Colaborador[]> {
+// null = falha na busca (mantém estado local); [] = genuinamente sem colaboradores.
+export async function buscarColaboradoresSupabase(): Promise<Colaborador[] | null> {
   const { data, error } = await supabase.from("colaboradores").select("*");
   if (error || !data) {
     if (error) console.error("Erro ao buscar colaboradores:", error.message);
-    return [];
+    return null;
   }
   return (data as ColaboradorRow[]).map(rowParaColaborador);
 }

@@ -63,11 +63,12 @@ function rotinaParaRow(r: Rotina) {
   };
 }
 
-export async function buscarRotinasSupabase(): Promise<Rotina[]> {
+// null = falha na busca (mantém estado local); [] = genuinamente sem rotinas.
+export async function buscarRotinasSupabase(): Promise<Rotina[] | null> {
   const { data, error } = await supabase.from("rotinas").select("*");
   if (error || !data) {
     if (error) console.error("Erro ao buscar rotinas do Supabase:", error.message);
-    return [];
+    return null;
   }
   return (data as RotinaRow[]).map(rowParaRotina);
 }
